@@ -1,6 +1,9 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Net.Http;
 using System.Text;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Xamarin.Forms;
 
@@ -14,12 +17,22 @@ namespace LogoScanner
             InitializeComponent();
         }
 
+        public class RestService
+        {
+            HttpClient _client;
+
+            public RestService()
+            {
+                _client = new HttpClient();
+            }
+        }
+
         protected override async void OnAppearing()
         {
             base.OnAppearing();
 
             string result;
-            string credentials;
+            string credentials = @"{""Username"" : ""USERNAME"", ""Password"" : ""PASSWORD""}";
 
             try
             {
@@ -40,7 +53,10 @@ namespace LogoScanner
                     }
                     else
                     {
-                        result = status;  
+                        result = status;
+                        GetRestaurantData("https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/CairncrossCafe/Summary?numberOfReviews=5", token);
+
+
                     }
                 }
                 else
@@ -55,6 +71,24 @@ namespace LogoScanner
 
             TestLabel.Text = result;
 
+        }
+
+        private async void GetRestaurantData(string url, string token)
+        {
+            HttpClient client = new HttpClient();
+            HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Get, url);
+            requestMessage.Headers.Add("Authorization", "Bearer " + token);
+
+            HttpResponseMessage response = await client.SendAsync(requestMessage);
+
+            NameLabel.Text = requestMessage.ToString();
+
+            if (response.IsSuccessStatusCode)
+            {
+                var contents = await response.Content.ReadAsStringAsync();
+                RestaurantDataView.ItemsSource = contents;
+                NameLabel.Text = contents;
+            }
         }
     }
 }

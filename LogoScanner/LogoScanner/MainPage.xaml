@@ -3,5 +3,22 @@
     <StackLayout>
         <!-- Place new controls here -->
         <Label x:Name="TestLabel" Text="Welcome to Logo Scanner!" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" />
+        <Label x:Name="NameLabel" Text="Test!" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" />
+
+        <ListView x:Name="RestaurantDataView">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="{Binding Name}" TextColor="Black"></Label>
+                            <Label Text="{Binding FullAddress}" TextColor="Black"></Label>
+                            <Label Text="{Binding NumberOfReviews}" TextColor="Black"></Label>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </StackLayout>
+
+
 </ContentPage>

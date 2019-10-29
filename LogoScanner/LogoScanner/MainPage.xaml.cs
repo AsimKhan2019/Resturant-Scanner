@@ -13,9 +13,19 @@ namespace LogoScanner
     [DesignTimeVisible(false)]
     public partial class MainPage : ContentPage
     {
+        //attributes
+        public MainPageModel Model { get; set; }
         public MainPage()
         {
             InitializeComponent();
+            Model = new MainPageModel(Navigation);
+            BindingContext = Model;
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            Model.TakePhotoAsync();
         }
     }
 }

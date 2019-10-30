@@ -13,7 +13,7 @@
             <RowDefinition Height="20" />
             <RowDefinition Height="20" />
             <RowDefinition Height="70" />
-            <RowDefinition Height="20" />
+            <RowDefinition Height="30" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
@@ -27,35 +27,34 @@
         <Label Text="Restaurant Name" Style="{DynamicResource TitleStyle}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" VerticalOptions="Center"/>
         <Image Source="https://via.placeholder.com/300" Grid.Row="0" Grid.Column="2" />
         <Label Text="Cuisines" Style="{DynamicResource SubtitleStyle}" Grid.Row="1"/>
-        <ListView Grid.Row="2" Grid.RowSpan="2">
-            <ListView.ItemsSource>
-                <x:Array Type="{x:Type x:String}">
-                    <x:String>Steak</x:String>
-                    <x:String>Fish</x:String>
-                </x:Array>
-            </ListView.ItemsSource>
+        <ListView ItemsSource="SOME_DATA_SOURCE" Grid.Row="2" Grid.RowSpan="2" IsEnabled="False">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell Height="50">
+                        <Label TextColor="#336699" Text="Cuisine Type" ></Label>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
         </ListView>
         <Label Text="Rating" Grid.Row="1" Grid.Column="2" />
         <Label Text="Price Point" Grid.Row="2" Grid.Column="2"/>
-        <Frame BorderColor="Black" Grid.Row="3" Grid.ColumnSpan="3" HorizontalOptions="Center">
+        <Frame BorderColor="Black" Grid.Row="3" Grid.ColumnSpan="3" HorizontalOptions="Center" CornerRadius="15">
             <Label Text="Table Free"/>
         </Frame>
 
         <Label Text="Available Slots" Grid.Row="4" Grid.ColumnSpan="3" Style="{DynamicResource SubtitleStyle}"/>
 
-        <Frame Grid.Row="5" Grid.ColumnSpan="3" Grid.RowSpan="2" BorderColor="Black">
-            <ListView>
-                <ListView.ItemsSource>
-                    <x:Array Type="{x:Type x:String}">
-                        <x:String>13:00</x:String>
-                        <x:String>14:00</x:String>
-                        <x:String>14:30</x:String>
-                        <x:String>15:00</x:String>
-                        <x:String>15:30</x:String>
-                    </x:Array>
-                </ListView.ItemsSource>
+        <Frame Grid.Row="5" Grid.ColumnSpan="3" Grid.RowSpan="2" BorderColor="Black" CornerRadius="15">
+            <ListView ItemsSource="SOME_DATA_SOURCE">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell Height="50">
+                            <Label TextColor="#336699" Text="Time slot" ></Label>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
             </ListView>
-        </Frame>
+    </Frame>
 
         <Label Text="Map Here" Grid.Row="7" Grid.ColumnSpan="3"/>
     </Grid>

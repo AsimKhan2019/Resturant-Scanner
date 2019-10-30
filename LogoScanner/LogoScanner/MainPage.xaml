@@ -27,15 +27,17 @@
         <Label Text="Restaurant Name" Style="{DynamicResource TitleStyle}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" VerticalOptions="Center"/>
         <Image Source="https://via.placeholder.com/300" Grid.Row="0" Grid.Column="2" />
         <Label Text="Cuisines" Style="{DynamicResource SubtitleStyle}" Grid.Row="1"/>
-        <ListView ItemsSource="SOME_DATA_SOURCE" Grid.Row="2" Grid.RowSpan="2" IsEnabled="False">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell Height="50">
-                        <Label TextColor="#336699" Text="Cuisine Type" ></Label>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        <Frame  Grid.Row="2" Grid.RowSpan="2" BorderColor="Black" CornerRadius="15" >
+            <ListView IsEnabled="False">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell Height="50">
+                            <Label TextColor="#336699" Text="Cuisine Type" ></Label>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Frame>
         <Label Text="Rating" Grid.Row="1" Grid.Column="2" />
         <Label Text="Price Point" Grid.Row="2" Grid.Column="2"/>
         <Frame BorderColor="Black" Grid.Row="3" Grid.ColumnSpan="3" HorizontalOptions="Center" CornerRadius="15">
@@ -45,7 +47,7 @@
         <Label Text="Available Slots" Grid.Row="4" Grid.ColumnSpan="3" Style="{DynamicResource SubtitleStyle}"/>
 
         <Frame Grid.Row="5" Grid.ColumnSpan="3" Grid.RowSpan="2" BorderColor="Black" CornerRadius="15">
-            <ListView ItemsSource="SOME_DATA_SOURCE">
+            <ListView>
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell Height="50">

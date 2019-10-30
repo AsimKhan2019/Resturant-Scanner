@@ -25,7 +25,7 @@ namespace LogoScanner
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            Model.TakePhotoAsync();
+            //Model.TakePhotoAsync();
         }
     }
 }

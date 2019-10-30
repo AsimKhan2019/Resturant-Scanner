@@ -7,6 +7,7 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using Plugin.CurrentActivity;
+using Acr.UserDialogs;
 
 namespace LogoScanner.Droid
 {
@@ -22,6 +23,7 @@ namespace LogoScanner.Droid
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+            UserDialogs.Init(this);
 
             CrossCurrentActivity.Current.Init(this, savedInstanceState);
             Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, savedInstanceState);

@@ -58,6 +58,7 @@ namespace LogoScanner.Droid
 
                 textureView = view.FindViewById<TextureView>(Resource.Id.textureView);
                 textureView.SurfaceTextureListener = this;
+                textureView.Click += focusOnTouch;
 
                 takePhotoButton = view.FindViewById<global::Android.Widget.Button>(Resource.Id.takePhotoButton);
                 takePhotoButton.Click += TakePhotoButtonTapped;
@@ -66,6 +67,7 @@ namespace LogoScanner.Droid
                 //switchCameraButton.Click += SwitchCameraButtonTapped;
 
                 cameraRectangle = view.FindViewById<global::Android.Widget.Button>(Resource.Id.cameraRectangle);
+                cameraRectangle.Click += focusOnTouch;
 
                 toggleFlashButton = view.FindViewById<global::Android.Widget.Button>(Resource.Id.toggleFlashButton);
                 toggleFlashButton.Click += ToggleFlashButtonTapped;
@@ -194,10 +196,9 @@ namespace LogoScanner.Droid
             }
         }
 
-        private void focusOnTouch(MotionEvent e)
+        private void focusOnTouch(object sender, EventArgs e)
         {
-            //camera.AutoFocus();
-            
+            camera.AutoFocus(null);
         }
 
 

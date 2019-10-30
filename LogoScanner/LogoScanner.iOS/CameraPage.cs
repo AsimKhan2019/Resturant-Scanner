@@ -240,6 +240,13 @@ namespace LogoScanner.iOS
                 CapturePhoto();
             };
 
+            cameraRectangle.TouchUpInside += (object sender, EventArgs e) =>
+            {
+                UpdateFocusIfNeeded();
+            };
+            
+            
+
             /*toggleCameraButton.TouchUpInside += (object sender, EventArgs e) => {
                 ToggleFrontBackCamera();
             };*/

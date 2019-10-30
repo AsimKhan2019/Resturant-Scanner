@@ -36,6 +36,7 @@ namespace LogoScanner
             base.OnAppearing();
 
             string result;
+            const string credentials = @"{""Username"" : ""USERNAME"", ""Password"" : ""PASSWORD""}";
 
             try
             {
@@ -108,17 +109,22 @@ namespace LogoScanner
                                 ? "No Average Review Score" : result["AverageReviewScore"].ToString();
 
                 ReviewsLabel.Text += (avgReview + " out of " + reviewNo + " reviews");
-                string TimeSlots = (result["AvailableTimeSlots"] == null || string.IsNullOrEmpty(result["AvailableTimeSlots"].ToString()))
+                string Times = (result["AvailableTimeSlots"] == null || string.IsNullOrEmpty(result["AvailableTimeSlots"].ToString()))
                                 ? "No Available TimeSlots" : result["AvailableTimeSlots"].ToString();
-                //timeSlotLabel.Text = TimeSlots;
+
+                List<string> test = new List<string>();
+                test.Add("Hello");
+                test.Add("Bye");
+                test.Add("World");
+                TimeSlots.ItemsSource = test;
+    
 
                 string Cuisine = (result["CusineTypes"] == null || string.IsNullOrEmpty(result["CusineTypes"].ToString()))
                                 ? "No Set Cusine Types" : result["CusineTypes"].ToString();
                 //CuisineLabel.Text = Cuisine;
 
                 PriceLabel.Text += (result["PricePoint"] == null || string.IsNullOrEmpty(result["PricePoint"].ToString()))
-                                ? "No Price Point" : result["PricePoint"].ToString();
-    }
+                                ? "No Price Point" : result["PricePoint"].ToString();    }
         }
     }
 }

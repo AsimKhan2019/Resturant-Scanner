@@ -60,6 +60,10 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
+<<<<<<< LogoScanner/LogoScanner.sln
 		SolutionGuid = {9A4BF2B8-2A70-4963-B767-7A73CCFC788A}
+=======
+		SolutionGuid = {4B2F4645-E47B-45EF-82AE-C942618C9C14}
+>>>>>>> LogoScanner/LogoScanner.sln
 	EndGlobalSection
 EndGlobal

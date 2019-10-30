@@ -31,6 +31,7 @@ namespace LogoScanner.Droid
         global::Android.Widget.Button takePhotoButton;
         global::Android.Widget.Button toggleFlashButton;
         global::Android.Widget.Button switchCameraButton;
+        global::Android.Widget.Button cameraRectangle;
 
         Activity activity;
         CameraFacing cameraType;
@@ -61,8 +62,10 @@ namespace LogoScanner.Droid
                 takePhotoButton = view.FindViewById<global::Android.Widget.Button>(Resource.Id.takePhotoButton);
                 takePhotoButton.Click += TakePhotoButtonTapped;
 
-                switchCameraButton = view.FindViewById<global::Android.Widget.Button>(Resource.Id.switchCameraButton);
-                switchCameraButton.Click += SwitchCameraButtonTapped;
+                //switchCameraButton = view.FindViewById<global::Android.Widget.Button>(Resource.Id.switchCameraButton);
+                //switchCameraButton.Click += SwitchCameraButtonTapped;
+
+                cameraRectangle = view.FindViewById<global::Android.Widget.Button>(Resource.Id.cameraRectangle);
 
                 toggleFlashButton = view.FindViewById<global::Android.Widget.Button>(Resource.Id.toggleFlashButton);
                 toggleFlashButton.Click += ToggleFlashButtonTapped;
@@ -190,6 +193,13 @@ namespace LogoScanner.Droid
                 PrepareAndStartCamera();
             }
         }
+
+        private void focusOnTouch(MotionEvent e)
+        {
+            //camera.AutoFocus();
+            
+        }
+
 
         private async void TakePhotoButtonTapped(object sender, EventArgs e)
         {

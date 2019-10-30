@@ -143,4 +143,7 @@
   <ItemGroup>
     <BundleResource Include="Resources\ToggleCameraButton.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\CameraRectangle.png" />
+  </ItemGroup>
 </Project>

@@ -23,7 +23,8 @@ namespace LogoScanner.iOS
     {
         AVCaptureSession captureSession;
         AVCaptureDeviceInput captureDeviceInput;
-        UIButton toggleCameraButton;
+        //UIButton toggleCameraButton;
+        UIButton cameraRectangle;
         UIButton toggleFlashButton;
         UIView liveCameraStream;
         AVCaptureStillImageOutput stillImageOutput;
@@ -188,6 +189,8 @@ namespace LogoScanner.iOS
         private void SetupUserInterface()
         {
             var centerButtonX = View.Bounds.GetMidX() - 35f;
+            var centerX = View.Bounds.GetMidX();
+            var centerY = View.Bounds.GetMidY();
             var topLeftX = View.Bounds.X + 25;
             var topRightX = View.Bounds.Right - 65;
             var bottomButtonY = View.Bounds.Bottom - 85;
@@ -206,21 +209,28 @@ namespace LogoScanner.iOS
             };
             takePhotoButton.SetBackgroundImage(UIImage.FromFile("TakePhotoButton.png"), UIControlState.Normal);
 
-            toggleCameraButton = new UIButton()
+            /*toggleCameraButton = new UIButton()
             {
                 Frame = new CGRect(topRightX, topButtonY + 5, 35, 26)
             };
-            toggleCameraButton.SetBackgroundImage(UIImage.FromFile("ToggleCameraButton.png"), UIControlState.Normal);
+            toggleCameraButton.SetBackgroundImage(UIImage.FromFile("ToggleCameraButton.png"), UIControlState.Normal);*/
+
+            cameraRectangle = new UIButton()
+            {
+                Frame = new CGRect(centerX, centerY + 5, 250, 250)
+            };
+            cameraRectangle.SetBackgroundImage(UIImage.FromFile("CameraRectangle.png"), UIControlState.Normal);
 
             toggleFlashButton = new UIButton()
             {
-                Frame = new CGRect(topLeftX, topButtonY, 37, 37)
+                Frame = new CGRect(centerButtonX, topButtonY, 37, 37)
             };
             toggleFlashButton.SetBackgroundImage(UIImage.FromFile("NoFlashButton.png"), UIControlState.Normal);
 
             View.Add(liveCameraStream);
             View.Add(takePhotoButton);
-            View.Add(toggleCameraButton);
+            View.Add(cameraRectangle);
+            //View.Add(toggleCameraButton);
             View.Add(toggleFlashButton);
         }
 
@@ -230,9 +240,9 @@ namespace LogoScanner.iOS
                 CapturePhoto();
             };
 
-            toggleCameraButton.TouchUpInside += (object sender, EventArgs e) => {
+            /*toggleCameraButton.TouchUpInside += (object sender, EventArgs e) => {
                 ToggleFrontBackCamera();
-            };
+            };*/
 
             toggleFlashButton.TouchUpInside += (object sender, EventArgs e) => {
                 ToggleFlash();

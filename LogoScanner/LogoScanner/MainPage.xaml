@@ -2,17 +2,18 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              xmlns:d="http://xamarin.com/schemas/2014/forms/design" 
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
              mc:Ignorable="d" 
              x:Class="LogoScanner.MainPage"
              Title="Logo Scanner">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="70" />
+            <RowDefinition Height="20" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
@@ -22,17 +23,38 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        
-        <Label Text="Restaurant Name" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
-        <Label Text="Logo" Grid.Row="0" Grid.Column="2" />
-        <Label Text="Cuisine" Grid.Row="1" Grid.Column="0" />
-        <Label Text="Rating" Grid.Row="1" Grid.Column="2" />
-        <Label Text="Price Point" Grid.Row="2" Grid.Column="0"/>
-        <Label Text="Table Free" Grid.Row="3" Grid.ColumnSpan="3" HorizontalOptions="Center"/>
-        <Label Text="Available Slots" Grid.Row="4" Grid.ColumnSpan="3"/>
-        <Label Text="Time slot list" Grid.Row="5" Grid.ColumnSpan="3"/>
-        <Label Text="Map" Grid.Row="6" Grid.ColumnSpan="3"/>
-        <Label Text="Map here" Grid.Row="7" Grid.ColumnSpan="3"/>
 
+        <Label Text="Restaurant Name" Style="{DynamicResource TitleStyle}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" VerticalOptions="Center"/>
+        <Image Source="https://via.placeholder.com/300" Grid.Row="0" Grid.Column="2" />
+        <Label Text="Cuisines" Style="{DynamicResource SubtitleStyle}" Grid.Row="1"/>
+        <ListView Grid.Row="2" Grid.RowSpan="2">
+            <ListView.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>Steak</x:String>
+                    <x:String>Fish</x:String>
+                </x:Array>
+            </ListView.ItemsSource>
+        </ListView>
+        <Label Text="Rating" Grid.Row="1" Grid.Column="2" />
+        <Label Text="Price Point" Grid.Row="2" Grid.Column="2"/>
+        <Frame BorderColor="Black" Grid.Row="3" Grid.ColumnSpan="3" HorizontalOptions="Center">
+            <Label Text="Table Free"/>
+        </Frame>
+
+        <Label Text="Available Slots" Grid.Row="4" Grid.ColumnSpan="3" Style="{DynamicResource SubtitleStyle}"/>
+
+        <Frame Grid.Row="5" Grid.ColumnSpan="3" Grid.RowSpan="2" BorderColor="Black">
+            <ListView>
+                <ListView.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>13:00</x:String>
+                        <x:String>14:00</x:String>
+                        <x:String>14:30</x:String>
+                    </x:Array>
+                </ListView.ItemsSource>
+            </ListView>
+        </Frame>
+
+        <Label Text="Map Here" Grid.Row="7" Grid.ColumnSpan="3"/>
     </Grid>
 </ContentPage>

@@ -1,13 +1,38 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:d="http://xamarin.com/schemas/2014/forms/design" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="LogoScanner.MainPage">
-    <StackLayout>
-        <!-- Place new controls here -->
-        <Label Text ="Restaurant Name" HorizontalOptions="Start" FontSize="Large"  />
-        <Label Text="Steak" FontSize="Medium" />
-        <Label Text="££££" FontSize="Medium"/>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             mc:Ignorable="d" 
+             x:Class="LogoScanner.MainPage"
+             Title="Logo Scanner">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
+        <Label Text="Restaurant Name" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
+        <Label Text="Logo" Grid.Row="0" Grid.Column="2" />
+        <Label Text="Cuisine" Grid.Row="1" Grid.Column="0" />
+        <Label Text="Rating" Grid.Row="1" Grid.Column="2" />
+        <Label Text="Price Point" Grid.Row="2" Grid.Column="0"/>
+        <Label Text="Table Free" Grid.Row="3" Grid.ColumnSpan="3" HorizontalOptions="Center"/>
+        <Label Text="Available Slots" Grid.Row="4" Grid.ColumnSpan="3"/>
+        <Label Text="Time slot list" Grid.Row="5" Grid.ColumnSpan="3"/>
+        <Label Text="Map" Grid.Row="6" Grid.ColumnSpan="3"/>
+        <Label Text="Map here" Grid.Row="7" Grid.ColumnSpan="3"/>
 
-        <Button Text="Table Free" FontSize="Medium" HorizontalOptions="CenterAndExpand"/>
-
-        <Label Text="Next Available Slot(s):" HorizontalOptions="Center"/>
-    </StackLayout>
+    </Grid>
 </ContentPage>

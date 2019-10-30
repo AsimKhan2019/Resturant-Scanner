@@ -362,4 +362,7 @@ MigrationBackup/
 
 .DS_Store
 
-credentials.txt
+LogoScanner/LogoScanner/credentials.txt
+
+.gitsecret/keys/random_seed
+!*.secret

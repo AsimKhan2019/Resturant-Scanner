@@ -18,7 +18,14 @@ namespace LogoScanner
 
             var request = await Requests.ConnectToResDiary();
 
-            TestLabel.Text = request.message;
+            if (request.status.Equals("Succcess"))
+            {
+                // TODO do something with token
+            }
+            else
+            {
+                // TODO create warning pop up
+            }
         }
     }
 }

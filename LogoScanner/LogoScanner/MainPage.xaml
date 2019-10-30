@@ -3,10 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              xmlns:d="http://xamarin.com/schemas/2014/forms/design" 
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
              mc:Ignorable="d" 
              x:Class="LogoScanner.MainPage"
-             Title="Logo Scanner">
+             Title="Logo Scanner"
+             Visual="Material">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -50,6 +50,8 @@
                         <x:String>13:00</x:String>
                         <x:String>14:00</x:String>
                         <x:String>14:30</x:String>
+                        <x:String>15:00</x:String>
+                        <x:String>15:30</x:String>
                     </x:Array>
                 </ListView.ItemsSource>
             </ListView>

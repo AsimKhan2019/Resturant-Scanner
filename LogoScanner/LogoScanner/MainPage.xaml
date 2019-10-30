@@ -4,20 +4,14 @@
         <!-- Place new controls here -->
         <Label x:Name="TestLabel" Text="Welcome to Logo Scanner!" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" />
         <Label x:Name="NameLabel" Text="Test!" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" />
+        <Label x:Name="AddressLabel" Text="Test!" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" />
+        <Image x:Name="Logo" WidthRequest="50"/>
+        <Label x:Name="NoOfReviewsLabel" Text="Test!" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" />
+        <Label x:Name="AvgRevLabel" Text="Test!" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" />
+        <Label x:Name="TimeSlotsLabel" Text="Test!" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" />
+        <Label x:Name="CusineLabel" Text="Test!" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" />
+        <Label x:Name="PriceLabel" Text="Test!" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" />
 
-        <ListView x:Name="RestaurantDataView">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <StackLayout Orientation="Horizontal">
-                            <Label Text="{Binding Name}" TextColor="Black"></Label>
-                            <Label Text="{Binding FullAddress}" TextColor="Black"></Label>
-                            <Label Text="{Binding NumberOfReviews}" TextColor="Black"></Label>
-                        </StackLayout>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
     </StackLayout>
 
 

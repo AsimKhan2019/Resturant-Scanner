@@ -12,6 +12,7 @@ namespace LogoScanner
             InitializeComponent();
         }
 
+        // when app loads
         protected override async void OnAppearing()
         {
             base.OnAppearing();
@@ -24,7 +25,7 @@ namespace LogoScanner
             }
             else
             {
-                await DisplayAlert("Error", request.message, "OK");
+                await DisplayAlert("Error", request.message, "OK"); // displays an error message to the user
             }
         }
     }

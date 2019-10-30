@@ -18,13 +18,13 @@ namespace LogoScanner
 
             var request = await Requests.ConnectToResDiary();
 
-            if (request.status.Equals("Succcess"))
+            if (request.status.Equals("Success"))
             {
                 // TODO do something with token
             }
             else
             {
-                // TODO create warning pop up
+                await DisplayAlert("Error", request.message, "OK");
             }
         }
     }

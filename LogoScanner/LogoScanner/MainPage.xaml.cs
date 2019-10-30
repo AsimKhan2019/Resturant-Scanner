@@ -36,7 +36,6 @@ namespace LogoScanner
             base.OnAppearing();
 
             string result;
-            const string credentials = @"{""Username"" : ""2310049g@student.gla.ac.uk"", ""Password"" : ""}txm/ln8)Vha@Vc7x)-Lx{t+W#>nd1""}";
 
             try
             {

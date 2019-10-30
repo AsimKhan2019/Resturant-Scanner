@@ -10,7 +10,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="30" />
+            <RowDefinition Height="40" />
             <RowDefinition Height="20" />
             <RowDefinition Height="80" />
             <RowDefinition Height="30" />
@@ -24,22 +24,23 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Label Text="Restaurant Name" Style="{DynamicResource TitleStyle}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" VerticalOptions="Center"/>
-        <Image Source="https://via.placeholder.com/300" Grid.Row="0" Grid.Column="2" />
+        <Label x:Name ="NameLabel" Text="Restaurant Name" Style="{DynamicResource TitleStyle}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" HorizontalOptions="Center" VerticalOptions="Center"/>
+        <Label x:Name="AddressLabel" Text="Address" Style="{DynamicResource SubtitleStyle}" Grid.Row="0" Grid.Column="1" VerticalOptions="Center" FontSize="Small"/>
+        <Image x:Name="Logo" Source="https://via.placeholder.com/300" Grid.Row="0" Grid.Column="2" />
         <Label Text="Cuisines" Style="{DynamicResource SubtitleStyle}" Grid.Row="1"/>
-        <Frame  Grid.Row="2" Grid.RowSpan="2" BorderColor="Black" CornerRadius="15" >
+        <Frame Grid.Row="2" Grid.RowSpan="2" BorderColor="Black" CornerRadius="15" >
             <ListView IsEnabled="False">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell Height="50">
-                            <Label TextColor="#336699" Text="Cuisine Type" ></Label>
+                            <Label x:Name="CuisineLabel" TextColor="#336699" Text="Cuisine Type" ></Label>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
         </Frame>
-        <Label Text="Rating" Grid.Row="1" Grid.Column="2" />
-        <Label Text="Price Point" Grid.Row="2" Grid.Column="2"/>
+        <Label x:Name="ReviewsLabel" Text="Rating: " Grid.Row="1" Grid.Column="2" />
+        <Label x:Name="PriceLabel" Text="Price Point: " Grid.Row="2" Grid.Column="2"/>
         <Frame BorderColor="Black" Grid.Row="3" Grid.ColumnSpan="3" HorizontalOptions="Center" CornerRadius="15">
             <Label Text="Table Free"/>
         </Frame>
@@ -47,11 +48,11 @@
         <Label Text="Available Slots" Grid.Row="4" Grid.ColumnSpan="3" Style="{DynamicResource SubtitleStyle}"/>
 
         <Frame Grid.Row="5" Grid.ColumnSpan="3" Grid.RowSpan="2" BorderColor="Black" CornerRadius="15">
-            <ListView>
+            <ListView x:Name="EmployeeView" ItemsSource="{Binding Employees}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell Height="50">
-                            <Label TextColor="#336699" Text="Time slot" ></Label>
+                            <Label TextColor="#336699" Text="" ></Label>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>

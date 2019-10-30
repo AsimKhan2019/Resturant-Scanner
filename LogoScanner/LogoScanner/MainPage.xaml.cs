@@ -13,6 +13,9 @@ namespace LogoScanner
     [DesignTimeVisible(false)]
     public partial class MainPage : ContentPage
     {
+        private string reviewNo;
+        private string avgReview;
+
         public MainPage()
         {
             InitializeComponent();
@@ -20,7 +23,7 @@ namespace LogoScanner
 
         public class RestService
         {
-            HttpClient _client;
+            readonly HttpClient _client;
 
             public RestService()
             {
@@ -33,7 +36,7 @@ namespace LogoScanner
             base.OnAppearing();
 
             string result;
-            string credentials = @"{""Username"" : ""2310049g@student.gla.ac.uk"", ""Password"" : ""}txm/ln8)Vha@Vc7x)-Lx{t+W#>nd1""}";
+            const string credentials = @"{""Username"" : ""2310049g@student.gla.ac.uk"", ""Password"" : ""}txm/ln8)Vha@Vc7x)-Lx{t+W#>nd1""}";
 
             try
             {
@@ -69,7 +72,7 @@ namespace LogoScanner
                 result = ex.Message;
             }
 
-            TestLabel.Text = result;
+            NameLabel.Text = result;
 
         }
 
@@ -90,40 +93,32 @@ namespace LogoScanner
                 JObject result = JObject.Parse(contents);
 
                 //Parse the API Call and split the JSon object into the various variables.
-                string Name = (result["Name"] == null || string.IsNullOrEmpty(result["Name"].ToString()))
+                NameLabel.Text = (result["Name"] == null || string.IsNullOrEmpty(result["Name"].ToString()))
                                 ? "Restaurant Name" : result["Name"].ToString();
-                NameLabel.Text = Name;
 
-                string Address = (result["FullAddress"] == null || string.IsNullOrEmpty(result["FullAddress"].ToString()))
+                AddressLabel.Text = (result["FullAddress"] == null || string.IsNullOrEmpty(result["FullAddress"].ToString()))
                                 ? "Address" : result["FullAddress"].ToString();
-                AddressLabel.Text = Address;
 
-                string LogoUrl = (result["LogoUrl"] == null || string.IsNullOrEmpty(result["LogoUrl"].ToString()))
+                Logo.Source = (result["LogoUrl"] == null || string.IsNullOrEmpty(result["LogoUrl"].ToString()))
                                 ? "Logo" : result["LogoUrl"].ToString();
-                Logo.Source = LogoUrl;
 
-                string NumberOfReviews = (result["NumberOfReviews"] == null || string.IsNullOrEmpty(result["NumberOfReviews"].ToString()))
+                reviewNo = (result["NumberOfReviews"] == null || string.IsNullOrEmpty(result["NumberOfReviews"].ToString()))
                                 ? "Number of Reviews" : result["NumberOfReviews"].ToString();
-                NoOfReviewsLabel.Text = NumberOfReviews;
 
-                string AvgReview = (result["AverageReviewScore"] == null || string.IsNullOrEmpty(result["AverageReviewScore"].ToString()))
+                avgReview = (result["AverageReviewScore"] == null || string.IsNullOrEmpty(result["AverageReviewScore"].ToString()))
                                 ? "No Average Review Score" : result["AverageReviewScore"].ToString();
-                
-                AvgRevLabel.Text = AvgReview;
 
-
+                ReviewsLabel.Text += (avgReview + " out of " + reviewNo + " reviews");
                 string TimeSlots = (result["AvailableTimeSlots"] == null || string.IsNullOrEmpty(result["AvailableTimeSlots"].ToString()))
                                 ? "No Available TimeSlots" : result["AvailableTimeSlots"].ToString();
-                TimeSlotsLabel.Text = TimeSlots;
+                //timeSlotLabel.Text = TimeSlots;
 
-
-                string Cusine = (result["CusineTypes"] == null || string.IsNullOrEmpty(result["CusineTypes"].ToString()))
+                string Cuisine = (result["CusineTypes"] == null || string.IsNullOrEmpty(result["CusineTypes"].ToString()))
                                 ? "No Set Cusine Types" : result["CusineTypes"].ToString();
-                CusineLabel.Text = Cusine;
+                //CuisineLabel.Text = Cuisine;
 
-                string PricePoint = (result["PricePoint"] == null || string.IsNullOrEmpty(result["PricePoint"].ToString()))
+                PriceLabel.Text += (result["PricePoint"] == null || string.IsNullOrEmpty(result["PricePoint"].ToString()))
                                 ? "No Price Point" : result["PricePoint"].ToString();
-                PriceLabel.Text = PricePoint;
     }
         }
     }

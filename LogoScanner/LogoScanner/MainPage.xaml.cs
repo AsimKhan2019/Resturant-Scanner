@@ -40,6 +40,9 @@ namespace LogoScanner
             if (request.status.Equals("Success"))
             {
                 // TODO do something with token
+                GetRestaurantData("https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/CairncrossCafe/Summary?numberOfReviews=5", request.message);
+
+
             }
             else
             {

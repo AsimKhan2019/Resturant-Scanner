@@ -26,12 +26,15 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-
+        <Image
+            x:Name="ResDiary"
+            Grid.Row="0"
+            Grid.Column="0"
+            Source="https://sales.resdiary.com/wp-content/uploads/2017/04/RD-logo.png" />
         <Label
             x:Name="NameLabel"
             Grid.Row="0"
             Grid.Column="1"
-            Grid.ColumnSpan="1"
             HorizontalOptions="Center"
             Style="{DynamicResource TitleStyle}"
             Text="Restaurant Name"
@@ -52,7 +55,7 @@
             Grid.Row="2"
             Grid.RowSpan="2"
             BorderColor="Black"
-            CornerRadius="15">
+            CornerRadius="6">
             <ListView
                 x:Name="Cusines"
                 IsEnabled="False"
@@ -81,13 +84,13 @@
             VerticalOptions="Center" />
         <Label
             x:Name="ReviewsLabel"
-            Grid.Row="2"
+            Grid.Row="3"
             Grid.Column="2"
             Text="Rating: "
             TextColor="#11a0dc" />
         <Label
             x:Name="PriceLabel"
-            Grid.Row="3"
+            Grid.Row="4"
             Grid.Column="2"
             Text="Price Point: "
             TextColor="#11a0dc" />
@@ -95,7 +98,7 @@
             Grid.Row="3"
             Grid.ColumnSpan="3"
             BorderColor="Black"
-            CornerRadius="15"
+            CornerRadius="6"
             HorizontalOptions="Center">
             <Label Text="Table Free" TextColor="#11a0dc" />
         </Frame>
@@ -112,7 +115,7 @@
             Grid.RowSpan="2"
             Grid.ColumnSpan="3"
             BorderColor="Black"
-            CornerRadius="15">
+            CornerRadius="6">
             <ListView x:Name="TimeSlots">
                 <ListView.ItemTemplate>
                     <DataTemplate>

@@ -62,7 +62,6 @@ namespace LogoScanner.iOS
         {
             captureSession = new AVCaptureSession();
 
-            var viewLayer = liveCameraStream.Layer;
             var videoPreviewLayer = new AVCaptureVideoPreviewLayer(captureSession)
             {
                 Frame = liveCameraStream.Bounds
@@ -98,28 +97,6 @@ namespace LogoScanner.iOS
 
             // SendPhoto (data);
             SendPhoto(jpegImageAsNsData.ToArray());
-        }
-
-        public void ToggleFrontBackCamera()
-        {
-            var devicePosition = captureDeviceInput.Device.Position;
-            if (devicePosition == AVCaptureDevicePosition.Front)
-            {
-                devicePosition = AVCaptureDevicePosition.Back;
-            }
-            else
-            {
-                devicePosition = AVCaptureDevicePosition.Front;
-            }
-
-            var device = GetCameraForOrientation(devicePosition);
-            ConfigureCameraForDevice(device);
-
-            captureSession.BeginConfiguration();
-            captureSession.RemoveInput(captureDeviceInput);
-            captureDeviceInput = AVCaptureDeviceInput.FromDevice(device);
-            captureSession.AddInput(captureDeviceInput);
-            captureSession.CommitConfiguration();
         }
 
         public void ConfigureCameraForDevice(AVCaptureDevice device)
@@ -189,18 +166,19 @@ namespace LogoScanner.iOS
         private void SetupUserInterface()
         {
             var centerButtonX = View.Bounds.GetMidX() - 35f;
+
             var centerX = View.Bounds.GetMidX();
             var centerY = View.Bounds.GetMidY();
-            var topLeftX = View.Bounds.X + 25;
-            var topRightX = View.Bounds.Right - 65;
+            //var topLeftX = View.Bounds.X + 25;
+            //var topRightX = View.Bounds.Right - 65;
             var bottomButtonY = View.Bounds.Bottom - 85;
-            var topButtonY = View.Bounds.Top + 15;
+            var topButtonY = View.Bounds.Top + 25;
             var buttonWidth = 70;
             var buttonHeight = 70;
 
             liveCameraStream = new UIView()
             {
-                Frame = new CGRect(0f, 0f, 320f, View.Bounds.Height)
+                Frame = new CGRect(0f, 0f, View.Bounds.Width, View.Bounds.Height)
             };
 
             takePhotoButton = new UIButton()
@@ -209,15 +187,9 @@ namespace LogoScanner.iOS
             };
             takePhotoButton.SetBackgroundImage(UIImage.FromFile("TakePhotoButton.png"), UIControlState.Normal);
 
-            /*toggleCameraButton = new UIButton()
-            {
-                Frame = new CGRect(topRightX, topButtonY + 5, 35, 26)
-            };
-            toggleCameraButton.SetBackgroundImage(UIImage.FromFile("ToggleCameraButton.png"), UIControlState.Normal);*/
-
             cameraRectangle = new UIButton()
             {
-                Frame = new CGRect(centerX, centerY + 5, 250, 250)
+                Frame = new CGRect(centerX - 125, centerY - 125, 250, 250)
             };
             cameraRectangle.SetBackgroundImage(UIImage.FromFile("CameraRectangle.png"), UIControlState.Normal);
 
@@ -230,7 +202,6 @@ namespace LogoScanner.iOS
             View.Add(liveCameraStream);
             View.Add(takePhotoButton);
             View.Add(cameraRectangle);
-            //View.Add(toggleCameraButton);
             View.Add(toggleFlashButton);
         }
 
@@ -245,12 +216,6 @@ namespace LogoScanner.iOS
                 UpdateFocusIfNeeded();
             };
             
-            
-
-            /*toggleCameraButton.TouchUpInside += (object sender, EventArgs e) => {
-                ToggleFrontBackCamera();
-            };*/
-
             toggleFlashButton.TouchUpInside += (object sender, EventArgs e) => {
                 ToggleFlash();
             };

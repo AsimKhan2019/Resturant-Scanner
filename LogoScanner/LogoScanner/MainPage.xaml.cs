@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 
 namespace LogoScanner
 {
@@ -13,19 +14,16 @@ namespace LogoScanner
     [DesignTimeVisible(false)]
     public partial class MainPage : ContentPage
     {
-        //attributes
-        public MainPageModel Model { get; set; }
         public MainPage()
         {
             InitializeComponent();
-            Model = new MainPageModel(Navigation);
-            BindingContext = Model;
+
+            On<Xamarin.Forms.PlatformConfiguration.iOS>().SetUseSafeArea(true);
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            //Model.TakePhotoAsync();
         }
     }
 }

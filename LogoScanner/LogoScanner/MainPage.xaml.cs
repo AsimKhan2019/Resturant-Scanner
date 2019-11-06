@@ -17,8 +17,6 @@ namespace LogoScanner
         public MainPage()
         {
             InitializeComponent();
-
-            On<Xamarin.Forms.PlatformConfiguration.iOS>().SetUseSafeArea(true);
         }
 
         protected override void OnAppearing()

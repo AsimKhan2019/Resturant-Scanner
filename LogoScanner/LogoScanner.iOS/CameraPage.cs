@@ -23,7 +23,6 @@ namespace LogoScanner.iOS
     {
         AVCaptureSession captureSession;
         AVCaptureDeviceInput captureDeviceInput;
-        //UIButton toggleCameraButton;
         UIButton cameraRectangle;
         UIButton toggleFlashButton;
         UIView liveCameraStream;
@@ -176,10 +175,17 @@ namespace LogoScanner.iOS
             var buttonWidth = 70;
             var buttonHeight = 70;
 
+
+
             liveCameraStream = new UIView()
             {
                 Frame = new CGRect(0f, 0f, View.Bounds.Width, View.Bounds.Height)
             };
+
+            /*var liveCameraStream = new UIView();
+            liveCameraStream.TranslatesAutoresizingMaskIntoConstraints = false;
+
+            liveCameraStream.Frame = new CGRect(0f, 0f, View.Bounds.Width, View.Bounds.Height);*/
 
             takePhotoButton = new UIButton()
             {

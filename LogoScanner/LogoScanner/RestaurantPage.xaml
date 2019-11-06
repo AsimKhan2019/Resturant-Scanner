@@ -1,62 +1,142 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             xmlns:d="http://xamarin.com/schemas/2014/forms/design" 
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" 
-             x:Class="LogoScanner.RestaurantPage"
-             Title="Logo Scanner"
-             Visual="Material">
-    <Grid>
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="LogoScanner.RestaurantPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Logo Scanner"
+    Padding="10,10,10,10"
+    BackgroundColor="White"
+    Visual="Material"
+    mc:Ignorable="d">
+    <Grid ColumnSpacing="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="40" />
-            <RowDefinition Height="20" />
-            <RowDefinition Height="80" />
-            <RowDefinition Height="30" />
+            <RowDefinition Height="0.1*" />
+            <RowDefinition Height="0.6*" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="0.3*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-
-        <Label x:Name ="NameLabel" Text="Restaurant Name" Style="{DynamicResource TitleStyle}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" HorizontalOptions="Center" VerticalOptions="Center"/>
-        <Label x:Name="AddressLabel" Text="Address" Style="{DynamicResource SubtitleStyle}" Grid.Row="0" Grid.Column="1" VerticalOptions="Center" FontSize="Small"/>
-        <Image x:Name="Logo" Source="https://via.placeholder.com/300" Grid.Row="0" Grid.Column="2" />
-        <Label Text="Cuisines" Style="{DynamicResource SubtitleStyle}" Grid.Row="1"/>
-        <Frame Grid.Row="2" Grid.RowSpan="2" BorderColor="Black" CornerRadius="15" >
-            <ListView x:Name="Cusines" IsEnabled="False" ItemsSource="{Binding CusineLabel}">
+        <Image
+            x:Name="ResDiary"
+            Grid.Row="0"
+            Grid.Column="0"
+            Source="https://sales.resdiary.com/wp-content/uploads/2017/04/RD-logo.png" />
+        <Label
+            x:Name="NameLabel"
+            Grid.Row="0"
+            Grid.Column="1"
+            HorizontalOptions="Center"
+            Style="{DynamicResource TitleStyle}"
+            Text="Restaurant Name"
+            TextColor="#11a0dc"
+            VerticalOptions="Center" />
+        <BoxView
+            Grid.Row="1"
+            Grid.Column="1"
+            HeightRequest="1"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            WidthRequest="1000"
+            Color="black" />
+        <Image
+            x:Name="Logo"
+            Grid.Row="0"
+            Grid.Column="2"
+            Source="https://via.placeholder.com/300" />
+        <Label
+            Grid.Row="2"
+            Style="{DynamicResource SubtitleStyle}"
+            Text="Cuisines"
+            TextColor="#11a0dc"
+            VerticalOptions="Center" />
+        <Frame
+            Grid.Row="3"
+            Grid.RowSpan="2"
+            BorderColor="Black"
+            CornerRadius="6">
+            <ListView
+                x:Name="Cusines"
+                IsEnabled="False"
+                ItemsSource="{Binding CusineLabel}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell Height="50">
-                            <Label x:Name="{Binding CusineLabel}" TextColor="#336699" Text="Cuisine Type" ></Label>
+                            <Label
+                                x:Name="{Binding CusineLabel}"
+                                Text="Cuisine Type"
+                                TextColor="#11a0dc" />
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
         </Frame>
-        <Label x:Name="ReviewsLabel" Text="Rating: " Grid.Row="1" Grid.Column="2" />
-        <Label x:Name="PriceLabel" Text="Price Point: " Grid.Row="2" Grid.Column="2"/>
-        <Frame BorderColor="Black" Grid.Row="3" Grid.ColumnSpan="3" HorizontalOptions="Center" CornerRadius="15">
-            <Label Text="Table Free"/>
+        <Label
+            x:Name="AddressLabel"
+            Grid.Row="4"
+            Grid.Column="2"
+            FontSize="Small"
+            Style="{DynamicResource SubtitleStyle}"
+            Text="Address"
+            TextColor="#11a0dc"
+            VerticalOptions="Center" />
+        <Label
+            x:Name="ReviewsLabel"
+            Grid.Row="3"
+            Grid.Column="2"
+            Text="Rating: "
+            TextColor="#11a0dc" />
+        <Label
+            x:Name="PriceLabel"
+            Grid.Row="2"
+            Grid.Column="2"
+            Text="Price Point: "
+            TextColor="#11a0dc"
+            VerticalOptions="Center" />
+        <Frame
+            Grid.Row="3"
+            Grid.ColumnSpan="3"
+            BorderColor="Black"
+            CornerRadius="6"
+            HorizontalOptions="Center">
+            <Label Text="Table Free" TextColor="#11a0dc" />
         </Frame>
 
-        <Label Text="Available Slots" Grid.Row="4" Grid.ColumnSpan="3" Style="{DynamicResource SubtitleStyle}"/>
+        <Label
+            Grid.Row="5"
+            Grid.ColumnSpan="3"
+            Style="{DynamicResource SubtitleStyle}"
+            Text="Available Slots"
+            TextColor="#11a0dc" />
 
-        <Frame Grid.Row="5" Grid.ColumnSpan="3" Grid.RowSpan="2" BorderColor="Black" CornerRadius="15">
+        <Frame
+            Grid.Row="6"
+            Grid.RowSpan="2"
+            Grid.ColumnSpan="3"
+            BorderColor="Black"
+            CornerRadius="6">
             <ListView x:Name="TimeSlots">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <TextCell Text="{Binding Text}"/>
+                        <TextCell Text="{Binding Text}" />
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
         </Frame>
 
-        <Label Text="Map Here" Grid.Row="7" Grid.ColumnSpan="3"/>
+        <Label
+            Grid.Row="8"
+            Grid.ColumnSpan="3"
+            Text="Map Here"
+            TextColor="#11a0dc" />
     </Grid>
 </ContentPage>

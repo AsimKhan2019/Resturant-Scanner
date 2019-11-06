@@ -100,7 +100,8 @@
             Grid.Row="2"
             Grid.Column="2"
             Text="Price Point: "
-            TextColor="#11a0dc" />
+            TextColor="#11a0dc"
+            VerticalOptions="Center" />
         <Frame
             Grid.Row="3"
             Grid.ColumnSpan="3"

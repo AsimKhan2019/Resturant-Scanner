@@ -365,4 +365,8 @@ MigrationBackup/
 LogoScanner/LogoScanner/credentials.txt
 
 .gitsecret/keys/random_seed
+<<<<<<< HEAD
 !*.secret
+=======
+!*.secret
+>>>>>>> 26-camera-on-app

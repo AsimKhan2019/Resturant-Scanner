@@ -61,6 +61,7 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CameraPage.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <None Include="Entitlements.plist" />
@@ -68,7 +69,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
@@ -133,5 +133,17 @@
       <Project>{846A20E7-0EE0-4EE6-9F35-6A3A19FA969C}</Project>
       <Name>LogoScanner</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\FlashButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\NoFlashButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\TakePhotoButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\CameraRectangle.png" />
   </ItemGroup>
 </Project>

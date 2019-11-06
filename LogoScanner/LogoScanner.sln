@@ -60,10 +60,14 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
+<<<<<<< HEAD
 <<<<<<< LogoScanner/LogoScanner.sln
 		SolutionGuid = {9A4BF2B8-2A70-4963-B767-7A73CCFC788A}
 =======
 		SolutionGuid = {4B2F4645-E47B-45EF-82AE-C942618C9C14}
 >>>>>>> LogoScanner/LogoScanner.sln
+=======
+		SolutionGuid = {49D3EC9A-E86B-4FCF-A279-D052430223CA}
+>>>>>>> 26-camera-on-app
 	EndGlobalSection
 EndGlobal

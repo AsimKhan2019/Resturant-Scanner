@@ -1,13 +1,18 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using Newtonsoft.Json.Linq;
 using Xamarin.Forms;
 
 namespace LogoScanner
 {
-    [DesignTimeVisible(false)]
-    public partial class MainPage : ContentPage
+    public partial class RestaurantPage : ContentPage
     {
 
-        public MainPage()
+        private string reviewNo;
+        private string avgReview;
+
+        public RestaurantPage()
         {
             InitializeComponent();
         }
@@ -30,18 +35,12 @@ namespace LogoScanner
 
             if (request.status.Equals("Success"))
             {
-                // TODO do something with token
                 GetRestaurantData("https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/CairncrossCafe/Summary?numberOfReviews=5", request.message);
-
-
             }
             else
             {
                 await DisplayAlert("Error", request.message, "OK"); // displays an error message to the user
             }
-
-            //NameLabel.Text = result;
-
         }
 
         private async void GetRestaurantData(string url, string token)
@@ -85,14 +84,15 @@ namespace LogoScanner
                 test.Add("Bye");
                 test.Add("World");
                 TimeSlots.ItemsSource = test;
-    
+
 
                 string Cuisine = (result["CusineTypes"] == null || string.IsNullOrEmpty(result["CusineTypes"].ToString()))
                                 ? "No Set Cusine Types" : result["CusineTypes"].ToString();
                 //CuisineLabel.Text = Cuisine;
 
                 PriceLabel.Text += (result["PricePoint"] == null || string.IsNullOrEmpty(result["PricePoint"].ToString()))
-                                ? "No Price Point" : result["PricePoint"].ToString();    }
+                                ? "No Price Point" : result["PricePoint"].ToString();
+            }
         }
     }
 }

@@ -46,7 +46,7 @@ namespace LogoScanner
                 await DisplayAlert("Error", request.message, "OK"); // displays an error message to the user
             }
 
-            NameLabel.Text = result;
+            //NameLabel.Text = result;
 
         }
 

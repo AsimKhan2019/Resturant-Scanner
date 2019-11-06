@@ -10,14 +10,14 @@
     BackgroundColor="White"
     Visual="Material"
     mc:Ignorable="d">
-    <Grid>
+    <Grid ColumnSpacing="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="40" />
-            <RowDefinition Height="20" />
-            <RowDefinition Height="80" />
-            <RowDefinition Height="30" />
+            <RowDefinition Height="0.1*" />
+            <RowDefinition Height="0.6*" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="0.3*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
@@ -40,19 +40,27 @@
             Text="Restaurant Name"
             TextColor="#11a0dc"
             VerticalOptions="Center" />
-
+        <BoxView
+            Grid.Row="1"
+            Grid.Column="1"
+            HeightRequest="1"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            WidthRequest="1000"
+            Color="black" />
         <Image
             x:Name="Logo"
             Grid.Row="0"
             Grid.Column="2"
             Source="https://via.placeholder.com/300" />
         <Label
-            Grid.Row="1"
+            Grid.Row="2"
             Style="{DynamicResource SubtitleStyle}"
             Text="Cuisines"
-            TextColor="#11a0dc" />
+            TextColor="#11a0dc"
+            VerticalOptions="Center" />
         <Frame
-            Grid.Row="2"
+            Grid.Row="3"
             Grid.RowSpan="2"
             BorderColor="Black"
             CornerRadius="6">
@@ -74,8 +82,7 @@
         </Frame>
         <Label
             x:Name="AddressLabel"
-            Grid.Row="1"
-            Grid.RowSpan="2"
+            Grid.Row="4"
             Grid.Column="2"
             FontSize="Small"
             Style="{DynamicResource SubtitleStyle}"
@@ -90,7 +97,7 @@
             TextColor="#11a0dc" />
         <Label
             x:Name="PriceLabel"
-            Grid.Row="4"
+            Grid.Row="2"
             Grid.Column="2"
             Text="Price Point: "
             TextColor="#11a0dc" />
@@ -104,14 +111,14 @@
         </Frame>
 
         <Label
-            Grid.Row="4"
+            Grid.Row="5"
             Grid.ColumnSpan="3"
             Style="{DynamicResource SubtitleStyle}"
             Text="Available Slots"
             TextColor="#11a0dc" />
 
         <Frame
-            Grid.Row="5"
+            Grid.Row="6"
             Grid.RowSpan="2"
             Grid.ColumnSpan="3"
             BorderColor="Black"
@@ -126,7 +133,7 @@
         </Frame>
 
         <Label
-            Grid.Row="7"
+            Grid.Row="8"
             Grid.ColumnSpan="3"
             Text="Map Here"
             TextColor="#11a0dc" />

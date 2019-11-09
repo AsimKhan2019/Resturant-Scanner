@@ -95,6 +95,7 @@
       <SubType></SubType>
       <Generator></Generator>
     </AndroidResource>
+    <AndroidResource Include="Resources\values-28\styles.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LogoScanner\LogoScanner.csproj">
@@ -114,6 +115,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\CameraRectangle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\values-28\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

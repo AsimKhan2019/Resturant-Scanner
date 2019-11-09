@@ -135,9 +135,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\FlashButton.png" />
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="Resources\NoFlashButton.png" />
   </ItemGroup>
   <ItemGroup>
@@ -145,5 +142,8 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\CameraRectangle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\FlashButton.png" />
   </ItemGroup>
 </Project>

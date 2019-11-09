@@ -188,7 +188,7 @@ namespace LogoScanner.iOS
             {
                 Frame = new CGRect(centerButtonX - 20, topButtonY, 40, 40)
             };
-            toggleFlashButton.SetBackgroundImage(UIImage.FromFile("NoFlashButton.png"), UIControlState.Normal);
+            toggleFlashButton.SetBackgroundImage(UIImage.FromFile("NoFlashButton.svg"), UIControlState.Normal);
 
             View.Add(liveCameraStream);
             View.Add(takePhotoButton);

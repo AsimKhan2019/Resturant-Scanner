@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using AVFoundation;
 using CoreGraphics;
 using Foundation;
@@ -164,32 +161,20 @@ namespace LogoScanner.iOS
 
         private void SetupUserInterface()
         {
-            var centerButtonX = View.Bounds.GetMidX() - 35f;
-
+            var centerButtonX = View.Bounds.GetMidX();
             var centerX = View.Bounds.GetMidX();
             var centerY = View.Bounds.GetMidY();
-            //var topLeftX = View.Bounds.X + 25;
-            //var topRightX = View.Bounds.Right - 65;
-            var bottomButtonY = View.Bounds.Bottom - 85;
-            var topButtonY = View.Bounds.Top + 25;
-            var buttonWidth = 70;
-            var buttonHeight = 70;
-
-
+            var bottomButtonY = View.Bounds.Bottom - 100;
+            var topButtonY = View.Bounds.Top + 45;
 
             liveCameraStream = new UIView()
             {
                 Frame = new CGRect(0f, 0f, View.Bounds.Width, View.Bounds.Height)
             };
 
-            /*var liveCameraStream = new UIView();
-            liveCameraStream.TranslatesAutoresizingMaskIntoConstraints = false;
-
-            liveCameraStream.Frame = new CGRect(0f, 0f, View.Bounds.Width, View.Bounds.Height);*/
-
             takePhotoButton = new UIButton()
             {
-                Frame = new CGRect(centerButtonX, bottomButtonY, buttonWidth, buttonHeight)
+                Frame = new CGRect(centerButtonX - 35, bottomButtonY, 70, 70)
             };
             takePhotoButton.SetBackgroundImage(UIImage.FromFile("TakePhotoButton.png"), UIControlState.Normal);
 
@@ -201,9 +186,9 @@ namespace LogoScanner.iOS
 
             toggleFlashButton = new UIButton()
             {
-                Frame = new CGRect(centerButtonX, topButtonY, 37, 37)
+                Frame = new CGRect(centerButtonX - 20, topButtonY, 40, 40)
             };
-            toggleFlashButton.SetBackgroundImage(UIImage.FromFile("NoFlashButton.png"), UIControlState.Normal);
+            toggleFlashButton.SetBackgroundImage(UIImage.FromFile("NoFlashButton.svg"), UIControlState.Normal);
 
             View.Add(liveCameraStream);
             View.Add(takePhotoButton);

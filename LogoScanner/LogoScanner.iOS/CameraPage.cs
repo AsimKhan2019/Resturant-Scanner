@@ -46,11 +46,13 @@ namespace LogoScanner.iOS
 
         public async void AuthorizeCameraUse()
         {
-            var authorizationStatus = AVCaptureDevice.GetAuthorizationStatus(AVMediaType.Video);
+            await AVCaptureDevice.RequestAccessForMediaTypeAsync(AVAuthorizationMediaType.Video);
 
-            if (authorizationStatus != AVAuthorizationStatus.Authorized)
+            var authStatus = AVCaptureDevice.GetAuthorizationStatus(AVAuthorizationMediaType.Video);
+
+            if (authStatus != AVAuthorizationStatus.Authorized)
             {
-                await AVCaptureDevice.RequestAccessForMediaTypeAsync(AVMediaType.Video);
+                await AVCaptureDevice.RequestAccessForMediaTypeAsync(AVAuthorizationMediaType.Video);
             }
         }
 
@@ -188,7 +190,7 @@ namespace LogoScanner.iOS
             {
                 Frame = new CGRect(centerButtonX - 20, topButtonY, 40, 40)
             };
-            toggleFlashButton.SetBackgroundImage(UIImage.FromFile("NoFlashButton.svg"), UIControlState.Normal);
+            toggleFlashButton.SetBackgroundImage(UIImage.FromFile("NoFlashButton.png"), UIControlState.Normal);
 
             View.Add(liveCameraStream);
             View.Add(takePhotoButton);

@@ -111,6 +111,15 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon20.png">
       <Visible>false</Visible>
     </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\TestImage.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\TestImage.imageset\resdiary-logo-1.pdf" />
+    <ImageAsset Include="Assets.xcassets\TestImage.imageset\resdiary-logo.png" />
+    <ImageAsset Include="Assets.xcassets\TestImage.imageset\resdiary-logo-1.png" />
+    <ImageAsset Include="Assets.xcassets\TestImage.imageset\resdiary-logo-2.png" />
+    <ImageAsset Include="Assets.xcassets\TestImage.imageset\resdiary-logo-3.png" />
+    <ImageAsset Include="Assets.xcassets\TestImage.imageset\resdiary-logo-4.png" />
+    <ImageAsset Include="Assets.xcassets\TestImage.imageset\resdiary-logo-5.png" />
+    <ImageAsset Include="Assets.xcassets\TestImage.imageset\resdiary-logo-6.png" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -145,5 +154,14 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\FlashButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterfaceDefinition Include="LaunchScreenTest.storyboard" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets.xcassets\TestImage.imageset\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ITunesArtwork Include="iTunesArtwork" />
   </ItemGroup>
 </Project>

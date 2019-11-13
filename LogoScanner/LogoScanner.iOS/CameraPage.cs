@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Threading.Tasks;
 using AVFoundation;
 using CoreGraphics;
 using Foundation;
+using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
@@ -26,15 +29,14 @@ namespace LogoScanner.iOS
         AVCaptureStillImageOutput stillImageOutput;
         UIButton takePhotoButton;
 
-        public override void ViewDidLoad()
+        public async override void ViewDidLoad()
         {
             base.ViewDidLoad();
 
             SetupUserInterface();
             SetupEventHandlers();
 
-            AuthorizeCameraUse();
-            SetupLiveCameraStream();
+            if (await AuthorizeCameraUse()) SetupLiveCameraStream();
         }
 
         public override void ViewDidAppear(bool animated)
@@ -44,16 +46,27 @@ namespace LogoScanner.iOS
             UIApplication.SharedApplication.ApplicationIconBadgeNumber = 0;
         }
 
-        public async void AuthorizeCameraUse()
+        public async Task<Boolean> AuthorizeCameraUse()
         {
-            await AVCaptureDevice.RequestAccessForMediaTypeAsync(AVAuthorizationMediaType.Video);
+            var cameraStatus = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Camera);
 
-            var authStatus = AVCaptureDevice.GetAuthorizationStatus(AVAuthorizationMediaType.Video);
-
-            if (authStatus != AVAuthorizationStatus.Authorized)
+            if (cameraStatus != PermissionStatus.Granted)
             {
-                await AVCaptureDevice.RequestAccessForMediaTypeAsync(AVAuthorizationMediaType.Video);
+                var results = await CrossPermissions.Current.RequestPermissionsAsync(new[] { Permission.Camera });
+                cameraStatus = results[Permission.Camera];
             }
+
+            if (cameraStatus == PermissionStatus.Granted)
+            {
+                return true;
+            }
+            else
+            {
+                await App.Current.MainPage.DisplayAlert("Camera Permission", "Please allow camera access to continue.", "OK");                    
+                CrossPermissions.Current.OpenAppSettings();
+            }
+
+            return false;
         }
 
         public void SetupLiveCameraStream()

@@ -26,6 +26,8 @@
 	<key>UIRequiresFullScreen</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Allow app to use device&apos;s camera.</string>
+	<string>Needs camera permission</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Needs calendar Permission</string>
 </dict>
 </plist>

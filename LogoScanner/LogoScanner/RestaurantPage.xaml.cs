@@ -57,6 +57,11 @@ namespace LogoScanner
             {
                 //Get the Results from the API Call
                 var contents = await response.Content.ReadAsStringAsync();
+                contents.TrimStart('[');
+                contents.TrimEnd(']');
+
+
+
                 JObject result = JObject.Parse(contents);
 
                 //Parse the API Call and split the JSon object into the various variables.
@@ -79,16 +84,10 @@ namespace LogoScanner
                 string Times = (result["AvailableTimeSlots"] == null || string.IsNullOrEmpty(result["AvailableTimeSlots"].ToString()))
                                 ? "No Available TimeSlots" : result["AvailableTimeSlots"].ToString();
 
-                List<string> test = new List<string>();
-                test.Add("Hello");
-                test.Add("Bye");
-                test.Add("World");
-                TimeSlots.ItemsSource = test;
-
-
                 string Cuisine = (result["CusineTypes"] == null || string.IsNullOrEmpty(result["CusineTypes"].ToString()))
                                 ? "No Set Cusine Types" : result["CusineTypes"].ToString();
-                //CuisineLabel.Text = Cuisine;
+
+                Cusines.ItemsSource += Cuisine;
 
                 PriceLabel.Text += (result["PricePoint"] == null || string.IsNullOrEmpty(result["PricePoint"].ToString()))
                                 ? "No Price Point" : result["PricePoint"].ToString();

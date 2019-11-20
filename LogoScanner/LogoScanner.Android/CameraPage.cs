@@ -1,11 +1,14 @@
 ﻿using System;
 using System.IO;
+using Android;
 using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.Graphics;
 using Android.Hardware;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V4.Content;
 using Android.Views;
 using Android.Widget;
 using Xamarin.Forms;
@@ -27,10 +30,10 @@ namespace LogoScanner.Droid
 
         }
 
+        [Obsolete]
         global::Android.Hardware.Camera camera;
         global::Android.Widget.Button takePhotoButton;
         global::Android.Widget.Button toggleFlashButton;
-        global::Android.Widget.Button switchCameraButton;
         global::Android.Widget.Button cameraRectangle;
 
         Activity activity;
@@ -52,31 +55,28 @@ namespace LogoScanner.Droid
 
             try
             {
-                activity = this.Context as Activity;
-                view = activity.LayoutInflater.Inflate(Resource.Layout.CameraLayout, this, false);
-                cameraType = CameraFacing.Back;
+                    activity = this.Context as Activity;
+                    view = activity.LayoutInflater.Inflate(Resource.Layout.CameraLayout, this, false);
+                    cameraType = CameraFacing.Back;
 
-                textureView = view.FindViewById<TextureView>(Resource.Id.textureView);
-                textureView.SurfaceTextureListener = this;
-                textureView.Click += focusOnTouch;
+                    textureView = view.FindViewById<TextureView>(Resource.Id.textureView);
+                    textureView.SurfaceTextureListener = this;
+                    textureView.Click += focusOnTouch;
 
-                takePhotoButton = view.FindViewById<global::Android.Widget.Button>(Resource.Id.takePhotoButton);
-                takePhotoButton.Click += TakePhotoButtonTapped;
+                    takePhotoButton = view.FindViewById<global::Android.Widget.Button>(Resource.Id.takePhotoButton);
+                    takePhotoButton.Click += TakePhotoButtonTapped;
 
-                //switchCameraButton = view.FindViewById<global::Android.Widget.Button>(Resource.Id.switchCameraButton);
-                //switchCameraButton.Click += SwitchCameraButtonTapped;
+                    cameraRectangle = view.FindViewById<global::Android.Widget.Button>(Resource.Id.cameraRectangle);
+                    cameraRectangle.Click += focusOnTouch;
 
-                cameraRectangle = view.FindViewById<global::Android.Widget.Button>(Resource.Id.cameraRectangle);
-                cameraRectangle.Click += focusOnTouch;
+                    toggleFlashButton = view.FindViewById<global::Android.Widget.Button>(Resource.Id.toggleFlashButton);
+                    toggleFlashButton.Click += ToggleFlashButtonTapped;
 
-                toggleFlashButton = view.FindViewById<global::Android.Widget.Button>(Resource.Id.toggleFlashButton);
-                toggleFlashButton.Click += ToggleFlashButtonTapped;
-
-                AddView(view);
+                    AddView(view);
             }
             catch (Exception ex)
             {
-                await App.Current.MainPage.DisplayAlert("Error", ex.ToString(), "OK");
+                await App.Current.MainPage.DisplayAlert("Error", "Camera Permission Not Granted", "OK");
             }
         }
 

@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Threading.Tasks;
 using AVFoundation;
 using CoreGraphics;
 using Foundation;
+using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
-
 
 /*
  * AVFoundation Reference: http://red-glasses.com/index.php/tutorials/ios4-take-photos-with-live-video-preview-using-avfoundation/
@@ -26,15 +28,14 @@ namespace LogoScanner.iOS
         AVCaptureStillImageOutput stillImageOutput;
         UIButton takePhotoButton;
 
-        public override void ViewDidLoad()
+        public async override void ViewDidLoad()
         {
             base.ViewDidLoad();
 
             SetupUserInterface();
             SetupEventHandlers();
 
-            AuthorizeCameraUse();
-            SetupLiveCameraStream();
+            if (await AuthorizeCameraUse()) SetupLiveCameraStream();
         }
 
         public override void ViewDidAppear(bool animated)
@@ -44,14 +45,27 @@ namespace LogoScanner.iOS
             UIApplication.SharedApplication.ApplicationIconBadgeNumber = 0;
         }
 
-        public async void AuthorizeCameraUse()
+        public async Task<Boolean> AuthorizeCameraUse()
         {
-            var authorizationStatus = AVCaptureDevice.GetAuthorizationStatus(AVMediaType.Video);
+            var cameraStatus = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Camera);
 
-            if (authorizationStatus != AVAuthorizationStatus.Authorized)
+            if (cameraStatus != PermissionStatus.Granted)
             {
-                await AVCaptureDevice.RequestAccessForMediaTypeAsync(AVMediaType.Video);
+                var results = await CrossPermissions.Current.RequestPermissionsAsync(new[] { Permission.Camera });
+                cameraStatus = results[Permission.Camera];
             }
+
+            if (cameraStatus == PermissionStatus.Granted)
+            {
+                return true;
+            }
+            else
+            {
+                await App.Current.MainPage.DisplayAlert("Permission", "Please allow camera access to continue.", "OK");                    
+                CrossPermissions.Current.OpenAppSettings();
+            }
+
+            return false;
         }
 
         public void SetupLiveCameraStream()
@@ -62,6 +76,7 @@ namespace LogoScanner.iOS
             {
                 Frame = liveCameraStream.Bounds
             };
+
             liveCameraStream.Layer.AddSublayer(videoPreviewLayer);
 
             var captureDevice = AVCaptureDevice.DefaultDeviceWithMediaType(AVMediaType.Video);
@@ -84,20 +99,15 @@ namespace LogoScanner.iOS
         {
             var videoConnection = stillImageOutput.ConnectionFromMediaType(AVMediaType.Video);
             var sampleBuffer = await stillImageOutput.CaptureStillImageTaskAsync(videoConnection);
-
-            // var jpegImageAsBytes = AVCaptureStillImageOutput.JpegStillToNSData (sampleBuffer).ToArray ();
             var jpegImageAsNsData = AVCaptureStillImageOutput.JpegStillToNSData(sampleBuffer);
-            // var image = new UIImage (jpegImageAsNsData);
-            // var image2 = new UIImage (image.CGImage, image.CurrentScale, UIImageOrientation.UpMirrored);
-            // var data = image2.AsJPEG ().ToArray ();
 
-            // SendPhoto (data);
             SendPhoto(jpegImageAsNsData.ToArray());
         }
 
         public void ConfigureCameraForDevice(AVCaptureDevice device)
         {
             var error = new NSError();
+
             if (device.IsFocusModeSupported(AVCaptureFocusMode.ContinuousAutoFocus))
             {
                 device.LockForConfiguration(out error);
@@ -121,8 +131,8 @@ namespace LogoScanner.iOS
         public void ToggleFlash()
         {
             var device = captureDeviceInput.Device;
-
             var error = new NSError();
+
             if (device.HasFlash)
             {
                 if (device.FlashMode == AVCaptureFlashMode.On)
@@ -164,13 +174,14 @@ namespace LogoScanner.iOS
             var centerButtonX = View.Bounds.GetMidX();
             var centerX = View.Bounds.GetMidX();
             var centerY = View.Bounds.GetMidY();
-            var bottomButtonY = View.Bounds.Bottom - 100;
-            var topButtonY = View.Bounds.Top + 45;
+            var bottomButtonY = View.Bounds.Bottom - 160;
+            var topButtonY = View.Bounds.Top + 90;
 
             liveCameraStream = new UIView()
             {
-                Frame = new CGRect(0f, 0f, View.Bounds.Width, View.Bounds.Height)
+                Frame = new CGRect(0f, 0f, View.Frame.Size.Width, View.Bounds.Height)
             };
+            liveCameraStream.BackgroundColor = UIColor.Black;
 
             takePhotoButton = new UIButton()
             {
@@ -188,7 +199,7 @@ namespace LogoScanner.iOS
             {
                 Frame = new CGRect(centerButtonX - 20, topButtonY, 40, 40)
             };
-            toggleFlashButton.SetBackgroundImage(UIImage.FromFile("NoFlashButton.svg"), UIControlState.Normal);
+            toggleFlashButton.SetBackgroundImage(UIImage.FromFile("NoFlashButton.png"), UIControlState.Normal);
 
             View.Add(liveCameraStream);
             View.Add(takePhotoButton);

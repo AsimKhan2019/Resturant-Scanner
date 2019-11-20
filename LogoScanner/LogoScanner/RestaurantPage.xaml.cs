@@ -1,13 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
+
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
 namespace LogoScanner
 {
-    public partial class RestaurantPage : ContentPage
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class RestaurantPage : TabbedPage
     {
 
         private string reviewNo;
@@ -52,8 +54,6 @@ namespace LogoScanner
 
             HttpResponseMessage response = await client.SendAsync(requestMessage);
 
-            NameLabel.Text = requestMessage.ToString();
-
             if (response.IsSuccessStatusCode)
             {
                 //Get the Results from the API Call
@@ -80,12 +80,11 @@ namespace LogoScanner
                 string Times = (result["AvailableTimeSlots"] == null || string.IsNullOrEmpty(result["AvailableTimeSlots"].ToString()))
                                 ? "No Available TimeSlots" : result["AvailableTimeSlots"].ToString();
 
-                string Cuisine = (result["CusineTypes"] == null || string.IsNullOrEmpty(result["CusineTypes"].ToString()))
+                CuisinesLabel.Text = (result["CusineTypes"] == null || string.IsNullOrEmpty(result["CusineTypes"].ToString()))
                                 ? "No Set Cusine Types" : result["CusineTypes"].ToString();
 
                 PriceLabel.Text += (result["PricePoint"] == null || string.IsNullOrEmpty(result["PricePoint"].ToString()))
-                                ? "No Price Point" : String.Concat(Enumerable.Repeat("£", Int32.Parse(result["PricePoint"].ToString())))
-;
+                                ? "No Price Point" : String.Concat(Enumerable.Repeat("£", Int32.Parse(result["PricePoint"].ToString())));
             }
         }
     }

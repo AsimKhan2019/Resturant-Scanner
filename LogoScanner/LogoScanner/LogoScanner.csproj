@@ -14,9 +14,15 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="System.IO" Version="4.3.0" />
     <PackageReference Include="Plugin.Permissions" Version="3.0.0.12" />
+    <PackageReference Include="Sharpnado.Presentation.Forms" Version="1.3.0" />
+    <PackageReference Include="Sharpnado.Forms.HorizontalListView" Version="1.3.0" />
+    <PackageReference Include="HorizontalListView1.1" Version="1.1.0" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="credentials.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="RestaurantPageTab.xaml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="credentials.txt" />
@@ -24,6 +30,7 @@
 
   <ItemGroup>
     <Compile Remove="MainPageModel.cs" />
+    <Compile Remove="RestaurantPageTab.xaml.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.iOS">

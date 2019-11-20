@@ -11,10 +11,11 @@ namespace LogoScanner
 
         private string reviewNo;
         private string avgReview;
-
-        public RestaurantPage()
+        private string imgResult;
+        public RestaurantPage(string result)
         {
             InitializeComponent();
+            imgResult = result;
         }
 
         public class RestService
@@ -35,7 +36,7 @@ namespace LogoScanner
 
             if (request.status.Equals("Success"))
             {
-                GetRestaurantData("https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/CairncrossCafe/Summary?numberOfReviews=5", request.message);
+                GetRestaurantData("https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + imgResult + "/Summary?numberOfReviews=5", request.message);
             }
             else
             {

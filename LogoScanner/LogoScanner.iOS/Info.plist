@@ -19,15 +19,19 @@
 	<string>1.0</string>
 	<key>CFBundleName</key>
 	<string>LogoScanner</string>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreenTest</string>
-	<key>UIMainStoryboardFile</key>
-	<string>LaunchScreenTest</string>
-	<key>UIRequiresFullScreen</key>
-	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Needs camera permission</string>
 	<key>NSCalendarsUsageDescription</key>
 	<string>Needs calendar Permission</string>
+	<key>XSAppIconAssets</key>
+	<string>Assets.xcassets/AppIcon.appiconset</string>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+	<key>UIStatusBarHidden</key>
+	<true/>
+	<key>UIRequiresFullScreen</key>
+	<true/>
+	<key>UIStatusBarStyle</key>
+	<string>UIStatusBarStyleLightContent</string>
 </dict>
 </plist>

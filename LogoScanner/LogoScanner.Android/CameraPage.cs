@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Graphics;
@@ -42,6 +43,7 @@ namespace LogoScanner.Droid
         bool flashOn;
 
         byte[] imageBytes;
+        readonly ImageClassifier imageClassifier = new ImageClassifier();
 
         protected override async void OnElementChanged(ElementChangedEventArgs<Page> e)
         {
@@ -214,8 +216,8 @@ namespace LogoScanner.Droid
                 image.Recycle();
                 imageBytes = imageStream.ToArray();
             }
-
-            var navigationPage = new NavigationPage(new RestaurantPage());
+            var result = await Task.Run(() => imageClassifier.RecognizeImage(image));
+            var navigationPage = new NavigationPage(new RestaurantPage(result));
 
             DialogService.HideLoading();
             camera.StartPreview();

@@ -10,7 +10,88 @@
     BackgroundColor="White"
     Visual="Material"
     mc:Ignorable="d">
-    <Grid ColumnSpacing="20">
+
+
+    <StackLayout>
+
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="9*" />
+            <RowDefinition Height="11*" />
+            <RowDefinition Height="4*" />
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="2*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!--<BoxView
+            BackgroundColor="#11a0dc"
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.RowSpan="2"
+            HorizontalOptions="FillAndExpand"
+            HeightRequest="0.5"
+        />-->
+
+        
+
+        <Image
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.RowSpan="2"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="Center"
+            Source="https://cdn2.hubspot.net/hubfs/2174253/disneyland-google.png"
+        />
+
+        <Image
+            x:Name="Logo"
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.RowSpan="2"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            HeightRequest="550"
+            WidthRequest="550"
+            Source="https://via.placeholder.com/300"
+        />
+
+        <Label
+            x:Name="NameLabel"
+            Grid.Row="3"
+            Grid.Column="0"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            Text="Restaurant Name"
+            Font="Bold, 22"
+            Style="{DynamicResource TitleStyle}"
+        />
+
+        <Label
+            x:Name="PriceLabel"
+            Grid.Row="4"
+            Grid.Column="0"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            TextColor="Black"
+        />
+
+        <Label
+            x:Name="ReviewsLabel"
+            Grid.Row="5"
+            Grid.Column="0"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            TextColor="Black"
+        />
+    </Grid>
+
+    <!--<Grid ColumnSpacing="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="0.1*" />
@@ -26,20 +107,15 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Image
+
+
+
+       <Image
             x:Name="ResDiary"
             Grid.Row="0"
             Grid.Column="0"
             Source="https://sales.resdiary.com/wp-content/uploads/2017/04/RD-logo.png" />
-        <Label
-            x:Name="NameLabel"
-            Grid.Row="0"
-            Grid.Column="1"
-            HorizontalOptions="Center"
-            Style="{DynamicResource TitleStyle}"
-            Text="Restaurant Name"
-            TextColor="#11a0dc"
-            VerticalOptions="Center" />
+
         <BoxView
             Grid.Row="1"
             Grid.Column="1"
@@ -48,11 +124,7 @@
             VerticalOptions="Center"
             WidthRequest="1000"
             Color="black" />
-        <Image
-            x:Name="Logo"
-            Grid.Row="0"
-            Grid.Column="2"
-            Source="https://via.placeholder.com/300" />
+
         <Label
             Grid.Row="2"
             Style="{DynamicResource SubtitleStyle}"
@@ -89,19 +161,7 @@
             Text="Address"
             TextColor="#11a0dc"
             VerticalOptions="Center" />
-        <Label
-            x:Name="ReviewsLabel"
-            Grid.Row="3"
-            Grid.Column="2"
-            Text="Rating: "
-            TextColor="#11a0dc" />
-        <Label
-            x:Name="PriceLabel"
-            Grid.Row="2"
-            Grid.Column="2"
-            Text="Price Point: "
-            TextColor="#11a0dc"
-            VerticalOptions="Center" />
+
         <Frame
             Grid.Row="3"
             Grid.ColumnSpan="3"
@@ -138,5 +198,8 @@
             Grid.ColumnSpan="3"
             Text="Map Here"
             TextColor="#11a0dc" />
-    </Grid>
+    </Grid>-->
+
+    </StackLayout>
+
 </ContentPage>

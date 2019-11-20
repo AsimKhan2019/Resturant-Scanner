@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using Xamarin.Forms;
@@ -63,8 +64,8 @@ namespace LogoScanner
                 NameLabel.Text = (result["Name"] == null || string.IsNullOrEmpty(result["Name"].ToString()))
                                 ? "Restaurant Name" : result["Name"].ToString();
 
-                AddressLabel.Text = (result["FullAddress"] == null || string.IsNullOrEmpty(result["FullAddress"].ToString()))
-                                ? "Address" : result["FullAddress"].ToString();
+                //AddressLabel.Text = (result["FullAddress"] == null || string.IsNullOrEmpty(result["FullAddress"].ToString()))
+                                //? "Address" : result["FullAddress"].ToString();
 
                 Logo.Source = (result["LogoUrl"] == null || string.IsNullOrEmpty(result["LogoUrl"].ToString()))
                                 ? "Logo" : result["LogoUrl"].ToString();
@@ -81,10 +82,10 @@ namespace LogoScanner
 
                 string Cuisine = (result["CusineTypes"] == null || string.IsNullOrEmpty(result["CusineTypes"].ToString()))
                                 ? "No Set Cusine Types" : result["CusineTypes"].ToString();
-                //CuisineLabel.Text = Cuisine;
 
                 PriceLabel.Text += (result["PricePoint"] == null || string.IsNullOrEmpty(result["PricePoint"].ToString()))
-                                ? "No Price Point" : result["PricePoint"].ToString();
+                                ? "No Price Point" : String.Concat(Enumerable.Repeat("£", Int32.Parse(result["PricePoint"].ToString())))
+;
             }
         }
     }

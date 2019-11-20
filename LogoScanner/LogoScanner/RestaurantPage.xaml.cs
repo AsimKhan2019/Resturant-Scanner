@@ -35,11 +35,23 @@ namespace LogoScanner
 
             if (request.status.Equals("Success"))
             {
-                GetRestaurantData("https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/CairncrossCafe/Summary?numberOfReviews=5", request.message);
+                String micrositename = "CairncrossCafe";
+                String startDate = "2019-11-19T10:53:39";
+                String endDate = "2019-11-18T10:53:39";
+                String channelCodes = "ONLINE";
+                String noofrev = "5";
+                GetRestaurantData("https://api.rdbranch.com/api/ConsumerApi/v1/MicrositeSummaryDetails?micrositeNames="+ micrositename +
+                                    "&startDate="+ startDate +
+                                    "&endDate=" + endDate + 
+                                    "&channelCodes=" + channelCodes + 
+                                    "&numberOfReviews=" + noofrev, request.message);
+               
             }
             else
             {
                 await DisplayAlert("Error", request.message, "OK"); // displays an error message to the user
+                //CURRENTLY DOES NOT QUIT APPLICATION - FIX IN FUTURE BUILDS
+                Application.Current.Quit(); //If Error Message Returned quit the application. - Change in future implementations
             }
         }
 
@@ -57,8 +69,10 @@ namespace LogoScanner
             {
                 //Get the Results from the API Call
                 var contents = await response.Content.ReadAsStringAsync();
-                contents.TrimStart('[');
-                contents.TrimEnd(']');
+
+
+                contents = contents.TrimStart('[');
+                contents = contents.TrimEnd(']');
 
 
 

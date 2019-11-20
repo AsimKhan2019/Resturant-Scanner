@@ -3,17 +3,13 @@ using System.IO;
 using Android;
 using Android.App;
 using Android.Content;
-using Android.Content.PM;
 using Android.Graphics;
 using Android.Hardware;
-using Android.OS;
-using Android.Runtime;
-using Android.Support.V4.Content;
+using Android.Support.V4.App;
 using Android.Views;
 using Android.Widget;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
-using static Android.Provider.CalendarContract;
 
 [assembly: ExportRenderer(typeof(LogoScanner.MainPage), typeof(LogoScanner.Droid.CameraPage))]
 namespace LogoScanner.Droid
@@ -55,24 +51,24 @@ namespace LogoScanner.Droid
 
             try
             {
-                    activity = this.Context as Activity;
-                    view = activity.LayoutInflater.Inflate(Resource.Layout.CameraLayout, this, false);
-                    cameraType = CameraFacing.Back;
+                activity = this.Context as Activity;
+                view = activity.LayoutInflater.Inflate(Resource.Layout.CameraLayout, this, false);
+                cameraType = CameraFacing.Back;
 
-                    textureView = view.FindViewById<TextureView>(Resource.Id.textureView);
-                    textureView.SurfaceTextureListener = this;
-                    textureView.Click += focusOnTouch;
+                textureView = view.FindViewById<TextureView>(Resource.Id.textureView);
+                textureView.SurfaceTextureListener = this;
+                textureView.Click += focusOnTouch;
 
-                    takePhotoButton = view.FindViewById<global::Android.Widget.Button>(Resource.Id.takePhotoButton);
-                    takePhotoButton.Click += TakePhotoButtonTapped;
+                takePhotoButton = view.FindViewById<global::Android.Widget.Button>(Resource.Id.takePhotoButton);
+                takePhotoButton.Click += TakePhotoButtonTapped;
 
-                    cameraRectangle = view.FindViewById<global::Android.Widget.Button>(Resource.Id.cameraRectangle);
-                    cameraRectangle.Click += focusOnTouch;
+                cameraRectangle = view.FindViewById<global::Android.Widget.Button>(Resource.Id.cameraRectangle);
+                cameraRectangle.Click += focusOnTouch;
 
-                    toggleFlashButton = view.FindViewById<global::Android.Widget.Button>(Resource.Id.toggleFlashButton);
-                    toggleFlashButton.Click += ToggleFlashButtonTapped;
+                toggleFlashButton = view.FindViewById<global::Android.Widget.Button>(Resource.Id.toggleFlashButton);
+                toggleFlashButton.Click += ToggleFlashButtonTapped;
 
-                    AddView(view);
+                AddView(view);
             }
             catch (Exception ex)
             {
@@ -93,12 +89,19 @@ namespace LogoScanner.Droid
 
         public void OnSurfaceTextureAvailable(SurfaceTexture surface, int width, int height)
         {
+            try
+            {
             camera = global::Android.Hardware.Camera.Open((int)cameraType);
             textureView.LayoutParameters = new FrameLayout.LayoutParams(width, height);
             surfaceTexture = surface;
 
             camera.SetPreviewTexture(surface);
             PrepareAndStartCamera();
+            }
+            catch (Exception ex)
+            {
+                 App.Current.MainPage.DisplayAlert("Error", "Camera Permission Not Granted", "OK");
+            }
         }
 
         public bool OnSurfaceTextureDestroyed(SurfaceTexture surface)

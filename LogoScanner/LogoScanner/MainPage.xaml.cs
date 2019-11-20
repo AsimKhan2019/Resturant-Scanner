@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
-using System.Net.Http;
-using Newtonsoft.Json.Linq;
 using Xamarin.Forms;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 
 namespace LogoScanner
 {

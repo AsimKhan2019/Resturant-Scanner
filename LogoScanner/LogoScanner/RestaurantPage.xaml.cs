@@ -27,13 +27,13 @@ namespace LogoScanner
             }
         }
 
-        protected override async void OnAppearing()
+        protected override async void OnAppearing() // when page loads
         {
             base.OnAppearing();
 
-            var request = await Requests.ConnectToResDiary();
+            var request = await Requests.ConnectToResDiary(); // connect to resdiary api
 
-            if (request.status.Equals("Success"))
+            if (request.status.Equals("Success")) // if connection to api is successful
             {
                 GetRestaurantData("https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/CairncrossCafe/Summary?numberOfReviews=5", request.message);
             }
@@ -78,13 +78,6 @@ namespace LogoScanner
                 ReviewsLabel.Text += (avgReview + " out of " + reviewNo + " reviews");
                 string Times = (result["AvailableTimeSlots"] == null || string.IsNullOrEmpty(result["AvailableTimeSlots"].ToString()))
                                 ? "No Available TimeSlots" : result["AvailableTimeSlots"].ToString();
-
-                List<string> test = new List<string>();
-                test.Add("Hello");
-                test.Add("Bye");
-                test.Add("World");
-                TimeSlots.ItemsSource = test;
-
 
                 string Cuisine = (result["CusineTypes"] == null || string.IsNullOrEmpty(result["CusineTypes"].ToString()))
                                 ? "No Set Cusine Types" : result["CusineTypes"].ToString();

@@ -111,15 +111,33 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon20.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\TestImage.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\TestImage.imageset\resdiary-logo-1.pdf" />
-    <ImageAsset Include="Assets.xcassets\TestImage.imageset\resdiary-logo.png" />
-    <ImageAsset Include="Assets.xcassets\TestImage.imageset\resdiary-logo-1.png" />
-    <ImageAsset Include="Assets.xcassets\TestImage.imageset\resdiary-logo-2.png" />
-    <ImageAsset Include="Assets.xcassets\TestImage.imageset\resdiary-logo-3.png" />
-    <ImageAsset Include="Assets.xcassets\TestImage.imageset\resdiary-logo-4.png" />
-    <ImageAsset Include="Assets.xcassets\TestImage.imageset\resdiary-logo-5.png" />
-    <ImageAsset Include="Assets.xcassets\TestImage.imageset\resdiary-logo-6.png" />
+    <ImageAsset Include="Assets.xcassets\TestImage.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\TestImage.imageset\resdiary-logo-1.pdf">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\TestImage.imageset\resdiary-logo.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\TestImage.imageset\resdiary-logo-1.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\TestImage.imageset\resdiary-logo-2.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\TestImage.imageset\resdiary-logo-3.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\TestImage.imageset\resdiary-logo-4.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\TestImage.imageset\resdiary-logo-5.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\TestImage.imageset\resdiary-logo-6.png">
+      <Visible>false</Visible>
+    </ImageAsset>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

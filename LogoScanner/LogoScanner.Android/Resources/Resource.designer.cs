@@ -12048,7 +12048,9 @@ namespace LogoScanner.Droid
 			private Layout()
 			{
 			}
-		}
+
+            public static object Main { get; internal set; }
+        }
 		
 		public partial class Mipmap
 		{

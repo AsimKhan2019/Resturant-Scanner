@@ -3,11 +3,13 @@ using System.IO;
 using Android;
 using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.Graphics;
 using Android.Hardware;
 using Android.Support.V4.App;
 using Android.Views;
 using Android.Widget;
+using Plugin.Permissions;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
@@ -87,10 +89,11 @@ namespace LogoScanner.Droid
             view.Layout(0, 0, r - l, b - t);
         }
 
-        public void OnSurfaceTextureAvailable(SurfaceTexture surface, int width, int height)
+        public async System.Threading.Tasks.Task OnSurfaceTextureAvailableAsync(SurfaceTexture surface, int width, int height)
         {
+            var permissionStatus = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Granted, Android.Hardware.Camera);
             try
-            {
+            
             camera = global::Android.Hardware.Camera.Open((int)cameraType);
             textureView.LayoutParameters = new FrameLayout.LayoutParams(width, height);
             surfaceTexture = surface;

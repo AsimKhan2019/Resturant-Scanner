@@ -33,6 +33,16 @@ namespace LogoScanner
 
             var request = await Requests.ConnectToResDiary();
 
+            while (request.message.Equals("Unable to Connect to Internet"))
+            {
+                await DisplayAlert("Error", request.message, "OK"); // displays an error message to the user
+
+                if (request.message == "Unable to Connect to Internet")
+                {
+                    request = await Requests.ConnectToResDiary();
+                }
+            }
+
             if (request.status.Equals("Success"))
             {
                 String micrositename = "CairncrossCafe";
@@ -50,8 +60,6 @@ namespace LogoScanner
             else
             {
                 await DisplayAlert("Error", request.message, "OK"); // displays an error message to the user
-                //CURRENTLY DOES NOT QUIT APPLICATION - FIX IN FUTURE BUILDS
-                Application.Current.Quit(); //If Error Message Returned quit the application. - Change in future implementations
             }
         }
 

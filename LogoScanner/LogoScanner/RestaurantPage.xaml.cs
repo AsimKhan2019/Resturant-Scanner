@@ -35,11 +35,23 @@ namespace LogoScanner
 
             if (request.status.Equals("Success"))
             {
-                GetRestaurantData("https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/CairncrossCafe/Summary?numberOfReviews=5", request.message);
+                String micrositename = "CairncrossCafe";
+                String startDate = "2019-11-19T10:53:39";
+                String endDate = "2019-11-18T10:53:39";
+                String channelCodes = "ONLINE";
+                String noofrev = "5";
+                GetRestaurantData("https://api.rdbranch.com/api/ConsumerApi/v1/MicrositeSummaryDetails?micrositeNames="+ micrositename +
+                                    "&startDate="+ startDate +
+                                    "&endDate=" + endDate + 
+                                    "&channelCodes=" + channelCodes + 
+                                    "&numberOfReviews=" + noofrev, request.message);
+               
             }
             else
             {
                 await DisplayAlert("Error", request.message, "OK"); // displays an error message to the user
+                //CURRENTLY DOES NOT QUIT APPLICATION - FIX IN FUTURE BUILDS
+                Application.Current.Quit(); //If Error Message Returned quit the application. - Change in future implementations
             }
         }
 
@@ -57,6 +69,13 @@ namespace LogoScanner
             {
                 //Get the Results from the API Call
                 var contents = await response.Content.ReadAsStringAsync();
+
+
+                contents = contents.TrimStart('[');
+                contents = contents.TrimEnd(']');
+
+
+
                 JObject result = JObject.Parse(contents);
 
                 //Parse the API Call and split the JSon object into the various variables.
@@ -79,16 +98,10 @@ namespace LogoScanner
                 string Times = (result["AvailableTimeSlots"] == null || string.IsNullOrEmpty(result["AvailableTimeSlots"].ToString()))
                                 ? "No Available TimeSlots" : result["AvailableTimeSlots"].ToString();
 
-                List<string> test = new List<string>();
-                test.Add("Hello");
-                test.Add("Bye");
-                test.Add("World");
-                TimeSlots.ItemsSource = test;
-
-
                 string Cuisine = (result["CusineTypes"] == null || string.IsNullOrEmpty(result["CusineTypes"].ToString()))
                                 ? "No Set Cusine Types" : result["CusineTypes"].ToString();
-                //CuisineLabel.Text = Cuisine;
+
+                Cusines.ItemsSource += Cuisine;
 
                 PriceLabel.Text += (result["PricePoint"] == null || string.IsNullOrEmpty(result["PricePoint"].ToString()))
                                 ? "No Price Point" : result["PricePoint"].ToString();

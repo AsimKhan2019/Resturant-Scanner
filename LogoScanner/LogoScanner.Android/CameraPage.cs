@@ -1,16 +1,17 @@
 ﻿using System;
 using System.IO;
+using Android;
 using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.Graphics;
 using Android.Hardware;
-using Android.OS;
-using Android.Runtime;
+using Android.Support.V4.App;
 using Android.Views;
 using Android.Widget;
+using Plugin.Permissions;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
-using static Android.Provider.CalendarContract;
 
 [assembly: ExportRenderer(typeof(LogoScanner.MainPage), typeof(LogoScanner.Droid.CameraPage))]
 namespace LogoScanner.Droid
@@ -27,10 +28,10 @@ namespace LogoScanner.Droid
 
         }
 
+        [Obsolete]
         global::Android.Hardware.Camera camera;
         global::Android.Widget.Button takePhotoButton;
         global::Android.Widget.Button toggleFlashButton;
-        global::Android.Widget.Button switchCameraButton;
         global::Android.Widget.Button cameraRectangle;
 
         Activity activity;
@@ -63,9 +64,6 @@ namespace LogoScanner.Droid
                 takePhotoButton = view.FindViewById<global::Android.Widget.Button>(Resource.Id.takePhotoButton);
                 takePhotoButton.Click += TakePhotoButtonTapped;
 
-                //switchCameraButton = view.FindViewById<global::Android.Widget.Button>(Resource.Id.switchCameraButton);
-                //switchCameraButton.Click += SwitchCameraButtonTapped;
-
                 cameraRectangle = view.FindViewById<global::Android.Widget.Button>(Resource.Id.cameraRectangle);
                 cameraRectangle.Click += focusOnTouch;
 
@@ -76,7 +74,7 @@ namespace LogoScanner.Droid
             }
             catch (Exception ex)
             {
-                await App.Current.MainPage.DisplayAlert("Error", ex.ToString(), "OK");
+                await App.Current.MainPage.DisplayAlert("Error", "Camera Permission Not Granted", "OK");
             }
         }
 
@@ -91,14 +89,22 @@ namespace LogoScanner.Droid
             view.Layout(0, 0, r - l, b - t);
         }
 
-        public void OnSurfaceTextureAvailable(SurfaceTexture surface, int width, int height)
+        public async System.Threading.Tasks.Task OnSurfaceTextureAvailableAsync(SurfaceTexture surface, int width, int height)
         {
+            var permissionStatus = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Granted, Android.Hardware.Camera);
+            try
+            
             camera = global::Android.Hardware.Camera.Open((int)cameraType);
             textureView.LayoutParameters = new FrameLayout.LayoutParams(width, height);
             surfaceTexture = surface;
 
             camera.SetPreviewTexture(surface);
             PrepareAndStartCamera();
+            }
+            catch (Exception ex)
+            {
+                 App.Current.MainPage.DisplayAlert("Error", "Camera Permission Not Granted", "OK");
+            }
         }
 
         public bool OnSurfaceTextureDestroyed(SurfaceTexture surface)

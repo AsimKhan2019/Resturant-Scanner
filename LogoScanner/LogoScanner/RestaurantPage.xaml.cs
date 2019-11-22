@@ -2,9 +2,10 @@
 using System.Linq;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
-
 using Xamarin.Forms;
+using Xamarin.Forms.Maps;
 using Xamarin.Forms.Xaml;
+using Map = Xamarin.Forms.Maps.Map;
 
 namespace LogoScanner
 {
@@ -85,6 +86,19 @@ namespace LogoScanner
 
                 PriceLabel.Text += (result["PricePoint"] == null || string.IsNullOrEmpty(result["PricePoint"].ToString()))
                                 ? "No Price Point" : String.Concat(Enumerable.Repeat("£", Int32.Parse(result["PricePoint"].ToString())));
+
+
+                double latitude = Convert.ToDouble(result["Latitude"].ToString());
+                double longitude = Convert.ToDouble(result["Longitude"].ToString());
+
+                var pin = new Pin()
+                {
+                    Position = new Position(latitude, longitude),
+                    Label = result["Name"].ToString(),
+                };
+
+                MapArea.Pins.Add(pin);
+                MapArea.MoveToRegion(new MapSpan(new Position(latitude, longitude), 0.01, 0.01));
             }
         }
     }

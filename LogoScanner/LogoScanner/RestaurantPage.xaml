@@ -2,26 +2,31 @@
 <TabbedPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+
+    xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+    android:TabbedPage.ToolbarPlacement="Bottom"
+
     x:Class="LogoScanner.RestaurantPage"
     Title="Logo Scanner"
     BackgroundColor="White"
+    BarTextColor="Gray"
+    BarBackgroundColor="White"
     Visual="Material">
 
-    <ContentPage Title="Home">
+    <ContentPage Title="HOME" IconImageSource="HomeIcon.png">
         <StackLayout>
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="5*" />
+                    <RowDefinition Height="15*" />
                     <RowDefinition Height="10*" />
                     <RowDefinition Height="4*" />
-                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="3*" />
                     <RowDefinition Height="2*" />
                     <RowDefinition Height="2*" />
                     <RowDefinition Height="2*" />
                     <RowDefinition Height="5*" />
-                    <RowDefinition Height="5*" />
-                    <RowDefinition Height="5*" />
-                    <RowDefinition Height="40*" />
+                    <RowDefinition Height="30*" />
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
@@ -30,13 +35,30 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <BoxView
-                    BackgroundColor="#11a0dc"
+                <!-- BackgroundColor="#11a0dc" -->
+                <maps:Map
+                    x:Name="MapArea"
+                    MapType="Street"
                     Grid.Row="0"
                     Grid.Column="0"
                     Grid.RowSpan="2"
                     Grid.ColumnSpan="3"
-                />
+                >
+                    <x:Arguments>
+                        <maps:MapSpan>
+                            <x:Arguments>
+                                <maps:Position>
+                                    <x:Arguments>
+                                        <x:Double>0</x:Double>
+                                        <x:Double>0</x:Double>
+                                    </x:Arguments>
+                                </maps:Position>
+                                <x:Double>0.01</x:Double>
+                                <x:Double>0.01</x:Double>
+                            </x:Arguments>
+                        </maps:MapSpan>
+                    </x:Arguments>
+                </maps:Map>
 
                 <Image
                     x:Name="Logo"
@@ -101,53 +123,10 @@
                     VerticalOptions="Center"
                     Text="Promotions"
                     FontSize="16"
-                />
-
-                <Label
-                    Grid.Row="8"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="3"
-                    HorizontalOptions="Start"
-                    VerticalOptions="Center"
-                    Text="Availability"
-                    FontSize="16"
-                />
-
-                <Label
-                    Grid.Row="9"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="3"
-                    HorizontalOptions="Start"
-                    VerticalOptions="Center"
-                    Text="Reviews"
-                    FontSize="16"
-                />
-
-
-              
+                />              
             </Grid>
 
-
-
-            <!--<Grid ColumnSpacing="20">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="0.1*" />
-                    <RowDefinition Height="0.6*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="0.3*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-
-
-
+            <!--
                <Image
                     x:Name="ResDiary"
                     Grid.Row="0"
@@ -241,10 +220,21 @@
         </StackLayout>
     </ContentPage>
 
-    <ContentPage Title="Reviews">
+    <ContentPage Title="BOOKINGS" IconImageSource="BookingIcon.png">
         <StackLayout>
 
         </StackLayout>
     </ContentPage>
 
+    <ContentPage Title="REVIEWS" IconImageSource="ReviewIcon.png">
+        <StackLayout>
+
+        </StackLayout>
+    </ContentPage>
+
+    <ContentPage Title="SCAN" IconImageSource="ScanIcon.png">
+        <StackLayout>
+
+        </StackLayout>
+    </ContentPage>
 </TabbedPage>

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Xamarin.Forms.Xaml;
@@ -90,15 +91,25 @@ namespace LogoScanner
 
                 double latitude = Convert.ToDouble(result["Latitude"].ToString());
                 double longitude = Convert.ToDouble(result["Longitude"].ToString());
+                string name = result["Name"].ToString();
 
                 var pin = new Pin()
                 {
                     Position = new Position(latitude, longitude),
-                    Label = result["Name"].ToString(),
+                    Label = name,
                 };
 
                 MapArea.Pins.Add(pin);
                 MapArea.MoveToRegion(new MapSpan(new Position(latitude, longitude), 0.01, 0.01));
+
+                // open up directions to restaurant in map app when map area is clicked
+                MapArea.MapClicked += async (object sender, MapClickedEventArgs e) =>
+                {
+                    await Xamarin.Essentials.Map.OpenAsync(
+                        new Location(latitude, longitude),
+                        new MapLaunchOptions { Name = name, NavigationMode = NavigationMode.Default }
+                    );
+                };
             }
         }
     }

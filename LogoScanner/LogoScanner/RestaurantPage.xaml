@@ -16,7 +16,7 @@
     SelectedTabColor="#11a0dc"
     Visual="Material">
 
-    <ContentPage Title="HOME" IconImageSource="HomeIcon.png">
+    <ContentPage x:Name="HomeTab" Title="Home" IconImageSource="HomeIconFilled.png">
         <StackLayout>
             <Grid>
                 <Grid.RowDefinitions>
@@ -249,19 +249,19 @@
         </StackLayout>
     </ContentPage>
 
-    <ContentPage Title="MENU" IconImageSource="MenuIcon.png">
+    <ContentPage x:Name="MenuTab" Title="Menu" IconImageSource="MenuIcon.png">
         <StackLayout>
 
         </StackLayout>
     </ContentPage>
 
-    <ContentPage Title="REVIEWS" IconImageSource="ReviewIcon.png">
+    <ContentPage x:Name="ReviewsTab" Title="Reviews" IconImageSource="ReviewIcon.png">
         <StackLayout>
 
         </StackLayout>
     </ContentPage>
 
-    <ContentPage Title="SCAN" IconImageSource="ScanIcon.png">
+    <ContentPage x:Name="ScanTab" Title="Scan" IconImageSource="ScanIcon.png">
         <StackLayout>
 
         </StackLayout>

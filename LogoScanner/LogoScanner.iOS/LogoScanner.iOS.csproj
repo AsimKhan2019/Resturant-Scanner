@@ -67,6 +67,7 @@
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RestaurantPageRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
@@ -159,6 +160,10 @@
     <BundleResource Include="Resources\HomeIcon.png" />
     <BundleResource Include="Resources\ScanIcon.png" />
     <BundleResource Include="Resources\MenuIcon.png" />
+    <BundleResource Include="Resources\HomeIconFilled.png" />
+    <BundleResource Include="Resources\ScanIconFilled.png" />
+    <BundleResource Include="Resources\ReviewIconFilled.png" />
+    <BundleResource Include="Resources\MenuIconFilled.png" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\TakePhotoButton.png" />

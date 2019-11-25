@@ -17,6 +17,31 @@ namespace LogoScanner
         public RestaurantPage()
         {
             InitializeComponent();
+
+            this.CurrentPageChanged += (object sender, EventArgs e) => {
+                var tab = this.Children.IndexOf(this.CurrentPage);
+
+                HomeTab.IconImageSource = "HomeIcon.png";
+                MenuTab.IconImageSource = "MenuIcon.png";
+                ReviewsTab.IconImageSource = "ReviewIcon.png";
+                ScanTab.IconImageSource = "ScanIcon.png";
+
+                switch (tab)
+                {
+                    case 0:
+                        HomeTab.IconImageSource = "HomeIconFilled.png";
+                        break;
+                    case 1:
+                        MenuTab.IconImageSource = "MenuIconFilled.png";
+                        break;
+                    case 2:
+                        ReviewsTab.IconImageSource = "ReviewIconFilled.png";
+                        break;
+                    case 3:
+                        ScanTab.IconImageSource = "ScanIconFilled.png";
+                        break;
+                }
+            };
         }
 
         public class RestService

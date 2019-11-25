@@ -4,14 +4,16 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
 
+    xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
+
     xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
     android:TabbedPage.ToolbarPlacement="Bottom"
 
     x:Class="LogoScanner.RestaurantPage"
     Title="Logo Scanner"
     BackgroundColor="White"
-    BarTextColor="Gray"
     BarBackgroundColor="White"
+    SelectedTabColor="#11a0dc"
     Visual="Material">
 
     <ContentPage Title="HOME" IconImageSource="HomeIcon.png">
@@ -20,13 +22,12 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="15*" />
                     <RowDefinition Height="10*" />
-                    <RowDefinition Height="4*" />
-                    <RowDefinition Height="3*" />
+                    <RowDefinition Height="12*" />
                     <RowDefinition Height="2*" />
                     <RowDefinition Height="2*" />
                     <RowDefinition Height="2*" />
-                    <RowDefinition Height="5*" />
-                    <RowDefinition Height="30*" />
+                    <RowDefinition Height="25*" />
+                    <RowDefinition Height="25*" />
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
@@ -35,7 +36,6 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <!-- BackgroundColor="#11a0dc" -->
                 <maps:Map
                     x:Name="MapArea"
                     MapType="Street"
@@ -60,59 +60,88 @@
                     </x:Arguments>
                 </maps:Map>
 
-                <Image
+                <controls:CircleImage
                     x:Name="Logo"
+                    Source="https://via.placeholder.com/300"
+                    Aspect="AspectFill"
+                    BorderColor="White"
+                    BorderThickness="4"
                     Grid.Row="1"
                     Grid.Column="0"
                     Grid.RowSpan="2"
                     Grid.ColumnSpan="3"
-                    HorizontalOptions="Center"
+                    HorizontalOptions="Start"
                     VerticalOptions="Center"
-                    HeightRequest="160"
-                    WidthRequest="160"
-                    Source="https://via.placeholder.com/300"
-                />
+                    Margin="15, 0"
+                >
+                    <controls:CircleImage.WidthRequest>
+                        <OnPlatform x:TypeArguments="x:Double">
+                            <On Platform="Android, iOS">120</On>
+                        </OnPlatform>
+                    </controls:CircleImage.WidthRequest>
+                    <controls:CircleImage.HeightRequest>
+                        <OnPlatform x:TypeArguments="x:Double">
+                            <On Platform="Android, iOS">120</On>
+                        </OnPlatform>
+                    </controls:CircleImage.HeightRequest>
+                </controls:CircleImage>
 
                 <Label
                     x:Name="NameLabel"
-                    Grid.Row="3"
+                    Grid.Row="2"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
-                    HorizontalOptions="Center"
-                    VerticalOptions="Center"
-                    Text="Restaurant Name"
-                    Font="Bold, 22"
+                    HorizontalOptions="Start"
+                    VerticalOptions="End"
+                    Text="Restaurant"
+                    Font="Bold, 26"
+                    Padding="13, 50, 0, 0"
+                    Margin="0, 15, 0, 0"
                 />
 
                 <Label
                     x:Name="CuisinesLabel"
-                    Grid.Row="4"
+                    Grid.Row="3"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
-                    HorizontalOptions="Center"
+                    HorizontalOptions="Start"
                     VerticalOptions="Center"
                     Text="Cuisines"
                     FontSize="12"
+                    Padding="15, 0"
                 />
 
                 <Label
                     x:Name="PriceLabel"
-                    Grid.Row="5"
+                    Grid.Row="4"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
-                    HorizontalOptions="Center"
+                    HorizontalOptions="Start"
                     VerticalOptions="Center"
                     FontSize="12"
+                    Padding="15, 0"
                 />
 
                 <Label
-                    x:Name="ReviewsLabel"
+                    x:Name="StarLabel"
+                    Grid.Row="5"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    FontSize="16"
+                    TextColor="#11a0dc"
+                    Padding="12, 0"
+                />
+
+                <Label
                     Grid.Row="6"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
-                    HorizontalOptions="Center"
-                    VerticalOptions="Center"
-                    FontSize="12"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Start"
+                    Text="Bookings"
+                    FontSize="16"
                 />
 
                 <Label
@@ -120,10 +149,10 @@
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
                     HorizontalOptions="Start"
-                    VerticalOptions="Center"
+                    VerticalOptions="Start"
                     Text="Promotions"
                     FontSize="16"
-                />              
+                />     
             </Grid>
 
             <!--
@@ -220,7 +249,7 @@
         </StackLayout>
     </ContentPage>
 
-    <ContentPage Title="BOOKINGS" IconImageSource="BookingIcon.png">
+    <ContentPage Title="MENU" IconImageSource="MenuIcon.png">
         <StackLayout>
 
         </StackLayout>

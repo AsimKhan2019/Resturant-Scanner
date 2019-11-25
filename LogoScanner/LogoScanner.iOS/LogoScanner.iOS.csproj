@@ -141,6 +141,9 @@
     <PackageReference Include="Xamarin.Forms.Maps">
       <Version>4.3.0.991211</Version>
     </PackageReference>
+    <PackageReference Include="Xam.Plugins.Forms.ImageCircle">
+      <Version>3.0.0.5</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
@@ -153,9 +156,9 @@
     <BundleResource Include="Resources\NoFlashButton.png" />
     <BundleResource Include="Resources\FlashButton.png" />
     <BundleResource Include="Resources\ReviewIcon.png" />
-    <BundleResource Include="Resources\BookingIcon.png" />
     <BundleResource Include="Resources\HomeIcon.png" />
     <BundleResource Include="Resources\ScanIcon.png" />
+    <BundleResource Include="Resources\MenuIcon.png" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\TakePhotoButton.png" />

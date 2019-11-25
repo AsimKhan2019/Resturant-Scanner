@@ -6,16 +6,13 @@ using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Xamarin.Forms.Xaml;
-using Map = Xamarin.Forms.Maps.Map;
 
 namespace LogoScanner
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RestaurantPage : TabbedPage
     {
-
         private string reviewNo;
-        private string avgReview;
 
         public RestaurantPage()
         {
@@ -75,10 +72,11 @@ namespace LogoScanner
                 reviewNo = (result["NumberOfReviews"] == null || string.IsNullOrEmpty(result["NumberOfReviews"].ToString()))
                                 ? "Number of Reviews" : result["NumberOfReviews"].ToString();
 
-                avgReview = (result["AverageReviewScore"] == null || string.IsNullOrEmpty(result["AverageReviewScore"].ToString()))
-                                ? "No Average Review Score" : result["AverageReviewScore"].ToString();
+                int stars = (int) Math.Round(Double.Parse(result["AverageReviewScore"].ToString()), 0, MidpointRounding.AwayFromZero);
 
-                ReviewsLabel.Text += (avgReview + " out of " + reviewNo + " reviews");
+                StarLabel.Text += (result["AverageReviewScore"] == null || string.IsNullOrEmpty(result["AverageReviewScore"].ToString()))
+                                ? "No Average Review Score" : String.Concat(Enumerable.Repeat("★", stars));
+
                 string Times = (result["AvailableTimeSlots"] == null || string.IsNullOrEmpty(result["AvailableTimeSlots"].ToString()))
                                 ? "No Available TimeSlots" : result["AvailableTimeSlots"].ToString();
 

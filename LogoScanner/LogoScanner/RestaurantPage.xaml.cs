@@ -18,7 +18,8 @@ namespace LogoScanner
         {
             InitializeComponent();
 
-            this.CurrentPageChanged += (object sender, EventArgs e) => {
+            this.CurrentPageChanged += (object sender, EventArgs e) =>
+            {
                 var tab = this.Children.IndexOf(this.CurrentPage);
 
                 HomeTab.IconImageSource = "HomeIcon.png";
@@ -39,6 +40,7 @@ namespace LogoScanner
                         break;
                     case 3:
                         ScanTab.IconImageSource = "ScanIconFilled.png";
+                        Navigation.PushModalAsync(new MainPage());
                         break;
                 }
             };

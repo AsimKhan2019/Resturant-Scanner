@@ -53,6 +53,7 @@ namespace LogoScanner.Droid
                     break;
                 case "Scan":
                     tab.SetIcon(Resource.Drawable.ScanIconFilled);
+                    Application.Current.MainPage.Navigation.PushModalAsync(new MainPage());
                     break;
             }
         }

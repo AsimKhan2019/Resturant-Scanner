@@ -4,6 +4,11 @@ using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using Xamarin.Forms;
 
+
+//Additional API Calls Required
+//Promotions - GetPromotions API Call
+//Get Availability for Date Range
+
 namespace LogoScanner
 {
     public partial class RestaurantPage : ContentPage

@@ -65,7 +65,7 @@
             BorderColor="Black"
             CornerRadius="6">
             <ListView
-                x:Name="Cusines"
+                x:Name="Cusines23"
                 IsEnabled="False"
                 ItemsSource="{Binding CusineLabel}">
                 <ListView.ItemTemplate>
@@ -124,13 +124,12 @@
             Grid.ColumnSpan="3"
             BorderColor="Black"
             CornerRadius="6">
-            <ListView x:Name="TimeSlots">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <TextCell Text="{Binding Text}" />
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+            <Label
+            x:Name="Cusines"
+            Grid.Row="2"
+            Grid.Column="2"
+            TextColor="#11a0dc"
+            VerticalOptions="Center" />
         </Frame>
 
         <Label

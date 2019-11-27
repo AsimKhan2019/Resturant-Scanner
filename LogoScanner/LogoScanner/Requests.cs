@@ -1,16 +1,15 @@
-﻿using System.Net.Http;
+﻿using Newtonsoft.Json.Linq;
 using System.IO;
+using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
 using Xamarin.Essentials;
 
 namespace LogoScanner
 {
     public class Requests
     {
-
         // structure to store request status and corresponding message
         public struct Request
         {
@@ -28,7 +27,7 @@ namespace LogoScanner
         {
             var connectivity = Connectivity.NetworkAccess;
 
-            if(connectivity == NetworkAccess.Internet)
+            if (connectivity == NetworkAccess.Internet)
             {
                 var assembly = Assembly.GetExecutingAssembly();
                 var credentialsFile = "LogoScanner.credentials.txt";
@@ -49,7 +48,7 @@ namespace LogoScanner
 
                     var response = await client.PostAsync("https://api.rdbranch.com/api/Jwt/v2/Authenticate", content); // get response from the api
 
-                    if (response.IsSuccessStatusCode) // if call to api is successful 
+                    if (response.IsSuccessStatusCode) // if call to api is successful
                     {
                         var result = await response.Content.ReadAsStringAsync();
 
@@ -74,10 +73,40 @@ namespace LogoScanner
                 {
                     return new Request("Fail", ex.Message);
                 }
-            } else
+            }
+            else
             {
                 return new Request("Fail", "Unable to Connect to Internet");
             }
+        }
+
+        public static async Task<JObject> APICallGet(string url, string token)
+        {
+            HttpClient client = new HttpClient();
+            HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Get, url);
+            requestMessage.Headers.Add("Authorization", "Bearer " + token);
+
+            HttpResponseMessage response = await client.SendAsync(requestMessage);
+            JObject result;
+            if (response.IsSuccessStatusCode)
+            {
+                //Get the Results from the API Call
+                var contents = await response.Content.ReadAsStringAsync();
+
+                contents = contents.TrimStart('[');
+                contents = contents.TrimEnd(']');
+
+                result = JObject.Parse(contents);
+
+                return result;
+            }
+
+            return null;
+        }
+
+        public static async Task<JObject> APICallPut(string url, string token, JObject content)
+        {
+            return null;
         }
     }
 }

@@ -1,141 +1,221 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage
-    x:Class="LogoScanner.RestaurantPage"
+<TabbedPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+
+    xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+    xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
+    xmlns:renderedViews="clr-namespace:Sharpnado.Presentation.Forms.RenderedViews;assembly=Sharpnado.Presentation.Forms"
+
+    xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+    android:TabbedPage.ToolbarPlacement="Bottom"
+
+    NavigationPage.HasNavigationBar="false"
+
+    x:Class="LogoScanner.RestaurantPage"
     Title="Logo Scanner"
-    Padding="10,10,10,10"
     BackgroundColor="White"
+    BarBackgroundColor="White"
+    SelectedTabColor="#11a0dc"
     Visual="Material"
-    mc:Ignorable="d">
-    <Grid ColumnSpacing="20">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="0.1*" />
-            <RowDefinition Height="0.6*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="0.3*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Image
-            x:Name="ResDiary"
-            Grid.Row="0"
-            Grid.Column="0"
-            Source="https://sales.resdiary.com/wp-content/uploads/2017/04/RD-logo.png" />
-        <Label
-            x:Name="NameLabel"
-            Grid.Row="0"
-            Grid.Column="1"
-            HorizontalOptions="Center"
-            Style="{DynamicResource TitleStyle}"
-            Text="Restaurant Name"
-            TextColor="#11a0dc"
-            VerticalOptions="Center" />
-        <BoxView
-            Grid.Row="1"
-            Grid.Column="1"
-            HeightRequest="1"
-            HorizontalOptions="Center"
-            VerticalOptions="Center"
-            WidthRequest="1000"
-            Color="black" />
-        <Image
-            x:Name="Logo"
-            Grid.Row="0"
-            Grid.Column="2"
-            Source="https://via.placeholder.com/300" />
-        <Label
-            Grid.Row="2"
-            Style="{DynamicResource SubtitleStyle}"
-            Text="Cuisines"
-            TextColor="#11a0dc"
-            VerticalOptions="Center" />
-        <Frame
-            Grid.Row="3"
-            Grid.RowSpan="2"
-            BorderColor="Black"
-            CornerRadius="6">
-            <ListView
-                x:Name="Cusines23"
-                IsEnabled="False"
-                ItemsSource="{Binding CusineLabel}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell Height="50">
-                            <Label
-                                x:Name="{Binding CusineLabel}"
-                                Text="Cuisine Type"
-                                TextColor="#11a0dc" />
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </Frame>
-        <Label
-            x:Name="AddressLabel"
-            Grid.Row="4"
-            Grid.Column="2"
-            FontSize="Small"
-            Style="{DynamicResource SubtitleStyle}"
-            Text="Address"
-            TextColor="#11a0dc"
-            VerticalOptions="Center" />
-        <Label
-            x:Name="ReviewsLabel"
-            Grid.Row="3"
-            Grid.Column="2"
-            Text="Rating: "
-            TextColor="#11a0dc" />
-        <Label
-            x:Name="PriceLabel"
-            Grid.Row="2"
-            Grid.Column="2"
-            Text="Price Point: "
-            TextColor="#11a0dc"
-            VerticalOptions="Center" />
-        <Frame
-            Grid.Row="3"
-            Grid.ColumnSpan="3"
-            BorderColor="Black"
-            CornerRadius="6"
-            HorizontalOptions="Center">
-            <Label Text="Table Free" TextColor="#11a0dc" />
-        </Frame>
+>
+    <!--xmlns:views="clr-namespace:SillyCompany.Mobile.Practices.Presentation.Views;assembly=SillyCompany.Mobile.Practices"-->
+    <ContentPage x:Name="HomeTab" Title="Home" IconImageSource="HomeIconFilled.png">
+        <StackLayout>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="18*" />
+                    <RowDefinition Height="15*" />
+                    <RowDefinition Height="10*" />
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="25*" />
+                    <RowDefinition Height="25*" />
+                </Grid.RowDefinitions>
 
-        <Label
-            Grid.Row="5"
-            Grid.ColumnSpan="3"
-            Style="{DynamicResource SubtitleStyle}"
-            Text="Available Slots"
-            TextColor="#11a0dc" />
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
-        <Frame
-            Grid.Row="6"
-            Grid.RowSpan="2"
-            Grid.ColumnSpan="3"
-            BorderColor="Black"
-            CornerRadius="6">
+                <maps:Map
+                    x:Name="MapArea"
+                    MapType="Street"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.RowSpan="2"
+                    Grid.ColumnSpan="3"
+                >
+                    <x:Arguments>
+                        <maps:MapSpan>
+                            <x:Arguments>
+                                <maps:Position>
+                                    <x:Arguments>
+                                        <x:Double>0</x:Double>
+                                        <x:Double>0</x:Double>
+                                    </x:Arguments>
+                                </maps:Position>
+                                <x:Double>0.01</x:Double>
+                                <x:Double>0.01</x:Double>
+                            </x:Arguments>
+                        </maps:MapSpan>
+                    </x:Arguments>
+                </maps:Map>
+
+                <controls:CircleImage
+                    x:Name="Logo"
+                    Source="https://via.placeholder.com/300"
+                    Aspect="AspectFill"
+                    BorderColor="White"
+                    BorderThickness="4"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Grid.RowSpan="2"
+                    Grid.ColumnSpan="2"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    Margin="15, 0"
+                >
+                    <controls:CircleImage.WidthRequest>
+                        <OnPlatform x:TypeArguments="x:Double">
+                            <On Platform="Android, iOS">120</On>
+                        </OnPlatform>
+                    </controls:CircleImage.WidthRequest>
+                    <controls:CircleImage.HeightRequest>
+                        <OnPlatform x:TypeArguments="x:Double">
+                            <On Platform="Android, iOS">120</On>
+                        </OnPlatform>
+                    </controls:CircleImage.HeightRequest>
+                </controls:CircleImage>
+
+                <Image
+                    x:Name="ResDiary"
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Start"
+                    WidthRequest="130"
+                    Margin="0, 5, 0, 0"
+                    Source="https://www.resdiary.com/Content/Images/powered-by-resdiary.png"
+                />
+
+                <Label
+                    x:Name="NameLabel"
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    Text="Restaurant"
+                    Font="Bold, 28"
+                    Padding="13, 40, 0, 0"
+                />
+
+                <Label
+                    x:Name="CuisinesLabel"
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    Text="Cuisines"
+                    FontSize="12"
+                    Padding="15, 0"
+                />
+
+                <Label
+                    x:Name="PriceLabel"
+                    Grid.Row="4"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    FontSize="12"
+                    Padding="15, 0"
+                />
+
+                <Label
+                    x:Name="StarLabel"
+                    Grid.Row="5"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    FontSize="16"
+                    TextColor="#11a0dc"
+                    Padding="12, 0"
+                />
+
+                <Label
+                    Grid.Row="6"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Start"
+                    Text="Bookings"
+                    FontSize="16"
+                />
+
+                <!--<renderedViews:HorizontalListView  
+                    Grid.Row="6"
+                    Margin="-16,8"
+                    CollectionPadding="0,8"
+                    ItemSpacing="8"
+                    ItemHeight="144"
+                    ItemWidth="144"
+                    ItemsSource="{Binding SillyPeopleLoader.Result}"
+                    SnapStyle="Center">
+                    <renderedViews:HorizontalListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <views:SillySquareCell
+                                    effects:TapCommandEffect.Tap="{Binding OnItemTappedCommand}"
+                                    effects:TapCommandEffect.TapParameter="{Binding .}"
+                                    effects:ViewEffect.TouchFeedbackColor="{StaticResource Accent}"
+                                />
+                            </ViewCell>
+                        </DataTemplate>
+                    </renderedViews:HorizontalListView.ItemTemplate>
+                </renderedViews:HorizontalListView>-->
+
+                <Label
+                    Grid.Row="7"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Start"
+                    Text="Promotions"
+                    FontSize="16"
+                />
+            </Grid>
+        </StackLayout>
+    </ContentPage>
+
+    <ContentPage x:Name="MenuTab" Title="Menu" IconImageSource="MenuIcon.png">
+        <StackLayout>
             <Label
-            x:Name="Cusines"
-            Grid.Row="2"
-            Grid.Column="2"
-            TextColor="#11a0dc"
-            VerticalOptions="Center" />
-        </Frame>
+                HorizontalOptions="Start"
+                VerticalOptions="Start"
+                Text="Menu"
+                FontSize="16"
+            />
+        </StackLayout>
+    </ContentPage>
 
-        <Label
-            Grid.Row="8"
-            Grid.ColumnSpan="3"
-            Text="Map Here"
-            TextColor="#11a0dc" />
-    </Grid>
-</ContentPage>
+    <ContentPage x:Name="ReviewsTab" Title="Reviews" IconImageSource="ReviewIcon.png">
+        <StackLayout>
+            <Label
+                HorizontalOptions="Start"
+                VerticalOptions="Start"
+                Text="Reviews"
+                FontSize="16"
+            />
+        </StackLayout>
+    </ContentPage>
+
+    <ContentPage x:Name="ScanTab" Title="Scan" IconImageSource="ScanIcon.png">
+
+    </ContentPage>
+</TabbedPage>

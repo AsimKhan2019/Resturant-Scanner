@@ -1,8 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
+using Xamarin.Essentials;
 using Xamarin.Forms;
+using Xamarin.Forms.Maps;
+using Xamarin.Forms.Xaml;
 
 
 //Additional API Calls Required
@@ -11,22 +14,46 @@ using Xamarin.Forms;
 
 namespace LogoScanner
 {
-    public partial class RestaurantPage : ContentPage
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class RestaurantPage : TabbedPage
     {
-
-        private string reviewNo;
-        private string avgReview;
-
         public RestaurantPage()
         {
             InitializeComponent();
+
+            this.CurrentPageChanged += (object sender, EventArgs e) =>
+            {
+                var tab = this.Children.IndexOf(this.CurrentPage);
+
+                HomeTab.IconImageSource = "HomeIcon.png";
+                MenuTab.IconImageSource = "MenuIcon.png";
+                ReviewsTab.IconImageSource = "ReviewIcon.png";
+                ScanTab.IconImageSource = "ScanIcon.png";
+
+                switch (tab)
+                {
+                    case 0:
+                        HomeTab.IconImageSource = "HomeIconFilled.png";
+                        break;
+                    case 1:
+                        MenuTab.IconImageSource = "MenuIconFilled.png";
+                        break;
+                    case 2:
+                        ReviewsTab.IconImageSource = "ReviewIconFilled.png";
+                        break;
+                    case 3:
+                        ScanTab.IconImageSource = "ScanIconFilled.png";
+                        Navigation.PushModalAsync(new MainPage());
+                        break;
+                }
+            };
         }
 
-        protected override async void OnAppearing()
+        protected override async void OnAppearing() // when page loads
         {
             base.OnAppearing();
- 
-            var request = await Requests.ConnectToResDiary();
+
+            var request = await Requests.ConnectToResDiary(); // connect to resdiary api
 
             while (request.message.Equals("Unable to Connect to Internet"))
             {
@@ -38,7 +65,7 @@ namespace LogoScanner
                 }
             }
 
-            if (request.status.Equals("Success"))
+            if (request.status.Equals("Success")) // if connection to api is successful
             {
                 String micrositename = "muranostreetsocial"; //Get Microsite Name from Image Recognition return value
                 GetRestaurantData("https://api.rdbranch.com/api/ConsumerApi/v1/MicrositeSummaryDetails?micrositeNames=" + micrositename + "&startDate=2019-11-19T10:53:39&endDate=2019-11-18T10:53:39&channelCodes=ONLINE&numberOfReviews=5", request.message);
@@ -53,31 +80,54 @@ namespace LogoScanner
         {
             JObject result = await Requests.APICallGet(url, token);
 
+            int stars = (int)Math.Round(Double.Parse(result["AverageReviewScore"].ToString()), 0, MidpointRounding.AwayFromZero);
+
             //Parse the API Call and split the JSon object into the various variables.
-            NameLabel.Text = (result["Name"] == null || string.IsNullOrEmpty(result["Name"].ToString()))
-                                ? "Restaurant Name" : result["Name"].ToString();
+            NameLabel.Text = GetRestaurantField(result, "Name");
+            Logo.Source = GetRestaurantField(result, "LogoUrl");
+            StarLabel.Text = GetRestaurantField(result, "AverageReviewScore", "★", stars);
+            CuisinesLabel.Text = GetRestaurantField(result, "CuisineTypes");
+            PriceLabel.Text = GetRestaurantField(result, "PricePoint", "£", Int32.Parse(result["PricePoint"].ToString()));
 
-            AddressLabel.Text = (result["FullAddress"] == null || string.IsNullOrEmpty(result["FullAddress"].ToString()))
-                            ? "Address" : result["FullAddress"].ToString();
+            double latitude = Convert.ToDouble(result["Latitude"].ToString());
+            double longitude = Convert.ToDouble(result["Longitude"].ToString());
+            string name = result["Name"].ToString();
 
-            Logo.Source = (result["LogoUrl"] == null || string.IsNullOrEmpty(result["LogoUrl"].ToString()))
-                            ? "Logo" : result["LogoUrl"].ToString();
+            var pin = new Pin()
+            {
+                Position = new Position(latitude, longitude),
+                Label = name,
+            };
 
-            reviewNo = (result["NumberOfReviews"] == null || string.IsNullOrEmpty(result["NumberOfReviews"].ToString()))
-                            ? "Number of Reviews" : result["NumberOfReviews"].ToString();
+            MapArea.Pins.Add(pin);
+            MapArea.MoveToRegion(new MapSpan(new Position(latitude, longitude), 0.01, 0.01));
 
-            avgReview = (result["AverageReviewScore"] == null || string.IsNullOrEmpty(result["AverageReviewScore"].ToString()))
-                            ? "No Average Review Score" : result["AverageReviewScore"].ToString();
+            // open up directions to restaurant in map app when map area is clicked
+            MapArea.MapClicked += async (object sender, MapClickedEventArgs e) =>
+            {
+                await Xamarin.Essentials.Map.OpenAsync(
+                    new Location(latitude, longitude),
+                    new MapLaunchOptions { Name = name, NavigationMode = NavigationMode.Default }
+                );
+            };
+        }
 
-            ReviewsLabel.Text += (avgReview + " out of " + reviewNo + " reviews");
-            string Times = (result["AvailableTimeSlots"] == null || string.IsNullOrEmpty(result["AvailableTimeSlots"].ToString()))
-                            ? "No Available TimeSlots" : result["AvailableTimeSlots"].ToString();
+        // method to get field from json object
+        private string GetRestaurantField(JObject json, string field)
+        {
+            if (json[field] == null || string.IsNullOrEmpty(json[field].ToString()))
+                return "No Set " + field;
+            else
+                return json[field].ToString();
+        }
 
-            string Cuisine = (result["CuisineTypes"] == null || string.IsNullOrEmpty(result["CuisineTypes"].ToString()))
-                            ? "No Set Cusine Types" : result["CuisineTypes"].ToString();
-
-            PriceLabel.Text += (result["PricePoint"] == null || string.IsNullOrEmpty(result["PricePoint"].ToString()))
-                            ? "No Price Point" : result["PricePoint"].ToString();
-            }
+        // method to get field from json object and produce a string with symbols which are repeated i number of times
+        private string GetRestaurantField(JObject json, string field, string symbol, int i)
+        {
+            if (json[field] == null || string.IsNullOrEmpty(json[field].ToString()))
+                return "No Set " + field;
+            else
+                return String.Concat(Enumerable.Repeat(symbol, i));
         }
     }
+}

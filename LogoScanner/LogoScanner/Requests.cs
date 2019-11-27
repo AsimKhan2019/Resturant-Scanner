@@ -60,7 +60,7 @@ namespace LogoScanner
                 }
                 else
                 {
-                    return new Request("Fail", "Unable to connect to RESDiary API");
+                    return new Request("Fail", "Unable to connect to ReSDiary API");
                 }
             }
             catch (HttpRequestException ex) // handles request exception

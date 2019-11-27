@@ -2,27 +2,31 @@
 <TabbedPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
 
+    xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
     xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
+    xmlns:renderedViews="clr-namespace:Sharpnado.Presentation.Forms.RenderedViews;assembly=Sharpnado.Presentation.Forms"
 
     xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
     android:TabbedPage.ToolbarPlacement="Bottom"
+
+    NavigationPage.HasNavigationBar="false"
 
     x:Class="LogoScanner.RestaurantPage"
     Title="Logo Scanner"
     BackgroundColor="White"
     BarBackgroundColor="White"
     SelectedTabColor="#11a0dc"
-    Visual="Material">
-
+    Visual="Material"
+>
+    <!--xmlns:views="clr-namespace:SillyCompany.Mobile.Practices.Presentation.Views;assembly=SillyCompany.Mobile.Practices"-->
     <ContentPage x:Name="HomeTab" Title="Home" IconImageSource="HomeIconFilled.png">
         <StackLayout>
             <Grid>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="18*" />
                     <RowDefinition Height="15*" />
                     <RowDefinition Height="10*" />
-                    <RowDefinition Height="12*" />
                     <RowDefinition Height="2*" />
                     <RowDefinition Height="2*" />
                     <RowDefinition Height="2*" />
@@ -69,7 +73,7 @@
                     Grid.Row="1"
                     Grid.Column="0"
                     Grid.RowSpan="2"
-                    Grid.ColumnSpan="3"
+                    Grid.ColumnSpan="2"
                     HorizontalOptions="Start"
                     VerticalOptions="Center"
                     Margin="15, 0"
@@ -86,17 +90,27 @@
                     </controls:CircleImage.HeightRequest>
                 </controls:CircleImage>
 
+                <Image
+                    x:Name="ResDiary"
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Start"
+                    WidthRequest="130"
+                    Margin="0, 5, 0, 0"
+                    Source="https://www.resdiary.com/Content/Images/powered-by-resdiary.png"
+                />
+
                 <Label
                     x:Name="NameLabel"
                     Grid.Row="2"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
                     HorizontalOptions="Start"
-                    VerticalOptions="End"
+                    VerticalOptions="Center"
                     Text="Restaurant"
-                    Font="Bold, 26"
-                    Padding="13, 50, 0, 0"
-                    Margin="0, 15, 0, 0"
+                    Font="Bold, 28"
+                    Padding="13, 40, 0, 0"
                 />
 
                 <Label
@@ -144,6 +158,28 @@
                     FontSize="16"
                 />
 
+                <!--<renderedViews:HorizontalListView  
+                    Grid.Row="6"
+                    Margin="-16,8"
+                    CollectionPadding="0,8"
+                    ItemSpacing="8"
+                    ItemHeight="144"
+                    ItemWidth="144"
+                    ItemsSource="{Binding SillyPeopleLoader.Result}"
+                    SnapStyle="Center">
+                    <renderedViews:HorizontalListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <views:SillySquareCell
+                                    effects:TapCommandEffect.Tap="{Binding OnItemTappedCommand}"
+                                    effects:TapCommandEffect.TapParameter="{Binding .}"
+                                    effects:ViewEffect.TouchFeedbackColor="{StaticResource Accent}"
+                                />
+                            </ViewCell>
+                        </DataTemplate>
+                    </renderedViews:HorizontalListView.ItemTemplate>
+                </renderedViews:HorizontalListView>-->
+
                 <Label
                     Grid.Row="7"
                     Grid.Column="0"
@@ -156,12 +192,6 @@
             </Grid>
 
             <!--
-               <Image
-                    x:Name="ResDiary"
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    Source="https://sales.resdiary.com/wp-content/uploads/2017/04/RD-logo.png" />
-
                 <BoxView
                     Grid.Row="1"
                     Grid.Column="1"
@@ -251,19 +281,27 @@
 
     <ContentPage x:Name="MenuTab" Title="Menu" IconImageSource="MenuIcon.png">
         <StackLayout>
-
+            <Label
+                HorizontalOptions="Start"
+                VerticalOptions="Start"
+                Text="Menu"
+                FontSize="16"
+            />   
         </StackLayout>
     </ContentPage>
 
     <ContentPage x:Name="ReviewsTab" Title="Reviews" IconImageSource="ReviewIcon.png">
         <StackLayout>
-
+            <Label
+                HorizontalOptions="Start"
+                VerticalOptions="Start"
+                Text="Reviews"
+                FontSize="16"
+            />   
         </StackLayout>
     </ContentPage>
 
     <ContentPage x:Name="ScanTab" Title="Scan" IconImageSource="ScanIcon.png">
-        <StackLayout>
 
-        </StackLayout>
     </ContentPage>
 </TabbedPage>

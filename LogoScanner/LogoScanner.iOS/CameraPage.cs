@@ -182,7 +182,6 @@ namespace LogoScanner.iOS
                 Frame = new CGRect(0f, 0f, View.Frame.Size.Width, View.Bounds.Height)
             };
             liveCameraStream.BackgroundColor = UIColor.Black;
-            liveCameraStream.Layer.CornerRadius = 10;
 
             takePhotoButton = new UIButton()
             {

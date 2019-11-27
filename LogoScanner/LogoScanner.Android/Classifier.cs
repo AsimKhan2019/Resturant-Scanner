@@ -11,13 +11,11 @@ namespace CustomVision
     public class ImageClassifier
     {
         readonly List<string> labels;
-        readonly TensorFlowInferenceInterface inferenceInterface;
-
+        readonly TensorFlowInferenceInterface inferenceInterface;        
         public ImageClassifier()
         {
             var assets = Application.Context.Assets;
             inferenceInterface = new TensorFlowInferenceInterface(assets, "model.pb");
-
             using (var sr = new StreamReader(assets.Open("labels.txt")))
             {
                 var content = sr.ReadToEnd();
@@ -47,15 +45,15 @@ namespace CustomVision
             return results.OrderByDescending(t => t.Item1).First().Item2;
         }
 
-        static float[] GetBitmapPixels(Bitmap bitmap)
+        float[] GetBitmapPixels(Bitmap bitmap)
         {
-            var floatValues = new float[227 * 227 * 3];
+            var floatValues = new float[InputSize * InputSize * 3];
 
-            using (var scaledBitmap = Bitmap.CreateScaledBitmap(bitmap, 227, 227, false))
+            using (var scaledBitmap = Bitmap.CreateScaledBitmap(bitmap, InputSize, InputSize, false))
             {
                 using (var resizedBitmap = scaledBitmap.Copy(Bitmap.Config.Argb8888, false))
                 {
-                    var intValues = new int[227 * 227];
+                    var intValues = new int[InputSize * InputSize];
                     resizedBitmap.GetPixels(intValues, 0, resizedBitmap.Width, 0, 0, resizedBitmap.Width, resizedBitmap.Height);
 
                     for (int i = 0; i < intValues.Length; ++i)

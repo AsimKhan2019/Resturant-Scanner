@@ -165,13 +165,14 @@ namespace LogoScanner.iOS
             var centerButtonX = View.Bounds.GetMidX();
             var centerX = View.Bounds.GetMidX();
             var centerY = View.Bounds.GetMidY();
-            var bottomButtonY = View.Bounds.Bottom - 100;
-            var topButtonY = View.Bounds.Top + 45;
+            var bottomButtonY = View.Bounds.Bottom - 165;
+            var topButtonY = View.Bounds.Top + 100;
 
             liveCameraStream = new UIView()
             {
                 Frame = new CGRect(0f, 0f, View.Bounds.Width, View.Bounds.Height)
             };
+            liveCameraStream.BackgroundColor = UIColor.Black;
 
             takePhotoButton = new UIButton()
             {
@@ -189,7 +190,7 @@ namespace LogoScanner.iOS
             {
                 Frame = new CGRect(centerButtonX - 20, topButtonY, 40, 40)
             };
-            toggleFlashButton.SetBackgroundImage(UIImage.FromFile("NoFlashButton.svg"), UIControlState.Normal);
+            toggleFlashButton.SetBackgroundImage(UIImage.FromFile("NoFlashButton.png"), UIControlState.Normal);
 
             View.Add(liveCameraStream);
             View.Add(takePhotoButton);

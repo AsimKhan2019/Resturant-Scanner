@@ -8,6 +8,7 @@ using Plugin.CurrentActivity;
 using Acr.UserDialogs;
 using ImageCircle.Forms.Plugin.Droid;
 using Sharpnado.Presentation.Forms.Droid;
+using Plugin.Permissions;
 
 namespace LogoScanner.Droid
 {

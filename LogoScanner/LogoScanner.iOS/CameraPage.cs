@@ -174,8 +174,8 @@ namespace LogoScanner.iOS
             var centerButtonX = View.Bounds.GetMidX();
             var centerX = View.Bounds.GetMidX();
             var centerY = View.Bounds.GetMidY();
-            var bottomButtonY = View.Bounds.Bottom - 160;
-            var topButtonY = View.Bounds.Top + 90;
+            var bottomButtonY = View.Bounds.Bottom - 165;
+            var topButtonY = View.Bounds.Top + 100;
 
             liveCameraStream = new UIView()
             {

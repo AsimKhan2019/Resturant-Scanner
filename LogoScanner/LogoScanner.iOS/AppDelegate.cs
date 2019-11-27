@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Acr.UserDialogs;
 using Foundation;
+using ImageCircle.Forms.Plugin.iOS;
+using Sharpnado.Presentation.Forms.iOS;
 using UIKit;
 using Xamarin.Forms;
 
@@ -25,6 +27,11 @@ namespace LogoScanner.iOS
         {
             global::Xamarin.Forms.Forms.Init();
             global::Xamarin.Forms.FormsMaterial.Init();
+            global::Xamarin.FormsMaps.Init();
+
+            ImageCircleRenderer.Init();
+            SharpnadoInitializer.Initialize();
+
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);

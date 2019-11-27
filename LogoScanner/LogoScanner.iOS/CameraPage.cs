@@ -216,7 +216,7 @@ namespace LogoScanner.iOS
         public async void SendPhoto(byte[] image)
         {
             var results = await CustomVisionService.PredictImageContentsAsync(image, (new CancellationTokenSource()).Token);
-            var navigationPage = new NavigationPage(new Summary(results.ToString()));
+            var navigationPage = new NavigationPage(new RestaurantPage(results.ToString()));
 
             await App.Current.MainPage.Navigation.PushModalAsync(navigationPage, false);
         }

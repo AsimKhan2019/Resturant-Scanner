@@ -17,10 +17,12 @@ namespace LogoScanner
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RestaurantPage : TabbedPage
     {
-        public RestaurantPage()
+        private string micrositename;
+
+        public RestaurantPage(string micrositename)
         {
             InitializeComponent();
-
+            this.micrositename = micrositename;
             this.CurrentPageChanged += (object sender, EventArgs e) =>
             {
                 var tab = this.Children.IndexOf(this.CurrentPage);
@@ -67,8 +69,7 @@ namespace LogoScanner
 
             if (request.status.Equals("Success")) // if connection to api is successful
             {
-                String micrositename = "muranostreetsocial"; //Get Microsite Name from Image Recognition return value
-                GetRestaurantData("https://api.rdbranch.com/api/ConsumerApi/v1/MicrositeSummaryDetails?micrositeNames=" + micrositename + "&startDate=2019-11-19T10:53:39&endDate=2019-11-18T10:53:39&channelCodes=ONLINE&numberOfReviews=5", request.message);
+                GetRestaurantData("https://api.rdbranch.com/api/ConsumerApi/v1/MicrositeSummaryDetails?micrositeNames=" + this.micrositename + "&startDate=2019-11-19T10:53:39&endDate=2019-11-18T10:53:39&channelCodes=ONLINE&numberOfReviews=5", request.message);
             }
             else
             {

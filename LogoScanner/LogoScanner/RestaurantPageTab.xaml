@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            x:Class="LogoScanner.RestaurantPageTab">
+  <ContentPage Title="Tab 2">  
+    <StackLayout>  
+      <Label Text="Green"  HorizontalTextAlignment="Center" HorizontalOptions="FillAndExpand" Margin="5" />  
+      <BoxView Color="Green" VerticalOptions="FillAndExpand" />  
+    </StackLayout>  
+  </ContentPage>  
+  <ContentPage Title="Tab 3">  
+    <StackLayout>  
+      <Label x:Name="TestLabel" Text="Blue" HorizontalTextAlignment="Center" HorizontalOptions="FillAndExpand" Margin="5"  />  
+      <BoxView Color="Blue" VerticalOptions="FillAndExpand" />  
+    </StackLayout>  
+  </ContentPage>
+</TabbedPage>

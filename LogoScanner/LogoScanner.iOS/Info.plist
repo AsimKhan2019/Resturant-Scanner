@@ -31,7 +31,5 @@
 	<true/>
 	<key>UIRequiresFullScreen</key>
 	<true/>
-	<key>UIStatusBarStyle</key>
-	<string>UIStatusBarStyleLightContent</string>
 </dict>
 </plist>

@@ -366,3 +366,4 @@ LogoScanner/LogoScanner/credentials.txt
 
 .gitsecret/keys/random_seed
 !*.secret
+LogoScanner/LogoScanner.Android/Properties/AndroidManifest.xml

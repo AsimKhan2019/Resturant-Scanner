@@ -3,11 +3,11 @@
 using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using Android.OS;
 using Plugin.CurrentActivity;
 using Acr.UserDialogs;
+using ImageCircle.Forms.Plugin.Droid;
+using Sharpnado.Presentation.Forms.Droid;
 
 namespace LogoScanner.Droid
 {
@@ -24,7 +24,10 @@ namespace LogoScanner.Droid
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             global::Xamarin.Forms.FormsMaterial.Init(this, savedInstanceState);
+            global::Xamarin.FormsMaps.Init(this, savedInstanceState);
 
+            ImageCircleRenderer.Init();
+            SharpnadoInitializer.Initialize();
             UserDialogs.Init(this);
 
             CrossCurrentActivity.Current.Init(this, savedInstanceState);

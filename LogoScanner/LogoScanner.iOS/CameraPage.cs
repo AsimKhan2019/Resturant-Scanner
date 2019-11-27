@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using AVFoundation;
 using CoreGraphics;
 using Foundation;
@@ -214,7 +215,8 @@ namespace LogoScanner.iOS
 
         public async void SendPhoto(byte[] image)
         {
-            var navigationPage = new NavigationPage(new RestaurantPage());
+            var results = await CustomVisionService.PredictImageContentsAsync(image, (new CancellationTokenSource()).Token);
+            var navigationPage = new NavigationPage(new Summary(results.ToString()));
 
             await App.Current.MainPage.Navigation.PushModalAsync(navigationPage, false);
         }

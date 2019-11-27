@@ -1,18 +1,14 @@
 ﻿using System;
-using System.IO;
-using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Graphics;
 using Android.Hardware;
-using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
-using static Android.Provider.CalendarContract;
-using CustomVision;
+using System.Threading;
+using System.IO;
 
 [assembly: ExportRenderer(typeof(LogoScanner.MainPage), typeof(LogoScanner.Droid.CameraPage))]
 namespace LogoScanner.Droid
@@ -44,7 +40,7 @@ namespace LogoScanner.Droid
         bool flashOn;
 
         byte[] imageBytes;
-        readonly ImageClassifier imageClassifier = new ImageClassifier();
+        //readonly ImageClassifier imageClassifier = new ImageClassifier();
 
         protected override async void OnElementChanged(ElementChangedEventArgs<Page> e)
         {
@@ -217,8 +213,9 @@ namespace LogoScanner.Droid
                 image.Recycle();
                 imageBytes = imageStream.ToArray();
             }
-            var result = await Task.Run(() => imageClassifier.RecognizeImage(image));
-            var navigationPage = new NavigationPage(new RestaurantPage(result));
+
+            var results = await CustomVisionService.PredictImageContentsAsync(imageBytes, (new CancellationTokenSource()).Token);
+            var navigationPage = new NavigationPage(new RestaurantPage(results.ToString()));
 
             DialogService.HideLoading();
             camera.StartPreview();

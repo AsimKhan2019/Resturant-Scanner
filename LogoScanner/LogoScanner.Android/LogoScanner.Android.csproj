@@ -65,12 +65,10 @@
   <ItemGroup>
     <Compile Include="CameraPage.cs" />
     <Compile Include="MainActivity.cs" />
-    <Compile Include="Classifier.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\model.pb" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />
@@ -122,9 +120,6 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\CameraRectangle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\labels.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

@@ -1,20 +1,14 @@
 ﻿using System;
-using System.IO;
-using Android;
 using Android.App;
 using Android.Content;
-using Android.Content.PM;
 using Android.Graphics;
 using Android.Hardware;
-using Android.Support.V4.App;
 using Android.Views;
 using Android.Widget;
-using Plugin.Permissions;
-using Plugin.Permissions.Abstractions;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
-using static Android.Provider.CalendarContract;
-using Permission = Plugin.Permissions.Abstractions.Permission;
+using System.Threading;
+using System.IO;
 
 [assembly: ExportRenderer(typeof(LogoScanner.MainPage), typeof(LogoScanner.Droid.CameraPage))]
 namespace LogoScanner.Droid
@@ -31,10 +25,10 @@ namespace LogoScanner.Droid
 
         }
 
-        [Obsolete]
         global::Android.Hardware.Camera camera;
         global::Android.Widget.Button takePhotoButton;
         global::Android.Widget.Button toggleFlashButton;
+        global::Android.Widget.Button switchCameraButton;
         global::Android.Widget.Button cameraRectangle;
 
         Activity activity;
@@ -46,6 +40,7 @@ namespace LogoScanner.Droid
         bool flashOn;
 
         byte[] imageBytes;
+        //readonly ImageClassifier imageClassifier = new ImageClassifier();
 
         protected override async void OnElementChanged(ElementChangedEventArgs<Page> e)
         {
@@ -67,6 +62,9 @@ namespace LogoScanner.Droid
                 takePhotoButton = view.FindViewById<global::Android.Widget.Button>(Resource.Id.takePhotoButton);
                 takePhotoButton.Click += TakePhotoButtonTapped;
 
+                //switchCameraButton = view.FindViewById<global::Android.Widget.Button>(Resource.Id.switchCameraButton);
+                //switchCameraButton.Click += SwitchCameraButtonTapped;
+
                 cameraRectangle = view.FindViewById<global::Android.Widget.Button>(Resource.Id.cameraRectangle);
                 cameraRectangle.Click += focusOnTouch;
 
@@ -77,7 +75,7 @@ namespace LogoScanner.Droid
             }
             catch (Exception ex)
             {
-                await App.Current.MainPage.DisplayAlert("Error", "Camera Permission Not Granted", "OK");
+                await App.Current.MainPage.DisplayAlert("Error", ex.ToString(), "OK");
             }
         }
 
@@ -92,40 +90,14 @@ namespace LogoScanner.Droid
             view.Layout(0, 0, r - l, b - t);
         }
 
-        public async void OnSurfaceTextureAvailable(SurfaceTexture surface, int width, int height)
+        public void OnSurfaceTextureAvailable(SurfaceTexture surface, int width, int height)
         {
+            camera = global::Android.Hardware.Camera.Open((int)cameraType);
+            textureView.LayoutParameters = new FrameLayout.LayoutParams(width, height);
+            surfaceTexture = surface;
 
-            try
-            {
-                var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Camera);
-                if (status != PermissionStatus.Granted)
-                {
-                    if (await CrossPermissions.Current.ShouldShowRequestPermissionRationaleAsync(Permission.Camera))
-                    {
-                        await App.Current.MainPage.DisplayAlert("Camera Permission", "Allow us to access your camera", "OK");
-                    }
-                    var results = await CrossPermissions.Current.RequestPermissionsAsync(new[] { Permission.Camera });
-                    status = results[Permission.Camera];
-                }
-
-                if (status == PermissionStatus.Granted)
-                {
-                    camera = global::Android.Hardware.Camera.Open((int)cameraType);
-                    textureView.LayoutParameters = new FrameLayout.LayoutParams(width, height);
-                    surfaceTexture = surface;
-                    camera.SetPreviewTexture(surface);
-                    PrepareAndStartCamera();
-                }
-                else if (status != PermissionStatus.Unknown)
-                {
-                    await App.Current.MainPage.DisplayAlert("Permission unknown", "Please allow your camera", "OK");
-                }
-            }
-            catch (Exception ex)
-            {
-
-                await App.Current.MainPage.DisplayAlert("Runtime error", "Please reopen the app", "OK");
-            }
+            camera.SetPreviewTexture(surface);
+            PrepareAndStartCamera();
         }
 
         public bool OnSurfaceTextureDestroyed(SurfaceTexture surface)
@@ -162,6 +134,30 @@ namespace LogoScanner.Droid
             }
 
             camera.StartPreview();
+        }
+
+        private void SwitchCameraButtonTapped(object sender, EventArgs e)
+        {
+            if (cameraType == CameraFacing.Front)
+            {
+                cameraType = CameraFacing.Back;
+
+                camera.StopPreview();
+                camera.Release();
+                camera = global::Android.Hardware.Camera.Open((int)cameraType);
+                camera.SetPreviewTexture(surfaceTexture);
+                PrepareAndStartCamera();
+            }
+            else
+            {
+                cameraType = CameraFacing.Front;
+
+                camera.StopPreview();
+                camera.Release();
+                camera = global::Android.Hardware.Camera.Open((int)cameraType);
+                camera.SetPreviewTexture(surfaceTexture);
+                PrepareAndStartCamera();
+            }
         }
 
         private void ToggleFlashButtonTapped(object sender, EventArgs e)
@@ -218,7 +214,8 @@ namespace LogoScanner.Droid
                 imageBytes = imageStream.ToArray();
             }
 
-            var navigationPage = new NavigationPage(new RestaurantPage());
+            var results = await CustomVisionService.PredictImageContentsAsync(imageBytes, (new CancellationTokenSource()).Token);
+            var navigationPage = new NavigationPage(new RestaurantPage(results.ToString()));
 
             DialogService.HideLoading();
             camera.StartPreview();

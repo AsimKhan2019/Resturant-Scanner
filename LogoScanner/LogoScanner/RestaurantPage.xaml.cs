@@ -7,6 +7,11 @@ using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Xamarin.Forms.Xaml;
 
+
+//Additional API Calls Required
+//Promotions - GetPromotions API Call
+//Get Availability for Date Range
+
 namespace LogoScanner
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
@@ -50,9 +55,29 @@ namespace LogoScanner
 
             var request = await Requests.ConnectToResDiary(); // connect to resdiary api
 
+            while (request.message.Equals("Unable to Connect to Internet"))
+            {
+                await DisplayAlert("Error", request.message, "OK"); // displays an error message to the user
+
+                if (request.message == "Unable to Connect to Internet")
+                {
+                    request = await Requests.ConnectToResDiary();
+                }
+            }
+
             if (request.status.Equals("Success")) // if connection to api is successful
             {
-                GetRestaurantData("https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/CairncrossCafe/Summary?numberOfReviews=5", request.message);
+                String micrositename = "CairncrossCafe";
+                String startDate = "2019-11-19T10:53:39";
+                String endDate = "2019-11-18T10:53:39";
+                String channelCodes = "ONLINE";
+                String noofrev = "5";
+                GetRestaurantData("https://api.rdbranch.com/api/ConsumerApi/v1/MicrositeSummaryDetails?micrositeNames="+ micrositename +
+                                    "&startDate="+ startDate +
+                                    "&endDate=" + endDate + 
+                                    "&channelCodes=" + channelCodes + 
+                                    "&numberOfReviews=" + noofrev, request.message);
+               
             }
             else
             {
@@ -72,6 +97,10 @@ namespace LogoScanner
             {
                 //Get the Results from the API Call
                 var contents = await response.Content.ReadAsStringAsync();
+
+                contents = contents.TrimStart('[');
+                contents = contents.TrimEnd(']');
+
                 JObject result = JObject.Parse(contents);
 
                 int stars = (int) Math.Round(Double.Parse(result["AverageReviewScore"].ToString()), 0, MidpointRounding.AwayFromZero);

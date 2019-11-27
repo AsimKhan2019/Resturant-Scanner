@@ -27,14 +27,14 @@
     <Compile Remove="RestaurantPageTab.xaml.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Xamarin.iOS">
-      <HintPath>..\..\..\..\..\..\Library\Frameworks\Xamarin.iOS.framework\Versions\13.6.0.12\lib\mono\Xamarin.iOS\Xamarin.iOS.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <None Remove="credentials.txt" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="credentials.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Xamarin.iOS">
+      <HintPath>..\..\..\..\..\..\Library\Frameworks\Xamarin.iOS.framework\Versions\13.6.0.12\lib\mono\Xamarin.iOS\Xamarin.iOS.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>

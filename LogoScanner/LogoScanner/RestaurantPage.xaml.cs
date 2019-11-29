@@ -88,7 +88,10 @@ namespace LogoScanner
             Logo.Source = GetRestaurantField(result, "LogoUrl");
             NameLabel.Text = GetRestaurantField(result, "Name");
             CuisinesLabel.Text = GetRestaurantField(result, "CuisineTypes");
-            PriceLabel.Text = GetRestaurantField(result, "PricePoint", "£", Int32.Parse(result["PricePoint"].ToString()));
+
+            int price = 0;
+            if (result["PricePoint"].Type != JTokenType.Null) price = Int32.Parse(result["PricePoint"].ToString());
+            PriceLabel.Text = GetRestaurantField(result, "PricePoint", "£", price);
 
             int stars = (int) Math.Round(Double.Parse(result["AverageReviewScore"].ToString()), 0, MidpointRounding.AwayFromZero);
             StarLabel.Text = GetRestaurantField(result, "AverageReviewScore", "★", stars);
@@ -120,7 +123,7 @@ namespace LogoScanner
         // method to get field from json object
         private string GetRestaurantField(JObject json, string field)
         {
-            if (json[field] == null || string.IsNullOrEmpty(json[field].ToString()))
+            if (json[field].Type == JTokenType.Null || string.IsNullOrEmpty(json[field].ToString()))
                 return "No Set " + field;
             else
             {
@@ -146,7 +149,7 @@ namespace LogoScanner
         // method to get field from json object and produce a string with symbols which are repeated i number of times
         private string GetRestaurantField(JObject json, string field, string symbol, int i)
         {
-            if (json[field] == null || string.IsNullOrEmpty(json[field].ToString()))
+            if (json[field].Type == JTokenType.Null || string.IsNullOrEmpty(json[field].ToString()))
                 return "No Set " + field;
             else
                 return String.Concat(Enumerable.Repeat(symbol, i));

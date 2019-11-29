@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using Newtonsoft.Json.Linq;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 using Xamarin.Forms.Maps;
 using Xamarin.Forms.Xaml;
 
@@ -23,6 +25,7 @@ namespace LogoScanner
         {
             InitializeComponent();
             this.micrositename = micrositename;
+
             this.CurrentPageChanged += (object sender, EventArgs e) =>
             {
                 var tab = this.Children.IndexOf(this.CurrentPage);
@@ -81,14 +84,15 @@ namespace LogoScanner
         {
             JObject result = await Requests.APICallGet(url, token);
 
-            int stars = (int)Math.Round(Double.Parse(result["AverageReviewScore"].ToString()), 0, MidpointRounding.AwayFromZero);
-
             //Parse the API Call and split the JSon object into the various variables.
-            NameLabel.Text = GetRestaurantField(result, "Name");
             Logo.Source = GetRestaurantField(result, "LogoUrl");
-            StarLabel.Text = GetRestaurantField(result, "AverageReviewScore", "★", stars);
+            NameLabel.Text = GetRestaurantField(result, "Name");
             CuisinesLabel.Text = GetRestaurantField(result, "CuisineTypes");
             PriceLabel.Text = GetRestaurantField(result, "PricePoint", "£", Int32.Parse(result["PricePoint"].ToString()));
+
+            int stars = (int) Math.Round(Double.Parse(result["AverageReviewScore"].ToString()), 0, MidpointRounding.AwayFromZero);
+            StarLabel.Text = GetRestaurantField(result, "AverageReviewScore", "★", stars);
+
 
             double latitude = Convert.ToDouble(result["Latitude"].ToString());
             double longitude = Convert.ToDouble(result["Longitude"].ToString());
@@ -119,7 +123,24 @@ namespace LogoScanner
             if (json[field] == null || string.IsNullOrEmpty(json[field].ToString()))
                 return "No Set " + field;
             else
-                return json[field].ToString();
+            {
+                if (json[field] is JArray)
+                {
+                    StringBuilder builder = new StringBuilder();
+                    JToken[] cuisines = json[field].ToArray();
+
+                    foreach (string cuisine in cuisines)
+                    {
+                        builder.Append(cuisine);
+                        if (cuisines.IndexOf(cuisine) != cuisines.Count() - 1) builder.Append(", ");
+                    }
+                    return builder.ToString();
+                }
+                else
+                {
+                    return json[field].ToString();
+                }
+            }
         }
 
         // method to get field from json object and produce a string with symbols which are repeated i number of times

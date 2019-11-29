@@ -1,9 +1,10 @@
-﻿using System.Net.Http;
+﻿using Newtonsoft.Json.Linq;
 using System.IO;
+using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
+using Xamarin.Essentials;
 
 namespace LogoScanner
 {
@@ -24,49 +25,88 @@ namespace LogoScanner
 
         public static async Task<Request> ConnectToResDiary()
         {
-            var assembly = Assembly.GetExecutingAssembly();
-            var credentialsFile = "LogoScanner.credentials.txt";
-            string[] line;
+            var connectivity = Connectivity.NetworkAccess;
 
-            using (Stream stream = assembly.GetManifestResourceStream(credentialsFile))
-            using (StreamReader reader = new StreamReader(stream))
+            if (connectivity == NetworkAccess.Internet)
             {
-                line = reader.ReadLine().Split('\t'); // opens credentials file, reads it and splits it via a tab
-            }
+                var assembly = Assembly.GetExecutingAssembly();
+                var credentialsFile = "LogoScanner.credentials.txt";
+                string[] line;
 
-            string credentials = @"{""Username"" : """ + line[0] + @""", ""Password"" : """ + line[1] + @"""}"; // parse in username/password to json
-
-            try
-            {
-                var content = new StringContent(credentials, Encoding.UTF8, "application/json");
-                var client = new HttpClient();
-                var response = await client.PostAsync("https://api.rdbranch.com/api/Jwt/v2/Authenticate", content); // get response from the api
-
-                if (response.IsSuccessStatusCode) // if call to api is successful 
+                using (Stream stream = assembly.GetManifestResourceStream(credentialsFile))
+                using (StreamReader reader = new StreamReader(stream))
                 {
-                    var result = await response.Content.ReadAsStringAsync();
+                    line = reader.ReadLine().Split('\t'); // opens credentials file, reads it and splits it via a tab
+                }
 
-                    string status = JObject.Parse(result)["Status"].ToString(); // parse the json to string format
-                    string token = JObject.Parse(result)["Token"].ToString();
+                string credentials = @"{""Username"" : """ + line[0] + @""", ""Password"" : """ + line[1] + @"""}"; // parse in username/password to json
 
-                    if (status.Equals("Fail") || token == null)
+                try
+                {
+                    var content = new StringContent(credentials, Encoding.UTF8, "application/json");
+                    var client = new HttpClient();
+
+                    var response = await client.PostAsync("https://api.rdbranch.com/api/Jwt/v2/Authenticate", content); // get response from the api
+
+                    if (response.IsSuccessStatusCode) // if call to api is successful
                     {
-                        return new Request(status, "Invalid credentials");
+                        var result = await response.Content.ReadAsStringAsync();
+
+                        string status = JObject.Parse(result)["Status"].ToString(); // parse the json to string format
+                        string token = JObject.Parse(result)["Token"].ToString();
+
+                        if (status.Equals("Fail") || token == null)
+                        {
+                            return new Request(status, "Invalid credentials");
+                        }
+                        else
+                        {
+                            return new Request(status, token); // return a successful request with api token
+                        }
                     }
                     else
                     {
-                        return new Request(status, token); // return a successful request with api token
+                        return new Request("Fail", "Unable to connect to ReSDiary API");
                     }
                 }
-                else
+                catch (HttpRequestException ex) // handles request exception
                 {
-                    return new Request("Fail", "Unable to connect to RESDiary API");
+                    return new Request("Fail", ex.Message);
                 }
             }
-            catch (HttpRequestException ex) // handles request exception
+            else
             {
-                return new Request("Fail", ex.Message);
+                return new Request("Fail", "Unable to Connect to Internet");
             }
+        }
+
+        public static async Task<JObject> APICallGet(string url, string token)
+        {
+            HttpClient client = new HttpClient();
+            HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Get, url);
+            requestMessage.Headers.Add("Authorization", "Bearer " + token);
+
+            HttpResponseMessage response = await client.SendAsync(requestMessage);
+            JObject result;
+            if (response.IsSuccessStatusCode)
+            {
+                //Get the Results from the API Call
+                var contents = await response.Content.ReadAsStringAsync();
+
+                contents = contents.TrimStart('[');
+                contents = contents.TrimEnd(']');
+
+                result = JObject.Parse(contents);
+
+                return result;
+            }
+
+            return null;
+        }
+
+        public static async Task<JObject> APICallPut(string url, string token, JObject content)
+        {
+            return null;
         }
     }
 }

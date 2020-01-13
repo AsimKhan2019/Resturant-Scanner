@@ -3,5 +3,5 @@ before_script:
 
 build_image:
   script:
-    - docker build -t my-docker-image .
-    - docker run my-docker-image /script/to/run/tests
+    - docker build -t hello-world .
+    - docker run hello-world

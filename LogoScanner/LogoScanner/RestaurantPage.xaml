@@ -198,9 +198,10 @@
         <StackLayout>
             <Grid>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="8*" />
                     <RowDefinition Height="5*" />
-                    <RowDefinition Height="15*" />
-                    <RowDefinition Height="75*" />
+                    <RowDefinition Height="5*" />
+                    <RowDefinition Height="82*" />
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
@@ -216,21 +217,49 @@
                     Padding="15, 0"
                 />
 
-                <ListView
+                <Label
                     Grid.Row="2"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    Text="Reviews"
+                    Font="Bold, 16"
+                    TextColor="#11a0dc"
+                    Padding="15, 0"
+                    x:Name="OverallReviewsLabel"
+                />
+
+                <ListView
+                    Grid.Row="3"
                     ItemsSource="{Binding Reviews}"
                     x:Name="ReviewsView"
                     HasUnevenRows="True"
                     SelectionMode="None"
+                    Margin="15, 0"
+                    VerticalOptions="Fill"
+                    HorizontalOptions="Fill"
                 >
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <StackLayout>
-                                    <Label Text="{Binding Name}" />
-                                    <Label Text= "{Binding Review}" />
-                                    <Label Text= "{Binding Date}" />
-                                    <Label Text= "{Binding Score}" />
+                                <StackLayout Padding="0, 20">
+                                    <Label Text="{Binding Name}" Font="Bold, 16"/>
+
+                                    <Grid>
+                                        <Label
+                                            FontSize="12"
+                                            TextColor="#dfe4ea"
+                                            Text="★★★★★"
+                                        />
+                                        <Label
+                                            FontSize="12"
+                                            TextColor="#11a0dc"
+                                            Text="{Binding Score}"
+                                        />
+                                    </Grid>
+
+                                    <Label Text="{Binding ReviewDate}" FontSize="12"/>
+                                    <Label Text="{Binding Review}" />
+                                    <Label Text="{Binding VisitDate}" FontSize="12"/>
                                 </StackLayout>
                             </ViewCell>
                         </DataTemplate>

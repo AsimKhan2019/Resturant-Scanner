@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
@@ -149,18 +148,21 @@ namespace LogoScanner
                 promotions.Add(new Promotions { Name = "No Promotions Currently Available!" });
             }
 
+            // reviews section
             foreach (JToken review in result["Reviews"].ToArray())
             {
                 Reviews.Add(new Reviews
                 {
                     Name = review["ReviewedBy"].ToString(),
                     Review = review["Review"].ToString(),
-                    Score = review["AverageScore"].ToString(),
-                    Date = review["ReviewDateTime"].ToString()
+                    Score = GetRestaurantField((JObject) review, "AverageScore", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
+                    ReviewDate = review["ReviewDateTime"].ToString(),
+                    VisitDate = review["VisitDateTime"].ToString()
                 });
             }
-            ReviewsView.HeightRequest = reviews.Count;
             ReviewsView.ItemsSource = reviews;
+
+            OverallReviewsLabel.Text = GetRestaurantField(result, "AverageReviewScore") + "★  |  " + GetRestaurantField(result, "NumberOfReviews") + " reviews";
 
             double latitude = Convert.ToDouble(result["Latitude"].ToString());
             double longitude = Convert.ToDouble(result["Longitude"].ToString());

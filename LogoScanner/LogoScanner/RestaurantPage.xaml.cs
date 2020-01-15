@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
@@ -113,10 +114,6 @@ namespace LogoScanner
             int stars = (int)Math.Round(Double.Parse(result["AverageReviewScore"].ToString()), 0, MidpointRounding.AwayFromZero);
             StarLabel.Text = GetRestaurantField(result, "AverageReviewScore", "★", stars);
 
-            double latitude = Convert.ToDouble(result["Latitude"].ToString());
-            double longitude = Convert.ToDouble(result["Longitude"].ToString());
-            string name = result["Name"].ToString();
-
             string[] promotion_ids = GetPromotionIDs(result);
             PromotionsView.ItemsSource = promotions;
 
@@ -144,6 +141,20 @@ namespace LogoScanner
             {
                 promotions.Add(new Promotions { Name = "No Promotions Currently Available!" });
             }
+
+            JToken[] tokenReviews = result["Reviews"].ToArray();
+            List<string> reviews = new List<string>();
+
+            foreach (JToken review in tokenReviews)
+            {
+                reviews.Add(review["Review"].ToString());
+            }
+            ReviewsView.HeightRequest = reviews.Count;
+            ReviewsView.ItemsSource = reviews;
+
+            double latitude = Convert.ToDouble(result["Latitude"].ToString());
+            double longitude = Convert.ToDouble(result["Longitude"].ToString());
+            string name = result["Name"].ToString();
 
             var pin = new Pin()
             {

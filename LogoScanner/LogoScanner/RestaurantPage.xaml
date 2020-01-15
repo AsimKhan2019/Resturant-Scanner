@@ -220,16 +220,15 @@
                     Grid.Row="2"
                     ItemsSource="{Binding Reviews}"
                     x:Name="ReviewsView"
+                    HasUnevenRows="True"
+                    SelectionMode="None"
                 >
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <StackLayout>
-                                    <Label Text="This is" />
-                                    <Label Text= "a" />
-                                    <Label Text= "list" />
-                                    <Label Text= "view" />
-                                </StackLayout>
+                                <ViewCell.View>
+                                    <Label Text="{Binding .}" />
+                                </ViewCell.View>
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>

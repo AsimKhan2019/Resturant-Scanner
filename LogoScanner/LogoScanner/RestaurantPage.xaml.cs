@@ -106,7 +106,7 @@ namespace LogoScanner
             string name = result["Name"].ToString();
 
             string[] promotion_ids = GetPromotionIDs(result);
-            PromotionsView.ItemsSource = promotions;
+            //PromotionsView.ItemsSource = promotions;
 
 
             var test = new System.Collections.Generic.List<string>
@@ -114,7 +114,7 @@ namespace LogoScanner
                 "One", "Two", "Three", "Four", "Five"
             };
 
-            BookingsView.ItemsSource = test;
+            AvailabilityView.ItemsSource = test;
 
             if (promotion_ids.Length > 0)
             {

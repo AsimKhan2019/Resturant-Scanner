@@ -6,11 +6,12 @@
     xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
     xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
     xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView"
+    xmlns:proc="clr-namespace:PanCardView.Processors;assembly=PanCardView"
 
     xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
     android:TabbedPage.ToolbarPlacement="Bottom"
 
-    NavigationPage.HasNavigationBar="false"
+    NavigationPage.HasNavigationBar="False"
 
     x:Class="LogoScanner.RestaurantPage"
     Title="Logo Scanner"
@@ -29,8 +30,9 @@
                     <RowDefinition Height="2*" />
                     <RowDefinition Height="2*" />
                     <RowDefinition Height="3*" />
-                    <RowDefinition Height="25*" />
-                    <RowDefinition Height="25*" />
+                    <RowDefinition Height="3*" />
+                    <RowDefinition Height="3*" />
+                    <RowDefinition Height="42*" />
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
@@ -147,69 +149,51 @@
                     Padding="13, 0"
                 />
 
-                <cards:CarouselView
-                    x:Name="BookingsView"
-                    Grid.Row="6"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="3"
-
-                    ItemsSource="{Binding Items}"
-                    SelectedIndex="0">
-                    <cards:CarouselView.ItemTemplate>
-                        <DataTemplate>
-                            <ContentView>
-                                <Frame 
-                                    VerticalOptions="Center"
-                                    HorizontalOptions="Center"
-                                    HeightRequest="300"
-                                    WidthRequest="300"
-                                    Padding="0" 
-                                    HasShadow="False"
-                                    IsClippedToBounds="True"
-                                    CornerRadius="10"
-                                >
-                    
-                                    <Label Text="{Binding .}" FontSize="20"/>
-                    
-                                </Frame>
-                            </ContentView>
-                        </DataTemplate>
-                    </cards:CarouselView.ItemTemplate>
-                </cards:CarouselView>
-
                 <Label
                     Grid.Row="7"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
                     HorizontalOptions="Start"
                     VerticalOptions="Start"
-                    Text="Promotions"
-                    FontSize="16"
-                    Padding="15, 0" />
-                <Grid
-                    Grid.Row="7"
-                    Grid.Column="1">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
+                    Text="Availability"
+                    FontSize="20"
+                    Padding="15, 0"
+                />
 
-                    <ListView
-                        ItemsSource="{Binding Promotions}"
-                        x:Name="PromotionsView">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <ViewCell>
-                                    <StackLayout>
-                                        <Label Text="{Binding Name}" />
-                                        <Label Text= "{Binding Description}" />
-                                    </StackLayout>
-                                </ViewCell>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </Grid>
+                <cards:CoverFlowView
+                    x:Name="AvailabilityView"
+                    Grid.Row="8"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    PositionShiftValue="145"
+                    IsCyclical="False"
+                    SelectedIndex="0"
+                    ItemsSource="{Binding Availability}">
 
+                    <x:Arguments>
+                        <proc:BaseCoverFlowFrontViewProcessor ScaleFactor="0.6" OpacityFactor="0.25" />
+                        <proc:BaseCoverFlowBackViewProcessor  ScaleFactor="0.6" OpacityFactor="0.25" />
+                    </x:Arguments>
+
+                    <cards:CoverFlowView.ItemTemplate>
+                        <DataTemplate>
+                            <ContentView>
+                                <Frame 
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="Center"
+                                    HeightRequest="200"
+                                    WidthRequest="200"
+                                    Padding="5" 
+                                    HasShadow="False"
+                                    IsClippedToBounds="True"
+                                    CornerRadius="10"
+                                >
+                                    <Label Text="{Binding .}"/>
+                                </Frame>
+                            </ContentView>
+                        </DataTemplate>
+                    </cards:CoverFlowView.ItemTemplate>
+                </cards:CoverFlowView>
             </Grid>
         </StackLayout>
     </ContentPage>

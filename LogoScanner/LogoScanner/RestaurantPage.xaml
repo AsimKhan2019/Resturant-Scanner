@@ -20,7 +20,7 @@
     SelectedTabColor="#11a0dc"
     Visual="Material"
 >
-    <ContentPage x:Name="HomeTab" Title="Home" IconImageSource="HomeIconFilled.png">
+    <ContentPage x:Name="HomeTab" Title="Home" IconImageSource="HomeIconFilled.png" BackgroundColor="White">
         <StackLayout>
             <Grid>
                 <Grid.RowDefinitions>
@@ -137,16 +137,38 @@
                     Padding="15, 0"
                 />
 
-                <Label
-                    x:Name="StarLabel"
+                <Grid
                     Grid.Row="5"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
-                    HorizontalOptions="Start"
+                >
+                    <Label
+                        HorizontalOptions="Start"
+                        VerticalOptions="Center"
+                        FontSize="16"
+                        TextColor="#dfe4ea"
+                        Padding="13, 0"
+                        Text="★★★★★"
+                    />
+                    <Label
+                        x:Name="StarLabel"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Center"
+                        FontSize="16"
+                        TextColor="#11a0dc"
+                        Padding="13, 0"
+                    />
+                </Grid>
+
+                <BoxView
+                    Grid.Row="6"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    HorizontalOptions="Fill"
                     VerticalOptions="Center"
-                    FontSize="16"
-                    TextColor="#11a0dc"
-                    Padding="13, 0"
+                    HeightRequest="1"
+                    WidthRequest="1"
+                    BackgroundColor="#dfe4ea"
                 />
 
                 <Label
@@ -154,7 +176,7 @@
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
                     HorizontalOptions="Start"
-                    VerticalOptions="Start"
+                    VerticalOptions="End"
                     Text="Availability"
                     FontSize="20"
                     Padding="15, 0"
@@ -171,8 +193,8 @@
                     ItemsSource="{Binding Availability}">
 
                     <x:Arguments>
-                        <proc:BaseCoverFlowFrontViewProcessor ScaleFactor="0.6" OpacityFactor="0.25" />
-                        <proc:BaseCoverFlowBackViewProcessor  ScaleFactor="0.6" OpacityFactor="0.25" />
+                        <proc:BaseCoverFlowFrontViewProcessor ScaleFactor="0.75" OpacityFactor="0.25"/>
+                        <proc:BaseCoverFlowBackViewProcessor  ScaleFactor="0.75" OpacityFactor="0.25"/>
                     </x:Arguments>
 
                     <cards:CoverFlowView.ItemTemplate>
@@ -181,14 +203,19 @@
                                 <Frame 
                                     VerticalOptions="Center"
                                     HorizontalOptions="Center"
-                                    HeightRequest="200"
-                                    WidthRequest="200"
+                                    HeightRequest="225"
+                                    WidthRequest="225"
                                     Padding="5" 
                                     HasShadow="False"
                                     IsClippedToBounds="True"
                                     CornerRadius="10"
+                                    BackgroundColor="#dfe4ea"
                                 >
-                                    <Label Text="{Binding .}"/>
+                                    <Label
+                                        Text="{Binding .}"
+                                        VerticalOptions="Center"
+                                        HorizontalOptions="Center"
+                                    />
                                 </Frame>
                             </ContentView>
                         </DataTemplate>

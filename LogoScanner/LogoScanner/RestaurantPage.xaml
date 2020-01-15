@@ -70,8 +70,7 @@
                     BorderColor="White"
                     BorderThickness="4"
                     HorizontalOptions="Start"
-                    VerticalOptions="Center"
-                    Margin="15, 0">
+                    VerticalOptions="Center">
                     <controls:CircleImage.WidthRequest>
                         <OnPlatform x:TypeArguments="x:Double">
                             <On Platform="Android, iOS">120</On>
@@ -90,10 +89,9 @@
                     Grid.Column="2"
                     Margin="0,5,0,0"
                     HorizontalOptions="Center"
+                    Source="https://www.resdiary.com/Content/Images/powered-by-resdiary.png"
                     VerticalOptions="Start"
-                    WidthRequest="130"
-                    Margin="0, 5, 0, 0"
-                    Source="https://www.resdiary.com/Content/Images/powered-by-resdiary.png" />
+                    WidthRequest="130" />
 
                 <Label
                     x:Name="NameLabel"
@@ -103,9 +101,7 @@
                     Padding="13,40,0,0"
                     Font="Bold, 28"
                     HorizontalOptions="Start"
-                    Text="Restaurant"
-                    Font="Bold, 28"
-                    Padding="13, 40, 0, 0" />
+                    Text="Restaurant" />
 
                 <Label
                     x:Name="CuisinesLabel"
@@ -115,9 +111,7 @@
                     Padding="15,0"
                     FontSize="12"
                     HorizontalOptions="Start"
-                    Text="Cuisines"
-                    FontSize="12"
-                    Padding="15, 0" />
+                    Text="Cuisines" />
 
                 <Label
                     x:Name="PriceLabel"
@@ -125,8 +119,7 @@
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
                     Padding="15,0"
-                    FontSize="12"
-                    Padding="15, 0" />
+                    FontSize="12" />
 
                 <Label
                     x:Name="StarLabel"
@@ -136,8 +129,7 @@
                     Padding="12,0"
                     FontSize="16"
                     HorizontalOptions="Start"
-                    TextColor="#11a0dc"
-                    Padding="12, 0" />
+                    TextColor="#11a0dc" />
 
                 <Label
                     Grid.Row="6"
@@ -145,8 +137,7 @@
                     Grid.ColumnSpan="3"
                     FontSize="16"
                     HorizontalOptions="Start"
-                    Text="Bookings"
-                    FontSize="16" />
+                    Text="Bookings" />
 
                 <!--<renderedViews:HorizontalListView
                     Grid.Row="6"
@@ -173,28 +164,23 @@
                     Grid.Row="7"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
+                    Padding="15,0"
                     FontSize="16"
                     HorizontalOptions="Start"
-                    Text="Promotions"
-                    FontSize="16"
-                    Padding="15, 0" />
-                <Grid
-                    Grid.Row="7"
-                    Grid.Column="1">
+                    Text="Promotions" />
+                <Grid Grid.Row="7" Grid.Column="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <ListView
-                        ItemsSource="{Binding Promotions}"
-                        x:Name="PromotionsView">
+                    <ListView x:Name="PromotionsView" ItemsSource="{Binding Promotions}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
                                     <StackLayout>
                                         <Label Text="{Binding Name}" />
-                                        <Label Text= "{Binding Description}" />
+                                        <Label Text="{Binding Description}" />
                                     </StackLayout>
                                 </ViewCell>
                             </DataTemplate>
@@ -226,11 +212,12 @@
             <Label
                 FontSize="16"
                 HorizontalOptions="Start"
-                Text="Reviews"
-                FontSize="16" />
+                Text="Reviews" />
         </StackLayout>
     </ContentPage>
 
-    <ContentPage x:Name="ScanTab" Title="Scan" IconImageSource="ScanIcon.png">
-    </ContentPage>
+    <ContentPage
+        x:Name="ScanTab"
+        Title="Scan"
+        IconImageSource="ScanIcon.png" />
 </TabbedPage>

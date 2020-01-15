@@ -108,8 +108,9 @@ namespace LogoScanner
 
             // gets restaurant json object and sets the menu
             var menuUrl = "https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename;
-            JObject restaurant = await Requests.APICallGet(menuUrl, token);
-            setMenu(restaurant);
+            JArray restaurant = await Requests.APICallGet(menuUrl, token);
+            JObject menu = (JObject)restaurant.First;
+            setMenu(menu);
             
             int price = 0;
             if (result["PricePoint"].Type != JTokenType.Null) price = Int32.Parse(result["PricePoint"].ToString());

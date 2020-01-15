@@ -80,23 +80,26 @@ namespace LogoScanner
             }
         }
 
-        public static async Task<JObject> APICallGet(string url, string token)
+        public static async Task<JArray> APICallGet(string url, string token)
         {
             HttpClient client = new HttpClient();
             HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Get, url);
             requestMessage.Headers.Add("Authorization", "Bearer " + token);
 
             HttpResponseMessage response = await client.SendAsync(requestMessage);
-            JObject result;
+            JArray result;
             if (response.IsSuccessStatusCode)
             {
                 //Get the Results from the API Call
                 var contents = await response.Content.ReadAsStringAsync();
 
-                contents = contents.TrimStart('[');
-                contents = contents.TrimEnd(']');
+                if (contents[0] != '[')
+                {
+                    contents = contents.Insert(0, "[");
+                    contents += "]";
+                }
 
-                result = JObject.Parse(contents);
+                result = JArray.Parse(contents);
 
                 return result;
             }

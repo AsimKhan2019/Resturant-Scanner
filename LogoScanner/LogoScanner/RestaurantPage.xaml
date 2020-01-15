@@ -198,10 +198,10 @@
         <StackLayout>
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="8*" />
-                    <RowDefinition Height="5*" />
-                    <RowDefinition Height="5*" />
-                    <RowDefinition Height="82*" />
+                    <RowDefinition Height="6*" />
+                    <RowDefinition Height="4*" />
+                    <RowDefinition Height="3*" />
+                    <RowDefinition Height="87*" />
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
@@ -220,7 +220,7 @@
                 <Label
                     Grid.Row="2"
                     HorizontalOptions="Start"
-                    VerticalOptions="Center"
+                    VerticalOptions="End"
                     Text="Reviews"
                     Font="Bold, 16"
                     TextColor="#11a0dc"
@@ -257,9 +257,9 @@
                                         />
                                     </Grid>
 
-                                    <Label Text="{Binding ReviewDate}" FontSize="12"/>
+                                    <Label Text="{Binding ReviewDate,StringFormat='Reviewed: {0}'}" Font="Italic, 12"/>
                                     <Label Text="{Binding Review}" />
-                                    <Label Text="{Binding VisitDate}" FontSize="12"/>
+                                    <Label Text="{Binding VisitDate,StringFormat='Visited: {0}'}" Font="Italic, 12"/>
                                 </StackLayout>
                             </ViewCell>
                         </DataTemplate>

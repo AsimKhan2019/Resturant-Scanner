@@ -1,26 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <TabbedPage
+    x:Class="LogoScanner.RestaurantPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-
-    xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
-    xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
-    xmlns:renderedViews="clr-namespace:Sharpnado.Presentation.Forms.RenderedViews;assembly=Sharpnado.Presentation.Forms"
-
     xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
-    android:TabbedPage.ToolbarPlacement="Bottom"
-
-    NavigationPage.HasNavigationBar="false"
-
-    x:Class="LogoScanner.RestaurantPage"
+    xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
+    xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+    xmlns:renderedViews="clr-namespace:Sharpnado.Presentation.Forms.RenderedViews;assembly=Sharpnado.Presentation.Forms"
     Title="Logo Scanner"
+    android:TabbedPage.ToolbarPlacement="Bottom"
     BackgroundColor="White"
     BarBackgroundColor="White"
+    NavigationPage.HasNavigationBar="false"
     SelectedTabColor="#11a0dc"
-    Visual="Material"
->
-    <!--xmlns:views="clr-namespace:SillyCompany.Mobile.Practices.Presentation.Views;assembly=SillyCompany.Mobile.Practices"-->
-    <ContentPage x:Name="HomeTab" Title="Home" IconImageSource="HomeIconFilled.png">
+    Visual="Material">
+    <!--  xmlns:views="clr-namespace:SillyCompany.Mobile.Practices.Presentation.Views;assembly=SillyCompany.Mobile.Practices"  -->
+    <ContentPage
+        x:Name="HomeTab"
+        Title="Home"
+        IconImageSource="HomeIconFilled.png">
         <StackLayout>
             <Grid>
                 <Grid.RowDefinitions>
@@ -42,12 +40,11 @@
 
                 <maps:Map
                     x:Name="MapArea"
-                    MapType="Street"
                     Grid.Row="0"
-                    Grid.Column="0"
                     Grid.RowSpan="2"
+                    Grid.Column="0"
                     Grid.ColumnSpan="3"
-                >
+                    MapType="Street">
                     <x:Arguments>
                         <maps:MapSpan>
                             <x:Arguments>
@@ -66,18 +63,17 @@
 
                 <controls:CircleImage
                     x:Name="Logo"
-                    Source="https://via.placeholder.com/300"
+                    Grid.Row="1"
+                    Grid.RowSpan="2"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Margin="15,0"
                     Aspect="AspectFill"
                     BorderColor="White"
                     BorderThickness="4"
-                    Grid.Row="1"
-                    Grid.Column="0"
-                    Grid.RowSpan="2"
-                    Grid.ColumnSpan="2"
                     HorizontalOptions="Start"
-                    VerticalOptions="Center"
-                    Margin="15, 0"
-                >
+                    Source="https://via.placeholder.com/300"
+                    VerticalOptions="Center">
                     <controls:CircleImage.WidthRequest>
                         <OnPlatform x:TypeArguments="x:Double">
                             <On Platform="Android, iOS">120</On>
@@ -94,71 +90,65 @@
                     x:Name="ResDiary"
                     Grid.Row="2"
                     Grid.Column="2"
+                    Margin="0,5,0,0"
                     HorizontalOptions="Center"
-                    VerticalOptions="Start"
-                    WidthRequest="130"
-                    Margin="0, 5, 0, 0"
                     Source="https://www.resdiary.com/Content/Images/powered-by-resdiary.png"
-                />
+                    VerticalOptions="Start"
+                    WidthRequest="130" />
 
                 <Label
                     x:Name="NameLabel"
                     Grid.Row="2"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
-                    HorizontalOptions="Start"
-                    VerticalOptions="Center"
-                    Text="Restaurant"
+                    Padding="13,40,0,0"
                     Font="Bold, 28"
-                    Padding="13, 40, 0, 0"
-                />
+                    HorizontalOptions="Start"
+                    Text="Restaurant"
+                    VerticalOptions="Center" />
 
                 <Label
                     x:Name="CuisinesLabel"
                     Grid.Row="3"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
-                    HorizontalOptions="Start"
-                    VerticalOptions="Center"
-                    Text="Cuisines"
+                    Padding="15,0"
                     FontSize="12"
-                    Padding="15, 0"
-                />
+                    HorizontalOptions="Start"
+                    Text="Cuisines"
+                    VerticalOptions="Center" />
 
                 <Label
                     x:Name="PriceLabel"
                     Grid.Row="4"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
-                    HorizontalOptions="Start"
-                    VerticalOptions="Center"
+                    Padding="15,0"
                     FontSize="12"
-                    Padding="15, 0"
-                />
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center" />
 
                 <Label
                     x:Name="StarLabel"
                     Grid.Row="5"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
-                    HorizontalOptions="Start"
-                    VerticalOptions="Center"
+                    Padding="12,0"
                     FontSize="16"
+                    HorizontalOptions="Start"
                     TextColor="#11a0dc"
-                    Padding="12, 0"
-                />
+                    VerticalOptions="Center" />
 
                 <Label
                     Grid.Row="6"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
-                    HorizontalOptions="Start"
-                    VerticalOptions="Start"
-                    Text="Bookings"
                     FontSize="16"
-                />
+                    HorizontalOptions="Start"
+                    Text="Bookings"
+                    VerticalOptions="Start" />
 
-                <!--<renderedViews:HorizontalListView  
+                <!--<renderedViews:HorizontalListView
                     Grid.Row="6"
                     Margin="-16,8"
                     CollectionPadding="0,8"
@@ -184,38 +174,41 @@
                     Grid.Row="7"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
-                    HorizontalOptions="Start"
-                    VerticalOptions="Start"
-                    Text="Promotions"
                     FontSize="16"
-                />
+                    HorizontalOptions="Start"
+                    Text="Promotions"
+                    VerticalOptions="Start" />
             </Grid>
         </StackLayout>
     </ContentPage>
 
-    <ContentPage x:Name="MenuTab" Title="Menu" IconImageSource="MenuIcon.png">
-        <StackLayout>
-            <Label
-                HorizontalOptions="Start"
-                VerticalOptions="Start"
-                Text="Menu"
-                FontSize="16"
-            />
-        </StackLayout>
+    <ContentPage
+        x:Name="MenuTab"
+        Title="Menu"
+        IconImageSource="MenuIcon.png">
+        <ContentPage.Content>
+            <WebView
+                HorizontalOptions="FillAndExpand"
+                Source="http://www.orimi.com/pdf-test.pdf"
+                VerticalOptions="FillAndExpand" />
+        </ContentPage.Content>
     </ContentPage>
 
-    <ContentPage x:Name="ReviewsTab" Title="Reviews" IconImageSource="ReviewIcon.png">
+    <ContentPage
+        x:Name="ReviewsTab"
+        Title="Reviews"
+        IconImageSource="ReviewIcon.png">
         <StackLayout>
             <Label
+                FontSize="16"
                 HorizontalOptions="Start"
-                VerticalOptions="Start"
                 Text="Reviews"
-                FontSize="16"
-            />
+                VerticalOptions="Start" />
         </StackLayout>
     </ContentPage>
 
-    <ContentPage x:Name="ScanTab" Title="Scan" IconImageSource="ScanIcon.png">
-
-    </ContentPage>
+    <ContentPage
+        x:Name="ScanTab"
+        Title="Scan"
+        IconImageSource="ScanIcon.png" />
 </TabbedPage>

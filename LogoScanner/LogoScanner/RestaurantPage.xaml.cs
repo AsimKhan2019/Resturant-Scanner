@@ -33,7 +33,7 @@ namespace LogoScanner
                 MenuTab.IconImageSource = "MenuIcon.png";
                 ReviewsTab.IconImageSource = "ReviewIcon.png";
                 ScanTab.IconImageSource = "ScanIcon.png";
-
+                
                 switch (tab)
                 {
                     case 0:
@@ -87,6 +87,18 @@ namespace LogoScanner
             Logo.Source = GetRestaurantField(result, "LogoUrl");
             NameLabel.Text = GetRestaurantField(result, "Name");
             CuisinesLabel.Text = GetRestaurantField(result, "CuisineTypes");
+            
+            // checks device OS and loads pdf menu
+            var pdfUrl = "https://www.orimi.com/pdf-test.pdf";
+            var googleUrl = "http://drive.google.com/viewerng/viewer?embedded=true&url=";
+            if (Device.RuntimePlatform == Device.iOS)
+            {
+                Menu.Source = pdfUrl;
+            }
+            else if (Device.RuntimePlatform == Device.Android)
+            {
+                Menu.Source = new UrlWebViewSource() { Url = googleUrl + pdfUrl };
+            }
 
             int price = 0;
             if (result["PricePoint"].Type != JTokenType.Null) price = Int32.Parse(result["PricePoint"].ToString());

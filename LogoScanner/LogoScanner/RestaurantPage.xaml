@@ -186,12 +186,9 @@
         x:Name="MenuTab"
         Title="Menu"
         IconImageSource="MenuIcon.png">
-        <ContentPage.Content>
-            <WebView
-                HorizontalOptions="FillAndExpand"
-                Source="http://www.orimi.com/pdf-test.pdf"
-                VerticalOptions="FillAndExpand" />
-        </ContentPage.Content>
+        <StackLayout x:Name="MenuLayout" VerticalOptions="FillAndExpand">
+            <WebView x:Name="Menu" VerticalOptions="FillAndExpand" />
+        </StackLayout>
     </ContentPage>
 
     <ContentPage

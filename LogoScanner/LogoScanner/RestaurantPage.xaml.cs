@@ -82,24 +82,16 @@ namespace LogoScanner
         private async void GetRestaurantData(string url, string token)
         {
             JObject result = await Requests.APICallGet(url, token);
-
             //Parse the API Call and split the JSon object into the various variables.
             Logo.Source = GetRestaurantField(result, "LogoUrl");
             NameLabel.Text = GetRestaurantField(result, "Name");
             CuisinesLabel.Text = GetRestaurantField(result, "CuisineTypes");
-            
-            // checks device OS and loads pdf menu
-            var pdfUrl = "https://www.orimi.com/pdf-test.pdf";
-            var googleUrl = "http://drive.google.com/viewerng/viewer?embedded=true&url=";
-            if (Device.RuntimePlatform == Device.iOS)
-            {
-                Menu.Source = pdfUrl;
-            }
-            else if (Device.RuntimePlatform == Device.Android)
-            {
-                Menu.Source = new UrlWebViewSource() { Url = googleUrl + pdfUrl };
-            }
 
+            // gets restaurant json object and sets the menu
+            var menuUrl = "https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename;
+            JObject restaurant = await Requests.APICallGet(menuUrl, token);
+            setMenu(restaurant);
+            
             int price = 0;
             if (result["PricePoint"].Type != JTokenType.Null) price = Int32.Parse(result["PricePoint"].ToString());
             PriceLabel.Text = GetRestaurantField(result, "PricePoint", "£", price);
@@ -130,7 +122,28 @@ namespace LogoScanner
                 );
             };
         }
-
+        //method to get menu for restaurant
+        private void setMenu(JObject json)
+        {
+            if (json["Menus"].Type == JTokenType.Null || string.IsNullOrEmpty(json["Menus"].ToString()) || !json["Menus"].Any())
+            {
+                Menu.Source = "";
+                MenuLabel.Text = "No Menus Currently Available.";
+            }
+            else
+            {
+                var pdfUrl = json["Menus"][0]["StorageUrl"].ToString();
+                var googleUrl = "http://drive.google.com/viewerng/viewer?embedded=true&url=";
+                if (Device.RuntimePlatform == Device.iOS)
+                {
+                    Menu.Source = pdfUrl;
+                }
+                else if (Device.RuntimePlatform == Device.Android)
+                {
+                    Menu.Source = new UrlWebViewSource() { Url = googleUrl + pdfUrl };
+                }
+            }
+        }
         // method to get field from json object
         private string GetRestaurantField(JObject json, string field)
         {

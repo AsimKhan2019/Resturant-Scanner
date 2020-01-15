@@ -187,6 +187,10 @@
         Title="Menu"
         IconImageSource="MenuIcon.png">
         <StackLayout x:Name="MenuLayout" VerticalOptions="FillAndExpand">
+            <Label
+                x:Name="MenuLabel"
+                HorizontalOptions="Center"
+                VerticalOptions="Center" />
             <WebView x:Name="Menu" VerticalOptions="FillAndExpand" />
         </StackLayout>
     </ContentPage>

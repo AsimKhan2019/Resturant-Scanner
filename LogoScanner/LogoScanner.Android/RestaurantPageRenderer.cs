@@ -59,4 +59,3 @@ namespace LogoScanner.Droid
         }
     }
 }
-

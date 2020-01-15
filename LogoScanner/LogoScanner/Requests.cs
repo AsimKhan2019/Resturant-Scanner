@@ -104,7 +104,7 @@ namespace LogoScanner
             return null;
         }
 
-        public static async Task<JObject> APICallPut(string url, string token, JObject content)
+        public static Task<JObject> APICallPut(string url, string token, JObject content)
         {
             return null;
         }

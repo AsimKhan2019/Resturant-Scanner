@@ -71,7 +71,18 @@ namespace LogoScanner
 
             if (request.status.Equals("Success")) // if connection to api is successful
             {
-                GetRestaurantData("https://api.rdbranch.com/api/ConsumerApi/v1/MicrositeSummaryDetails?micrositeNames=" + this.micrositename + "&startDate=2019-11-19T10:53:39&endDate=2019-11-18T10:53:39&channelCodes=ONLINE&numberOfReviews=5", request.message);
+                try
+                {
+                    JObject hasSummary = await Requests.APICallGet("https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename + "/HasMicrositeSummary", request.message);
+                    if (hasSummary["Result"] != null)
+                    {
+                        GetRestaurantData("https://api.rdbranch.com/api/ConsumerApi/v1/MicrositeSummaryDetails?micrositeNames=" + this.micrositename + "&startDate=2019-11-19T10:53:39&endDate=2019-11-18T10:53:39&channelCodes=ONLINE&numberOfReviews=5", request.message);
+                    }
+                }
+                catch (NullReferenceException e)
+                {
+                    await DisplayAlert("Error", "Provider" + this.micrositename + " was not found.", "OK"); // Displays an error message to the user
+                }
             }
             else
             {
@@ -118,7 +129,7 @@ namespace LogoScanner
                 );
             };
         }
-
+     
         // method to get field from json object
         private string GetRestaurantField(JObject json, string field)
         {

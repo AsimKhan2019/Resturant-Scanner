@@ -30,7 +30,6 @@ namespace LogoScanner.iOS
             global::Xamarin.FormsMaps.Init();
 
             ImageCircleRenderer.Init();
-            SharpnadoInitializer.Initialize();
 
             LoadApplication(new App());
 

@@ -28,7 +28,6 @@ namespace LogoScanner.Droid
             global::Xamarin.FormsMaps.Init(this, savedInstanceState);
 
             ImageCircleRenderer.Init();
-            SharpnadoInitializer.Initialize();
             UserDialogs.Init(this);
 
             CrossCurrentActivity.Current.Init(this, savedInstanceState);

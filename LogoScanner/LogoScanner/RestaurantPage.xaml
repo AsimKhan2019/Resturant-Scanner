@@ -5,7 +5,6 @@
 
     xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
     xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
-    xmlns:renderedViews="clr-namespace:Sharpnado.Presentation.Forms.RenderedViews;assembly=Sharpnado.Presentation.Forms"
 
     xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
     android:TabbedPage.ToolbarPlacement="Bottom"
@@ -19,7 +18,6 @@
     SelectedTabColor="#11a0dc"
     Visual="Material"
 >
-    <!--xmlns:views="clr-namespace:SillyCompany.Mobile.Practices.Presentation.Views;assembly=SillyCompany.Mobile.Practices"-->
     <ContentPage x:Name="HomeTab" Title="Home" IconImageSource="HomeIconFilled.png">
         <StackLayout>
             <Grid>
@@ -46,7 +44,8 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     Grid.RowSpan="2"
-                    Grid.ColumnSpan="3">
+                    Grid.ColumnSpan="3"
+                >
                     <x:Arguments>
                         <maps:MapSpan>
                             <x:Arguments>
@@ -75,7 +74,8 @@
                     Grid.ColumnSpan="2"
                     HorizontalOptions="Start"
                     VerticalOptions="Center"
-                    Margin="15, 0">
+                    Margin="10, 0"
+                >
                     <controls:CircleImage.WidthRequest>
                         <OnPlatform x:TypeArguments="x:Double">
                             <On Platform="Android, iOS">120</On>
@@ -96,7 +96,8 @@
                     VerticalOptions="Start"
                     WidthRequest="130"
                     Margin="0, 5, 0, 0"
-                    Source="https://www.resdiary.com/Content/Images/powered-by-resdiary.png" />
+                    Source="https://www.resdiary.com/Content/Images/powered-by-resdiary.png"
+                />
 
                 <Label
                     x:Name="NameLabel"
@@ -107,7 +108,8 @@
                     VerticalOptions="Center"
                     Text="Restaurant"
                     Font="Bold, 28"
-                    Padding="13, 40, 0, 0" />
+                    Padding="13, 40, 0, 0"
+                />
 
                 <Label
                     x:Name="CuisinesLabel"
@@ -118,7 +120,8 @@
                     VerticalOptions="Center"
                     Text="Cuisines"
                     FontSize="12"
-                    Padding="15, 0" />
+                    Padding="15, 0"
+                />
 
                 <Label
                     x:Name="PriceLabel"
@@ -128,7 +131,8 @@
                     HorizontalOptions="Start"
                     VerticalOptions="Center"
                     FontSize="12"
-                    Padding="15, 0" />
+                    Padding="15, 0"
+                />
 
                 <Label
                     x:Name="StarLabel"
@@ -139,37 +143,57 @@
                     VerticalOptions="Center"
                     FontSize="16"
                     TextColor="#11a0dc"
-                    Padding="12, 0" />
+                    Padding="13, 0"
+                />
 
-                <Label
+                <!--<Label
                     Grid.Row="6"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
                     HorizontalOptions="Start"
                     VerticalOptions="Start"
                     Text="Bookings"
-                    FontSize="16" />
+                    FontSize="16"
+                />-->
 
-                <!--<renderedViews:HorizontalListView
+                <CarouselView
+                    x:Name="BookingsView"
                     Grid.Row="6"
-                    Margin="-16,8"
-                    CollectionPadding="0,8"
-                    ItemSpacing="8"
-                    ItemHeight="144"
-                    ItemWidth="144"
-                    ItemsSource="{Binding SillyPeopleLoader.Result}"
-                    SnapStyle="Center">
-                    <renderedViews:HorizontalListView.ItemTemplate>
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                >
+                    <CarouselView.ItemTemplate>
                         <DataTemplate>
-                            <ViewCell>
-                                <views:SillySquareCell
-                                    effects:TapCommandEffect.Tap="{Binding OnItemTappedCommand}"
-                                    effects:TapCommandEffect.TapParameter="{Binding .}"
-                                    effects:ViewEffect.TouchFeedbackColor="{StaticResource Accent}" />
-                            </ViewCell>
+                            <!--<Frame
+                                HasShadow="True"
+                                BorderColor="DarkGray"
+                                CornerRadius="3"
+                                HorizontalOptions="FillAndExpand"
+                                VerticalOptions="FillAndExpand"
+                            >
+                                <Label Text="{Binding .}" FontSize="20"/>
+                            </Frame>-->
+
+                            <StackLayout
+                                Orientation="Horizontal"
+                                HorizontalOptions="CenterAndExpand"
+                                VerticalOptions="CenterAndExpand"
+                            >
+                                <Frame HasShadow="False" CornerRadius="10" HeightRequest="50" Grid.Column="0">
+                                    <Label Text="fionefne"/>
+                                </Frame>
+
+                                <Frame HasShadow="False" CornerRadius="10" Grid.Column="1">
+                                    <Label Text="ekldnwknd"/>
+                                </Frame>
+
+                                <Frame HasShadow="False" CornerRadius="10" Grid.Column="2">
+                                    <Label Text="apsmalsm"/>
+                                </Frame>
+                            </StackLayout>
                         </DataTemplate>
-                    </renderedViews:HorizontalListView.ItemTemplate>
-                </renderedViews:HorizontalListView>-->
+                    </CarouselView.ItemTemplate>
+                </CarouselView>
 
                 <Label
                     Grid.Row="7"
@@ -203,6 +227,7 @@
                         </ListView.ItemTemplate>
                     </ListView>
                 </Grid>
+
             </Grid>
         </StackLayout>
     </ContentPage>
@@ -213,7 +238,8 @@
                 HorizontalOptions="Start"
                 VerticalOptions="Start"
                 Text="Menu"
-                FontSize="16" />
+                FontSize="16"
+            />
         </StackLayout>
     </ContentPage>
 
@@ -223,10 +249,12 @@
                 HorizontalOptions="Start"
                 VerticalOptions="Start"
                 Text="Reviews"
-                FontSize="16" />
+                FontSize="16"
+            />
         </StackLayout>
     </ContentPage>
 
     <ContentPage x:Name="ScanTab" Title="Scan" IconImageSource="ScanIcon.png">
+
     </ContentPage>
 </TabbedPage>

@@ -108,6 +108,14 @@ namespace LogoScanner
             string[] promotion_ids = GetPromotionIDs(result);
             PromotionsView.ItemsSource = promotions;
 
+
+            var test = new System.Collections.Generic.List<string>
+            {
+                "One", "Two", "Three", "Four", "Five"
+            };
+
+            BookingsView.ItemsSource = test;
+
             if (promotion_ids.Length > 0)
             {
                 string promotions_url = "https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename + "/Promotion?";

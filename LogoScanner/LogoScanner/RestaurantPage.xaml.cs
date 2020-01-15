@@ -19,7 +19,10 @@ namespace LogoScanner
     public partial class RestaurantPage : TabbedPage
     {
         private ObservableCollection<Promotions> promotions = new ObservableCollection<Promotions>();
-        public ObservableCollection<Promotions> Employees { get { return promotions; } }
+        public ObservableCollection<Promotions> Promotions { get { return promotions; } }
+
+        private ObservableCollection<Reviews> reviews = new ObservableCollection<Reviews>();
+        public ObservableCollection<Reviews> Reviews { get { return reviews; } }
 
         private string micrositename;
 
@@ -134,7 +137,11 @@ namespace LogoScanner
 
                 foreach (JToken pr in array_promotions)
                 {
-                    promotions.Add(new Promotions { Name = pr["Name"].ToString(), Description = pr["Description"].ToString() });
+                    promotions.Add(new Promotions
+                    {
+                        Name = pr["Name"].ToString(),
+                        Description = pr["Description"].ToString()
+                    });
                 }
             }
             else
@@ -142,12 +149,15 @@ namespace LogoScanner
                 promotions.Add(new Promotions { Name = "No Promotions Currently Available!" });
             }
 
-            JToken[] tokenReviews = result["Reviews"].ToArray();
-            List<string> reviews = new List<string>();
-
-            foreach (JToken review in tokenReviews)
+            foreach (JToken review in result["Reviews"].ToArray())
             {
-                reviews.Add(review["Review"].ToString());
+                Reviews.Add(new Reviews
+                {
+                    Name = review["ReviewedBy"].ToString(),
+                    Review = review["Review"].ToString(),
+                    Score = review["AverageScore"].ToString(),
+                    Date = review["ReviewDateTime"].ToString()
+                });
             }
             ReviewsView.HeightRequest = reviews.Count;
             ReviewsView.ItemsSource = reviews;

@@ -226,9 +226,12 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <ViewCell.View>
-                                    <Label Text="{Binding .}" />
-                                </ViewCell.View>
+                                <StackLayout>
+                                    <Label Text="{Binding Name}" />
+                                    <Label Text= "{Binding Review}" />
+                                    <Label Text= "{Binding Date}" />
+                                    <Label Text= "{Binding Score}" />
+                                </StackLayout>
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>

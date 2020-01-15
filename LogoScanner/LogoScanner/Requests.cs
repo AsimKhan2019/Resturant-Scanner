@@ -93,6 +93,12 @@ namespace LogoScanner
                 //Get the Results from the API Call
                 var contents = await response.Content.ReadAsStringAsync();
 
+                if (contents[0] != '[')
+                {
+                    contents = contents.Insert(0, "[");
+                    contents += "]";
+                }
+
                 result = JArray.Parse(contents);
 
                 return result;

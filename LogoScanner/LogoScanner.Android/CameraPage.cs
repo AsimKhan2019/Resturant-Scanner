@@ -1,225 +1,230 @@
-﻿using System;
-using Android.App;
+﻿using Android.App;
 using Android.Content;
 using Android.Graphics;
 using Android.Hardware;
 using Android.Views;
 using Android.Widget;
+using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
+using System;
+using System.IO;
+using System.Threading;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
-using System.Threading;
-using System.IO;
-using Plugin.Permissions.Abstractions;
-using Plugin.Permissions;
 
 [assembly: ExportRenderer(typeof(LogoScanner.MainPage), typeof(LogoScanner.Droid.CameraPage))]
 namespace LogoScanner.Droid
 {
-    /*
-    * Display Camera Stream: http://developer.xamarin.com/recipes/android/other_ux/textureview/display_a_stream_from_the_camera/
-    * Camera Rotation: http://stackoverflow.com/questions/3841122/android-camera-preview-is-sideways
-    */
-        public class CameraPage : PageRenderer, TextureView.ISurfaceTextureListener
-        {
-            //constructor
-            public CameraPage(Context context) : base(context)
-            {
+	public class CameraPage : PageRenderer, TextureView.ISurfaceTextureListener
+	{
+		//constructor
+		public CameraPage(Context context) : base(context)
+		{
 
-            }
+		}
 
-            [Obsolete]
-            global::Android.Hardware.Camera camera;
-            global::Android.Widget.Button takePhotoButton;
-            global::Android.Widget.Button toggleFlashButton;
-            global::Android.Widget.Button cameraRectangle;
+		[Obsolete]
+		global::Android.Hardware.Camera camera;
 
-            Activity activity;
-            CameraFacing cameraType;
-            TextureView textureView;
-            SurfaceTexture surfaceTexture;
-            global::Android.Views.View view;
+		global::Android.Widget.Button takePhotoButton;
+		global::Android.Widget.Button toggleFlashButton;
+		global::Android.Widget.Button cameraRectangle;
 
-            bool flashOn;
+		Activity activity;
+		CameraFacing cameraType;
+		TextureView textureView;
+		SurfaceTexture surfaceTexture;
+		global::Android.Views.View view;
 
-            byte[] imageBytes;
+		bool flashOn;
 
-            protected override async void OnElementChanged(ElementChangedEventArgs<Page> e)
-            {
-                base.OnElementChanged(e);
+		byte[] imageBytes;
 
-                if (e.OldElement != null || Element == null)
-                    return;
+		[Obsolete]
+		protected override async void OnElementChanged(ElementChangedEventArgs<Page> e)
+		{
+			base.OnElementChanged(e);
 
-                try
-                {
-                    activity = this.Context as Activity;
-                    view = activity.LayoutInflater.Inflate(Resource.Layout.CameraLayout, this, false);
-                    cameraType = CameraFacing.Back;
+			if (e.OldElement != null || Element == null)
+				return;
 
-                    textureView = view.FindViewById<TextureView>(Resource.Id.textureView);
-                    textureView.SurfaceTextureListener = this;
-                    textureView.Click += focusOnTouch;
+			try
+			{
+				activity = this.Context as Activity;
+				view = activity.LayoutInflater.Inflate(Resource.Layout.CameraLayout, this, false);
+				cameraType = CameraFacing.Back;
 
-                    takePhotoButton = view.FindViewById<global::Android.Widget.Button>(Resource.Id.takePhotoButton);
-                    takePhotoButton.Click += TakePhotoButtonTapped;
+				textureView = view.FindViewById<TextureView>(Resource.Id.textureView);
+				textureView.SurfaceTextureListener = this;
+				textureView.Click += FocusOnTouch;
 
-                    cameraRectangle = view.FindViewById<global::Android.Widget.Button>(Resource.Id.cameraRectangle);
-                    cameraRectangle.Click += focusOnTouch;
+				takePhotoButton = view.FindViewById<global::Android.Widget.Button>(Resource.Id.takePhotoButton);
+				takePhotoButton.Click += TakePhotoButtonTapped;
 
-                    toggleFlashButton = view.FindViewById<global::Android.Widget.Button>(Resource.Id.toggleFlashButton);
-                    toggleFlashButton.Click += ToggleFlashButtonTapped;
+				cameraRectangle = view.FindViewById<global::Android.Widget.Button>(Resource.Id.cameraRectangle);
+				cameraRectangle.Click += FocusOnTouch;
 
-                    AddView(view);
-                }
-                catch (Exception ex)
-                {
-                    await App.Current.MainPage.DisplayAlert("Error", "Camera Permission Not Granted", "OK");
-                }
-            }
+				toggleFlashButton = view.FindViewById<global::Android.Widget.Button>(Resource.Id.toggleFlashButton);
+				toggleFlashButton.Click += ToggleFlashButtonTapped;
 
-            protected override void OnLayout(bool changed, int l, int t, int r, int b)
-            {
-                base.OnLayout(changed, l, t, r, b);
+				AddView(view);
+			}
+			catch (System.Exception)
+			{
+				await App.Current.MainPage.DisplayAlert("Error", "Camera Permission Not Granted", "OK");
+			}
+		}
 
-                var msw = MeasureSpec.MakeMeasureSpec(r - l, MeasureSpecMode.Exactly);
-                var msh = MeasureSpec.MakeMeasureSpec(b - t, MeasureSpecMode.Exactly);
+		protected override void OnLayout(bool changed, int l, int t, int r, int b)
+		{
+			base.OnLayout(changed, l, t, r, b);
 
-                view.Measure(msw, msh);
-                view.Layout(0, 0, r - l, b - t);
-            }
+			var msw = MeasureSpec.MakeMeasureSpec(r - l, MeasureSpecMode.Exactly);
+			var msh = MeasureSpec.MakeMeasureSpec(b - t, MeasureSpecMode.Exactly);
 
-            public async void OnSurfaceTextureAvailable(SurfaceTexture surface, int width, int height)
-            {
+			view.Measure(msw, msh);
+			view.Layout(0, 0, r - l, b - t);
+		}
 
-                try
-                {
-                    var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Camera);
-                    if (status != PermissionStatus.Granted)
-                    {
-                        if (await CrossPermissions.Current.ShouldShowRequestPermissionRationaleAsync(Permission.Camera))
-                        {
-                            await App.Current.MainPage.DisplayAlert("Camera Permission", "Allow us to access your camera", "OK");
-                        }
-                        var results = await CrossPermissions.Current.RequestPermissionsAsync(new[] { Permission.Camera });
-                        status = results[Permission.Camera];
-                    }
+		[Obsolete]
+		public async void OnSurfaceTextureAvailable(SurfaceTexture surface, int width, int height)
+		{
 
-                    if (status == PermissionStatus.Granted)
-                    {
-                        camera = global::Android.Hardware.Camera.Open((int)cameraType);
-                        textureView.LayoutParameters = new FrameLayout.LayoutParams(width, height);
-                        surfaceTexture = surface;
-                        camera.SetPreviewTexture(surface);
-                        PrepareAndStartCamera();
-                    }
-                    else if (status != PermissionStatus.Unknown)
-                    {
-                        await App.Current.MainPage.DisplayAlert("Permission unknown", "Please allow your camera", "OK");
-                    }
-                }
-                catch (Exception ex)
-                {
+			try
+			{
+				var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Camera);
+				if (status != PermissionStatus.Granted)
+				{
+					if (await CrossPermissions.Current.ShouldShowRequestPermissionRationaleAsync(Permission.Camera))
+					{
+						await App.Current.MainPage.DisplayAlert("Camera Permission", "Allow us to access your camera", "OK");
+					}
+					var results = await CrossPermissions.Current.RequestPermissionsAsync(new[] { Permission.Camera });
+					status = results[Permission.Camera];
+				}
 
-                    await App.Current.MainPage.DisplayAlert("Runtime error", "Please reopen the app", "OK");
-                }
-            }
+				if (status == PermissionStatus.Granted)
+				{
+					camera = global::Android.Hardware.Camera.Open((int)cameraType);
+					textureView.LayoutParameters = new FrameLayout.LayoutParams(width, height);
+					surfaceTexture = surface;
+					camera.SetPreviewTexture(surface);
+					PrepareAndStartCamera();
+				}
+				else if (status != PermissionStatus.Unknown)
+				{
+					await App.Current.MainPage.DisplayAlert("Permission unknown", "Please allow your camera", "OK");
+				}
+			}
+			catch (System.Exception)
+			{
 
-            public bool OnSurfaceTextureDestroyed(SurfaceTexture surface)
-            {
-                camera.StopPreview();
-                camera.Release();
+				await App.Current.MainPage.DisplayAlert("Runtime error", "Please reopen the app", "OK");
+			}
+		}
 
-                return true;
-            }
+		[Obsolete]
+		public bool OnSurfaceTextureDestroyed(SurfaceTexture surface)
+		{
+			camera.StopPreview();
+			camera.Release();
 
-            public void OnSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height)
-            {
-                PrepareAndStartCamera();
-            }
+			return true;
+		}
 
-            public void OnSurfaceTextureUpdated(SurfaceTexture surface)
-            {
+		[Obsolete]
+		public void OnSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height)
+		{
+			PrepareAndStartCamera();
+		}
 
-            }
+		public void OnSurfaceTextureUpdated(SurfaceTexture surface)
+		{
 
-            private void PrepareAndStartCamera()
-            {
-                camera.StopPreview();
+		}
 
-                var display = activity.WindowManager.DefaultDisplay;
-                if (display.Rotation == SurfaceOrientation.Rotation0)
-                {
-                    camera.SetDisplayOrientation(90);
-                }
+		[Obsolete]
+		private void PrepareAndStartCamera()
+		{
+			camera.StopPreview();
 
-                if (display.Rotation == SurfaceOrientation.Rotation270)
-                {
-                    camera.SetDisplayOrientation(180);
-                }
+			var display = activity.WindowManager.DefaultDisplay;
+			if (display.Rotation == SurfaceOrientation.Rotation0)
+			{
+				camera.SetDisplayOrientation(90);
+			}
 
-                camera.StartPreview();
-            }
+			if (display.Rotation == SurfaceOrientation.Rotation270)
+			{
+				camera.SetDisplayOrientation(180);
+			}
 
-            private void ToggleFlashButtonTapped(object sender, EventArgs e)
-            {
-                flashOn = !flashOn;
-                if (flashOn)
-                {
-                    if (cameraType == CameraFacing.Back)
-                    {
-                        toggleFlashButton.SetBackgroundResource(Resource.Drawable.FlashButton);
-                        cameraType = CameraFacing.Back;
+			camera.StartPreview();
+		}
 
-                        camera.StopPreview();
-                        camera.Release();
-                        camera = global::Android.Hardware.Camera.Open((int)cameraType);
-                        var parameters = camera.GetParameters();
-                        parameters.FlashMode = global::Android.Hardware.Camera.Parameters.FlashModeTorch;
-                        camera.SetParameters(parameters);
-                        camera.SetPreviewTexture(surfaceTexture);
-                        PrepareAndStartCamera();
-                    }
-                }
-                else
-                {
-                    toggleFlashButton.SetBackgroundResource(Resource.Drawable.NoFlashButton);
-                    camera.StopPreview();
-                    camera.Release();
+		[Obsolete]
+		private void ToggleFlashButtonTapped(object sender, EventArgs e)
+		{
+			flashOn = !flashOn;
+			if (flashOn)
+			{
+				if (cameraType == CameraFacing.Back)
+				{
+					toggleFlashButton.SetBackgroundResource(Resource.Drawable.FlashButton);
+					cameraType = CameraFacing.Back;
 
-                    camera = global::Android.Hardware.Camera.Open((int)cameraType);
-                    var parameters = camera.GetParameters();
-                    parameters.FlashMode = global::Android.Hardware.Camera.Parameters.FlashModeOff;
-                    camera.SetParameters(parameters);
-                    camera.SetPreviewTexture(surfaceTexture);
-                    PrepareAndStartCamera();
-                }
-            }
+					camera.StopPreview();
+					camera.Release();
+					camera = global::Android.Hardware.Camera.Open((int)cameraType);
+					var parameters = camera.GetParameters();
+					parameters.FlashMode = global::Android.Hardware.Camera.Parameters.FlashModeTorch;
+					camera.SetParameters(parameters);
+					camera.SetPreviewTexture(surfaceTexture);
+					PrepareAndStartCamera();
+				}
+			}
+			else
+			{
+				toggleFlashButton.SetBackgroundResource(Resource.Drawable.NoFlashButton);
+				camera.StopPreview();
+				camera.Release();
 
-            private void focusOnTouch(object sender, EventArgs e)
-            {
-                camera.AutoFocus(null);
-            }
+				camera = global::Android.Hardware.Camera.Open((int)cameraType);
+				var parameters = camera.GetParameters();
+				parameters.FlashMode = global::Android.Hardware.Camera.Parameters.FlashModeOff;
+				camera.SetParameters(parameters);
+				camera.SetPreviewTexture(surfaceTexture);
+				PrepareAndStartCamera();
+			}
+		}
 
-        [Obsolete]
-        private async void TakePhotoButtonTapped(object sender, EventArgs e)
-            {
-                camera.StopPreview();
-                DialogService.ShowLoading("Capturing Every Pixel");
+		[Obsolete]
+		private void FocusOnTouch(object sender, EventArgs e)
+		{
+			camera.AutoFocus(null);
+		}
 
-                var image = textureView.Bitmap;
-                using (var imageStream = new MemoryStream())
-                {
-                    await image.CompressAsync(Bitmap.CompressFormat.Jpeg, 50, imageStream);
-                    image.Recycle();
-                    imageBytes = imageStream.ToArray();
-                }
+		[Obsolete]
+		private async void TakePhotoButtonTapped(object sender, EventArgs e)
+		{
+			camera.StopPreview();
+			DialogService.ShowLoading("Capturing Every Pixel");
 
-                var results = await CustomVisionService.PredictImageContentsAsync(imageBytes, (new CancellationTokenSource()).Token);
-                var navigationPage = new NavigationPage(new RestaurantPage(results.ToString()));
+			var image = textureView.Bitmap;
+			using (var imageStream = new MemoryStream())
+			{
+				await image.CompressAsync(Bitmap.CompressFormat.Jpeg, 50, imageStream);
+				image.Recycle();
+				imageBytes = imageStream.ToArray();
+			}
 
-                DialogService.HideLoading();
-                camera.StartPreview();
-                await App.Current.MainPage.Navigation.PushModalAsync(navigationPage, false);
-            }
-        }
+			var results = await CustomVisionService.PredictImageContentsAsync(imageBytes, (new CancellationTokenSource()).Token);
+			var navigationPage = new NavigationPage(new RestaurantPage(results.ToString()));
+
+			DialogService.HideLoading();
+			camera.StartPreview();
+			await App.Current.MainPage.Navigation.PushModalAsync(navigationPage, false);
+		}
+	}
+
 }

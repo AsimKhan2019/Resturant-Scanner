@@ -16,14 +16,6 @@
         android:layout_gravity="top|center"
         android:layout_marginTop="25dp"
         android:background="@drawable/NoFlashButton" />
-    <!--<Button
-        android:id="@+id/switchCameraButton"
-        android:layout_width="35dp"
-        android:layout_height="26dp"
-        android:layout_gravity="top|right"
-        android:layout_marginRight="25dp"
-        android:layout_marginTop="25dp"
-        android:background="@drawable/ToggleCameraButton" />-->
     <Button
         android:id="@+id/cameraRectangle"
         android:layout_width="250dp"

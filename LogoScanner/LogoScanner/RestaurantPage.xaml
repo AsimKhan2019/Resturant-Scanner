@@ -5,6 +5,7 @@
 
     xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
     xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
+    xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView"
 
     xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
     android:TabbedPage.ToolbarPlacement="Bottom"
@@ -146,54 +147,35 @@
                     Padding="13, 0"
                 />
 
-                <!--<Label
-                    Grid.Row="6"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="3"
-                    HorizontalOptions="Start"
-                    VerticalOptions="Start"
-                    Text="Bookings"
-                    FontSize="16"
-                />-->
-
-                <CarouselView
+                <cards:CarouselView
                     x:Name="BookingsView"
                     Grid.Row="6"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
-                >
-                    <CarouselView.ItemTemplate>
+
+                    ItemsSource="{Binding Items}"
+                    SelectedIndex="0">
+                    <cards:CarouselView.ItemTemplate>
                         <DataTemplate>
-                            <!--<Frame
-                                HasShadow="True"
-                                BorderColor="DarkGray"
-                                CornerRadius="3"
-                                HorizontalOptions="FillAndExpand"
-                                VerticalOptions="FillAndExpand"
-                            >
-                                <Label Text="{Binding .}" FontSize="20"/>
-                            </Frame>-->
-
-                            <StackLayout
-                                Orientation="Horizontal"
-                                HorizontalOptions="CenterAndExpand"
-                                VerticalOptions="CenterAndExpand"
-                            >
-                                <Frame HasShadow="False" CornerRadius="10" HeightRequest="50" Grid.Column="0">
-                                    <Label Text="fionefne"/>
+                            <ContentView>
+                                <Frame 
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="Center"
+                                    HeightRequest="300"
+                                    WidthRequest="300"
+                                    Padding="0" 
+                                    HasShadow="False"
+                                    IsClippedToBounds="True"
+                                    CornerRadius="10"
+                                >
+                    
+                                    <Label Text="{Binding .}" FontSize="20"/>
+                    
                                 </Frame>
-
-                                <Frame HasShadow="False" CornerRadius="10" Grid.Column="1">
-                                    <Label Text="ekldnwknd"/>
-                                </Frame>
-
-                                <Frame HasShadow="False" CornerRadius="10" Grid.Column="2">
-                                    <Label Text="apsmalsm"/>
-                                </Frame>
-                            </StackLayout>
+                            </ContentView>
                         </DataTemplate>
-                    </CarouselView.ItemTemplate>
-                </CarouselView>
+                    </cards:CarouselView.ItemTemplate>
+                </cards:CarouselView>
 
                 <Label
                     Grid.Row="7"

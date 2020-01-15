@@ -65,7 +65,7 @@ namespace LogoScanner.iOS
             };
             liveCameraStream.Layer.AddSublayer(videoPreviewLayer);
 
-            var captureDevice = AVCaptureDevice.DefaultDeviceWithMediaType(AVMediaType.Video);
+            var captureDevice = AVCaptureDevice.GetDefaultDevice(AVMediaType.Video);
             ConfigureCameraForDevice(captureDevice);
             captureDeviceInput = AVCaptureDeviceInput.FromDevice(captureDevice);
 

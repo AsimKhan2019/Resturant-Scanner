@@ -1,24 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <TabbedPage
-    x:Class="LogoScanner.RestaurantPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
-    xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
+
     xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
-    xmlns:renderedViews="clr-namespace:Sharpnado.Presentation.Forms.RenderedViews;assembly=Sharpnado.Presentation.Forms"
-    Title="Logo Scanner"
+    xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
+
+    xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
     android:TabbedPage.ToolbarPlacement="Bottom"
+
+    NavigationPage.HasNavigationBar="false"
+
+    x:Class="LogoScanner.RestaurantPage"
+    Title="Logo Scanner"
     BackgroundColor="White"
     BarBackgroundColor="White"
-    NavigationPage.HasNavigationBar="false"
     SelectedTabColor="#11a0dc"
-    Visual="Material">
-    <!--  xmlns:views="clr-namespace:SillyCompany.Mobile.Practices.Presentation.Views;assembly=SillyCompany.Mobile.Practices"  -->
-    <ContentPage
-        x:Name="HomeTab"
-        Title="Home"
-        IconImageSource="HomeIconFilled.png">
+    Visual="Material"
+>
+    <ContentPage x:Name="HomeTab" Title="Home" IconImageSource="HomeIconFilled.png">
         <StackLayout>
             <Grid>
                 <Grid.RowDefinitions>
@@ -139,27 +139,6 @@
                     HorizontalOptions="Start"
                     Text="Bookings" />
 
-                <!--<renderedViews:HorizontalListView
-                    Grid.Row="6"
-                    Margin="-16,8"
-                    CollectionPadding="0,8"
-                    ItemSpacing="8"
-                    ItemHeight="144"
-                    ItemWidth="144"
-                    ItemsSource="{Binding SillyPeopleLoader.Result}"
-                    SnapStyle="Center">
-                    <renderedViews:HorizontalListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <views:SillySquareCell
-                                    effects:TapCommandEffect.Tap="{Binding OnItemTappedCommand}"
-                                    effects:TapCommandEffect.TapParameter="{Binding .}"
-                                    effects:ViewEffect.TouchFeedbackColor="{StaticResource Accent}" />
-                            </ViewCell>
-                        </DataTemplate>
-                    </renderedViews:HorizontalListView.ItemTemplate>
-                </renderedViews:HorizontalListView>-->
-
                 <Label
                     Grid.Row="7"
                     Grid.Column="0"
@@ -204,20 +183,82 @@
         </StackLayout>
     </ContentPage>
 
-    <ContentPage
-        x:Name="ReviewsTab"
-        Title="Reviews"
-        IconImageSource="ReviewIcon.png">
+    <ContentPage x:Name="ReviewsTab" Title="Reviews" IconImageSource="ReviewIcon.png" BackgroundColor="White">
         <StackLayout>
-            <Label
-                FontSize="16"
-                HorizontalOptions="Start"
-                Text="Reviews" />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="6*" />
+                    <RowDefinition Height="4*" />
+                    <RowDefinition Height="3*" />
+                    <RowDefinition Height="87*" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Label
+                    Grid.Row="1"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    Text="Reviews"
+                    Font="Bold, 34"
+                    Padding="15, 0"
+                />
+
+                <Label
+                    Grid.Row="2"
+                    HorizontalOptions="Start"
+                    VerticalOptions="End"
+                    Text="Reviews"
+                    Font="Bold, 16"
+                    TextColor="#11a0dc"
+                    Padding="15, 0"
+                    x:Name="OverallReviewsLabel"
+                />
+
+                <ListView
+                    Grid.Row="3"
+                    ItemsSource="{Binding Reviews}"
+                    x:Name="ReviewsView"
+                    HasUnevenRows="True"
+                    SelectionMode="None"
+                    Margin="15, 0"
+                    VerticalOptions="Fill"
+                    HorizontalOptions="Fill"
+                >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Padding="0, 20">
+                                    <Label Text="{Binding Name}" Font="Bold, 16"/>
+
+                                    <Grid>
+                                        <Label
+                                            FontSize="12"
+                                            TextColor="#dfe4ea"
+                                            Text="★★★★★"
+                                        />
+                                        <Label
+                                            FontSize="12"
+                                            TextColor="#11a0dc"
+                                            Text="{Binding Score}"
+                                        />
+                                    </Grid>
+
+                                    <Label Text="{Binding ReviewDate,StringFormat='Reviewed: {0}'}" Font="Italic, 12"/>
+                                    <Label Text="{Binding Review}" />
+                                    <Label Text="{Binding VisitDate,StringFormat='Visited: {0}'}" Font="Italic, 12"/>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
         </StackLayout>
     </ContentPage>
 
-    <ContentPage
-        x:Name="ScanTab"
-        Title="Scan"
-        IconImageSource="ScanIcon.png" />
+    <ContentPage x:Name="ScanTab" Title="Scan" IconImageSource="ScanIcon.png">
+
+    </ContentPage>
 </TabbedPage>

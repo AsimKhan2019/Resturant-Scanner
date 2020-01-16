@@ -18,7 +18,10 @@ namespace LogoScanner
     public partial class RestaurantPage : TabbedPage
     {
         private ObservableCollection<Promotions> promotions = new ObservableCollection<Promotions>();
-        public ObservableCollection<Promotions> Employees { get { return promotions; } }
+        public ObservableCollection<Promotions> Promotions { get { return promotions; } }
+
+        private ObservableCollection<Reviews> reviews = new ObservableCollection<Reviews>();
+        public ObservableCollection<Reviews> Reviews { get { return reviews; } }
 
         private string micrositename;
 
@@ -107,7 +110,7 @@ namespace LogoScanner
             CuisinesLabel.Text = GetRestaurantField(result, "CuisineTypes");
 
             // gets restaurant json object and sets the menu
-            var menuUrl = "https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename;
+            var menuUrl = "https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/cairncrosscafe";
             JArray restaurant = await Requests.APICallGet(menuUrl, token);
             JObject menu = (JObject)restaurant.First;
             setMenu(menu);
@@ -118,10 +121,6 @@ namespace LogoScanner
 
             int stars = (int)Math.Round(Double.Parse(result["AverageReviewScore"].ToString()), 0, MidpointRounding.AwayFromZero);
             StarLabel.Text = GetRestaurantField(result, "AverageReviewScore", "★", stars);
-
-            double latitude = Convert.ToDouble(result["Latitude"].ToString());
-            double longitude = Convert.ToDouble(result["Longitude"].ToString());
-            string name = result["Name"].ToString();
 
             string[] promotion_ids = GetPromotionIDs(result);
             PromotionsView.ItemsSource = promotions;
@@ -143,13 +142,37 @@ namespace LogoScanner
 
                 foreach (JToken pr in array_promotions)
                 {
-                    promotions.Add(new Promotions { Name = pr["Name"].ToString(), Description = pr["Description"].ToString() });
+                    promotions.Add(new Promotions
+                    {
+                        Name = pr["Name"].ToString(),
+                        Description = pr["Description"].ToString()
+                    });
                 }
             }
             else
             {
                 promotions.Add(new Promotions { Name = "No Promotions Currently Available!" });
             }
+
+            // reviews section
+            foreach (JToken review in result["Reviews"].ToArray())
+            {
+                Reviews.Add(new Reviews
+                {
+                    Name = review["ReviewedBy"].ToString(),
+                    Review = review["Review"].ToString(),
+                    Score = GetRestaurantField((JObject) review, "AverageScore", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
+                    ReviewDate = review["ReviewDateTime"].ToString(),
+                    VisitDate = review["VisitDateTime"].ToString()
+                });
+            }
+            ReviewsView.ItemsSource = reviews;
+
+            OverallReviewsLabel.Text = GetRestaurantField(result, "AverageReviewScore") + "★  |  " + GetRestaurantField(result, "NumberOfReviews") + " reviews";
+
+            double latitude = Convert.ToDouble(result["Latitude"].ToString());
+            double longitude = Convert.ToDouble(result["Longitude"].ToString());
+            string name = result["Name"].ToString();
 
             var pin = new Pin()
             {
@@ -169,12 +192,12 @@ namespace LogoScanner
                 );
             };
         }
+
         //method to get menu for restaurant
         private void setMenu(JObject json)
         {
             if (json["Menus"].Type == JTokenType.Null || string.IsNullOrEmpty(json["Menus"].ToString()) || !json["Menus"].Any())
             {
-                Menu.Source = "";
                 MenuLabel.Text = "No Menus Currently Available.";
             }
             else
@@ -191,6 +214,7 @@ namespace LogoScanner
                 }
             }
         }
+
         // method to get field from json object
         private string GetRestaurantField(JObject json, string field)
         {

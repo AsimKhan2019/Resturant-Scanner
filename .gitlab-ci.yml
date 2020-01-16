@@ -5,19 +5,20 @@ before_script:
 
 stages:
   - prepare
-  ##- build
-  ##- test
+##  - build
+##  - test
 
 prepare:
-  key: "$CI_COMMIT_REF_NAME"
-  paths:
-    - "LogoScanner/packages/**"
-    - "LogoScanner/build/tools/**"
-  policy: push
   stage: prepare
+  cache:
+    key: "$CI_COMMIT_REF_NAME"
+    paths:
+      - LogoScanner/packages/**
+      - LogoScanner/build/tools/**
+    policy: push
   script:
-    - "cd build"
-    - "./build.sh --target Restore-NuGet"
+    - cd LogoScanner/build
+    - ./build.sh --target Restore-NuGet
 
 ##build:
 ##  key: "$CI_COMMIT_REF_NAME"

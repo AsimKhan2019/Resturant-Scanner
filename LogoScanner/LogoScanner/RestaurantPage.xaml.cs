@@ -110,7 +110,7 @@ namespace LogoScanner
             CuisinesLabel.Text = GetRestaurantField(result, "CuisineTypes");
 
             // gets restaurant json object and sets the menu
-            var menuUrl = "https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/cairncrosscafe";
+            var menuUrl = "https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename;
             JArray restaurant = await Requests.APICallGet(menuUrl, token);
             JObject menu = (JObject)restaurant.First;
             setMenu(menu);

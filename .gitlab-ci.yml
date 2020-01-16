@@ -9,7 +9,6 @@ stages:
   - test
 
 prepare:
-  cache:
   key: "$CI_COMMIT_REF_NAME"
   paths:
     - "LogoScanner/packages/**"
@@ -21,7 +20,6 @@ prepare:
     - "./build.sh --target Restore-NuGet"
 
 build:
-  cache:
   key: "$CI_COMMIT_REF_NAME"
   untracked: true
   policy: "pull-push"
@@ -31,7 +29,6 @@ build:
     - "./build.sh --target Build-tests"
 
 test:
-  cache:
   key: "$CI_COMMIT_REF_NAME"
   policy: "pull"
   untracked: true

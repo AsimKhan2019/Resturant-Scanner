@@ -1,7 +1,7 @@
 image: "nathansamson/xamarin-android-docker:v25.0.3-20170917"
 
-before_script:
-  - "ln -s /android/xamarin/bin/Debug/lib/xbuild/Xamarin /usr/lib/mono/xbuild/Xamarin"
+##before_script:
+##  - "ln -s /android/xamarin/bin/Debug/lib/xbuild/Xamarin /usr/lib/mono/xbuild/Xamarin"
 
 stages:
   - prepare

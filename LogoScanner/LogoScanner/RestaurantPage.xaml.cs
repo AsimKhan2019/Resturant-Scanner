@@ -18,7 +18,7 @@ namespace LogoScanner
     public partial class RestaurantPage : TabbedPage
     {
         private ObservableCollection<Promotions> promotions = new ObservableCollection<Promotions>();
-        public ObservableCollection<Promotions> Employees { get { return promotions; } }
+        private ObservableCollection<AvailableTimes> availabletimes = new ObservableCollection<AvailableTimes>();
 
         private string micrositename;
 
@@ -83,6 +83,8 @@ namespace LogoScanner
                     if (result["Result"] != null)
                     {
                         GetRestaurantData("https://api.rdbranch.com/api/ConsumerApi/v1/MicrositeSummaryDetails?micrositeNames=" + this.micrositename + "&startDate=2019-11-19T10:53:39&endDate=2019-11-18T10:53:39&channelCodes=ONLINE&numberOfReviews=5", request.message);
+                        //GetAvailProm("https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename + "/AvailabilityForDateRangeV2?", request.message);
+                        GetAvailProm("https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + "cairncrosscafe" + "/AvailabilityForDateRangeV2?", request.message);
                     }
                 }
                 catch (NullReferenceException e)
@@ -93,6 +95,31 @@ namespace LogoScanner
             else
             {
                 await DisplayAlert("Error", request.message, "OK"); // Displays an error message to the user
+            }
+        }
+
+        private async void GetAvailProm(string url, string token)
+        {
+            var datestart = DateTime.Now;
+            var datestartstr = datestart.ToString("yyyy-MM-ddTHH:m:ss");
+
+            var dateend = DateTime.Now.AddDays(1.00);
+            var dateendstr = dateend.ToString("yyyy-MM-ddTHH:m:ss");
+
+            JObject r = await Requests.APICallPost(url, token, datestartstr, dateendstr, 3);
+            AvailableTimeView.ItemsSource = availabletimes;
+
+            if (r != null)
+            {
+                foreach (var timeslot in r["AvailableDates"]["AvailableTimes"])
+                {
+                    Console.WriteLine(timeslot.ToString());
+                    availabletimes.Add(new AvailableTimes { Name = timeslot.ToString() });
+                }
+            }
+            else
+            {
+                availabletimes.Add(new AvailableTimes { Name = "No Timeslots Currently Available!" });
             }
         }
 
@@ -163,7 +190,7 @@ namespace LogoScanner
                 );
             };
         }
-     
+
         // method to get field from json object
         private string GetRestaurantField(JObject json, string field)
         {

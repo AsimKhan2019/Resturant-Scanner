@@ -5,31 +5,34 @@ before_script:
 
 stages:
   - prepare
-  - build
-  - test
+  ##- build
+  ##- test
 
 prepare:
+  key: "$CI_COMMIT_REF_NAME"
   paths:
     - "LogoScanner/packages/**"
     - "LogoScanner/build/tools/**"
-  policy: "push"
+  policy: push
   stage: prepare
   script:
     - "cd build"
     - "./build.sh --target Restore-NuGet"
 
-build:
-  untracked: true
-  policy: "pull-push"
-  stage: build
-  script:
-    - "cd build"
-    - "./build.sh --target Build-tests"
+##build:
+##  key: "$CI_COMMIT_REF_NAME"
+##  untracked: true
+##  policy: pull-push
+##  stage: build
+##  script:
+##    - "cd build"
+##    - "./build.sh --target Build-tests"
 
-test:
-  policy: "pull"
-  untracked: true
-  stage: test
-  script:
-    - "cd build"
-    - "./build.sh --target Run-unit-tests"
+##test:
+##  key: "$CI_COMMIT_REF_NAME"
+##  policy: pull
+##  untracked: true
+##  stage: test
+##  script:
+##    - "cd build"
+##    - "./build.sh --target Run-unit-tests"

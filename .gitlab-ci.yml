@@ -9,6 +9,7 @@ stages:
   ##- test
 
 prepare:
+  cache:
   key: "$CI_COMMIT_REF_NAME"
   paths:
     - "LogoScanner/packages/**"
@@ -16,7 +17,7 @@ prepare:
   policy: push
   stage: prepare
   script:
-    - "cd build"
+    - "cd LogoScanner/build"
     - "./build.sh --target Restore-NuGet"
 
 ##build:

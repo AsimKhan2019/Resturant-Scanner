@@ -93,7 +93,39 @@ namespace LogoScanner
                 //Get the Results from the API Call
                 var contents = await response.Content.ReadAsStringAsync();
 
+                if (contents[0] != '[')
+                {
+                    contents = contents.Insert(0, "[");
+                    contents += "]";
+                }
+
                 result = JArray.Parse(contents);
+
+                return result;
+            }
+
+            return null;
+        }
+
+        public static async Task<JObject> APICallPost(string url, string token, string datestart, string dateend, int partysize)
+        {
+            HttpClient client = new HttpClient();
+            //HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Post, url);
+            //requestMessage.Headers.Add("Authorization", "Bearer " + token);
+
+            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+            string information = @"{""DateFrom"" : """ + datestart + @""", ""DateTo"" : """ + dateend + @""", ""PartySize"" :" + partysize + @", ""ChannelCode"" : ""ONLINE""}";
+            var content = new StringContent(information, Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = await client.PostAsync(url, content); // get response from the api
+            JObject result;
+
+            if (response.IsSuccessStatusCode) // if call to api is successful
+            {
+                var retstring = await response.Content.ReadAsStringAsync();
+
+                result = JObject.Parse(retstring);
 
                 return result;
             }

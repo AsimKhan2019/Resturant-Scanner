@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
@@ -18,7 +19,7 @@ namespace LogoScanner
     public partial class RestaurantPage : TabbedPage
     {
         private ObservableCollection<Promotions> promotions = new ObservableCollection<Promotions>();
-        public ObservableCollection<Promotions> Employees { get { return promotions; } }
+        private ObservableCollection<AvailableTimes> availabletimes = new ObservableCollection<AvailableTimes>();
 
         private string micrositename;
 
@@ -76,11 +77,73 @@ namespace LogoScanner
 
             if (request.status.Equals("Success")) // if connection to api is successful
             {
-                GetRestaurantData("https://api.rdbranch.com/api/ConsumerApi/v1/MicrositeSummaryDetails?micrositeNames=" + this.micrositename + "&startDate=2019-11-19T10:53:39&endDate=2019-11-18T10:53:39&channelCodes=ONLINE&numberOfReviews=5", request.message);
+                try
+                {
+                    JArray hasSummary = await Requests.APICallGet("https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename + "/HasMicrositeSummary", request.message);
+                    JObject result = (JObject)hasSummary.First;
+                    if (result["Result"] != null)
+                    {
+                        GetRestaurantData("https://api.rdbranch.com/api/ConsumerApi/v1/MicrositeSummaryDetails?micrositeNames=" + this.micrositename + "&startDate=2019-11-19T10:53:39&endDate=2019-11-18T10:53:39&channelCodes=ONLINE&numberOfReviews=5", request.message);
+                        //GetAvailProm("https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename + "/AvailabilityForDateRangeV2?", request.message);
+                        GetAvailProm("https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + "cairncrosscafe" + "/AvailabilityForDateRangeV2?", request.message);
+                    }
+                }
+                catch (NullReferenceException e)
+                {
+                    await DisplayAlert("Error", "Provider" + this.micrositename + " was not found.", "OK"); // Displays an error message to the user
+                }
             }
             else
             {
                 await DisplayAlert("Error", request.message, "OK"); // Displays an error message to the user
+            }
+        }
+
+        private async void GetAvailProm(string url, string token)
+        {
+            var datestart = DateTime.Now;
+            var datestartstr = datestart.ToString("yyyy-MM-ddTHH:m:ss");
+
+            var dateend = DateTime.Now.AddDays(7.00);
+            var dateendstr = dateend.ToString("yyyy-MM-ddTHH:m:ss");
+
+            JObject r = await Requests.APICallPost(url, token, datestartstr, dateendstr, 3);
+            availabletimes.Clear();
+            AvailabilityView.ItemsSource = availabletimes;
+
+            if (r != null)
+            {
+                foreach (var day in r["AvailableDates"])
+                {
+                    Dictionary<string, string> areas = new Dictionary<string, string>();
+
+                    foreach (var area in day["Areas"])
+                    {
+                        areas.Add(area["Id"].ToString(), area["Name"].ToString());
+                    }
+
+                    foreach (var timeslot in day["AvailableTimes"])
+                    {
+                        StringBuilder AvailableAreas = new StringBuilder();
+                        StringBuilder TimeSlot = new StringBuilder();
+
+                        TimeSlot.Append(timeslot["TimeSlot"].ToString());
+                        TimeSlot.Append(": ");
+
+                        foreach (var availarea in timeslot["AvailableAreaIds"])
+                        {
+                            AvailableAreas.Append(areas[availarea.ToString()]);
+                            AvailableAreas.Append(", ");
+                        }
+                        AvailableAreas.Remove(AvailableAreas.Length - 2, 2);
+
+                        availabletimes.Add(new AvailableTimes { Name = day["Date"].ToString().Substring(0, 10), Description = TimeSlot.ToString(), RestaurantAreas = AvailableAreas.ToString() });
+                    }
+                }
+            }
+            else
+            {
+                availabletimes.Add(new AvailableTimes { Name = "No Timeslots Currently Available!" });
             }
         }
 
@@ -106,15 +169,8 @@ namespace LogoScanner
             string name = result["Name"].ToString();
 
             string[] promotion_ids = GetPromotionIDs(result);
-            //PromotionsView.ItemsSource = promotions;
-
-
-            var test = new System.Collections.Generic.List<string>
-            {
-                "One", "Two", "Three", "Four", "Five"
-            };
-
-            AvailabilityView.ItemsSource = test;
+            promotions.Clear();
+            //AvailabilityView.ItemsSource = promotions;
 
             if (promotion_ids.Length > 0)
             {

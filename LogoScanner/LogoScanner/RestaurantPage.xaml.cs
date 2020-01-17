@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
@@ -103,18 +104,42 @@ namespace LogoScanner
             var datestart = DateTime.Now;
             var datestartstr = datestart.ToString("yyyy-MM-ddTHH:m:ss");
 
-            var dateend = DateTime.Now.AddDays(1.00);
+            var dateend = DateTime.Now.AddDays(7.00);
             var dateendstr = dateend.ToString("yyyy-MM-ddTHH:m:ss");
 
             JObject r = await Requests.APICallPost(url, token, datestartstr, dateendstr, 3);
+            availabletimes.Clear();
             AvailableTimeView.ItemsSource = availabletimes;
 
             if (r != null)
             {
-                foreach (var timeslot in r["AvailableDates"]["AvailableTimes"])
+                foreach (var day in r["AvailableDates"])
                 {
-                    Console.WriteLine(timeslot.ToString());
-                    availabletimes.Add(new AvailableTimes { Name = timeslot.ToString() });
+                    Dictionary<string, string> areas = new Dictionary<string, string>();
+
+                    foreach (var area in day["Areas"])
+                    {
+                        areas.Add(area["Id"].ToString(), area["Name"].ToString());
+                    }
+
+                    foreach (var timeslot in day["AvailableTimes"])
+                    {
+                        StringBuilder AvailableAreas = new StringBuilder();
+                        StringBuilder TimeSlot = new StringBuilder();
+
+                        TimeSlot.Append(timeslot["TimeSlot"].ToString());
+                        TimeSlot.Append(": ");
+
+                        foreach (var availarea in timeslot["AvailableAreaIds"])
+                        {
+                            AvailableAreas.Append(areas[availarea.ToString()]);
+                            AvailableAreas.Append(", ");
+                        }
+                        AvailableAreas.Remove(AvailableAreas.Length - 2, 2);
+                        CuisinesLabel.Text = AvailableAreas.ToString();
+
+                        availabletimes.Add(new AvailableTimes { Name = day["Date"].ToString().Substring(0, 10), Description = TimeSlot.ToString(), RestaurantAreas = AvailableAreas.ToString() });
+                    }
                 }
             }
             else
@@ -145,6 +170,7 @@ namespace LogoScanner
             string name = result["Name"].ToString();
 
             string[] promotion_ids = GetPromotionIDs(result);
+            promotions.Clear();
             PromotionsView.ItemsSource = promotions;
 
             if (promotion_ids.Length > 0)

@@ -149,27 +149,30 @@
                     VerticalOptions="Start"
                     Text="Bookings"
                     FontSize="16" />
-
-                <!--<renderedViews:HorizontalListView
+                <Grid
                     Grid.Row="6"
-                    Margin="-16,8"
-                    CollectionPadding="0,8"
-                    ItemSpacing="8"
-                    ItemHeight="144"
-                    ItemWidth="144"
-                    ItemsSource="{Binding SillyPeopleLoader.Result}"
-                    SnapStyle="Center">
-                    <renderedViews:HorizontalListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <views:SillySquareCell
-                                    effects:TapCommandEffect.Tap="{Binding OnItemTappedCommand}"
-                                    effects:TapCommandEffect.TapParameter="{Binding .}"
-                                    effects:ViewEffect.TouchFeedbackColor="{StaticResource Accent}" />
-                            </ViewCell>
-                        </DataTemplate>
-                    </renderedViews:HorizontalListView.ItemTemplate>
-                </renderedViews:HorizontalListView>-->
+                    Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <ListView
+                        ItemsSource="{Binding AvailableTime}"
+                        x:Name="AvailableTimeView">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout>
+                                        <Label Text="{Binding Name}" />
+                                        <Label Text= "{Binding Description}" />
+                                        <Label Text= "{Binding RestaurantAreas}" />
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
 
                 <Label
                     Grid.Row="7"
@@ -202,39 +205,6 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-
-                    <Label
-                    Grid.Row="8"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="3"
-                    HorizontalOptions="Start"
-                    VerticalOptions="Start"
-                    Text="Available Time"
-                    FontSize="16"
-                    Padding="15, 0" />
-                    <Grid
-                    Grid.Row="8"
-                    Grid.Column="1">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-
-                        <ListView
-                        ItemsSource="{Binding AvailableTime}"
-                        x:Name="AvailableTimeView">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <ViewCell>
-                                        <StackLayout>
-                                            <Label Text="{Binding Name}" />
-                                            <Label Text= "{Binding Description}" />
-                                        </StackLayout>
-                                    </ViewCell>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                    </Grid>
                 </Grid>
             </Grid>
         </StackLayout>

@@ -1,0 +1,39 @@
+image: "nathansamson/xamarin-android-docker:v25.0.3-20170917"
+
+before_script:
+  - "sudo ln -sf /android/xamarin/bin/Debug/lib/xbuild/Xamarin /usr/lib/mono/xbuild/Xamarin"
+
+stages:
+  - prepare
+##  - build
+##  - test
+
+prepare:
+  stage: prepare
+  cache:
+    key: "$CI_COMMIT_REF_NAME"
+    paths:
+      - LogoScanner/packages/**
+      - LogoScanner/build/tools/**
+    policy: push
+  script:
+    - cd LogoScanner/build
+    - ./build.sh --target Restore-NuGet
+
+##build:
+##  key: "$CI_COMMIT_REF_NAME"
+##  untracked: true
+##  policy: pull-push
+##  stage: build
+##  script:
+##    - "cd build"
+##    - "./build.sh --target Build-tests"
+
+##test:
+##  key: "$CI_COMMIT_REF_NAME"
+##  policy: pull
+##  untracked: true
+##  stage: test
+##  script:
+##    - "cd build"
+##    - "./build.sh --target Run-unit-tests"

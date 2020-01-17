@@ -5,9 +5,12 @@
 
     xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
     xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
+    xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView"
+    xmlns:proc="clr-namespace:PanCardView.Processors;assembly=PanCardView"
 
     xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
     android:TabbedPage.ToolbarPlacement="Bottom"
+    android:TabbedPage.IsSwipePagingEnabled="False"
 
     NavigationPage.HasNavigationBar="false"
 
@@ -18,7 +21,7 @@
     SelectedTabColor="#11a0dc"
     Visual="Material"
 >
-    <ContentPage x:Name="HomeTab" Title="Home" IconImageSource="HomeIconFilled.png">
+    <ContentPage x:Name="HomeTab" Title="Home" IconImageSource="HomeIconFilled.png" BackgroundColor="White">
         <StackLayout>
             <Grid>
                 <Grid.RowDefinitions>
@@ -28,8 +31,9 @@
                     <RowDefinition Height="2*" />
                     <RowDefinition Height="2*" />
                     <RowDefinition Height="3*" />
-                    <RowDefinition Height="25*" />
-                    <RowDefinition Height="25*" />
+                    <RowDefinition Height="3*" />
+                    <RowDefinition Height="3*" />
+                    <RowDefinition Height="42*" />
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
@@ -65,7 +69,7 @@
                     Grid.RowSpan="2"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
-                    Margin="15,0"
+                    Margin="11,0"
                     Aspect="AspectFill"
                     BorderColor="White"
                     BorderThickness="4"
@@ -98,7 +102,7 @@
                     Grid.Row="2"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
-                    Padding="13,40,0,0"
+                    Padding="15,40,0,0"
                     Font="Bold, 28"
                     HorizontalOptions="Start"
                     Text="Restaurant" />
@@ -121,65 +125,121 @@
                     Padding="15,0"
                     FontSize="12" />
 
-                <Label
-                    x:Name="StarLabel"
+                <Grid
                     Grid.Row="5"
                     Grid.Column="0"
-                    Grid.ColumnSpan="3"
-                    Padding="12,0"
-                    FontSize="16"
-                    HorizontalOptions="Start"
-                    TextColor="#11a0dc" />
+                    Grid.ColumnSpan="3">
+                    <Label
+                        HorizontalOptions="Start"
+                        VerticalOptions="Center"
+                        FontSize="16"
+                        TextColor="#dfe4ea"
+                        Padding="14,0"
+                        Text="★★★★★" />
+                    <Label
+                        x:Name="StarLabel"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Center"
+                        FontSize="16"
+                        TextColor="#11a0dc"
+                        Padding="14,0" />
+                </Grid>
 
-                <Label
+                <BoxView
                     Grid.Row="6"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
-                    FontSize="16"
-                    HorizontalOptions="Start"
-                    Text="Bookings" />
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Center"
+                    HeightRequest="1"
+                    WidthRequest="1"
+                    BackgroundColor="#dfe4ea" />
 
                 <Label
                     Grid.Row="7"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
-                    Padding="15,0"
-                    FontSize="16"
                     HorizontalOptions="Start"
-                    Text="Promotions" />
-                <Grid Grid.Row="7" Grid.Column="1">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
+                    VerticalOptions="End"
+                    Text="Availability"
+                    FontSize="20"
+                    Padding="15,0" />
 
-                    <ListView x:Name="PromotionsView" ItemsSource="{Binding Promotions}">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <ViewCell>
+                <cards:CoverFlowView
+                    x:Name="AvailabilityView"
+                    Grid.Row="8"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    PositionShiftValue="145"
+                    IsCyclical="False"
+                    SelectedIndex="0"
+                    ItemsSource="{Binding Availability}">
+
+                    <x:Arguments>
+                        <proc:BaseCoverFlowFrontViewProcessor ScaleFactor="0.75" OpacityFactor="0.25" />
+                        <proc:BaseCoverFlowBackViewProcessor  ScaleFactor="0.75" OpacityFactor="0.25" />
+                    </x:Arguments>
+
+                    <cards:CoverFlowView.ItemTemplate>
+                        <DataTemplate>
+                            <ContentView>
+                                <Frame
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="Center"
+                                    HeightRequest="225"
+                                    WidthRequest="225"
+                                    Padding="5"
+                                    HasShadow="False"
+                                    IsClippedToBounds="True"
+                                    CornerRadius="10"
+                                    BackgroundColor="#dfe4ea">
+
                                     <StackLayout>
                                         <Label Text="{Binding Name}" />
-                                        <Label Text="{Binding Description}" />
+                                        <Label Text= "{Binding Description}" />
+                                        <Label Text= "{Binding RestaurantAreas}" />
                                     </StackLayout>
-                                </ViewCell>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </Grid>
+                                </Frame>
+                            </ContentView>
+                        </DataTemplate>
+                    </cards:CoverFlowView.ItemTemplate>
+                </cards:CoverFlowView>
             </Grid>
         </StackLayout>
     </ContentPage>
 
-    <ContentPage
-        x:Name="MenuTab"
-        Title="Menu"
-        IconImageSource="MenuIcon.png">
+    <ContentPage x:Name="MenuTab" Title="Menu" IconImageSource="MenuIcon.png" BackgroundColor="White">
         <StackLayout x:Name="MenuLayout" VerticalOptions="FillAndExpand">
-            <Label
-                x:Name="MenuLabel"
-                HorizontalOptions="Center"
-                VerticalOptions="Center" />
-            <WebView x:Name="Menu" VerticalOptions="FillAndExpand" />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="6*" />
+                    <RowDefinition Height="4*" />
+                    <RowDefinition Height="90*" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Label
+                    Grid.Row="1"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    Text="Menu"
+                    Font="Bold, 34"
+                    Padding="15,0" />
+
+                <Label
+                    x:Name="MenuLabel"
+                    Grid.Row="2"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center" />
+
+                <WebView
+                    x:Name="Menu"
+                    Grid.Row="2"
+                    VerticalOptions="FillAndExpand" />
+            </Grid>
         </StackLayout>
     </ContentPage>
 

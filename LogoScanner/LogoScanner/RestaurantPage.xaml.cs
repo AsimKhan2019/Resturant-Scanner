@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
@@ -18,10 +19,8 @@ namespace LogoScanner
     public partial class RestaurantPage : TabbedPage
     {
         private ObservableCollection<Promotions> promotions = new ObservableCollection<Promotions>();
-        public ObservableCollection<Promotions> Promotions { get { return promotions; } }
-
         private ObservableCollection<Reviews> reviews = new ObservableCollection<Reviews>();
-        public ObservableCollection<Reviews> Reviews { get { return reviews; } }
+        private ObservableCollection<AvailableTimes> availabletimes = new ObservableCollection<AvailableTimes>();
 
         private string micrositename;
 
@@ -86,6 +85,8 @@ namespace LogoScanner
                     if (result["Result"] != null)
                     {
                         GetRestaurantData("https://api.rdbranch.com/api/ConsumerApi/v1/MicrositeSummaryDetails?micrositeNames=" + this.micrositename + "&startDate=2019-11-19T10:53:39&endDate=2019-11-18T10:53:39&channelCodes=ONLINE&numberOfReviews=5", request.message);
+                        //GetAvailProm("https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename + "/AvailabilityForDateRangeV2?", request.message);
+                        GetAvailProm("https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + "cairncrosscafe" + "/AvailabilityForDateRangeV2?", request.message);
                     }
                 }
                 catch (NullReferenceException e)
@@ -96,6 +97,54 @@ namespace LogoScanner
             else
             {
                 await DisplayAlert("Error", request.message, "OK"); // Displays an error message to the user
+            }
+        }
+
+        private async void GetAvailProm(string url, string token)
+        {
+            var datestart = DateTime.Now;
+            var datestartstr = datestart.ToString("yyyy-MM-ddTHH:m:ss");
+
+            var dateend = DateTime.Now.AddDays(7.00);
+            var dateendstr = dateend.ToString("yyyy-MM-ddTHH:m:ss");
+
+            JObject r = await Requests.APICallPost(url, token, datestartstr, dateendstr, 3);
+            availabletimes.Clear();
+            AvailabilityView.ItemsSource = availabletimes;
+
+            if (r != null)
+            {
+                foreach (var day in r["AvailableDates"])
+                {
+                    Dictionary<string, string> areas = new Dictionary<string, string>();
+
+                    foreach (var area in day["Areas"])
+                    {
+                        areas.Add(area["Id"].ToString(), area["Name"].ToString());
+                    }
+
+                    foreach (var timeslot in day["AvailableTimes"])
+                    {
+                        StringBuilder AvailableAreas = new StringBuilder();
+                        StringBuilder TimeSlot = new StringBuilder();
+
+                        TimeSlot.Append(timeslot["TimeSlot"].ToString());
+                        TimeSlot.Append(": ");
+
+                        foreach (var availarea in timeslot["AvailableAreaIds"])
+                        {
+                            AvailableAreas.Append(areas[availarea.ToString()]);
+                            AvailableAreas.Append(", ");
+                        }
+                        AvailableAreas.Remove(AvailableAreas.Length - 2, 2);
+
+                        availabletimes.Add(new AvailableTimes { Name = day["Date"].ToString().Substring(0, 10), Description = TimeSlot.ToString(), RestaurantAreas = AvailableAreas.ToString() });
+                    }
+                }
+            }
+            else
+            {
+                availabletimes.Add(new AvailableTimes { Name = "No Timeslots Currently Available!" });
             }
         }
 
@@ -123,7 +172,7 @@ namespace LogoScanner
             StarLabel.Text = GetRestaurantField(result, "AverageReviewScore", "★", stars);
 
             string[] promotion_ids = GetPromotionIDs(result);
-            PromotionsView.ItemsSource = promotions;
+            //PromotionsView.ItemsSource = promotions;
 
             if (promotion_ids.Length > 0)
             {
@@ -157,7 +206,7 @@ namespace LogoScanner
             // reviews section
             foreach (JToken review in result["Reviews"].ToArray())
             {
-                Reviews.Add(new Reviews
+                reviews.Add(new Reviews
                 {
                     Name = review["ReviewedBy"].ToString(),
                     Review = review["Review"].ToString(),
@@ -198,6 +247,7 @@ namespace LogoScanner
         {
             if (json["Menus"].Type == JTokenType.Null || string.IsNullOrEmpty(json["Menus"].ToString()) || !json["Menus"].Any())
             {
+                Menu.IsVisible = false;
                 MenuLabel.Text = "No Menus Currently Available.";
             }
             else

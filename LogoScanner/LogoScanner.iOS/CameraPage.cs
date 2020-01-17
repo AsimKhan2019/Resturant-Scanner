@@ -83,16 +83,12 @@ namespace LogoScanner.iOS
 
         public async void CapturePhoto()
         {
+            DialogService.ShowLoading("Capturing Every Pixel");
+
             var videoConnection = stillImageOutput.ConnectionFromMediaType(AVMediaType.Video);
             var sampleBuffer = await stillImageOutput.CaptureStillImageTaskAsync(videoConnection);
-
-            // var jpegImageAsBytes = AVCaptureStillImageOutput.JpegStillToNSData (sampleBuffer).ToArray ();
             var jpegImageAsNsData = AVCaptureStillImageOutput.JpegStillToNSData(sampleBuffer);
-            // var image = new UIImage (jpegImageAsNsData);
-            // var image2 = new UIImage (image.CGImage, image.CurrentScale, UIImageOrientation.UpMirrored);
-            // var data = image2.AsJPEG ().ToArray ();
 
-            // SendPhoto (data);
             SendPhoto(jpegImageAsNsData.ToArray());
         }
 
@@ -220,6 +216,8 @@ namespace LogoScanner.iOS
             var navigationPage = new NavigationPage(new RestaurantPage(results.ToString()));
 
             await App.Current.MainPage.Navigation.PushModalAsync(navigationPage, false);
+
+            DialogService.HideLoading();
         }
     }
 }

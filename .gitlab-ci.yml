@@ -17,7 +17,7 @@ prepare:
       - LogoScanner/build/tools/**
     policy: push
   script:
-    - cd LogoScanner/build
+    - cd build
     - ./build.sh --target Restore-NuGet
 
 build:
@@ -27,7 +27,7 @@ build:
     untracked: true
     policy: pull-push
   script:
-    - cd LogoScanner/build
+    - cd build
     - ./build.sh --target Build-tests
 
 ##test:

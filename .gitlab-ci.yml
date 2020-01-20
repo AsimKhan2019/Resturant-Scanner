@@ -5,7 +5,7 @@ before_script:
 
 stages:
   - prepare
-##  - build
+  - build
 ##  - test
 
 prepare:
@@ -20,14 +20,15 @@ prepare:
     - cd LogoScanner/build
     - ./build.sh --target Restore-NuGet
 
-##build:
-##  key: "$CI_COMMIT_REF_NAME"
-##  untracked: true
-##  policy: pull-push
-##  stage: build
-##  script:
-##    - "cd build"
-##    - "./build.sh --target Build-tests"
+build:
+  stage: build
+  cache:
+    key: "$CI_COMMIT_REF_NAME"
+    untracked: true
+    policy: pull-push
+  script:
+    - cd LogoScanner/build
+    - ./build.sh --target Build-tests
 
 ##test:
 ##  key: "$CI_COMMIT_REF_NAME"

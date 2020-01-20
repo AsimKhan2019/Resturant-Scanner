@@ -37,7 +37,7 @@ namespace LogoScanner
                 MenuTab.IconImageSource = "MenuIcon.png";
                 ReviewsTab.IconImageSource = "ReviewIcon.png";
                 ScanTab.IconImageSource = "ScanIcon.png";
-                
+
                 switch (tab)
                 {
                     case 0:
@@ -110,35 +110,46 @@ namespace LogoScanner
 
             JObject r = await Requests.APICallPost(url, token, datestartstr, dateendstr, 3);
             availabletimes.Clear();
+            var capacity = 0;
             AvailabilityView.ItemsSource = availabletimes;
 
             if (r != null)
             {
                 foreach (var day in r["AvailableDates"])
                 {
-                    Dictionary<string, string> areas = new Dictionary<string, string>();
-
-                    foreach (var area in day["Areas"])
+                    //After client meeting if we decide to show only timeslots that day then uncomment line below
+                    if (capacity <= 3)
                     {
-                        areas.Add(area["Id"].ToString(), area["Name"].ToString());
-                    }
+                        Dictionary<string, string> areas = new Dictionary<string, string>();
 
-                    foreach (var timeslot in day["AvailableTimes"])
-                    {
-                        StringBuilder AvailableAreas = new StringBuilder();
-                        StringBuilder TimeSlot = new StringBuilder();
-
-                        TimeSlot.Append(timeslot["TimeSlot"].ToString());
-                        TimeSlot.Append(": ");
-
-                        foreach (var availarea in timeslot["AvailableAreaIds"])
+                        foreach (var area in day["Areas"])
                         {
-                            AvailableAreas.Append(areas[availarea.ToString()]);
-                            AvailableAreas.Append(", ");
+                            areas.Add(area["Id"].ToString(), area["Name"].ToString());
                         }
-                        AvailableAreas.Remove(AvailableAreas.Length - 2, 2);
+                        foreach (var timeslot in day["AvailableTimes"])
+                        {
+                            if (capacity == 3)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                StringBuilder AvailableAreas = new StringBuilder();
+                                StringBuilder TimeSlot = new StringBuilder();
 
-                        availabletimes.Add(new AvailableTimes { Name = day["Date"].ToString().Substring(0, 10), Description = TimeSlot.ToString(), RestaurantAreas = AvailableAreas.ToString() });
+                                TimeSlot.Append(timeslot["TimeSlot"].ToString());
+                                TimeSlot.Append(": ");
+
+                                foreach (var availarea in timeslot["AvailableAreaIds"])
+                                {
+                                    AvailableAreas.Append(areas[availarea.ToString()]);
+                                    AvailableAreas.Append(", ");
+                                }
+                                AvailableAreas.Remove(AvailableAreas.Length - 2, 2);
+                                availabletimes.Add(new AvailableTimes { Name = day["Date"].ToString().Substring(0, 10), Description = TimeSlot.ToString(), RestaurantAreas = AvailableAreas.ToString() });
+                                capacity += 1;
+                            }
+                        }
                     }
                 }
             }
@@ -163,7 +174,7 @@ namespace LogoScanner
             JArray restaurant = await Requests.APICallGet(menuUrl, token);
             JObject menu = (JObject)restaurant.First;
             setMenu(menu);
-            
+
             int price = 0;
             if (result["PricePoint"].Type != JTokenType.Null) price = Int32.Parse(result["PricePoint"].ToString());
             PriceLabel.Text = GetRestaurantField(result, "PricePoint", "£", price);
@@ -172,7 +183,6 @@ namespace LogoScanner
             StarLabel.Text = GetRestaurantField(result, "AverageReviewScore", "★", stars);
 
             string[] promotion_ids = GetPromotionIDs(result);
-            //PromotionsView.ItemsSource = promotions;
 
             if (promotion_ids.Length > 0)
             {
@@ -210,7 +220,7 @@ namespace LogoScanner
                 {
                     Name = review["ReviewedBy"].ToString(),
                     Review = review["Review"].ToString(),
-                    Score = GetRestaurantField((JObject) review, "AverageScore", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
+                    Score = GetRestaurantField((JObject)review, "AverageScore", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
                     ReviewDate = review["ReviewDateTime"].ToString(),
                     VisitDate = review["VisitDateTime"].ToString()
                 });

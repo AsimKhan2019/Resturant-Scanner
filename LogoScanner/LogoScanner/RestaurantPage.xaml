@@ -19,7 +19,7 @@
     BackgroundColor="White"
     BarBackgroundColor="White"
     SelectedTabColor="#11a0dc"
-    Visual="Material" >
+    Visual="Material">
 
     <ContentPage x:Name="HomeTab" Title="Home" IconImageSource="HomeIconFilled.png" BackgroundColor="White">
         <StackLayout>
@@ -213,7 +213,7 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="2*" />
-                    <RowDefinition Height="5*" />
+                    <RowDefinition Height="8*" />
                     <RowDefinition Height="93*" />
                 </Grid.RowDefinitions>
 
@@ -227,7 +227,7 @@
                     VerticalOptions="Center"
                     Text="Menu"
                     Font="Bold, 34"
-                    Padding="15,0,0,5"/>
+                    Padding="15,0,0,5" />
 
                 <Label
                     x:Name="MenuLabel"
@@ -248,7 +248,7 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="2*" />
-                    <RowDefinition Height="5*" />
+                    <RowDefinition Height="8*" />
                     <RowDefinition Height="3*" />
                     <RowDefinition Height="90*" />
                 </Grid.RowDefinitions>
@@ -263,7 +263,7 @@
                     VerticalOptions="Center"
                     Text="Reviews"
                     Font="Bold, 34"
-                    Padding="15,0,0,5" />
+                    Padding="15,0" />
 
                 <Label
                     Grid.Row="2"
@@ -294,18 +294,16 @@
                                         <Label
                                             FontSize="12"
                                             TextColor="#dfe4ea"
-                                            Text="★★★★★"
-                                        />
+                                            Text="★★★★★" />
                                         <Label
                                             FontSize="12"
                                             TextColor="#11a0dc"
-                                            Text="{Binding Score}"
-                                        />
+                                            Text="{Binding Score}" />
                                     </Grid>
 
-                                    <Label Text="{Binding ReviewDate,StringFormat='Reviewed: {0}'}" Font="Italic, 12"/>
+                                    <Label Text="{Binding ReviewDate,StringFormat='Reviewed: {0}'}" Font="Italic, 12" />
                                     <Label Text="{Binding Review}" />
-                                    <Label Text="{Binding VisitDate,StringFormat='Visited: {0}'}" Font="Italic, 12"/>
+                                    <Label Text="{Binding VisitDate,StringFormat='Visited: {0}'}" Font="Italic, 12" />
                                 </StackLayout>
                             </ViewCell>
                         </DataTemplate>
@@ -316,6 +314,5 @@
     </ContentPage>
 
     <ContentPage x:Name="ScanTab" Title="Scan" IconImageSource="ScanIcon.png">
-
     </ContentPage>
 </TabbedPage>

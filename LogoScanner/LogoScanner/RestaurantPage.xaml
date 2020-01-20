@@ -227,7 +227,7 @@
                     VerticalOptions="Center"
                     Text="Menu"
                     Font="Bold, 34"
-                    Padding="15,0"/>
+                    Padding="15,0,0,5"/>
 
                 <Label
                     x:Name="MenuLabel"
@@ -263,7 +263,7 @@
                     VerticalOptions="Center"
                     Text="Reviews"
                     Font="Bold, 34"
-                    Padding="15,0" />
+                    Padding="15,0,0,5" />
 
                 <Label
                     Grid.Row="2"

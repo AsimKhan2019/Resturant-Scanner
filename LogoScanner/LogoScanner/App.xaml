@@ -5,9 +5,9 @@
    <Application.Resources>
        <!-- Colors -->
        <Color x:Key="AppBackgroundColor">WhiteSmoke</Color>
-       <Color x:Key="iOSNavigationBarColor">WhiteSmoke</Color>
-       <Color x:Key="AndroidNavigationBarColor">#2196F3</Color>
-       <Color x:Key="iOSNavigationBarTextColor">Black</Color>
+       <Color x:Key="iOSNavigationBarColor">#11a0dc</Color>
+       <Color x:Key="AndroidNavigationBarColor">#11a0dc</Color>
+       <Color x:Key="iOSNavigationBarTextColor">White</Color>
        <Color x:Key="AndroidNavigationBarTextColor">White</Color>
        <!-- Implicit styles -->
        <Style TargetType="{x:Type NavigationPage}">

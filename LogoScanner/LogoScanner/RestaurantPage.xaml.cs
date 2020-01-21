@@ -85,8 +85,10 @@ namespace LogoScanner
                     if (result["Result"] != null)
                     {
                         GetRestaurantData("https://api.rdbranch.com/api/ConsumerApi/v1/MicrositeSummaryDetails?micrositeNames=" + this.micrositename + "&startDate=2019-11-19T10:53:39&endDate=2019-11-18T10:53:39&channelCodes=ONLINE&numberOfReviews=5", request.message);
-                        //GetAvailProm("https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename + "/AvailabilityForDateRangeV2?", request.message);
-                        GetAvailProm("https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + "cairncrosscafe" + "/AvailabilityForDateRangeV2?", request.message);
+                        GetAvailProm("https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename + "/AvailabilityForDateRangeV2?", request.message);
+                        // GetRestaurantData("https://api.rdbranch.com/api/ConsumerApi/v1/MicrositeSummaryDetails?micrositeNames=" + "cairncrosscafe" + "&startDate=2019-11-19T10:53:39&endDate=2019-11-18T10:53:39&channelCodes=ONLINE&numberOfReviews=5", request.message);
+
+                        // GetAvailProm("https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + "cairncrosscafe" + "/AvailabilityForDateRangeV2?", request.message);
                     }
                 }
                 catch (NullReferenceException e)
@@ -138,7 +140,6 @@ namespace LogoScanner
                                 StringBuilder TimeSlot = new StringBuilder();
 
                                 TimeSlot.Append(timeslot["TimeSlot"].ToString());
-                                TimeSlot.Append(": ");
 
                                 foreach (var availarea in timeslot["AvailableAreaIds"])
                                 {
@@ -187,6 +188,7 @@ namespace LogoScanner
             if (promotion_ids.Length > 0)
             {
                 string promotions_url = "https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename + "/Promotion?";
+                //string promotions_url = "https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + "cairncrosscafe" + "/Promotion?";
                 StringBuilder builder = new StringBuilder();
 
                 builder.Append(promotions_url);
@@ -195,16 +197,20 @@ namespace LogoScanner
                     builder.Append("&promotionIds=" + id);
                 }
 
-                string p = builder.ToString();
-
                 JArray array_promotions = await Requests.APICallGet(builder.ToString(), token);
 
-                foreach (JToken pr in array_promotions)
+                foreach (var pr in array_promotions)
                 {
+                    var valid = pr["ValidityPeriods"].First;
+
                     promotions.Add(new Promotions
                     {
                         Name = pr["Name"].ToString(),
-                        Description = pr["Description"].ToString()
+                        Description = pr["Description"].ToString(),
+                        StartTime = valid["StartTime"].ToString(),
+                        EndTime = valid["EndTime"].ToString(),
+                        StartDate = valid["StartDate"].ToString(),
+                        EndDate = valid["EndDate"].ToString(),
                     });
                 }
             }

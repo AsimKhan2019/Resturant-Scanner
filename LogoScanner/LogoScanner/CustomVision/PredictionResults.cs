@@ -21,7 +21,7 @@ namespace LogoScanner
             var name = "";
             foreach (Prediction type in Predictions)
             {
-                if (type.Probability > probability)
+                if (type.Probability > probability && type.Probability >= 0.3)
                 {
                     probability = type.Probability;
                     name = type.TagName;

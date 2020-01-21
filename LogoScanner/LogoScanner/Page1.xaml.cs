@@ -1,10 +1,4 @@
-﻿using Android.Graphics;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;

@@ -209,38 +209,36 @@
     </ContentPage>
 
     <ContentPage x:Name="MenuTab" Title="Menu" IconImageSource="MenuIcon.png" BackgroundColor="White">
-        <StackLayout x:Name="MenuLayout" VerticalOptions="FillAndExpand">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="2*" />
-                    <RowDefinition Height="8*" />
-                    <RowDefinition Height="93*" />
-                </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="8*" />
+                <RowDefinition Height="90*" />
+            </Grid.RowDefinitions>
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-                <Label
-                    Grid.Row="1"
-                    HorizontalOptions="Start"
-                    VerticalOptions="Center"
-                    Text="Menu"
-                    Font="Bold, 34"
-                    Padding="15,0,0,5" />
+            <Label
+                Grid.Row="1"
+                HorizontalOptions="Start"
+                VerticalOptions="Center"
+                Text="Menu"
+                Font="Bold, 34"
+                Padding="15,0,0,5" />
 
-                <Label
-                    x:Name="MenuLabel"
-                    Grid.Row="2"
-                    HorizontalOptions="Center"
-                    VerticalOptions="Center" />
+            <Label
+                x:Name="MenuLabel"
+                Grid.Row="2"
+                HorizontalOptions="Center"
+                VerticalOptions="Center" />
 
-                <WebView
-                    x:Name="Menu"
-                    Grid.Row="2"
-                    VerticalOptions="FillAndExpand" />
-            </Grid>
-        </StackLayout>
+            <WebView
+                x:Name="Menu"
+                Grid.Row="2"
+                VerticalOptions="FillAndExpand" />
+        </Grid>
     </ContentPage>
 
     <ContentPage x:Name="ReviewsTab" Title="Reviews" IconImageSource="ReviewIcon.png" BackgroundColor="White">

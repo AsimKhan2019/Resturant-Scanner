@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Threading;
 using AVFoundation;
 using CoreGraphics;
@@ -89,7 +90,27 @@ namespace LogoScanner.iOS
             var sampleBuffer = await stillImageOutput.CaptureStillImageTaskAsync(videoConnection);
             var jpegImageAsNsData = AVCaptureStillImageOutput.JpegStillToNSData(sampleBuffer);
 
-            SendPhoto(jpegImageAsNsData.ToArray());
+            // crop photo, first change it to UIImage, then crop it
+            UIImage Img = new UIImage(jpegImageAsNsData);
+            Img = CropImage(Img, new RectangleF(200,200,500,500)); // values in rectange are the starting point and then width and height
+            byte[] CroppedImage;
+            // change UIImage to byte array
+            using (NSData imageData = Img.AsPNG())
+            {
+                CroppedImage = new Byte[imageData.Length];
+                System.Runtime.InteropServices.Marshal.Copy(imageData.Bytes, CroppedImage, 0, Convert.ToInt32(imageData.Length));
+            }
+
+            SendPhoto(CroppedImage);
+        }
+
+        private UIImage CropImage(UIImage srcImage, RectangleF rect)
+        {
+            using (CGImage cr = srcImage.CGImage.WithImageInRect(rect))
+            {
+                UIImage cropped = UIImage.FromImage(cr);
+                return cropped;
+            }
         }
 
         public void ConfigureCameraForDevice(AVCaptureDevice device)
@@ -212,12 +233,14 @@ namespace LogoScanner.iOS
 
         public async void SendPhoto(byte[] image)
         {
-            var results = await CustomVisionService.PredictImageContentsAsync(image, (new CancellationTokenSource()).Token);
-            var navigationPage = new NavigationPage(new RestaurantPage(results.ToString()));
+            var navigationPage = new NavigationPage(new Page1(image));
+            //var results = await CustomVisionService.PredictImageContentsAsync(image, (new CancellationTokenSource()).Token);
+            //var navigationPage = new NavigationPage(new RestaurantPage(results.ToString()));
 
             await App.Current.MainPage.Navigation.PushModalAsync(navigationPage, false);
 
             DialogService.HideLoading();
         }
+
     }
 }

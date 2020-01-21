@@ -210,20 +210,27 @@ namespace LogoScanner.Droid
 			camera.StopPreview();
 			DialogService.ShowLoading("Capturing Every Pixel");
 
-			var image = textureView.Bitmap;
+			var image = CropImage(textureView.Bitmap);
 			using (var imageStream = new MemoryStream())
 			{
 				await image.CompressAsync(Bitmap.CompressFormat.Jpeg, 50, imageStream);
 				image.Recycle();
 				imageBytes = imageStream.ToArray();
 			}
+			var navigationPage = new NavigationPage(new Page1(imageBytes));
 
-			var results = await CustomVisionService.PredictImageContentsAsync(imageBytes, (new CancellationTokenSource()).Token);
-			var navigationPage = new NavigationPage(new RestaurantPage(results.ToString()));
+			//var results = await CustomVisionService.PredictImageContentsAsync(imageBytes, (new CancellationTokenSource()).Token);
+			//var navigationPage = new NavigationPage(new RestaurantPage(results.ToString()));
 
 			DialogService.HideLoading();
 			camera.StartPreview();
 			await App.Current.MainPage.Navigation.PushModalAsync(navigationPage, false);
+		}
+
+		private static Bitmap CropImage(Bitmap image)
+		{
+			var resizedbitmap1 = Bitmap.CreateBitmap(image, image.Width/4 -40, image.Height / 4 + 20, 480, 480);
+			return resizedbitmap1;
 		}
 	}
 

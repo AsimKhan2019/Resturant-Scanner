@@ -10,9 +10,6 @@ using Xamarin.Forms.Internals;
 using Xamarin.Forms.Maps;
 using Xamarin.Forms.Xaml;
 
-//Additional API Calls Required
-//Get Availability for Date Range - POST Request
-
 namespace LogoScanner
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
@@ -42,14 +39,17 @@ namespace LogoScanner
                 {
                     case 0:
                         HomeTab.IconImageSource = "HomeIconFilled.png";
+                        NavigationPage.SetHasNavigationBar(this, false);
                         break;
 
                     case 1:
                         MenuTab.IconImageSource = "MenuIconFilled.png";
+                        NavigationPage.SetHasNavigationBar(this, true);
                         break;
 
                     case 2:
                         ReviewsTab.IconImageSource = "ReviewIconFilled.png";
+                        NavigationPage.SetHasNavigationBar(this, true);
                         break;
 
                     case 3:

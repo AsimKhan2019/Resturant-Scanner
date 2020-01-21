@@ -12,15 +12,15 @@
     android:TabbedPage.ToolbarPlacement="Bottom"
     android:TabbedPage.IsSwipePagingEnabled="False"
 
-    NavigationPage.HasNavigationBar="false"
+    NavigationPage.HasNavigationBar="False"
 
     x:Class="LogoScanner.RestaurantPage"
     Title="Logo Scanner"
     BackgroundColor="White"
     BarBackgroundColor="White"
     SelectedTabColor="#11a0dc"
-    Visual="Material"
->
+    Visual="Material">
+
     <ContentPage x:Name="HomeTab" Title="Home" IconImageSource="HomeIconFilled.png" BackgroundColor="White">
         <StackLayout>
             <Grid>
@@ -195,9 +195,9 @@
                                     BackgroundColor="#dfe4ea">
 
                                     <StackLayout>
-                                        <Label Text="{Binding Name}" />
-                                        <Label Text= "{Binding Description}" />
-                                        <Label Text= "{Binding RestaurantAreas}" />
+                                        <Label Text="{Binding Name,StringFormat='Date: {0}'}" Font="Bold, 12" HorizontalTextAlignment="Center" />
+                                        <Label Text="{Binding Description,StringFormat='Time: {0}'}" Font="Bold, 12" HorizontalTextAlignment="Center" />
+                                        <Label Text="{Binding RestaurantAreas,StringFormat='Available Areas: {0}'}" Font="Bold, 12" HorizontalTextAlignment="Center" />
                                     </StackLayout>
                                 </Frame>
                             </ContentView>
@@ -212,9 +212,9 @@
         <StackLayout x:Name="MenuLayout" VerticalOptions="FillAndExpand">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="6*" />
-                    <RowDefinition Height="4*" />
-                    <RowDefinition Height="90*" />
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="8*" />
+                    <RowDefinition Height="93*" />
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
@@ -227,7 +227,7 @@
                     VerticalOptions="Center"
                     Text="Menu"
                     Font="Bold, 34"
-                    Padding="15,0" />
+                    Padding="15,0,0,5" />
 
                 <Label
                     x:Name="MenuLabel"
@@ -247,10 +247,10 @@
         <StackLayout>
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="6*" />
-                    <RowDefinition Height="4*" />
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="8*" />
                     <RowDefinition Height="3*" />
-                    <RowDefinition Height="87*" />
+                    <RowDefinition Height="90*" />
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
@@ -263,8 +263,7 @@
                     VerticalOptions="Center"
                     Text="Reviews"
                     Font="Bold, 34"
-                    Padding="15, 0"
-                />
+                    Padding="15,0" />
 
                 <Label
                     Grid.Row="2"
@@ -273,9 +272,8 @@
                     Text="Reviews"
                     Font="Bold, 16"
                     TextColor="#11a0dc"
-                    Padding="15, 0"
-                    x:Name="OverallReviewsLabel"
-                />
+                    Padding="15,0"
+                    x:Name="OverallReviewsLabel" />
 
                 <ListView
                     Grid.Row="3"
@@ -283,32 +281,29 @@
                     x:Name="ReviewsView"
                     HasUnevenRows="True"
                     SelectionMode="None"
-                    Margin="15, 0"
+                    Margin="15,0"
                     VerticalOptions="Fill"
-                    HorizontalOptions="Fill"
-                >
+                    HorizontalOptions="Fill">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
                                 <StackLayout Padding="0, 20">
-                                    <Label Text="{Binding Name}" Font="Bold, 16"/>
+                                    <Label Text="{Binding Name}" Font="Bold, 16" />
 
                                     <Grid>
                                         <Label
                                             FontSize="12"
                                             TextColor="#dfe4ea"
-                                            Text="★★★★★"
-                                        />
+                                            Text="★★★★★" />
                                         <Label
                                             FontSize="12"
                                             TextColor="#11a0dc"
-                                            Text="{Binding Score}"
-                                        />
+                                            Text="{Binding Score}" />
                                     </Grid>
 
-                                    <Label Text="{Binding ReviewDate,StringFormat='Reviewed: {0}'}" Font="Italic, 12"/>
+                                    <Label Text="{Binding ReviewDate,StringFormat='Reviewed: {0}'}" Font="Italic, 12" />
                                     <Label Text="{Binding Review}" />
-                                    <Label Text="{Binding VisitDate,StringFormat='Visited: {0}'}" Font="Italic, 12"/>
+                                    <Label Text="{Binding VisitDate,StringFormat='Visited: {0}'}" Font="Italic, 12" />
                                 </StackLayout>
                             </ViewCell>
                         </DataTemplate>
@@ -319,6 +314,5 @@
     </ContentPage>
 
     <ContentPage x:Name="ScanTab" Title="Scan" IconImageSource="ScanIcon.png">
-
     </ContentPage>
 </TabbedPage>

@@ -43,7 +43,6 @@ namespace LogoScanner
 
                     if (DateTimeOffset.Parse(tokenExpiracy).UtcDateTime > DateTime.UtcNow)
                     {
-                        Console.WriteLine("Saved token used!");
                         return new Request("Success", token); // return a successful request with api token
                     }
                 }
@@ -83,7 +82,6 @@ namespace LogoScanner
                         {
                             Application.Current.Properties["Token"] = token; // save the token locally
                             Application.Current.Properties["TokenExpiryUtc"] = JObject.Parse(result)["TokenExpiryUtc"].ToString(); // save the time
-                            Console.WriteLine("New token used!");
 
                             return new Request(status, token); // return a successful request with api token
                         }

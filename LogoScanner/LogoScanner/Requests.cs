@@ -1,10 +1,13 @@
 ﻿using Newtonsoft.Json.Linq;
+using System;
+using System.Globalization;
 using System.IO;
 using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace LogoScanner
 {
@@ -29,6 +32,23 @@ namespace LogoScanner
 
             if (connectivity == NetworkAccess.Internet)
             {
+                string token;
+                string tokenExpiracy;
+
+                // check token expiracy
+                if (Application.Current.Properties.ContainsKey("Token") & Application.Current.Properties.ContainsKey("TokenExpiryUtc"))
+                {
+                    token = Application.Current.Properties["Token"].ToString(); // get token which was save locally
+                    tokenExpiracy = Application.Current.Properties["TokenExpiryUtc"].ToString(); //get time of token saved locally
+
+                    if (DateTimeOffset.Parse(tokenExpiracy).UtcDateTime > DateTime.UtcNow)
+                    {
+                        Console.WriteLine("Saved token used!");
+                        return new Request("Success", token); // return a successful request with api token
+                    }
+                }
+                // else get a new token
+
                 var assembly = Assembly.GetExecutingAssembly();
                 var credentialsFile = "LogoScanner.credentials.txt";
                 string[] line;
@@ -53,7 +73,7 @@ namespace LogoScanner
                         var result = await response.Content.ReadAsStringAsync();
 
                         string status = JObject.Parse(result)["Status"].ToString(); // parse the json to string format
-                        string token = JObject.Parse(result)["Token"].ToString();
+                        token = JObject.Parse(result)["Token"].ToString();
 
                         if (status.Equals("Fail") || token == null)
                         {
@@ -61,6 +81,10 @@ namespace LogoScanner
                         }
                         else
                         {
+                            Application.Current.Properties["Token"] = token; // save the token locally
+                            Application.Current.Properties["TokenExpiryUtc"] = JObject.Parse(result)["TokenExpiryUtc"].ToString(); // save the time
+                            Console.WriteLine("New token used!");
+
                             return new Request(status, token); // return a successful request with api token
                         }
                     }

@@ -207,7 +207,10 @@ namespace LogoScanner.Droid
 		[Obsolete]
 		private async void TakePhotoButtonTapped(object sender, EventArgs e)
 		{
-			camera.StopPreview();
+            var parameters = camera.GetParameters();
+            parameters.FlashMode = global::Android.Hardware.Camera.Parameters.FlashModeOff;
+            camera.SetParameters(parameters);
+            camera.StopPreview();
 			DialogService.ShowLoading("Capturing Every Pixel");
 
 			var image = textureView.Bitmap;

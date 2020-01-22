@@ -229,7 +229,7 @@ namespace LogoScanner.Droid
 
 		private static Bitmap CropImage(Bitmap image)
 		{
-			var resizedbitmap1 = Bitmap.CreateBitmap(image, image.Width/4 -40, image.Height / 4 + 20, 480, 480);
+			var resizedbitmap1 = Bitmap.CreateBitmap(image, image.Width/4 - image.Width / 8, image.Height / 4 + image.Height / 20, 480, 480);
 			return resizedbitmap1;
 		}
 	}

@@ -380,7 +380,7 @@ namespace LogoScanner
 
                 if (res1 >= 0 && res2 <= 0)
                 {
-                    allpromotions.Append("Name: ");
+                    allpromotions.Append("\nName: ");
                     allpromotions.Append(p.Name);
                     allpromotions.Append("\nDescription: ");
                     allpromotions.Append(p.Description);

@@ -217,10 +217,9 @@ namespace LogoScanner.Droid
 				image.Recycle();
 				imageBytes = imageStream.ToArray();
 			}
-			var navigationPage = new NavigationPage(new Page1(imageBytes));
 
-			//var results = await CustomVisionService.PredictImageContentsAsync(imageBytes, (new CancellationTokenSource()).Token);
-			//var navigationPage = new NavigationPage(new RestaurantPage(results.ToString()));
+			var results = await CustomVisionService.PredictImageContentsAsync(imageBytes, (new CancellationTokenSource()).Token);
+			var navigationPage = new NavigationPage(new RestaurantPage(results.ToString()));
 
 			DialogService.HideLoading();
 			camera.StartPreview();

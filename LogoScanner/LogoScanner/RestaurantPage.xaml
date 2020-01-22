@@ -198,6 +198,7 @@
                                         <Label Text="{Binding Name,StringFormat='Date: {0}'}" Font="Bold, 12" HorizontalTextAlignment="Center" />
                                         <Label Text="{Binding Description,StringFormat='Time: {0}'}" Font="Bold, 12" HorizontalTextAlignment="Center" />
                                         <Label Text="{Binding RestaurantAreas,StringFormat='Available Areas: {0}'}" Font="Bold, 12" HorizontalTextAlignment="Center" />
+                                        <Label Text="{Binding Promotions,StringFormat='Available Promotions: {0}'}" Font="Bold, 12" HorizontalTextAlignment="Center" />
                                     </StackLayout>
                                 </Frame>
                             </ContentView>

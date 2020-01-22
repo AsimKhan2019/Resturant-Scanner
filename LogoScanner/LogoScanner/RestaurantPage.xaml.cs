@@ -85,8 +85,6 @@ namespace LogoScanner
                     if (result["Result"] != null)
                     {
                         GetRestaurantData("https://api.rdbranch.com/api/ConsumerApi/v1/MicrositeSummaryDetails?micrositeNames=" + this.micrositename + "&startDate=2019-11-19T10:53:39&endDate=2019-11-18T10:53:39&channelCodes=ONLINE&numberOfReviews=5", request.message);
-                        //GetAvailProm("https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename + "/AvailabilityForDateRangeV2?", request.message);
-                        GetAvailProm("https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + "cairncrosscafe" + "/AvailabilityForDateRangeV2?", request.message);
                     }
                 }
                 catch (NullReferenceException e)
@@ -103,10 +101,10 @@ namespace LogoScanner
         private async void GetAvailProm(string url, string token)
         {
             var datestart = DateTime.Now;
-            var datestartstr = datestart.ToString("yyyy-MM-ddTHH:m:ss");
+            var datestartstr = datestart.ToString("yyyy-MM-ddTHH:mm:ss");
 
             var dateend = DateTime.Now.AddDays(7.00);
-            var dateendstr = dateend.ToString("yyyy-MM-ddTHH:m:ss");
+            var dateendstr = dateend.ToString("yyyy-MM-ddTHH:mm:ss");
 
             JObject r = await Requests.APICallPost(url, token, datestartstr, dateendstr, 3);
             availabletimes.Clear();
@@ -138,7 +136,6 @@ namespace LogoScanner
                                 StringBuilder TimeSlot = new StringBuilder();
 
                                 TimeSlot.Append(timeslot["TimeSlot"].ToString());
-                                TimeSlot.Append(": ");
 
                                 foreach (var availarea in timeslot["AvailableAreaIds"])
                                 {
@@ -146,7 +143,17 @@ namespace LogoScanner
                                     AvailableAreas.Append(", ");
                                 }
                                 AvailableAreas.Remove(AvailableAreas.Length - 2, 2);
-                                availabletimes.Add(new AvailableTimes { Name = day["Date"].ToString().Substring(0, 10), Description = TimeSlot.ToString(), RestaurantAreas = AvailableAreas.ToString() });
+
+                                AvailableTimes at = new AvailableTimes
+                                {
+                                    Name = day["Date"].ToString().Substring(0, 10),
+                                    Description = TimeSlot.ToString(),
+                                    RestaurantAreas = AvailableAreas.ToString()
+                                };
+
+                                getValidPromotions(at);
+                                availabletimes.Add(at);
+
                                 capacity += 1;
                             }
                         }
@@ -195,16 +202,20 @@ namespace LogoScanner
                     builder.Append("&promotionIds=" + id);
                 }
 
-                string p = builder.ToString();
-
                 JArray array_promotions = await Requests.APICallGet(builder.ToString(), token);
 
-                foreach (JToken pr in array_promotions)
+                foreach (var pr in array_promotions)
                 {
+                    var valid = pr["ValidityPeriods"].First;
+
                     promotions.Add(new Promotions
                     {
                         Name = pr["Name"].ToString(),
-                        Description = pr["Description"].ToString()
+                        Description = pr["Description"].ToString(),
+                        StartTime = valid["StartTime"].ToString(),
+                        EndTime = valid["EndTime"].ToString(),
+                        StartDate = valid["StartDate"].ToString().Substring(0, 10),
+                        EndDate = valid["EndDate"].ToString().Substring(0, 10),
                     });
                 }
             }
@@ -228,6 +239,9 @@ namespace LogoScanner
             ReviewsView.ItemsSource = reviews;
 
             OverallReviewsLabel.Text = GetRestaurantField(result, "AverageReviewScore") + "★  |  " + GetRestaurantField(result, "NumberOfReviews") + " reviews";
+            GetAvailProm("https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename + "/AvailabilityForDateRangeV2?", token);
+
+
 
             double latitude = Convert.ToDouble(result["Latitude"].ToString());
             double longitude = Convert.ToDouble(result["Longitude"].ToString());
@@ -333,6 +347,57 @@ namespace LogoScanner
 
                 return returnvalue;
             }
+        }
+
+        private AvailableTimes getValidPromotions(AvailableTimes current)
+        {
+            StringBuilder currenttime = new StringBuilder();
+            StringBuilder allpromotions = new StringBuilder();
+
+            currenttime.Append(current.Name);
+            currenttime.Append(" ");
+            currenttime.Append(current.Description);
+
+            DateTime DateofBooking = DateTime.ParseExact(currenttime.ToString(), "dd/MM/yyyy HH:mm:ss", null);
+            foreach (Promotions p in promotions)
+            {
+                StringBuilder start = new StringBuilder();
+                StringBuilder end = new StringBuilder();
+
+                start.Append(p.StartDate);
+                start.Append(" ");
+                start.Append(p.StartTime);
+
+                end.Append(p.EndDate);
+                end.Append(" ");
+                end.Append(p.EndTime);
+
+                DateTime startPromo = DateTime.ParseExact(start.ToString(), "dd/MM/yyyy HH:mm:ss", null);
+                DateTime endPromo = DateTime.ParseExact(end.ToString(), "dd/MM/yyyy HH:mm:ss", null);
+
+                int res1 = DateTime.Compare(DateofBooking, startPromo);  //Should return 1 or 0 - as DateofBooking should be >= startPromo
+                int res2 = DateTime.Compare(DateofBooking, endPromo);    //Should return -1 or 0 - as DateofBooking should be =< end Promo
+
+                if (res1 >= 0 && res2 <= 0)
+                {
+                    allpromotions.Append("Name: ");
+                    allpromotions.Append(p.Name);
+                    allpromotions.Append("\nDescription: ");
+                    allpromotions.Append(p.Description);
+                    allpromotions.Append("\n\n");
+                }
+            }
+
+            if (allpromotions.Length > 0)
+            {
+                current.Promotions = allpromotions.ToString();
+            }
+            else
+            {
+                current.Promotions = "No Promotions Available";
+            }
+
+            return current;
         }
     }
 }

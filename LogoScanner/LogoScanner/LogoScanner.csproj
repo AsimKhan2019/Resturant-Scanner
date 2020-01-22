@@ -41,9 +41,4 @@
       <HintPath>..\..\..\..\..\..\Library\Frameworks\Xamarin.iOS.framework\Versions\13.6.0.12\lib\mono\Xamarin.iOS\Xamarin.iOS.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Update="Page1.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
 </Project>

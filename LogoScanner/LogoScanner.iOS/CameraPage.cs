@@ -249,6 +249,12 @@ namespace LogoScanner.iOS
             await App.Current.MainPage.Navigation.PushModalAsync(navigationPage, false);
 
             DialogService.HideLoading();
+
+            var error = new NSError();
+            var device = captureDeviceInput.Device;
+            device.LockForConfiguration(out error);
+            device.FlashMode = AVCaptureFlashMode.On;
+            device.UnlockForConfiguration();
         }
 
     }

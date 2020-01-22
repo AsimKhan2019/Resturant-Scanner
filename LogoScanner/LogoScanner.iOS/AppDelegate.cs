@@ -4,6 +4,7 @@ using System.Linq;
 using Acr.UserDialogs;
 using Foundation;
 using ImageCircle.Forms.Plugin.iOS;
+using PanCardView.iOS;
 using Sharpnado.Presentation.Forms.iOS;
 using UIKit;
 using Xamarin.Forms;
@@ -30,7 +31,7 @@ namespace LogoScanner.iOS
             global::Xamarin.FormsMaps.Init();
 
             ImageCircleRenderer.Init();
-            SharpnadoInitializer.Initialize();
+            CardsViewRenderer.Preserve();
 
             LoadApplication(new App());
 

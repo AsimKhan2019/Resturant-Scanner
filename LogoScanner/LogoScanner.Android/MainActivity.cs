@@ -7,8 +7,8 @@ using Android.OS;
 using Plugin.CurrentActivity;
 using Acr.UserDialogs;
 using ImageCircle.Forms.Plugin.Droid;
-using Sharpnado.Presentation.Forms.Droid;
 using Plugin.Permissions;
+using PanCardView.Droid;
 
 namespace LogoScanner.Droid
 {
@@ -28,8 +28,8 @@ namespace LogoScanner.Droid
             global::Xamarin.FormsMaps.Init(this, savedInstanceState);
 
             ImageCircleRenderer.Init();
-            SharpnadoInitializer.Initialize();
             UserDialogs.Init(this);
+            CardsViewRenderer.Preserve();
 
             CrossCurrentActivity.Current.Init(this, savedInstanceState);
             Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, savedInstanceState);

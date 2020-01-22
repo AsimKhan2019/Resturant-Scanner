@@ -1,10 +1,13 @@
 ﻿using Newtonsoft.Json.Linq;
+using System;
+using System.Globalization;
 using System.IO;
 using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace LogoScanner
 {
@@ -29,6 +32,22 @@ namespace LogoScanner
 
             if (connectivity == NetworkAccess.Internet)
             {
+                string token;
+                string tokenExpiracy;
+
+                // check token expiracy
+                if (Application.Current.Properties.ContainsKey("Token") & Application.Current.Properties.ContainsKey("TokenExpiryUtc"))
+                {
+                    token = Application.Current.Properties["Token"].ToString(); // get token which was save locally
+                    tokenExpiracy = Application.Current.Properties["TokenExpiryUtc"].ToString(); //get time of token saved locally
+
+                    if (DateTimeOffset.Parse(tokenExpiracy).UtcDateTime > DateTime.UtcNow)
+                    {
+                        return new Request("Success", token); // return a successful request with api token
+                    }
+                }
+                // else get a new token
+
                 var assembly = Assembly.GetExecutingAssembly();
                 var credentialsFile = "LogoScanner.credentials.txt";
                 string[] line;
@@ -53,7 +72,7 @@ namespace LogoScanner
                         var result = await response.Content.ReadAsStringAsync();
 
                         string status = JObject.Parse(result)["Status"].ToString(); // parse the json to string format
-                        string token = JObject.Parse(result)["Token"].ToString();
+                        token = JObject.Parse(result)["Token"].ToString();
 
                         if (status.Equals("Fail") || token == null)
                         {
@@ -61,6 +80,9 @@ namespace LogoScanner
                         }
                         else
                         {
+                            Application.Current.Properties["Token"] = token; // save the token locally
+                            Application.Current.Properties["TokenExpiryUtc"] = JObject.Parse(result)["TokenExpiryUtc"].ToString(); // save the time
+
                             return new Request(status, token); // return a successful request with api token
                         }
                     }
@@ -80,23 +102,26 @@ namespace LogoScanner
             }
         }
 
-        public static async Task<JObject> APICallGet(string url, string token)
+        public static async Task<JArray> APICallGet(string url, string token)
         {
             HttpClient client = new HttpClient();
             HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Get, url);
             requestMessage.Headers.Add("Authorization", "Bearer " + token);
 
             HttpResponseMessage response = await client.SendAsync(requestMessage);
-            JObject result;
+            JArray result;
             if (response.IsSuccessStatusCode)
             {
                 //Get the Results from the API Call
                 var contents = await response.Content.ReadAsStringAsync();
 
-                contents = contents.TrimStart('[');
-                contents = contents.TrimEnd(']');
+                if (contents[0] != '[')
+                {
+                    contents = contents.Insert(0, "[");
+                    contents += "]";
+                }
 
-                result = JObject.Parse(contents);
+                result = JArray.Parse(contents);
 
                 return result;
             }
@@ -104,8 +129,29 @@ namespace LogoScanner
             return null;
         }
 
-        public static async Task<JObject> APICallPut(string url, string token, JObject content)
+        public static async Task<JObject> APICallPost(string url, string token, string datestart, string dateend, int partysize)
         {
+            HttpClient client = new HttpClient();
+            //HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Post, url);
+            //requestMessage.Headers.Add("Authorization", "Bearer " + token);
+
+            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+            string information = @"{""DateFrom"" : """ + datestart + @""", ""DateTo"" : """ + dateend + @""", ""PartySize"" :" + partysize + @", ""ChannelCode"" : ""ONLINE""}";
+            var content = new StringContent(information, Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = await client.PostAsync(url, content); // get response from the api
+            JObject result;
+
+            if (response.IsSuccessStatusCode) // if call to api is successful
+            {
+                var retstring = await response.Content.ReadAsStringAsync();
+
+                result = JObject.Parse(retstring);
+
+                return result;
+            }
+
             return null;
         }
     }

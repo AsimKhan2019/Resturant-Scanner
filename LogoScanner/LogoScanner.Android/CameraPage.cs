@@ -210,7 +210,7 @@ namespace LogoScanner.Droid
 			camera.StopPreview();
 			DialogService.ShowLoading("Capturing Every Pixel");
 
-			var image = textureView.Bitmap;
+			var image = CropImage(textureView.Bitmap);
 			using (var imageStream = new MemoryStream())
 			{
 				await image.CompressAsync(Bitmap.CompressFormat.Jpeg, 50, imageStream);
@@ -224,6 +224,12 @@ namespace LogoScanner.Droid
 			DialogService.HideLoading();
 			camera.StartPreview();
 			await App.Current.MainPage.Navigation.PushModalAsync(navigationPage, false);
+		}
+
+		private static Bitmap CropImage(Bitmap image)
+		{
+			var resizedbitmap1 = Bitmap.CreateBitmap(image, image.Width/4 -40, image.Height / 4 + 20, 480, 480);
+			return resizedbitmap1;
 		}
 	}
 

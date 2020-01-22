@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Threading;
 using AVFoundation;
 using CoreGraphics;
@@ -6,6 +7,7 @@ using Foundation;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
+using Rectangle = System.Drawing.Rectangle;
 
 
 /*
@@ -89,7 +91,36 @@ namespace LogoScanner.iOS
             var sampleBuffer = await stillImageOutput.CaptureStillImageTaskAsync(videoConnection);
             var jpegImageAsNsData = AVCaptureStillImageOutput.JpegStillToNSData(sampleBuffer);
 
-            SendPhoto(jpegImageAsNsData.ToArray());
+            // crop photo, first change it to UIImage, then crop it
+            UIImage img = new UIImage(jpegImageAsNsData);
+            img = CropImage(img, (int)View.Bounds.GetMidX() + 40, (int)View.Bounds.GetMidY() + 225, 600, 600); // values in rectange are the starting point and then width and height
+            byte[] CroppedImage;
+
+            // change UIImage to byte array
+            using (NSData imageData = img.AsPNG())
+            {
+                CroppedImage = new Byte[imageData.Length];
+                System.Runtime.InteropServices.Marshal.Copy(imageData.Bytes, CroppedImage, 0, Convert.ToInt32(imageData.Length));
+            }
+
+            SendPhoto(CroppedImage);
+        }
+
+        // crop the image, without resizing
+        private UIImage CropImage(UIImage srcImage, int x, int y, int width, int height)
+        {
+            var imgSize = srcImage.Size;
+            UIGraphics.BeginImageContext(new SizeF(width, height));
+
+            var context = UIGraphics.GetCurrentContext();
+            var clippedRect = new RectangleF(0, 0, width, height);
+            context.ClipToRect(clippedRect);
+
+            var drawRect = new RectangleF(-x, -y, (float) imgSize.Width, (float) imgSize.Height);
+            srcImage.Draw(drawRect);
+            var modifiedImage = UIGraphics.GetImageFromCurrentImageContext();
+            UIGraphics.EndImageContext();
+            return modifiedImage;
         }
 
         public void ConfigureCameraForDevice(AVCaptureDevice device)
@@ -219,5 +250,6 @@ namespace LogoScanner.iOS
 
             DialogService.HideLoading();
         }
+
     }
 }

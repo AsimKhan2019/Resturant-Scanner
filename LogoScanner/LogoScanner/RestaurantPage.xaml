@@ -1,27 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <TabbedPage
+    x:Class="LogoScanner.RestaurantPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-
-    xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
-    xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
-    xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView"
-    xmlns:proc="clr-namespace:PanCardView.Processors;assembly=PanCardView"
-
     xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
-    android:TabbedPage.ToolbarPlacement="Bottom"
-    android:TabbedPage.IsSwipePagingEnabled="False"
-
-    NavigationPage.HasNavigationBar="False"
-
-    x:Class="LogoScanner.RestaurantPage"
+    xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView"
+    xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
+    xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+    xmlns:proc="clr-namespace:PanCardView.Processors;assembly=PanCardView"
     Title="Logo Scanner"
+    android:TabbedPage.IsSwipePagingEnabled="False"
+    android:TabbedPage.ToolbarPlacement="Bottom"
     BackgroundColor="White"
     BarBackgroundColor="White"
+    NavigationPage.HasNavigationBar="False"
     SelectedTabColor="#11a0dc"
     Visual="Material">
 
-    <ContentPage x:Name="HomeTab" Title="Home" IconImageSource="HomeIconFilled.png" BackgroundColor="White">
+    <ContentPage
+        x:Name="HomeTab"
+        Title="Home"
+        BackgroundColor="White"
+        IconImageSource="HomeIconFilled.png">
         <StackLayout>
             <Grid>
                 <Grid.RowDefinitions>
@@ -103,7 +103,8 @@
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
                     Padding="15,40,0,0"
-                    Font="Bold, 28"
+                    FontAttributes="Bold"
+                    FontSize="Medium"
                     HorizontalOptions="Start"
                     Text="Restaurant" />
 
@@ -113,7 +114,7 @@
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
                     Padding="15,0"
-                    FontSize="12"
+                    FontSize="Micro"
                     HorizontalOptions="Start"
                     Text="Cuisines" />
 
@@ -123,82 +124,98 @@
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
                     Padding="15,0"
-                    FontSize="12" />
+                    FontSize="Micro" />
 
                 <Grid
                     Grid.Row="5"
                     Grid.Column="0"
                     Grid.ColumnSpan="3">
                     <Label
-                        HorizontalOptions="Start"
-                        VerticalOptions="Center"
-                        FontSize="16"
-                        TextColor="#dfe4ea"
                         Padding="14,0"
-                        Text="★★★★★" />
+                        FontSize="Small"
+                        HorizontalOptions="Start"
+                        Text="★★★★★"
+                        TextColor="#dfe4ea"
+                        VerticalOptions="Center" />
                     <Label
                         x:Name="StarLabel"
+                        Padding="14,0"
+                        FontSize="Small"
                         HorizontalOptions="Start"
-                        VerticalOptions="Center"
-                        FontSize="16"
                         TextColor="#11a0dc"
-                        Padding="14,0" />
+                        VerticalOptions="Center" />
                 </Grid>
 
                 <BoxView
                     Grid.Row="6"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
+                    BackgroundColor="#dfe4ea"
+                    HeightRequest="1"
                     HorizontalOptions="Fill"
                     VerticalOptions="Center"
-                    HeightRequest="1"
-                    WidthRequest="1"
-                    BackgroundColor="#dfe4ea" />
+                    WidthRequest="1" />
 
                 <Label
                     Grid.Row="7"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
+                    Padding="15,0"
+                    FontSize="Small"
                     HorizontalOptions="Start"
-                    VerticalOptions="End"
                     Text="Availability"
-                    FontSize="20"
-                    Padding="15,0" />
+                    VerticalOptions="End" />
 
                 <cards:CoverFlowView
                     x:Name="AvailabilityView"
                     Grid.Row="8"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
-                    PositionShiftValue="145"
                     IsCyclical="False"
-                    SelectedIndex="0"
-                    ItemsSource="{Binding Availability}">
+                    ItemsSource="{Binding Availability}"
+                    PositionShiftValue="145"
+                    SelectedIndex="0">
 
                     <x:Arguments>
-                        <proc:BaseCoverFlowFrontViewProcessor ScaleFactor="0.75" OpacityFactor="0.25" />
-                        <proc:BaseCoverFlowBackViewProcessor  ScaleFactor="0.75" OpacityFactor="0.25" />
+                        <proc:BaseCoverFlowFrontViewProcessor OpacityFactor="0.25" ScaleFactor="0.75" />
+                        <proc:BaseCoverFlowBackViewProcessor OpacityFactor="0.25" ScaleFactor="0.75" />
                     </x:Arguments>
 
                     <cards:CoverFlowView.ItemTemplate>
                         <DataTemplate>
                             <ContentView>
                                 <Frame
-                                    VerticalOptions="Center"
-                                    HorizontalOptions="Center"
-                                    HeightRequest="225"
-                                    WidthRequest="225"
                                     Padding="5"
-                                    HasShadow="False"
-                                    IsClippedToBounds="True"
+                                    BackgroundColor="#dfe4ea"
                                     CornerRadius="10"
-                                    BackgroundColor="#dfe4ea">
+                                    HasShadow="False"
+                                    HeightRequest="225"
+                                    HorizontalOptions="Center"
+                                    IsClippedToBounds="True"
+                                    VerticalOptions="Center"
+                                    WidthRequest="225">
 
                                     <StackLayout>
-                                        <Label Text="{Binding Name,StringFormat='Date: {0}'}" Font="Bold, 12" HorizontalTextAlignment="Center" />
-                                        <Label Text="{Binding Description,StringFormat='Time: {0}'}" Font="Bold, 12" HorizontalTextAlignment="Center" />
-                                        <Label Text="{Binding RestaurantAreas,StringFormat='Available Areas: {0}'}" Font="Bold, 12" HorizontalTextAlignment="Center" />
-                                        <Label Text="{Binding Promotions,StringFormat='Available Promotions: {0}'}" Font="Bold, 12" HorizontalTextAlignment="Center" />
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="Medium"
+                                            HorizontalTextAlignment="Center"
+                                            Text="{Binding Name, StringFormat='Date: {0}'}" />
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="Small"
+                                            HorizontalTextAlignment="Center"
+                                            Text="{Binding Description, StringFormat='Time: {0}'}" />
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="Small"
+                                            HorizontalTextAlignment="Center"
+                                            Text="{Binding RestaurantAreas, StringFormat='Available Areas: {0}'}" />
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="Small"
+                                            HorizontalTextAlignment="Center"
+                                            Text="{Binding Promotions, StringFormat='Available Promotions: {0}'}" />
                                     </StackLayout>
                                 </Frame>
                             </ContentView>
@@ -209,7 +226,11 @@
         </StackLayout>
     </ContentPage>
 
-    <ContentPage x:Name="MenuTab" Title="Menu" IconImageSource="MenuIcon.png" BackgroundColor="White">
+    <ContentPage
+        x:Name="MenuTab"
+        Title="Menu"
+        BackgroundColor="White"
+        IconImageSource="MenuIcon.png">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="2*" />
@@ -223,11 +244,11 @@
 
             <Label
                 Grid.Row="1"
-                HorizontalOptions="Start"
-                VerticalOptions="Center"
-                Text="Menu"
+                Padding="15,0,0,5"
                 Font="Bold, 34"
-                Padding="15,0,0,5" />
+                HorizontalOptions="Start"
+                Text="Menu"
+                VerticalOptions="Center" />
 
             <Label
                 x:Name="MenuLabel"
@@ -242,7 +263,11 @@
         </Grid>
     </ContentPage>
 
-    <ContentPage x:Name="ReviewsTab" Title="Reviews" IconImageSource="ReviewIcon.png" BackgroundColor="White">
+    <ContentPage
+        x:Name="ReviewsTab"
+        Title="Reviews"
+        BackgroundColor="White"
+        IconImageSource="ReviewIcon.png">
         <StackLayout>
             <Grid>
                 <Grid.RowDefinitions>
@@ -258,51 +283,51 @@
 
                 <Label
                     Grid.Row="1"
-                    HorizontalOptions="Start"
-                    VerticalOptions="Center"
-                    Text="Reviews"
+                    Padding="15,0"
                     Font="Bold, 34"
-                    Padding="15,0" />
+                    HorizontalOptions="Start"
+                    Text="Reviews"
+                    VerticalOptions="Center" />
 
                 <Label
+                    x:Name="OverallReviewsLabel"
                     Grid.Row="2"
-                    HorizontalOptions="Start"
-                    VerticalOptions="End"
-                    Text="Reviews"
-                    Font="Bold, 16"
-                    TextColor="#11a0dc"
                     Padding="15,0"
-                    x:Name="OverallReviewsLabel" />
+                    Font="Bold, 16"
+                    HorizontalOptions="Start"
+                    Text="Reviews"
+                    TextColor="#11a0dc"
+                    VerticalOptions="End" />
 
                 <ListView
-                    Grid.Row="3"
-                    ItemsSource="{Binding Reviews}"
                     x:Name="ReviewsView"
-                    HasUnevenRows="True"
-                    SelectionMode="None"
+                    Grid.Row="3"
                     Margin="15,0"
-                    VerticalOptions="Fill"
-                    HorizontalOptions="Fill">
+                    HasUnevenRows="True"
+                    HorizontalOptions="Fill"
+                    ItemsSource="{Binding Reviews}"
+                    SelectionMode="None"
+                    VerticalOptions="Fill">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <StackLayout Padding="0, 20">
-                                    <Label Text="{Binding Name}" Font="Bold, 16" />
+                                <StackLayout Padding="0,20">
+                                    <Label Font="Bold, 16" Text="{Binding Name}" />
 
                                     <Grid>
                                         <Label
-                                            FontSize="12"
-                                            TextColor="#dfe4ea"
-                                            Text="★★★★★" />
+                                            FontSize="Medium"
+                                            Text="★★★★★"
+                                            TextColor="#dfe4ea" />
                                         <Label
-                                            FontSize="12"
-                                            TextColor="#11a0dc"
-                                            Text="{Binding Score}" />
+                                            FontSize="Medium"
+                                            Text="{Binding Score}"
+                                            TextColor="#11a0dc" />
                                     </Grid>
 
-                                    <Label Text="{Binding ReviewDate,StringFormat='Reviewed: {0}'}" Font="Italic, 12" />
+                                    <Label Font="Italic, 12" Text="{Binding ReviewDate, StringFormat='Reviewed: {0}'}" />
                                     <Label Text="{Binding Review}" />
-                                    <Label Text="{Binding VisitDate,StringFormat='Visited: {0}'}" Font="Italic, 12" />
+                                    <Label Font="Italic, 12" Text="{Binding VisitDate, StringFormat='Visited: {0}'}" />
                                 </StackLayout>
                             </ViewCell>
                         </DataTemplate>
@@ -312,6 +337,8 @@
         </StackLayout>
     </ContentPage>
 
-    <ContentPage x:Name="ScanTab" Title="Scan" IconImageSource="ScanIcon.png">
-    </ContentPage>
+    <ContentPage
+        x:Name="ScanTab"
+        Title="Scan"
+        IconImageSource="ScanIcon.png" />
 </TabbedPage>

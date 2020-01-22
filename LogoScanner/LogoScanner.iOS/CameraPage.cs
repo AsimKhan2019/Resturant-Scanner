@@ -83,8 +83,6 @@ namespace LogoScanner.iOS
 
         public async void CapturePhoto()
         {
-            var device = captureDeviceInput.Device;
-            device.FlashMode = AVCaptureFlashMode.Off;
             DialogService.ShowLoading("Capturing Every Pixel");
 
             var videoConnection = stillImageOutput.ConnectionFromMediaType(AVMediaType.Video);
@@ -220,6 +218,12 @@ namespace LogoScanner.iOS
             await App.Current.MainPage.Navigation.PushModalAsync(navigationPage, false);
 
             DialogService.HideLoading();
+
+            var error = new NSError();
+            var device = captureDeviceInput.Device;
+            device.LockForConfiguration(out error);
+            device.FlashMode = AVCaptureFlashMode.On;
+            device.UnlockForConfiguration();
         }
     }
 }

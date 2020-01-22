@@ -225,6 +225,7 @@ namespace LogoScanner
             }
 
             // reviews section
+            reviews.Clear();
             foreach (JToken review in result["Reviews"].ToArray())
             {
                 reviews.Add(new Reviews
@@ -240,8 +241,6 @@ namespace LogoScanner
 
             OverallReviewsLabel.Text = GetRestaurantField(result, "AverageReviewScore") + "★  |  " + GetRestaurantField(result, "NumberOfReviews") + " reviews";
             GetAvailProm("https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename + "/AvailabilityForDateRangeV2?", token);
-
-
 
             double latitude = Convert.ToDouble(result["Latitude"].ToString());
             double longitude = Convert.ToDouble(result["Longitude"].ToString());
@@ -325,6 +324,7 @@ namespace LogoScanner
         private string[] GetPromotionIDs(JObject json)
         {
             string[] returnvalue;
+            promotions.Clear();
 
             if (json["AvailablePromotions"].Type == JTokenType.Null || string.IsNullOrEmpty(json["AvailablePromotions"].ToString()))
             {

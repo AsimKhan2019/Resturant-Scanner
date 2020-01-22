@@ -253,7 +253,7 @@ namespace LogoScanner.iOS
             var error = new NSError();
             var device = captureDeviceInput.Device;
             device.LockForConfiguration(out error);
-            device.FlashMode = AVCaptureFlashMode.On;
+            device.FlashMode = AVCaptureFlashMode.Off;
             device.UnlockForConfiguration();
         }
 

@@ -1,12 +1,11 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using LogoScanner.Helpers;
+using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using Xamarin.Essentials;
 using Xamarin.Forms;
-using Xamarin.Forms.Internals;
 using Xamarin.Forms.Maps;
 using Xamarin.Forms.Xaml;
 
@@ -15,19 +14,21 @@ namespace LogoScanner
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RestaurantPage : TabbedPage
     {
-        private ObservableCollection<Promotion> promotions = new ObservableCollection<Promotion>();
-        private ObservableCollection<Review> reviews = new ObservableCollection<Review>();
-        private ObservableCollection<AvailableTime> availabletimes = new ObservableCollection<AvailableTime>();
+        public static ObservableCollection<Promotion> promotions = new ObservableCollection<Promotion>();
+        public static ObservableCollection<Review> reviews = new ObservableCollection<Review>();
+        public static ObservableCollection<AvailableTime> availableTimes = new ObservableCollection<AvailableTime>();
 
         private string micrositename;
         private string overallReviews;
+        private JObject menu;
 
         public RestaurantPage(string micrositename)
         {
             InitializeComponent();
             this.micrositename = micrositename;
 
-            this.CurrentPageChanged += (object sender, EventArgs e) =>
+            // event called when the tab is changed by the user
+            this.CurrentPageChanged += async (object sender, EventArgs e) =>
             {
                 var tab = this.Children.IndexOf(this.CurrentPage);
 
@@ -46,19 +47,20 @@ namespace LogoScanner
                     case 1:
                         BookingTab.IconImageSource = "BookingIconFilled.png";
                         NavigationPage.SetHasNavigationBar(this, true);
-                        this.Title = "Book";
+                        Title = "Book";
                         break;
 
                     case 2:
                         MenuTab.IconImageSource = "MenuIconFilled.png";
                         NavigationPage.SetHasNavigationBar(this, true);
-                        this.Title = "Menu";
+                        Title = "Menu";
+                        setMenu(menu);
                         break;
 
                     case 3:
                         ReviewsTab.IconImageSource = "ReviewIconFilled.png";
                         NavigationPage.SetHasNavigationBar(this, true);
-                        this.Title = overallReviews;
+                        Title = overallReviews;
                         break;
                 }
             };
@@ -102,102 +104,29 @@ namespace LogoScanner
             }
         }
 
-        private async void GetAvailProm(string url, string token)
-        {
-            var datestart = DateTime.Now;
-            var datestartstr = datestart.ToString("yyyy-MM-ddTHH:mm:ss");
-
-            var dateend = DateTime.Now.AddDays(7.00);
-            var dateendstr = dateend.ToString("yyyy-MM-ddTHH:mm:ss");
-
-            JObject r = await Requests.APICallPost(url, token, datestartstr, dateendstr, 3);
-            availabletimes.Clear();
-            var capacity = 0;
-            AvailabilityView.ItemsSource = availabletimes;
-
-            if (r != null)
-            {
-                foreach (var day in r["AvailableDates"])
-                {
-                    //After client meeting if we decide to show only timeslots that day then uncomment line below
-                    if (capacity <= 3)
-                    {
-                        Dictionary<string, string> areas = new Dictionary<string, string>();
-
-                        foreach (var area in day["Areas"])
-                        {
-                            areas.Add(area["Id"].ToString(), area["Name"].ToString());
-                        }
-                        foreach (var timeslot in day["AvailableTimes"])
-                        {
-                            if (capacity == 3)
-                            {
-                                break;
-                            }
-                            else
-                            {
-                                StringBuilder AvailableAreas = new StringBuilder();
-                                StringBuilder TimeSlot = new StringBuilder();
-
-                                TimeSlot.Append(timeslot["TimeSlot"].ToString());
-
-                                foreach (var availarea in timeslot["AvailableAreaIds"])
-                                {
-                                    AvailableAreas.Append(areas[availarea.ToString()]);
-                                    AvailableAreas.Append(", ");
-                                }
-                                AvailableAreas.Remove(AvailableAreas.Length - 2, 2);
-
-                                string available = "";
-                                if (capacity == 0) available = "AVAILABLE NOW";
-
-                                AvailableTime at = new AvailableTime
-                                {
-                                    Date = day["Date"].ToString().Substring(0, 10),
-                                    Time = TimeSlot.ToString(),
-                                    RestaurantAreas = AvailableAreas.ToString(),
-                                    Available = available
-                                };
-
-                                getValidPromotions(at);
-                                availabletimes.Add(at);
-
-                                capacity += 1;
-                            }
-                        }
-                    }
-                }
-            }
-            else
-            {
-                availabletimes.Add(new AvailableTime { Time = "No Timeslots Currently Available!" });
-            }
-        }
-
         private async void GetRestaurantData(string url, string token)
         {
             JArray r = await Requests.APICallGet(url, token);
             JObject result = (JObject)r.First;
 
             //Parse the API Call and split the JSon object into the various variables.
-            Logo.Source = GetRestaurantField(result, "LogoUrl");
-            NameLabel.Text = GetRestaurantField(result, "Name");
-            CuisinesLabel.Text = GetRestaurantField(result, "CuisineTypes");
+            Logo.Source = Utils.GetRestaurantField(result, "LogoUrl");
+            NameLabel.Text = Utils.GetRestaurantField(result, "Name");
+            CuisinesLabel.Text = Utils.GetRestaurantField(result, "CuisineTypes");
 
             // gets restaurant json object and sets the menu
             var menuUrl = "https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename;
             JArray restaurant = await Requests.APICallGet(menuUrl, token);
-            JObject menu = (JObject)restaurant.First;
-            setMenu(menu);
+            menu = (JObject)restaurant.First;
 
             int price = 0;
             if (result["PricePoint"].Type != JTokenType.Null) price = Int32.Parse(result["PricePoint"].ToString());
-            PriceLabel.Text = GetRestaurantField(result, "PricePoint", "£", price);
+            PriceLabel.Text = Utils.GetRestaurantField(result, "PricePoint", "£", price);
 
             int stars = (int)Math.Round(Double.Parse(result["AverageReviewScore"].ToString()), 0, MidpointRounding.AwayFromZero);
-            StarLabel.Text = GetRestaurantField(result, "AverageReviewScore", "★", stars);
+            StarLabel.Text = Utils.GetRestaurantField(result, "AverageReviewScore", "★", stars);
 
-            string[] promotion_ids = GetPromotionIDs(result);
+            string[] promotion_ids = Promotions.GetPromotionIDs(result);
 
             if (promotion_ids.Length > 0)
             {
@@ -240,15 +169,15 @@ namespace LogoScanner
                 {
                     Name = review["ReviewedBy"].ToString(),
                     Content = review["Review"].ToString(),
-                    Score = GetRestaurantField((JObject)review, "AverageScore", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
+                    Score = Utils.GetRestaurantField((JObject)review, "AverageScore", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
                     ReviewDate = review["ReviewDateTime"].ToString(),
                     VisitDate = review["VisitDateTime"].ToString()
                 });
             }
             ReviewsView.ItemsSource = reviews;
 
-            overallReviews = GetRestaurantField(result, "AverageReviewScore") + "★  |  " + GetRestaurantField(result, "NumberOfReviews") + " reviews";
-            GetAvailProm("https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename + "/AvailabilityForDateRangeV2?", token);
+            overallReviews = Utils.GetRestaurantField(result, "AverageReviewScore") + "★  |  " + Utils.GetRestaurantField(result, "NumberOfReviews") + " reviews";
+            Promotions.GetAvailablePromotions("https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename + "/AvailabilityForDateRangeV2?", token);
 
             double latitude = Convert.ToDouble(result["Latitude"].ToString());
             double longitude = Convert.ToDouble(result["Longitude"].ToString());
@@ -271,6 +200,9 @@ namespace LogoScanner
                     new MapLaunchOptions { Name = name, NavigationMode = NavigationMode.Default }
                 );
             };
+
+            availableTimes.Clear();
+            AvailabilityView.ItemsSource = availableTimes;
         }
 
         //method to get menu for restaurant
@@ -296,119 +228,8 @@ namespace LogoScanner
             }
         }
 
-        // method to get field from json object
-        private string GetRestaurantField(JObject json, string field)
-        {
-            if (json[field].Type == JTokenType.Null || string.IsNullOrEmpty(json[field].ToString()))
-                return "No Set " + field;
-            else if (json[field] is JArray)
-            {
-                StringBuilder builder = new StringBuilder();
-                JToken[] cuisines = json[field].ToArray();
-
-                foreach (string cuisine in cuisines)
-                {
-                    builder.Append(cuisine);
-                    if (cuisines.IndexOf(cuisine) != cuisines.Count() - 1) builder.Append(", ");
-                }
-
-                return builder.ToString();
-            }
-            else
-            {
-                return json[field].ToString();
-            }
-        }
-
-        // method to get field from json object and produce a string with symbols which are repeated i number of times
-        private string GetRestaurantField(JObject json, string field, string symbol, int i)
-        {
-            if (json[field].Type == JTokenType.Null || string.IsNullOrEmpty(json[field].ToString()))
-                return "No Set " + field;
-            else
-                return String.Concat(Enumerable.Repeat(symbol, i));
-        }
-
-        private string[] GetPromotionIDs(JObject json)
-        {
-            string[] returnvalue;
-            promotions.Clear();
-
-            if (json["AvailablePromotions"].Type == JTokenType.Null || string.IsNullOrEmpty(json["AvailablePromotions"].ToString()))
-            {
-                returnvalue = new string[0];
-                returnvalue[0] = "No Promotions Currently Available";
-                return returnvalue;
-            }
-            else
-            {
-                JToken[] promotion_ids = json["AvailablePromotions"].ToArray();
-
-                int i = 0;
-                returnvalue = new string[promotion_ids.Length];
-
-                foreach (string id in promotion_ids)
-                {
-                    returnvalue[i] = id;
-                    i++;
-                }
-
-                return returnvalue;
-            }
-        }
-
-        private AvailableTime getValidPromotions(AvailableTime current)
-        {
-            StringBuilder currenttime = new StringBuilder();
-            StringBuilder allpromotions = new StringBuilder();
-
-            currenttime.Append(current.Date);
-            currenttime.Append(" ");
-            currenttime.Append(current.Time);
-
-            DateTime DateofBooking = DateTime.ParseExact(currenttime.ToString(), "dd/MM/yyyy HH:mm:ss", null);
-            foreach (Promotion p in promotions)
-            {
-                StringBuilder start = new StringBuilder();
-                StringBuilder end = new StringBuilder();
-
-                start.Append(p.StartDate);
-                start.Append(" ");
-                start.Append(p.StartTime);
-
-                end.Append(p.EndDate);
-                end.Append(" ");
-                end.Append(p.EndTime);
-
-                DateTime startPromo = DateTime.ParseExact(start.ToString(), "dd/MM/yyyy HH:mm:ss", null);
-                DateTime endPromo = DateTime.ParseExact(end.ToString(), "dd/MM/yyyy HH:mm:ss", null);
-
-                int res1 = DateTime.Compare(DateofBooking, startPromo);  //Should return 1 or 0 - as DateofBooking should be >= startPromo
-                int res2 = DateTime.Compare(DateofBooking, endPromo);    //Should return -1 or 0 - as DateofBooking should be =< end Promo
-
-                if (res1 >= 0 && res2 <= 0)
-                {
-                    allpromotions.Append("\nPromotions\n");
-                    allpromotions.Append(p.Name);
-                    allpromotions.Append("\n");
-                    allpromotions.Append(p.Description);
-                    allpromotions.Append("\n\n");
-                }
-            }
-
-            if (allpromotions.Length > 0)
-            {
-                current.Promotions = allpromotions.ToString();
-            }
-            else
-            {
-                current.Promotions = "No Promotions Available";
-            }
-
-            return current;
-        }
-
-        void FloatingButton_Clicked(System.Object sender, System.EventArgs e)
+        // event triggered when the floating action button is clicked
+        void FloatingButton_Clicked(object sender, EventArgs e)
         {
             Navigation.PushModalAsync(new MainPage());
         }

@@ -322,9 +322,10 @@
                     ItemsSource="{Binding Reviews}"
                     SelectionMode="None"
                     VerticalOptions="Fill">
+
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <ViewCell>
+                            <ViewCell IsEnabled="False">
                                 <StackLayout Padding="0,20">
                                     <Label Font="Bold, 16" Text="{Binding Name}" />
 

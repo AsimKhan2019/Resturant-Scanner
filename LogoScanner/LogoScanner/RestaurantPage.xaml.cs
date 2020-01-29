@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using Xamarin.Essentials;
@@ -220,10 +221,7 @@ namespace LogoScanner
                     });
                 }
             }
-            else
-            {
-                promotions.Add(new Promotions { Name = "No Promotions Currently Available!" });
-            }
+
 
             // reviews section
             reviews.Clear();
@@ -354,38 +352,39 @@ namespace LogoScanner
         {
             StringBuilder currenttime = new StringBuilder();
             StringBuilder allpromotions = new StringBuilder();
-
+            IFormatProvider provider = CultureInfo.InvariantCulture;
             currenttime.Append(current.Name);
             currenttime.Append(" ");
             currenttime.Append(current.Description);
 
-            DateTime DateofBooking = DateTime.ParseExact(currenttime.ToString(), "dd/MM/yyyy HH:mm:ss", null);
+            DateTime DateofBooking = DateTime.ParseExact(currenttime.ToString(), "dd/MM/yyyy HH:mm:ss", provider);
             foreach (Promotions p in promotions)
             {
                 StringBuilder start = new StringBuilder();
                 StringBuilder end = new StringBuilder();
+                if (!string.IsNullOrEmpty(p.StartDate) && !string.IsNullOrEmpty(p.StartTime) && !string.IsNullOrEmpty(p.EndDate) && !string.IsNullOrEmpty(p.EndTime)) {
+                    start.Append(p.StartDate);
+                    start.Append(" ");
+                    start.Append(p.StartTime);
 
-                start.Append(p.StartDate);
-                start.Append(" ");
-                start.Append(p.StartTime);
+                    end.Append(p.EndDate);
+                    end.Append(" ");
+                    end.Append(p.EndTime);
 
-                end.Append(p.EndDate);
-                end.Append(" ");
-                end.Append(p.EndTime);
+                    DateTime startPromo = DateTime.ParseExact(start.ToString(), "yyyy-MM-dd HH:mm:ss", provider);
+                    DateTime endPromo = DateTime.ParseExact(end.ToString(), "yyyy-MM-dd HH:mm:ss", provider);
 
-                DateTime startPromo = DateTime.ParseExact(start.ToString(), "dd/MM/yyyy HH:mm:ss", null);
-                DateTime endPromo = DateTime.ParseExact(end.ToString(), "dd/MM/yyyy HH:mm:ss", null);
+                    int res1 = DateTime.Compare(DateofBooking, startPromo);  //Should return 1 or 0 - as DateofBooking should be >= startPromo
+                    int res2 = DateTime.Compare(DateofBooking, endPromo);    //Should return -1 or 0 - as DateofBooking should be =< end Promo
 
-                int res1 = DateTime.Compare(DateofBooking, startPromo);  //Should return 1 or 0 - as DateofBooking should be >= startPromo
-                int res2 = DateTime.Compare(DateofBooking, endPromo);    //Should return -1 or 0 - as DateofBooking should be =< end Promo
-
-                if (res1 >= 0 && res2 <= 0)
-                {
-                    allpromotions.Append("\nName: ");
-                    allpromotions.Append(p.Name);
-                    allpromotions.Append("\nDescription: ");
-                    allpromotions.Append(p.Description);
-                    allpromotions.Append("\n\n");
+                    if (res1 >= 0 && res2 <= 0)
+                    {
+                        allpromotions.Append("\nName: ");
+                        allpromotions.Append(p.Name);
+                        allpromotions.Append("\nDescription: ");
+                        allpromotions.Append(p.Description);
+                        allpromotions.Append("\n\n");
+                    }
                 }
             }
 

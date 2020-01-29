@@ -111,9 +111,12 @@ namespace LogoScanner
             JObject r = await Requests.APICallPost(url, token, datestartstr, dateendstr, 3);
             availabletimes.Clear();
             var capacity = 0;
+
             AvailabilityView.ItemsSource = availabletimes;
 
-            if (r != null)
+            var check_avail = r["AvailableDates"].ToString();
+
+            if (r != null && check_avail.Length > 2)
             {
                 foreach (var day in r["AvailableDates"])
                 {
@@ -164,7 +167,8 @@ namespace LogoScanner
             }
             else
             {
-                availabletimes.Add(new AvailableTimes { Name = "No Timeslots Currently Available!" });
+                AvailabilityView.IsVisible = false;
+                NoAvailabilityLabel.IsVisible = true;
             }
         }
 
@@ -221,7 +225,6 @@ namespace LogoScanner
                     });
                 }
             }
-
 
             // reviews section
             reviews.Clear();
@@ -362,7 +365,8 @@ namespace LogoScanner
             {
                 StringBuilder start = new StringBuilder();
                 StringBuilder end = new StringBuilder();
-                if (!string.IsNullOrEmpty(p.StartDate) && !string.IsNullOrEmpty(p.StartTime) && !string.IsNullOrEmpty(p.EndDate) && !string.IsNullOrEmpty(p.EndTime)) {
+                if (!string.IsNullOrEmpty(p.StartDate) && !string.IsNullOrEmpty(p.StartTime) && !string.IsNullOrEmpty(p.EndDate) && !string.IsNullOrEmpty(p.EndTime))
+                {
                     start.Append(p.StartDate);
                     start.Append(" ");
                     start.Append(p.StartTime);

@@ -166,6 +166,17 @@
                     Text="Availability"
                     VerticalOptions="End" />
 
+                <Label
+                    x:Name="NoAvailabilityLabel"
+                    Text="No Tables Currently Available."
+                    Grid.Row="8"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    FontSize="Small"
+                    HorizontalOptions="Start"
+                    VerticalOptions="End"
+                    IsVisible="False" />
+
                 <cards:CoverFlowView
                     x:Name="AvailabilityView"
                     Grid.Row="8"

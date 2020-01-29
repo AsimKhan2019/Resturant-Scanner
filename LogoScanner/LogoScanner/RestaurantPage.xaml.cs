@@ -156,10 +156,6 @@ namespace LogoScanner
                     });
                 }
             }
-            else
-            {
-                promotions.Add(new Promotion { Name = "No Promotions Currently Available!" });
-            }
 
             // reviews section
             reviews.Clear();

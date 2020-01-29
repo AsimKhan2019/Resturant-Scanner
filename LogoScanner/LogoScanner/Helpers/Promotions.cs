@@ -60,8 +60,8 @@ namespace LogoScanner.Helpers
                                 AvailableTime at = new AvailableTime
                                 {
                                     Date = day["Date"].ToString().Substring(0, 10),
-                                    Time = timeSlot.ToString(),
-                                    RestaurantAreas = availableAreas.ToString(),
+                                    Time = timeSlot.ToString().Substring(0,5),
+                                    RestaurantAreas = availableAreas.ToString().Replace("\t",""),
                                     Available = available
                                 };
 
@@ -111,6 +111,7 @@ namespace LogoScanner.Helpers
             currentTime.Append(current.Date);
             currentTime.Append(" ");
             currentTime.Append(current.Time);
+            currentTime.Append(":00");
 
             DateTime dateofBooking = DateTime.ParseExact(currentTime.ToString(), "dd/MM/yyyy HH:mm:ss", null);
             foreach (Promotion p in RestaurantPage.promotions)

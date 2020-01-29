@@ -371,8 +371,8 @@ namespace LogoScanner
                     end.Append(" ");
                     end.Append(p.EndTime);
 
-                    DateTime startPromo = DateTime.ParseExact(start.ToString(), "yyyy-MM-dd HH:mm:ss", provider);
-                    DateTime endPromo = DateTime.ParseExact(end.ToString(), "yyyy-MM-dd HH:mm:ss", provider);
+                    DateTime startPromo = DateTime.ParseExact(start.ToString(), "dd/MM/yyyy HH:mm:ss", provider);
+                    DateTime endPromo = DateTime.ParseExact(end.ToString(), "dd/MM/yyyy HH:mm:ss", provider);
 
                     int res1 = DateTime.Compare(DateofBooking, startPromo);  //Should return 1 or 0 - as DateofBooking should be >= startPromo
                     int res2 = DateTime.Compare(DateofBooking, endPromo);    //Should return -1 or 0 - as DateofBooking should be =< end Promo

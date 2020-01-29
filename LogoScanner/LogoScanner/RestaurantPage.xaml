@@ -199,18 +199,31 @@
                         HorizontalOptions="Start"
                         VerticalOptions="Start" />
 
-                <floating:FloatingActionButton
-                    x:Name="FloatingButton1"
-                    Image="ScanIcon.png"
-                    Grid.Row="9"
-                    Grid.Column="2"
-                    WidthRequest="100"
-                    HeightRequest="100"
-                    HorizontalOptions="EndAndExpand"
-                    VerticalOptions="EndAndExpand"
-                    Margin="18"
-                    ButtonColor="#11a0dc"
-                    Clicked="FloatingButton_Clicked"/>
+                    <floating:FloatingActionButton
+                        x:Name="FloatingButton1"
+                        Image="ScanIcon.png"
+                        Grid.Row="9"
+                        Grid.Column="2"
+                        HorizontalOptions="EndAndExpand"
+                        VerticalOptions="EndAndExpand"
+                        Margin="18"
+                        ButtonColor="#11a0dc"
+                        Clicked="FloatingButton_Clicked">
+
+                        <floating:FloatingActionButton.WidthRequest>
+                            <OnPlatform x:TypeArguments="x:Double">
+                                <On Platform="iOS">80</On>
+                                <On Platform="Android">80</On>
+                            </OnPlatform>
+                        </floating:FloatingActionButton.WidthRequest>
+
+                        <floating:FloatingActionButton.HeightRequest>
+                            <OnPlatform x:TypeArguments="x:Double">
+                                <On Platform="iOS">80</On>
+                                <On Platform="Android">90</On>
+                            </OnPlatform>
+                        </floating:FloatingActionButton.HeightRequest>
+                    </floating:FloatingActionButton>
                 </Grid>
             </StackLayout>
         </ContentView>
@@ -262,8 +275,7 @@
                                                         TextColor="White"
                                                         Margin="24,24,24,0"
                                                         FontSize="18"
-                                                        HorizontalOptions="EndAndExpand"
-                                                        FontAttributes="Italic"/>
+                                                        HorizontalOptions="EndAndExpand"/>
                                                 </StackLayout>
 
                                                 <Label
@@ -360,13 +372,26 @@
             <floating:FloatingActionButton
                 x:Name="FloatingButton2"
                 Image="ScanIcon.png"
-                WidthRequest="100"
-                HeightRequest="100"
                 HorizontalOptions="EndAndExpand"
                 VerticalOptions="EndAndExpand"
                 Margin="18"
                 ButtonColor="#11a0dc"
-                Clicked="FloatingButton_Clicked"/>
+                Clicked="FloatingButton_Clicked">
+
+                <floating:FloatingActionButton.WidthRequest>
+                    <OnPlatform x:TypeArguments="x:Double">
+                        <On Platform="iOS">80</On>
+                        <On Platform="Android">80</On>
+                    </OnPlatform>
+                </floating:FloatingActionButton.WidthRequest>
+
+                <floating:FloatingActionButton.HeightRequest>
+                    <OnPlatform x:TypeArguments="x:Double">
+                        <On Platform="iOS">80</On>
+                        <On Platform="Android">90</On>
+                    </OnPlatform>
+                </floating:FloatingActionButton.HeightRequest>
+            </floating:FloatingActionButton>
         </Grid>
     </ContentPage>
 
@@ -399,13 +424,26 @@
                 x:Name="FloatingButton3"
                 Image="ScanIcon.png"
                 Grid.Row="0"
-                WidthRequest="100"
-                HeightRequest="100"
                 HorizontalOptions="EndAndExpand"
                 VerticalOptions="EndAndExpand"
                 Margin="18"
                 ButtonColor="#11a0dc"
-                Clicked="FloatingButton_Clicked"/>
+                Clicked="FloatingButton_Clicked">
+
+                <floating:FloatingActionButton.WidthRequest>
+                    <OnPlatform x:TypeArguments="x:Double">
+                        <On Platform="iOS">80</On>
+                        <On Platform="Android">80</On>
+                    </OnPlatform>
+                </floating:FloatingActionButton.WidthRequest>
+
+                <floating:FloatingActionButton.HeightRequest>
+                    <OnPlatform x:TypeArguments="x:Double">
+                        <On Platform="iOS">80</On>
+                        <On Platform="Android">90</On>
+                    </OnPlatform>
+                </floating:FloatingActionButton.HeightRequest>
+            </floating:FloatingActionButton>
         </Grid>
     </ContentPage>
 
@@ -464,13 +502,26 @@
                     x:Name="FloatingButton4"
                     Image="ScanIcon.png"
                     Grid.Row="0"
-                    WidthRequest="100"
-                    HeightRequest="100"
                     HorizontalOptions="EndAndExpand"
                     VerticalOptions="EndAndExpand"
                     Margin="18"
                     ButtonColor="#11a0dc"
-                    Clicked="FloatingButton_Clicked"/>
+                    Clicked="FloatingButton_Clicked">
+
+                    <floating:FloatingActionButton.WidthRequest>
+                        <OnPlatform x:TypeArguments="x:Double">
+                            <On Platform="iOS">80</On>
+                            <On Platform="Android">80</On>
+                        </OnPlatform>
+                    </floating:FloatingActionButton.WidthRequest>
+
+                    <floating:FloatingActionButton.HeightRequest>
+                        <OnPlatform x:TypeArguments="x:Double">
+                            <On Platform="iOS">80</On>
+                            <On Platform="Android">90</On>
+                        </OnPlatform>
+                    </floating:FloatingActionButton.HeightRequest>
+                </floating:FloatingActionButton>
             </Grid>
         </StackLayout>
     </ContentPage>

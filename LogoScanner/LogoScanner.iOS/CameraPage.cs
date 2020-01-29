@@ -7,7 +7,6 @@ using Foundation;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
-using Rectangle = System.Drawing.Rectangle;
 
 
 /*

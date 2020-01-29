@@ -28,7 +28,7 @@ namespace LogoScanner
             this.micrositename = micrositename;
 
             // event called when the tab is changed by the user
-            this.CurrentPageChanged += async (object sender, EventArgs e) =>
+            this.CurrentPageChanged += (object sender, EventArgs e) =>
             {
                 var tab = this.Children.IndexOf(this.CurrentPage);
 
@@ -118,6 +118,8 @@ namespace LogoScanner
             var menuUrl = "https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename;
             JArray restaurant = await Requests.APICallGet(menuUrl, token);
             menu = (JObject)restaurant.First;
+
+            if (Device.RuntimePlatform == Device.Android) setMenu(menu); // setting the menu here on iOS causes it to load twice
 
             int price = 0;
             if (result["PricePoint"].Type != JTokenType.Null) price = Int32.Parse(result["PricePoint"].ToString());

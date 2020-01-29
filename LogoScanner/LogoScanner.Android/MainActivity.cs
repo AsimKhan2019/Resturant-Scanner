@@ -7,6 +7,7 @@ using Acr.UserDialogs;
 using ImageCircle.Forms.Plugin.Droid;
 using Plugin.Permissions;
 using CarouselView.FormsPlugin.Android;
+using SuaveControls.FloatingActionButton.Droid.Renderers;
 
 namespace LogoScanner.Droid
 {
@@ -28,6 +29,7 @@ namespace LogoScanner.Droid
             ImageCircleRenderer.Init();
             UserDialogs.Init(this);
             CarouselViewRenderer.Init();
+            FloatingActionButtonRenderer.Initialize();
 
             CrossCurrentActivity.Current.Init(this, savedInstanceState);
             Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, savedInstanceState);

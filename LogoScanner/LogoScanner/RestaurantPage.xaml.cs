@@ -1,9 +1,11 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Logoscanner;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
@@ -19,7 +21,7 @@ namespace LogoScanner
         private ObservableCollection<Reviews> reviews = new ObservableCollection<Reviews>();
         private ObservableCollection<AvailableTimes> availabletimes = new ObservableCollection<AvailableTimes>();
 
-        private string micrositename;
+        private readonly string micrositename;
 
         public RestaurantPage(string micrositename)
         {
@@ -398,6 +400,37 @@ namespace LogoScanner
             }
 
             return current;
+        }
+
+        public void Makebooking(string microsite, string date, string time)
+        {
+            //Passed in as Date: 29/01/2020
+            //Passed in as Time: 11:45:00
+            date = date.Substring(6, 10);
+            time = time.Substring(6, 8);
+
+            string bookingdate = string.Format("{0}-{1}-{2}", date.Substring(6, 4), date.Substring(3, 2), date.Substring(0, 2));
+
+            string booking = "https://book.rdbranch.com/Restaurant/" + microsite +
+                        "/Book/Customer?bookingDateTime=" + bookingdate +
+                        "T" + time.Substring(0, 2) +
+                        "%3A" + time.Substring(3, 2) +
+                        "%3A00&covers=" + "3";
+
+            Launcher.OpenAsync(booking);
+        }
+
+        public void booktimeslot(Object Sender, EventArgs e)
+        {
+            Button b = (Button)Sender;
+            StackLayout selected_timeslot = (StackLayout)b.Parent;
+            var date_label = (Label)selected_timeslot.Children[0];
+            var date = date_label.Text;
+
+            var time_label = (Label)selected_timeslot.Children[1];
+            var time = time_label.Text;
+
+            Makebooking(micrositename, date, time);
         }
     }
 }

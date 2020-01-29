@@ -166,6 +166,17 @@
                     Text="Availability"
                     VerticalOptions="End" />
 
+                <Label
+                    x:Name="NoAvailabilityLabel"
+                    Text="No Tables Currently Available."
+                    Grid.Row="8"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    FontSize="Small"
+                    HorizontalOptions="Start"
+                    VerticalOptions="End"
+                    IsVisible="False" />
+
                 <cards:CoverFlowView
                     x:Name="AvailabilityView"
                     Grid.Row="8"
@@ -181,7 +192,8 @@
                         <proc:BaseCoverFlowBackViewProcessor OpacityFactor="0.25" ScaleFactor="0.75" />
                     </x:Arguments>
 
-                    <cards:CoverFlowView.ItemTemplate>
+                    <cards:CoverFlowView.ItemTemplate
+                        ItemSelected="Availability_ItemSelected">
                         <DataTemplate>
                             <ContentView>
                                 <Frame
@@ -216,6 +228,19 @@
                                             FontSize="Small"
                                             HorizontalTextAlignment="Center"
                                             Text="{Binding Promotions, StringFormat='Available Promotions: {0}'}" />
+
+                                        <Button
+                                            BackgroundColor="White"
+                                            Padding="20,0"
+                                            CornerRadius="20"
+                                            TextColor="#11a0dc"
+                                            FontSize="12"
+                                            BorderColor="#11a0dc"
+                                            BorderWidth="2"
+                                            HeightRequest="40"
+                                            Text="BOOK NOW"
+                                            HorizontalOptions="Center"
+                                            Clicked="booktimeslot" />
                                     </StackLayout>
                                 </Frame>
                             </ContentView>

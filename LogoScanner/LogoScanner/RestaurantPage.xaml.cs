@@ -1,9 +1,12 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Logoscanner;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
@@ -19,7 +22,7 @@ namespace LogoScanner
         private ObservableCollection<Reviews> reviews = new ObservableCollection<Reviews>();
         private ObservableCollection<AvailableTimes> availabletimes = new ObservableCollection<AvailableTimes>();
 
-        private string micrositename;
+        private readonly string micrositename;
 
         public RestaurantPage(string micrositename)
         {
@@ -110,9 +113,12 @@ namespace LogoScanner
             JObject r = await Requests.APICallPost(url, token, datestartstr, dateendstr, 3);
             availabletimes.Clear();
             var capacity = 0;
+
             AvailabilityView.ItemsSource = availabletimes;
 
-            if (r != null)
+            var check_avail = r["AvailableDates"].ToString();
+
+            if (r != null && check_avail.Length > 2)
             {
                 foreach (var day in r["AvailableDates"])
                 {
@@ -163,7 +169,8 @@ namespace LogoScanner
             }
             else
             {
-                availabletimes.Add(new AvailableTimes { Name = "No Timeslots Currently Available!" });
+                AvailabilityView.IsVisible = false;
+                NoAvailabilityLabel.IsVisible = true;
             }
         }
 
@@ -219,10 +226,6 @@ namespace LogoScanner
                         EndDate = valid["EndDate"].ToString().Substring(0, 10),
                     });
                 }
-            }
-            else
-            {
-                promotions.Add(new Promotions { Name = "No Promotions Currently Available!" });
             }
 
             // reviews section
@@ -354,38 +357,40 @@ namespace LogoScanner
         {
             StringBuilder currenttime = new StringBuilder();
             StringBuilder allpromotions = new StringBuilder();
-
+            IFormatProvider provider = CultureInfo.InvariantCulture;
             currenttime.Append(current.Name);
             currenttime.Append(" ");
             currenttime.Append(current.Description);
 
-            DateTime DateofBooking = DateTime.ParseExact(currenttime.ToString(), "dd/MM/yyyy HH:mm:ss", null);
+            DateTime DateofBooking = DateTime.ParseExact(currenttime.ToString(), "dd/MM/yyyy HH:mm:ss", provider);
             foreach (Promotions p in promotions)
             {
                 StringBuilder start = new StringBuilder();
                 StringBuilder end = new StringBuilder();
-
-                start.Append(p.StartDate);
-                start.Append(" ");
-                start.Append(p.StartTime);
-
-                end.Append(p.EndDate);
-                end.Append(" ");
-                end.Append(p.EndTime);
-
-                DateTime startPromo = DateTime.ParseExact(start.ToString(), "dd/MM/yyyy HH:mm:ss", null);
-                DateTime endPromo = DateTime.ParseExact(end.ToString(), "dd/MM/yyyy HH:mm:ss", null);
-
-                int res1 = DateTime.Compare(DateofBooking, startPromo);  //Should return 1 or 0 - as DateofBooking should be >= startPromo
-                int res2 = DateTime.Compare(DateofBooking, endPromo);    //Should return -1 or 0 - as DateofBooking should be =< end Promo
-
-                if (res1 >= 0 && res2 <= 0)
+                if (!string.IsNullOrEmpty(p.StartDate) && !string.IsNullOrEmpty(p.StartTime) && !string.IsNullOrEmpty(p.EndDate) && !string.IsNullOrEmpty(p.EndTime))
                 {
-                    allpromotions.Append("\nName: ");
-                    allpromotions.Append(p.Name);
-                    allpromotions.Append("\nDescription: ");
-                    allpromotions.Append(p.Description);
-                    allpromotions.Append("\n\n");
+                    start.Append(p.StartDate);
+                    start.Append(" ");
+                    start.Append(p.StartTime);
+
+                    end.Append(p.EndDate);
+                    end.Append(" ");
+                    end.Append(p.EndTime);
+
+                    DateTime startPromo = DateTime.ParseExact(start.ToString(), "dd/MM/yyyy HH:mm:ss", provider);
+                    DateTime endPromo = DateTime.ParseExact(end.ToString(), "dd/MM/yyyy HH:mm:ss", provider);
+
+                    int res1 = DateTime.Compare(DateofBooking, startPromo);  //Should return 1 or 0 - as DateofBooking should be >= startPromo
+                    int res2 = DateTime.Compare(DateofBooking, endPromo);    //Should return -1 or 0 - as DateofBooking should be =< end Promo
+
+                    if (res1 >= 0 && res2 <= 0)
+                    {
+                        allpromotions.Append("\nName: ");
+                        allpromotions.Append(p.Name);
+                        allpromotions.Append("\nDescription: ");
+                        allpromotions.Append(p.Description);
+                        allpromotions.Append("\n\n");
+                    }
                 }
             }
 
@@ -399,6 +404,19 @@ namespace LogoScanner
             }
 
             return current;
+        }
+
+        public void booktimeslot(Object Sender, EventArgs e)
+        {
+            Button b = (Button)Sender;
+            StackLayout selected_timeslot = (StackLayout)b.Parent;
+            var date_label = (Label)selected_timeslot.Children[0];
+            var date = date_label.Text;
+
+            var time_label = (Label)selected_timeslot.Children[1];
+            var time = time_label.Text;
+
+            Booking.Makebooking(micrositename, date, time);
         }
     }
 }

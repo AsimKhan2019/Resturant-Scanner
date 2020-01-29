@@ -149,11 +149,15 @@ namespace LogoScanner
                                 }
                                 AvailableAreas.Remove(AvailableAreas.Length - 2, 2);
 
+                                string available = "";
+                                if (capacity == 0) available = "AVAILABLE NOW";
+
                                 AvailableTime at = new AvailableTime
                                 {
-                                    Name = day["Date"].ToString().Substring(0, 10),
-                                    Description = TimeSlot.ToString(),
-                                    RestaurantAreas = AvailableAreas.ToString()
+                                    Date = day["Date"].ToString().Substring(0, 10),
+                                    Time = TimeSlot.ToString(),
+                                    RestaurantAreas = AvailableAreas.ToString(),
+                                    Available = available
                                 };
 
                                 getValidPromotions(at);
@@ -167,7 +171,7 @@ namespace LogoScanner
             }
             else
             {
-                availabletimes.Add(new AvailableTime { Name = "No Timeslots Currently Available!" });
+                availabletimes.Add(new AvailableTime { Time = "No Timeslots Currently Available!" });
             }
         }
 
@@ -359,9 +363,9 @@ namespace LogoScanner
             StringBuilder currenttime = new StringBuilder();
             StringBuilder allpromotions = new StringBuilder();
 
-            currenttime.Append(current.Name);
+            currenttime.Append(current.Date);
             currenttime.Append(" ");
-            currenttime.Append(current.Description);
+            currenttime.Append(current.Time);
 
             DateTime DateofBooking = DateTime.ParseExact(currenttime.ToString(), "dd/MM/yyyy HH:mm:ss", null);
             foreach (Promotion p in promotions)
@@ -385,9 +389,9 @@ namespace LogoScanner
 
                 if (res1 >= 0 && res2 <= 0)
                 {
-                    allpromotions.Append("\nName: ");
+                    allpromotions.Append("\nPromotions\n");
                     allpromotions.Append(p.Name);
-                    allpromotions.Append("\nDescription: ");
+                    allpromotions.Append("\n");
                     allpromotions.Append(p.Description);
                     allpromotions.Append("\n\n");
                 }

@@ -28,16 +28,6 @@
             <StackLayout>
                 <Grid>
                     <Grid.RowDefinitions>
-                        <!--<RowDefinition Height="18*" />
-                        <RowDefinition Height="15*" />
-                        <RowDefinition Height="10*" />
-                        <RowDefinition Height="2*" />
-                        <RowDefinition Height="2*" />
-                        <RowDefinition Height="3*" />
-                        <RowDefinition Height="3*" />
-                        <RowDefinition Height="3*" />
-                        <RowDefinition Height="42*" />-->
-
                         <RowDefinition Height="18*" />
                         <RowDefinition Height="15*" />
                         <RowDefinition Height="Auto" />
@@ -217,53 +207,121 @@
         Title="Book"
         IconImageSource="BookingIcon.png"
         BackgroundColor="White">
-                <Grid Padding="0,60">
 
-                    <carousel:CarouselViewControl x:Name="AvailabilityView" ItemsSource="{Binding Availability}"
-                            ShowArrows="False"
-                            ShowIndicators="True"
-                            IndicatorsTintColor="Gray"
-                            CurrentPageIndicatorTintColor="#11a0dc"
-                            IndicatorsShape="Circle"
-                                                  HorizontalOptions="FillAndExpand"
-                                                  VerticalOptions="FillAndExpand">                
+        <Grid Padding="0,60">
+            <carousel:CarouselViewControl
+                x:Name="AvailabilityView"
+                ItemsSource="{Binding Availability}"
+                ShowArrows="False"
+                ShowIndicators="True"
+                IndicatorsTintColor="Gray"
+                CurrentPageIndicatorTintColor="#11a0dc"
+                IndicatorsShape="Circle"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand">
+                
+                <carousel:CarouselViewControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="32,64,32,64">
+                            <yummy:PancakeView
+                                CornerRadius="32"
+                                HeightRequest="400"
+                                BackgroundColor="White"
+                                HasShadow="True">
 
-                    <carousel:CarouselViewControl.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Padding="40,30">
-                                <yummy:PancakeView CornerRadius="32" BackgroundColor="White" HasShadow="True">
-                                    <StackLayout VerticalOptions="Fill" HorizontalOptions="Fill">
-                                        <yummy:PancakeView VerticalOptions="FillAndExpand" CornerRadius="32" BackgroundGradientStartColor="#11a0dc" BackgroundGradientEndColor="#dfe4ea">
-                                            <Grid>
-                                                <!--<Label Text="{Binding Description}" TextColor="#55000000" VerticalOptions="End" Margin="0,0,0,24" FontSize="140" FontAttributes="Bold" LineBreakMode="NoWrap" />-->
-                                                <StackLayout>
-                                                    <StackLayout Orientation="Horizontal">
-                                                        <Label Text="{Binding Name}" TextColor="White" Margin="24,10,24,0" FontSize="16" FontAttributes="Bold" />
-                                                        <!--<Image Source="BookingIcon.png" HeightRequest="28" HorizontalOptions="EndAndExpand" Margin="24,14,24,0" />-->
-                                                        <!--<Label HorizontalOptions="EndAndExpand" Text="" TextColor="Black" Margin="24,24,24,0" FontSize="18" LineBreakMode="NoWrap" />-->
-                                                    </StackLayout>
-
-                                                    <Label Text="{Binding Description}" TextColor="White" Margin="24,10,0,0" FontSize="18" FontAttributes="Bold" />
-                                                    <Label Text="{Binding RestaurantAreas}" TextColor="White" Margin="24,8,0,0" FontSize="14" />
-                                                    <Label Text="{Binding Promotions}" TextColor="White" Margin="24,0,0,10" FontSize="14" />
+                                <StackLayout
+                                    VerticalOptions="Fill"
+                                    HorizontalOptions="Fill">
+                                    <yummy:PancakeView
+                                        VerticalOptions="FillAndExpand"
+                                        CornerRadius="32"
+                                        BackgroundGradientStartColor="#11a0dc"
+                                        BackgroundGradientEndColor="#dfe4ea">
+                                        <Grid>
+                                            <StackLayout>
+                                                <StackLayout Orientation="Horizontal">
+                                                    <Label
+                                                        Text="{Binding Date}"
+                                                        TextColor="White"
+                                                        Margin="24,24,24,0"
+                                                        FontSize="18"
+                                                        FontAttributes="Bold"
+                                                        HorizontalOptions="EndAndExpand" />
                                                 </StackLayout>
-                                            </Grid>
-                                        </yummy:PancakeView>
 
-                                        <StackLayout BackgroundColor="White" VerticalOptions="FillAndExpand" Margin="0,-32,0,32" HeightRequest="50">
-                                            <StackLayout VerticalOptions="CenterAndExpand" Margin="0,32,0,0">
-                                                <Button BackgroundColor="White" Padding="20,0" CornerRadius="20" TextColor="#11a0dc" FontSize="12" BorderColor="#11a0dc" BorderWidth="2" HeightRequest="40" Text="BOOK NOW" HorizontalOptions="Center" />
-                                                <Label Margin="0,8,0,0" TextColor="Gray" Text="Book to avoid disappointment" FontSize="10" HorizontalOptions="Center" />
+                                                <Label
+                                                    Text="{Binding Time}"
+                                                    TextColor="White"
+                                                    Margin="24,24,0,0"
+                                                    FontSize="32"
+                                                    FontAttributes="Bold" />
+
+                                                <Label
+                                                    Text="Available Areas"
+                                                    TextColor="White"
+                                                    Margin="24,8,0,0"
+                                                    FontSize="14" />
+
+                                                <Label
+                                                    Text="{Binding RestaurantAreas}"
+                                                    TextColor="White"
+                                                    Margin="24,0,0,0"
+                                                    FontSize="14" />
+
+                                                <Label
+                                                    Text="{Binding Promotions}"
+                                                    TextColor="White"
+                                                    Margin="24,0,0,10"
+                                                    FontSize="14" />
                                             </StackLayout>
+                                        </Grid>
+                                    </yummy:PancakeView>
+
+                                    <StackLayout
+                                        BackgroundColor="White"
+                                        VerticalOptions="FillAndExpand"
+                                        Margin="0,-32,0,32"
+                                        HeightRequest="50">
+
+                                        <StackLayout
+                                            VerticalOptions="CenterAndExpand"
+                                            Margin="0,32,0,0">
+
+                                            <Label
+                                                Margin="0,0,0,10"
+                                                TextColor="LimeGreen"
+                                                FontSize="12"
+                                                FontAttributes="Bold"
+                                                Text="{Binding Available}"
+                                                HorizontalOptions="Center" />
+
+                                            <Button
+                                                BackgroundColor="White"
+                                                Padding="20,0"
+                                                CornerRadius="20"
+                                                TextColor="#11a0dc"
+                                                FontSize="12"
+                                                BorderColor="#11a0dc"
+                                                BorderWidth="2"
+                                                HeightRequest="40"
+                                                Text="BOOK NOW"
+                                                HorizontalOptions="Center" />
+
+                                            <Label
+                                                Margin="0,8,0,0"
+                                                TextColor="Gray"
+                                                Text="Book to avoid disappointment"
+                                                FontSize="10"
+                                                HorizontalOptions="Center" />
                                         </StackLayout>
                                     </StackLayout>
-                                </yummy:PancakeView>
-                                <!--<Image Source="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/SNice.svg/1200px-SNice.svg.png" WidthRequest="300" VerticalOptions="EndAndExpand" HorizontalOptions="EndAndExpand" Margin="0,0,-56,152" />-->
-                            </Grid>
-                        </DataTemplate>
-                    </carousel:CarouselViewControl.ItemTemplate>
-                </carousel:CarouselViewControl>
-                    </Grid>
+                                </StackLayout>
+                            </yummy:PancakeView>
+                        </Grid>
+                    </DataTemplate>
+                </carousel:CarouselViewControl.ItemTemplate>
+            </carousel:CarouselViewControl>
+        </Grid>
     </ContentPage>
 
     <ContentPage
@@ -301,11 +359,6 @@
         <StackLayout>
             <Grid>
                 <Grid.RowDefinitions>
-                    <!--<RowDefinition Height="2*" />
-                    <RowDefinition Height="8*" />
-                    <RowDefinition Height="3*" />
-                    <RowDefinition Height="90*" />-->
-
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 

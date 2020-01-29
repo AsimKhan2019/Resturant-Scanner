@@ -28,10 +28,10 @@
     <Compile Remove="RestaurantPageTab.xaml.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="credentials.txt" />
+    <None Remove="credentials.json" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="credentials.txt" />
+    <EmbeddedResource Include="credentials.json" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Mono.Android">

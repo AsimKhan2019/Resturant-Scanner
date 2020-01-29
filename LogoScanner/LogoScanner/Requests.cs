@@ -49,16 +49,16 @@ namespace LogoScanner
                 // else get a new token
 
                 var assembly = Assembly.GetExecutingAssembly();
-                var credentialsFile = "LogoScanner.credentials.txt";
-                string[] line;
+                var credentialsFile = "LogoScanner.credentials.json";
+                JObject line;
 
                 using (Stream stream = assembly.GetManifestResourceStream(credentialsFile))
                 using (StreamReader reader = new StreamReader(stream))
                 {
-                    line = reader.ReadLine().Split('\t'); // opens credentials file, reads it and splits it via a tab
+                    line = JObject.Parse(reader.ReadToEnd()); // opens credentials file, reads it and parse JSON
                 }
 
-                string credentials = @"{""Username"" : """ + line[0] + @""", ""Password"" : """ + line[1] + @"""}"; // parse in username/password to json
+                string credentials = @"{""Username"" : """ + line["ResDiaryAPI"]["username"].ToString() + @""", ""Password"" : """ + line["ResDiaryAPI"]["password"].ToString() + @"""}"; // parse in username/password to json
 
                 try
                 {

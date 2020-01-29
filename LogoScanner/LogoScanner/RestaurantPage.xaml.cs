@@ -1,10 +1,12 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Logoscanner;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
@@ -20,7 +22,7 @@ namespace LogoScanner
         private ObservableCollection<Reviews> reviews = new ObservableCollection<Reviews>();
         private ObservableCollection<AvailableTimes> availabletimes = new ObservableCollection<AvailableTimes>();
 
-        private string micrositename;
+        private readonly string micrositename;
 
         public RestaurantPage(string micrositename)
         {
@@ -402,6 +404,19 @@ namespace LogoScanner
             }
 
             return current;
+        }
+
+        public void booktimeslot(Object Sender, EventArgs e)
+        {
+            Button b = (Button)Sender;
+            StackLayout selected_timeslot = (StackLayout)b.Parent;
+            var date_label = (Label)selected_timeslot.Children[0];
+            var date = date_label.Text;
+
+            var time_label = (Label)selected_timeslot.Children[1];
+            var time = time_label.Text;
+
+            Booking.Makebooking(micrositename, date, time);
         }
     }
 }

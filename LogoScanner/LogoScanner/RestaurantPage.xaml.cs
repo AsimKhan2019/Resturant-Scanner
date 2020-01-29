@@ -15,11 +15,12 @@ namespace LogoScanner
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RestaurantPage : TabbedPage
     {
-        private ObservableCollection<Promotions> promotions = new ObservableCollection<Promotions>();
-        private ObservableCollection<Reviews> reviews = new ObservableCollection<Reviews>();
-        private ObservableCollection<AvailableTimes> availabletimes = new ObservableCollection<AvailableTimes>();
+        private ObservableCollection<Promotion> promotions = new ObservableCollection<Promotion>();
+        private ObservableCollection<Review> reviews = new ObservableCollection<Review>();
+        private ObservableCollection<AvailableTime> availabletimes = new ObservableCollection<AvailableTime>();
 
         private string micrositename;
+        private string overallReviews;
 
         public RestaurantPage(string micrositename)
         {
@@ -33,7 +34,7 @@ namespace LogoScanner
                 HomeTab.IconImageSource = "HomeIcon.png";
                 MenuTab.IconImageSource = "MenuIcon.png";
                 ReviewsTab.IconImageSource = "ReviewIcon.png";
-                ScanTab.IconImageSource = "ScanIcon.png";
+                BookingTab.IconImageSource = "BookingIcon.png";
 
                 switch (tab)
                 {
@@ -43,18 +44,22 @@ namespace LogoScanner
                         break;
 
                     case 1:
-                        MenuTab.IconImageSource = "MenuIconFilled.png";
+                        BookingTab.IconImageSource = "BookingIconFilled.png";
                         NavigationPage.SetHasNavigationBar(this, true);
+                        this.Title = "Book";
+                        //Navigation.PushModalAsync(new MainPage());
                         break;
 
                     case 2:
-                        ReviewsTab.IconImageSource = "ReviewIconFilled.png";
+                        MenuTab.IconImageSource = "MenuIconFilled.png";
                         NavigationPage.SetHasNavigationBar(this, true);
+                        this.Title = "Menu";
                         break;
 
                     case 3:
-                        ScanTab.IconImageSource = "ScanIconFilled.png";
-                        Navigation.PushModalAsync(new MainPage());
+                        ReviewsTab.IconImageSource = "ReviewIconFilled.png";
+                        NavigationPage.SetHasNavigationBar(this, true);
+                        this.Title = overallReviews;
                         break;
                 }
             };
@@ -144,7 +149,7 @@ namespace LogoScanner
                                 }
                                 AvailableAreas.Remove(AvailableAreas.Length - 2, 2);
 
-                                AvailableTimes at = new AvailableTimes
+                                AvailableTime at = new AvailableTime
                                 {
                                     Name = day["Date"].ToString().Substring(0, 10),
                                     Description = TimeSlot.ToString(),
@@ -162,7 +167,7 @@ namespace LogoScanner
             }
             else
             {
-                availabletimes.Add(new AvailableTimes { Name = "No Timeslots Currently Available!" });
+                availabletimes.Add(new AvailableTime { Name = "No Timeslots Currently Available!" });
             }
         }
 
@@ -208,7 +213,7 @@ namespace LogoScanner
                 {
                     var valid = pr["ValidityPeriods"].First;
 
-                    promotions.Add(new Promotions
+                    promotions.Add(new Promotion
                     {
                         Name = pr["Name"].ToString(),
                         Description = pr["Description"].ToString(),
@@ -221,17 +226,17 @@ namespace LogoScanner
             }
             else
             {
-                promotions.Add(new Promotions { Name = "No Promotions Currently Available!" });
+                promotions.Add(new Promotion { Name = "No Promotions Currently Available!" });
             }
 
             // reviews section
             reviews.Clear();
             foreach (JToken review in result["Reviews"].ToArray())
             {
-                reviews.Add(new Reviews
+                reviews.Add(new Review
                 {
                     Name = review["ReviewedBy"].ToString(),
-                    Review = review["Review"].ToString(),
+                    Content = review["Review"].ToString(),
                     Score = GetRestaurantField((JObject)review, "AverageScore", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
                     ReviewDate = review["ReviewDateTime"].ToString(),
                     VisitDate = review["VisitDateTime"].ToString()
@@ -239,7 +244,7 @@ namespace LogoScanner
             }
             ReviewsView.ItemsSource = reviews;
 
-            OverallReviewsLabel.Text = GetRestaurantField(result, "AverageReviewScore") + "★  |  " + GetRestaurantField(result, "NumberOfReviews") + " reviews";
+            overallReviews = GetRestaurantField(result, "AverageReviewScore") + "★  |  " + GetRestaurantField(result, "NumberOfReviews") + " reviews";
             GetAvailProm("https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename + "/AvailabilityForDateRangeV2?", token);
 
             double latitude = Convert.ToDouble(result["Latitude"].ToString());
@@ -349,7 +354,7 @@ namespace LogoScanner
             }
         }
 
-        private AvailableTimes getValidPromotions(AvailableTimes current)
+        private AvailableTime getValidPromotions(AvailableTime current)
         {
             StringBuilder currenttime = new StringBuilder();
             StringBuilder allpromotions = new StringBuilder();
@@ -359,7 +364,7 @@ namespace LogoScanner
             currenttime.Append(current.Description);
 
             DateTime DateofBooking = DateTime.ParseExact(currenttime.ToString(), "dd/MM/yyyy HH:mm:ss", null);
-            foreach (Promotions p in promotions)
+            foreach (Promotion p in promotions)
             {
                 StringBuilder start = new StringBuilder();
                 StringBuilder end = new StringBuilder();

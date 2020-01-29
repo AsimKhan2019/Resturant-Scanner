@@ -1,6 +1,4 @@
-﻿using System;
-
-using Android.App;
+﻿using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
@@ -8,7 +6,7 @@ using Plugin.CurrentActivity;
 using Acr.UserDialogs;
 using ImageCircle.Forms.Plugin.Droid;
 using Plugin.Permissions;
-using PanCardView.Droid;
+using CarouselView.FormsPlugin.Android;
 
 namespace LogoScanner.Droid
 {
@@ -29,7 +27,7 @@ namespace LogoScanner.Droid
 
             ImageCircleRenderer.Init();
             UserDialogs.Init(this);
-            CardsViewRenderer.Preserve();
+            CarouselViewRenderer.Init();
 
             CrossCurrentActivity.Current.Init(this, savedInstanceState);
             Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, savedInstanceState);

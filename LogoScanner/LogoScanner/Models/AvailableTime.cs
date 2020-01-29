@@ -1,6 +1,6 @@
 ﻿using System;
 
-public class AvailableTimes
+public class AvailableTime
 {
     public string Name { get; set; }
     public string Description { get; set; }

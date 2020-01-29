@@ -85,7 +85,7 @@ namespace LogoScanner.iOS
 
         public async void CapturePhoto()
         {
-            DialogService.ShowLoading("Capturing Every Pixel");
+            DialogService.ShowLoading("Scanning Logo");
 
             var videoConnection = stillImageOutput.ConnectionFromMediaType(AVMediaType.Video);
             var sampleBuffer = await stillImageOutput.CaptureStillImageTaskAsync(videoConnection);
@@ -244,7 +244,8 @@ namespace LogoScanner.iOS
         public async void SendPhoto(byte[] image)
         {
             var results = await CustomVisionService.PredictImageContentsAsync(image, (new CancellationTokenSource()).Token);
-            var navigationPage = new NavigationPage(new RestaurantPage(results.ToString()));
+            //var navigationPage = new NavigationPage(new RestaurantPage(results.ToString()));
+            var navigationPage = new NavigationPage(new RestaurantPage("cairncrosscafe"));
 
             await App.Current.MainPage.Navigation.PushModalAsync(navigationPage, false);
 

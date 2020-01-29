@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Acr.UserDialogs;
+﻿using CarouselView.FormsPlugin.iOS;
 using Foundation;
 using ImageCircle.Forms.Plugin.iOS;
-using PanCardView.iOS;
-using Sharpnado.Presentation.Forms.iOS;
 using UIKit;
-using Xamarin.Forms;
 
 namespace LogoScanner.iOS
 {
@@ -31,7 +25,7 @@ namespace LogoScanner.iOS
             global::Xamarin.FormsMaps.Init();
 
             ImageCircleRenderer.Init();
-            CardsViewRenderer.Preserve();
+            CarouselViewRenderer.Init();
 
             LoadApplication(new App());
 

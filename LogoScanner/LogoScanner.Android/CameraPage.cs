@@ -211,7 +211,7 @@ namespace LogoScanner.Droid
             parameters.FlashMode = global::Android.Hardware.Camera.Parameters.FlashModeOff;
             camera.SetParameters(parameters);
             camera.StopPreview();
-			DialogService.ShowLoading("Capturing Every Pixel");
+			DialogService.ShowLoading("Scanning Logo");
 
 			var image = CropImage(textureView.Bitmap);
 			using (var imageStream = new MemoryStream())

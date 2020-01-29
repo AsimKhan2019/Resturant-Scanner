@@ -178,6 +178,9 @@
     <PackageReference Include="LiveXAML">
       <Version>2.1.73</Version>
     </PackageReference>
+    <PackageReference Include="SuaveControls.FloatingActionButton">
+      <Version>2018.1.5</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
@@ -191,14 +194,13 @@
     <BundleResource Include="Resources\FlashButton.png" />
     <BundleResource Include="Resources\ReviewIcon.png" />
     <BundleResource Include="Resources\HomeIcon.png" />
-    <BundleResource Include="Resources\ScanIcon.png" />
     <BundleResource Include="Resources\MenuIcon.png" />
     <BundleResource Include="Resources\HomeIconFilled.png" />
-    <BundleResource Include="Resources\ScanIconFilled.png" />
     <BundleResource Include="Resources\ReviewIconFilled.png" />
     <BundleResource Include="Resources\MenuIconFilled.png" />
-    <BundleResource Include="Resources\BookingIcon.png" />
+    <BundleResource Include="Resources\ScanIcon.png" />
     <BundleResource Include="Resources\BookingIconFilled.png" />
+    <BundleResource Include="Resources\BookingIcon.png" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\TakePhotoButton.png" />

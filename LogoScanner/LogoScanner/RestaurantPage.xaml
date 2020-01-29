@@ -8,6 +8,7 @@
     xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
     xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     xmlns:carousel="clr-namespace:CarouselView.FormsPlugin.Abstractions;assembly=CarouselView.FormsPlugin.Abstractions"
+    xmlns:floating="clr-namespace:SuaveControls.Views;assembly=SuaveControls.FloatingActionButton"
 
     android:TabbedPage.IsSwipePagingEnabled="False"
     android:TabbedPage.ToolbarPlacement="Bottom"
@@ -197,6 +198,19 @@
                         Text="Contact"
                         HorizontalOptions="Start"
                         VerticalOptions="Start" />
+
+                <floating:FloatingActionButton
+                    x:Name="FloatingButton1"
+                    Image="ScanIcon.png"
+                    Grid.Row="9"
+                    Grid.Column="2"
+                    WidthRequest="100"
+                    HeightRequest="100"
+                    HorizontalOptions="EndAndExpand"
+                    VerticalOptions="EndAndExpand"
+                    Margin="18"
+                    ButtonColor="#11a0dc"
+                    Clicked="FloatingButton_Clicked"/>
                 </Grid>
             </StackLayout>
         </ContentView>
@@ -208,7 +222,8 @@
         IconImageSource="BookingIcon.png"
         BackgroundColor="White">
 
-        <Grid Padding="0,60">
+        <!--<Grid Padding="0,60">-->
+        <Grid>
             <carousel:CarouselViewControl
                 x:Name="AvailabilityView"
                 ItemsSource="{Binding Availability}"
@@ -218,16 +233,18 @@
                 CurrentPageIndicatorTintColor="#11a0dc"
                 IndicatorsShape="Circle"
                 HorizontalOptions="FillAndExpand"
-                VerticalOptions="FillAndExpand">
+                VerticalOptions="FillAndExpand"
+                Margin="0,60">
                 
                 <carousel:CarouselViewControl.ItemTemplate>
                     <DataTemplate>
-                        <Grid Padding="32,64,32,64">
+                        <Grid Padding="32,64">
                             <yummy:PancakeView
                                 CornerRadius="32"
                                 HeightRequest="400"
                                 BackgroundColor="White"
-                                HasShadow="True">
+                                HasShadow="True"
+                                Grid.Row="0">
 
                                 <StackLayout
                                     VerticalOptions="Fill"
@@ -245,7 +262,6 @@
                                                         TextColor="White"
                                                         Margin="24,24,24,0"
                                                         FontSize="18"
-                                                        FontAttributes="Bold"
                                                         HorizontalOptions="EndAndExpand" />
                                                 </StackLayout>
 
@@ -253,13 +269,14 @@
                                                     Text="{Binding Time}"
                                                     TextColor="White"
                                                     Margin="24,24,0,0"
-                                                    FontSize="32"
+                                                    FontSize="36"
                                                     FontAttributes="Bold" />
 
                                                 <Label
-                                                    Text="Available Areas"
+                                                    Text="AVAILABLE AREAS"
                                                     TextColor="White"
-                                                    Margin="24,8,0,0"
+                                                    FontAttributes="Bold"
+                                                    Margin="24,24,0,0"
                                                     FontSize="14" />
 
                                                 <Label
@@ -321,6 +338,17 @@
                     </DataTemplate>
                 </carousel:CarouselViewControl.ItemTemplate>
             </carousel:CarouselViewControl>
+
+            <floating:FloatingActionButton
+                x:Name="FloatingButton2"
+                Image="ScanIcon.png"
+                WidthRequest="100"
+                HeightRequest="100"
+                HorizontalOptions="EndAndExpand"
+                VerticalOptions="EndAndExpand"
+                Margin="18"
+                ButtonColor="#11a0dc"
+                Clicked="FloatingButton_Clicked"/>
         </Grid>
     </ContentPage>
 
@@ -348,6 +376,18 @@
                 x:Name="Menu"
                 Grid.Row="0"
                 VerticalOptions="FillAndExpand" />
+
+            <floating:FloatingActionButton
+                x:Name="FloatingButton3"
+                Image="ScanIcon.png"
+                Grid.Row="0"
+                WidthRequest="100"
+                HeightRequest="100"
+                HorizontalOptions="EndAndExpand"
+                VerticalOptions="EndAndExpand"
+                Margin="18"
+                ButtonColor="#11a0dc"
+                Clicked="FloatingButton_Clicked"/>
         </Grid>
     </ContentPage>
 
@@ -401,6 +441,18 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
+
+                <floating:FloatingActionButton
+                    x:Name="FloatingButton4"
+                    Image="ScanIcon.png"
+                    Grid.Row="0"
+                    WidthRequest="100"
+                    HeightRequest="100"
+                    HorizontalOptions="EndAndExpand"
+                    VerticalOptions="EndAndExpand"
+                    Margin="18"
+                    ButtonColor="#11a0dc"
+                    Clicked="FloatingButton_Clicked"/>
             </Grid>
         </StackLayout>
     </ContentPage>

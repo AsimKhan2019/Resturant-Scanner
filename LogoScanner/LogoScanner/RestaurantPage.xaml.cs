@@ -47,7 +47,6 @@ namespace LogoScanner
                         BookingTab.IconImageSource = "BookingIconFilled.png";
                         NavigationPage.SetHasNavigationBar(this, true);
                         this.Title = "Book";
-                        //Navigation.PushModalAsync(new MainPage());
                         break;
 
                     case 2:
@@ -407,6 +406,11 @@ namespace LogoScanner
             }
 
             return current;
+        }
+
+        void FloatingButton_Clicked(System.Object sender, System.EventArgs e)
+        {
+            Navigation.PushModalAsync(new MainPage());
         }
     }
 }

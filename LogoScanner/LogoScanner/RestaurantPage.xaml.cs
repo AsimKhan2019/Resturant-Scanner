@@ -153,7 +153,7 @@ namespace LogoScanner
 
                                 AvailableTimes at = new AvailableTimes
                                 {
-                                    Name = day["Date"].ToString().Substring(0, 10),
+                                    Name = Convert.ToDateTime(day["Date"].ToString()).Date.ToString("dd/MM/yyyy"),
                                     Description = TimeSlot.ToString(),
                                     RestaurantAreas = AvailableAreas.ToString()
                                 };
@@ -222,8 +222,8 @@ namespace LogoScanner
                         Description = pr["Description"].ToString(),
                         StartTime = valid["StartTime"].ToString(),
                         EndTime = valid["EndTime"].ToString(),
-                        StartDate = valid["StartDate"].ToString().Substring(0, 10),
-                        EndDate = valid["EndDate"].ToString().Substring(0, 10),
+                        StartDate = Convert.ToDateTime(valid["StartDate"].ToString()).Date.ToString("dd/MM/yyyy"),
+                        EndDate = Convert.ToDateTime(valid["EndDate"].ToString()).Date.ToString("dd/MM/yyyy"),
                     });
                 }
             }

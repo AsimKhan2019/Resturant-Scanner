@@ -6,6 +6,7 @@ using Android.Views;
 using Android.Widget;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
+using Plugin.Connectivity;
 using System;
 using System.IO;
 using System.Threading;
@@ -207,26 +208,36 @@ namespace LogoScanner.Droid
 		[Obsolete]
 		private async void TakePhotoButtonTapped(object sender, EventArgs e)
 		{
-            var parameters = camera.GetParameters();
-            parameters.FlashMode = global::Android.Hardware.Camera.Parameters.FlashModeOff;
-            camera.SetParameters(parameters);
-            camera.StopPreview();
-			DialogService.ShowLoading("Capturing Every Pixel");
+			var current = CrossConnectivity.Current.IsConnected;
 
-			var image = CropImage(textureView.Bitmap);
-			using (var imageStream = new MemoryStream())
-			{
-				await image.CompressAsync(Bitmap.CompressFormat.Jpeg, 50, imageStream);
-				image.Recycle();
-				imageBytes = imageStream.ToArray();
+            if (!current)
+            {
+				await App.Current.MainPage.DisplayAlert("Connection Error", "Please connect to the internet", "OK");
 			}
 
-			var results = await CustomVisionService.PredictImageContentsAsync(imageBytes, (new CancellationTokenSource()).Token);
-			var navigationPage = new NavigationPage(new RestaurantPage(results.ToString()));
+            else
+            {
+				var parameters = camera.GetParameters();
+				parameters.FlashMode = global::Android.Hardware.Camera.Parameters.FlashModeOff;
+				camera.SetParameters(parameters);
+				camera.StopPreview();
+				DialogService.ShowLoading("Capturing Every Pixel");
 
-			DialogService.HideLoading();
-			camera.StartPreview();
-			await App.Current.MainPage.Navigation.PushModalAsync(navigationPage, false);
+				var image = CropImage(textureView.Bitmap);
+				using (var imageStream = new MemoryStream())
+				{
+					await image.CompressAsync(Bitmap.CompressFormat.Jpeg, 50, imageStream);
+					image.Recycle();
+					imageBytes = imageStream.ToArray();
+				}
+
+				var results = await CustomVisionService.PredictImageContentsAsync(imageBytes, (new CancellationTokenSource()).Token);
+				var navigationPage = new NavigationPage(new RestaurantPage(results.ToString()));
+
+				DialogService.HideLoading();
+				camera.StartPreview();
+				await App.Current.MainPage.Navigation.PushModalAsync(navigationPage, false);
+			}
 		}
 
 		private static Bitmap CropImage(Bitmap image)

@@ -7,6 +7,7 @@ using Foundation;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
+using Plugin.Connectivity;
 using Rectangle = System.Drawing.Rectangle;
 
 
@@ -85,25 +86,39 @@ namespace LogoScanner.iOS
 
         public async void CapturePhoto()
         {
-            DialogService.ShowLoading("Capturing Every Pixel");
+            var current = CrossConnectivity.Current.IsConnected;
 
-            var videoConnection = stillImageOutput.ConnectionFromMediaType(AVMediaType.Video);
-            var sampleBuffer = await stillImageOutput.CaptureStillImageTaskAsync(videoConnection);
-            var jpegImageAsNsData = AVCaptureStillImageOutput.JpegStillToNSData(sampleBuffer);
-
-            // crop photo, first change it to UIImage, then crop it
-            UIImage img = new UIImage(jpegImageAsNsData);
-            img = CropImage(img, (int)View.Bounds.GetMidX() + 40, (int)View.Bounds.GetMidY() + 225, 600, 600); // values in rectange are the starting point and then width and height
-            byte[] CroppedImage;
-
-            // change UIImage to byte array
-            using (NSData imageData = img.AsPNG())
+            if (!current)
             {
-                CroppedImage = new Byte[imageData.Length];
-                System.Runtime.InteropServices.Marshal.Copy(imageData.Bytes, CroppedImage, 0, Convert.ToInt32(imageData.Length));
+                var okAlertController = UIAlertController.Create("Connection Error", "Please connect to the internet", UIAlertControllerStyle.Alert);
+
+                okAlertController.AddAction(UIAlertAction.Create("OK", UIAlertActionStyle.Default, null));
+
+                PresentViewController(okAlertController, true, null);  
             }
 
-            SendPhoto(CroppedImage);
+            else
+            {
+                DialogService.ShowLoading("Capturing Every Pixel");
+
+                var videoConnection = stillImageOutput.ConnectionFromMediaType(AVMediaType.Video);
+                var sampleBuffer = await stillImageOutput.CaptureStillImageTaskAsync(videoConnection);
+                var jpegImageAsNsData = AVCaptureStillImageOutput.JpegStillToNSData(sampleBuffer);
+
+                // crop photo, first change it to UIImage, then crop it
+                UIImage img = new UIImage(jpegImageAsNsData);
+                img = CropImage(img, (int)View.Bounds.GetMidX() + 40, (int)View.Bounds.GetMidY() + 225, 600, 600); // values in rectange are the starting point and then width and height
+                byte[] CroppedImage;
+
+                // change UIImage to byte array
+                using (NSData imageData = img.AsPNG())
+                {
+                    CroppedImage = new Byte[imageData.Length];
+                    System.Runtime.InteropServices.Marshal.Copy(imageData.Bytes, CroppedImage, 0, Convert.ToInt32(imageData.Length));
+                }
+
+                SendPhoto(CroppedImage);
+            }
         }
 
         // crop the image, without resizing

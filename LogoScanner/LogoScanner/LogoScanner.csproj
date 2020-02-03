@@ -46,4 +46,9 @@
     <Folder Include="Models\" />
     <Folder Include="Helpers\" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="RestaurantPage.xaml">
+      <IncludeInPackage>false</IncludeInPackage>
+    </EmbeddedResource>
+  </ItemGroup>
 </Project>

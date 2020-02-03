@@ -54,15 +54,22 @@ namespace LogoScanner.Helpers
                                 }
                                 availableAreas.Remove(availableAreas.Length - 2, 2);
 
-                                string available = "";
-                                if (capacity == 0) available = "AVAILABLE NOW";
+                                string available = "Book to avoid disappointment";
+                                string colour = "Gray";
+
+                                if (capacity == 0)
+                                {
+                                    available = "AVAILABLE NOW";
+                                    colour = "LimeGreen";
+                                }
 
                                 AvailableTime at = new AvailableTime
                                 {
                                     Date = day["Date"].ToString().Substring(0, 10),
                                     Time = timeSlot.ToString().Substring(0,5),
                                     RestaurantAreas = availableAreas.ToString().Replace("\t",""),
-                                    Available = available
+                                    Available = available,
+                                    Colour = colour
                                 };
 
                                 getValidPromotions(at);

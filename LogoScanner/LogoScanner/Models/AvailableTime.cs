@@ -7,4 +7,5 @@ public class AvailableTime
     public string RestaurantAreas { get; set; }
     public string Promotions { get; set; }
     public string Available { get; set; }
+    public string Colour { get; set; }
 }

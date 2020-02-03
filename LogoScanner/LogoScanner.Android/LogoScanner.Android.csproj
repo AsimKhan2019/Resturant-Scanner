@@ -187,7 +187,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LogoScanner\LogoScanner.csproj">
-      <Project>{846A20E7-0EE0-4EE6-9F35-6A3A19FA969C}</Project>
+      <Project>{63F01C6B-13EB-4075-8785-A0A54BA85B24}</Project>
       <Name>LogoScanner</Name>
     </ProjectReference>
   </ItemGroup>

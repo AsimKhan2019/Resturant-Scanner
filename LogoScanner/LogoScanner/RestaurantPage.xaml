@@ -324,22 +324,6 @@
                                             VerticalOptions="CenterAndExpand"
                                             Margin="0,32,0,0">
 
-                                            <Grid>
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="*" />
-                                                    <RowDefinition Height="*" />
-                                                    <RowDefinition Height="*" />
-                                                </Grid.RowDefinitions>
-                                            </Grid>
-
-                                            <Label
-                                                TextColor="LimeGreen"
-                                                FontSize="12"
-                                                FontAttributes="Bold"
-                                                Text="{Binding Available}"
-                                                HorizontalOptions="Center"
-                                                Grid.Row="0" />
-
                                             <Button
                                                 BackgroundColor="White"
                                                 Padding="20,0"
@@ -350,16 +334,16 @@
                                                 BorderWidth="2"
                                                 HeightRequest="40"
                                                 Text="BOOK NOW"
-                                                HorizontalOptions="Center"
-                                                Grid.Row="1" />
-
+                                                HorizontalOptions="Center" />
+                                                        
                                             <Label
+                                                x:Name="BookingLabel"
+                                                TextColor="{Binding Colour}"
+                                                Text="{Binding Available}"
+                                                FontSize="11"
+                                                FontAttributes="Bold"
                                                 Margin="0,8,0,0"
-                                                TextColor="Gray"
-                                                Text="Book to avoid disappointment"
-                                                FontSize="10"
-                                                HorizontalOptions="Center"
-                                                Grid.Row="2" />
+                                                HorizontalOptions="Center" />
                                         </StackLayout>
                                     </StackLayout>
                                 </StackLayout>

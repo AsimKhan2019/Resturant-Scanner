@@ -104,6 +104,26 @@ namespace LogoScanner
             }
         }
 
+        private void PopulateHomeTab()
+        {
+
+        }
+
+        private void PopulateBookingTab()
+        {
+
+        }
+
+        private void PopulateMenuTab()
+        {
+
+        }
+
+        private void PopulateReviewsTab()
+        {
+
+        }
+
         private async void GetRestaurantData(string url, string token)
         {
             JArray r = await Requests.APICallGet(url, token);
@@ -120,6 +140,9 @@ namespace LogoScanner
             menu = (JObject)restaurant.First;
 
             if (Device.RuntimePlatform == Device.Android) setMenu(menu); // setting the menu here on iOS causes it to load twice
+
+            DescriptionLabel.Text = Utils.GetRestaurantField(menu, "Description");
+            OpeningInformationLabel.Text = Utils.GetRestaurantField(menu, "OpeningInformation").Replace("<br/>", Environment.NewLine);
 
             int price = 0;
             if (result["PricePoint"].Type != JTokenType.Null) price = Int32.Parse(result["PricePoint"].ToString());

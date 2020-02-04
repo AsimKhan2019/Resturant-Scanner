@@ -197,6 +197,9 @@
     <BundleResource Include="Resources\ScanIcon.png" />
     <BundleResource Include="Resources\BookingIconFilled.png" />
     <BundleResource Include="Resources\BookingIcon.png" />
+    <BundleResource Include="Resources\EmailIcon.png" />
+    <BundleResource Include="Resources\PhoneIcon.png" />
+    <BundleResource Include="Resources\WebsiteIcon.png" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\TakePhotoButton.png" />

@@ -72,7 +72,7 @@ namespace LogoScanner.Helpers
                                     Colour = colour
                                 };
 
-                                getValidPromotions(at);
+                                GetValidPromotions(at);
                                 RestaurantPage.availableTimes.Add(at);
 
                                 capacity += 1;
@@ -110,7 +110,7 @@ namespace LogoScanner.Helpers
             }
         }
 
-        public static AvailableTime getValidPromotions(AvailableTime current)
+        public static AvailableTime GetValidPromotions(AvailableTime current)
         {
             StringBuilder currentTime = new StringBuilder();
             StringBuilder allPromotions = new StringBuilder();

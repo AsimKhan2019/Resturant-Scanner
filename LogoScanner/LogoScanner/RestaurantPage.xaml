@@ -29,16 +29,18 @@
             <StackLayout>
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="18*" />
-                        <RowDefinition Height="15*" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="2*" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="25*" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="25*" />
+                        <RowDefinition Height="15*" />  <!-- map 18 -->
+                        <RowDefinition Height="13*" />  <!-- logo 15 -->
+                        <RowDefinition Height="Auto" /> <!-- name / ResDiary -->
+                        <RowDefinition Height="Auto" />   <!-- cuisines -->
+                        <RowDefinition Height="Auto" /> <!-- price -->
+                        <RowDefinition Height="Auto" /> <!-- stars -->
+                        <RowDefinition Height="Auto" /> <!-- divider -->
+                        <RowDefinition Height="18*" />  <!-- about section -->
+                        <RowDefinition Height="Auto" /> <!-- divider -->
+                        <RowDefinition Height="10*" />  <!-- opening times section -->
+                        <RowDefinition Height="Auto" /> <!-- divider -->
+                        <RowDefinition Height="10*" />  <!-- social media section-->
                     </Grid.RowDefinitions>
 
                     <Grid.ColumnDefinitions>
@@ -121,6 +123,7 @@
                         Padding="15,0"
                         FontSize="12"
                         HorizontalOptions="Start"
+                        VerticalOptions="End"
                         Text="Cuisines"
                         TextColor="DimGray" />
 
@@ -137,8 +140,7 @@
 
                     <Grid
                         Grid.Row="5"
-                        Grid.Column="0"
-                        Grid.ColumnSpan="3">
+                        Grid.Column="0">
                         <Label
                             Padding="14,0"
                             FontSize="14"
@@ -154,6 +156,41 @@
                             HorizontalOptions="Start"
                             VerticalOptions="Center" />
                     </Grid>
+
+                    <ImageButton
+                        Source="PhoneIcon.png"
+                        Grid.Row="5"
+                        Grid.Column="2"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Start"
+                        BackgroundColor="White"
+                        HeightRequest="29"
+                        WidthRequest="29"
+                        CornerRadius="14"
+                        Margin="10,0,0,0" />
+
+                    <ImageButton
+                        Source="EmailIcon.png"
+                        Grid.Row="5"
+                        Grid.Column="2"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Start"
+                        BackgroundColor="White"
+                        HeightRequest="28"
+                        WidthRequest="28"
+                        CornerRadius="14" />
+
+                    <ImageButton
+                        Source="WebsiteIcon.png"
+                        Grid.Row="5"
+                        Grid.Column="2"
+                        HorizontalOptions="End"
+                        VerticalOptions="Start"
+                        BackgroundColor="White"
+                        HeightRequest="28"
+                        WidthRequest="28"
+                        CornerRadius="14"
+                        Margin="0,0,10,0" />
 
                     <BoxView
                         Grid.Row="6"
@@ -177,6 +214,18 @@
                         HorizontalOptions="Start"
                         VerticalOptions="Start" />
 
+                    <Label
+                        x:Name="DescriptionLabel"
+                        Grid.Row="7"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="3"
+                        Padding="15,0"
+                        FontSize="14"
+                        TextColor="DimGray"
+                        Text="Description"
+                        HorizontalOptions="Start"
+                        VerticalOptions="CenterAndExpand" />
+
                     <BoxView
                         Grid.Row="8"
                         Grid.Column="0"
@@ -195,14 +244,48 @@
                         Padding="15,0"
                         FontSize="16"
                         FontAttributes="Bold"
-                        Text="Contact"
+                        Text="Opening Times"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Start" />
+
+                    <Label
+                        x:Name="OpeningInformationLabel"
+                        Grid.Row="9"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="3"
+                        Padding="15,0"
+                        FontSize="14"
+                        TextColor="DimGray"
+                        Text="Opening Times"
+                        HorizontalOptions="Start"
+                        VerticalOptions="CenterAndExpand" />
+
+                    <BoxView
+                        Grid.Row="10"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="3"
+                        BackgroundColor="#dfe4ea"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Center"
+                        HeightRequest="2"
+                        WidthRequest="1"
+                        Margin="0,10" />
+
+                    <Label
+                        Grid.Row="11"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="3"
+                        Padding="15,0"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        Text="Social Media"
                         HorizontalOptions="Start"
                         VerticalOptions="Start" />
 
                     <floating:FloatingActionButton
                         x:Name="FloatingButton1"
                         Image="ScanIcon.png"
-                        Grid.Row="9"
+                        Grid.Row="11"
                         Grid.Column="2"
                         HorizontalOptions="EndAndExpand"
                         VerticalOptions="EndAndExpand"
@@ -237,6 +320,12 @@
 
         <!--<Grid Padding="0,60">-->
         <Grid>
+            <RefreshView
+                x:Name="RefreshView"
+                IsRefreshing="{Binding IsRefreshing}"
+                Command="{Binding RefreshCommand}"
+                RefreshColor="#11a0dc">
+
             <carousel:CarouselViewControl
                 x:Name="AvailabilityView"
                 ItemsSource="{Binding Availability}"
@@ -352,6 +441,7 @@
                     </DataTemplate>
                 </carousel:CarouselViewControl.ItemTemplate>
             </carousel:CarouselViewControl>
+            </RefreshView>
 
             <floating:FloatingActionButton
                 x:Name="FloatingButton2"
@@ -454,12 +544,16 @@
                     HorizontalOptions="Fill"
                     ItemsSource="{Binding Reviews}"
                     SelectionMode="None"
-                    VerticalOptions="Fill">
+                    VerticalOptions="Fill"
+                    IsPullToRefreshEnabled="True"
+                    RefreshControlColor="#11a0dc"
+                    RefreshCommand="{Binding RefreshCommand}"
+                    IsRefreshing="{Binding IsRefreshing}">
 
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell IsEnabled="False">
-                                <StackLayout Padding="0,20">
+                                <StackLayout Padding="0,15">
                                     <Label Font="Bold, 16" Text="{Binding Name}" />
 
                                     <Grid>

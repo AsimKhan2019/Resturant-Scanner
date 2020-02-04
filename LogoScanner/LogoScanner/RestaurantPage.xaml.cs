@@ -87,7 +87,7 @@ namespace LogoScanner
                     JObject result = (JObject)hasSummary.First;
                     if (result["Result"] != null)
                     {
-                        GetRestaurantData("https://api.rdbranch.com/api/ConsumerApi/v1/MicrositeSummaryDetails?micrositeNames=" + this.micrositename + "&startDate=2019-11-19T10:53:39&endDate=2019-11-18T10:53:39&channelCodes=ONLINE&numberOfReviews=5", request.message);
+                        GetRestaurantData("https://api.rdbranch.com/api/ConsumerApi/v1/MicrositeSummaryDetails?micrositeNames=" + this.micrositename + "&startDate=2019-11-19T10:53:39&endDate=2022-11-18T10:53:39&channelCodes=ONLINE&numberOfReviews=5", request.message);
                     }
                 }
                 catch (NullReferenceException e)
@@ -203,14 +203,16 @@ namespace LogoScanner
             {
                 string promotions_url = "https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename + "/Promotion?";
                 StringBuilder builder = new StringBuilder();
+                JArray array_promotions = new JArray();
 
-                builder.Append(promotions_url);
                 foreach (string id in promotion_ids)
                 {
-                    builder.Append("&promotionIds=" + id);
-                }
+                    builder.Append(promotions_url);
+                    builder.Append("^&promotionIds=" + id);
 
-                JArray array_promotions = await Requests.APICallGet(builder.ToString(), token);
+                    array_promotions.Add(await Requests.APICallGet(builder.ToString(), token));
+                    builder.Clear();
+                }
 
                 foreach (var pr in array_promotions)
                 {

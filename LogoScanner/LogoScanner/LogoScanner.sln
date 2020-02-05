@@ -1,0 +1,17 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogoScanner", "LogoScanner.csproj", "{692F3BEE-6A7F-4845-91FF-54123C70F128}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{692F3BEE-6A7F-4845-91FF-54123C70F128}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{692F3BEE-6A7F-4845-91FF-54123C70F128}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{692F3BEE-6A7F-4845-91FF-54123C70F128}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{692F3BEE-6A7F-4845-91FF-54123C70F128}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

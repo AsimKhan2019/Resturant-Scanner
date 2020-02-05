@@ -6,14 +6,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogoScanner.Android", "Logo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogoScanner.iOS", "LogoScanner.iOS\LogoScanner.iOS.csproj", "{92809A16-03BA-49E0-A7BE-A05F0CDBD200}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogoScanner", "LogoScanner\LogoScanner.csproj", "{846A20E7-0EE0-4EE6-9F35-6A3A19FA969C}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0051A521-5FF9-4694-9775-BC4B26E5FD37}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+<<<<<<< HEAD
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrossPlatformTest", "CrossPlatformTest\CrossPlatformTest.csproj", "{B59549A1-8A8C-4975-95DE-062748E82B97}"
+=======
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogoScanner", "LogoScanner\LogoScanner.csproj", "{63F01C6B-13EB-4075-8785-A0A54BA85B24}"
+>>>>>>> 85-ui-refactoring
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,7 @@ Global
 		{92809A16-03BA-49E0-A7BE-A05F0CDBD200}.Release|iPhone.Build.0 = Release|iPhone
 		{92809A16-03BA-49E0-A7BE-A05F0CDBD200}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
 		{92809A16-03BA-49E0-A7BE-A05F0CDBD200}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
+<<<<<<< HEAD
 		{846A20E7-0EE0-4EE6-9F35-6A3A19FA969C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{846A20E7-0EE0-4EE6-9F35-6A3A19FA969C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{846A20E7-0EE0-4EE6-9F35-6A3A19FA969C}.Debug|iPhone.ActiveCfg = Debug|Any CPU
@@ -75,6 +78,20 @@ Global
 		{B59549A1-8A8C-4975-95DE-062748E82B97}.Release|iPhone.Build.0 = Release|Any CPU
 		{B59549A1-8A8C-4975-95DE-062748E82B97}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{B59549A1-8A8C-4975-95DE-062748E82B97}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+=======
+		{63F01C6B-13EB-4075-8785-A0A54BA85B24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63F01C6B-13EB-4075-8785-A0A54BA85B24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63F01C6B-13EB-4075-8785-A0A54BA85B24}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{63F01C6B-13EB-4075-8785-A0A54BA85B24}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{63F01C6B-13EB-4075-8785-A0A54BA85B24}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{63F01C6B-13EB-4075-8785-A0A54BA85B24}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{63F01C6B-13EB-4075-8785-A0A54BA85B24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63F01C6B-13EB-4075-8785-A0A54BA85B24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63F01C6B-13EB-4075-8785-A0A54BA85B24}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{63F01C6B-13EB-4075-8785-A0A54BA85B24}.Release|iPhone.Build.0 = Release|Any CPU
+		{63F01C6B-13EB-4075-8785-A0A54BA85B24}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{63F01C6B-13EB-4075-8785-A0A54BA85B24}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+>>>>>>> 85-ui-refactoring
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

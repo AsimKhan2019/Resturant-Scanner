@@ -308,9 +308,15 @@
                         Grid.Column="2"
                         HorizontalOptions="EndAndExpand"
                         VerticalOptions="EndAndExpand"
-                        Margin="18"
                         ButtonColor="#11a0dc"
                         Clicked="FloatingButton_Clicked">
+
+                        <floating:FloatingActionButton.Margin>
+                            <OnPlatform x:TypeArguments="x:Double">
+                                <On Platform="iOS">18</On>
+                                <On Platform="Android">0</On>
+                            </OnPlatform>
+                        </floating:FloatingActionButton.Margin>
 
                         <floating:FloatingActionButton.WidthRequest>
                             <OnPlatform x:TypeArguments="x:Double">
@@ -459,9 +465,15 @@
                 Image="ScanIcon.png"
                 HorizontalOptions="EndAndExpand"
                 VerticalOptions="EndAndExpand"
-                Margin="18"
                 ButtonColor="#11a0dc"
                 Clicked="FloatingButton_Clicked">
+
+                <floating:FloatingActionButton.Margin>
+                    <OnPlatform x:TypeArguments="x:Double">
+                        <On Platform="iOS">18</On>
+                        <On Platform="Android">0</On>
+                    </OnPlatform>
+                </floating:FloatingActionButton.Margin>
 
                 <floating:FloatingActionButton.WidthRequest>
                     <OnPlatform x:TypeArguments="x:Double">
@@ -511,9 +523,15 @@
                 Grid.Row="0"
                 HorizontalOptions="EndAndExpand"
                 VerticalOptions="EndAndExpand"
-                Margin="18"
                 ButtonColor="#11a0dc"
                 Clicked="FloatingButton_Clicked">
+
+                <floating:FloatingActionButton.Margin>
+                    <OnPlatform x:TypeArguments="x:Double">
+                        <On Platform="iOS">18</On>
+                        <On Platform="Android">0</On>
+                    </OnPlatform>
+                </floating:FloatingActionButton.Margin>
 
                 <floating:FloatingActionButton.WidthRequest>
                     <OnPlatform x:TypeArguments="x:Double">
@@ -589,9 +607,15 @@
                     Grid.Row="0"
                     HorizontalOptions="EndAndExpand"
                     VerticalOptions="EndAndExpand"
-                    Margin="18"
                     ButtonColor="#11a0dc"
                     Clicked="FloatingButton_Clicked">
+
+                    <floating:FloatingActionButton.Margin>
+                        <OnPlatform x:TypeArguments="x:Double">
+                            <On Platform="iOS">18</On>
+                            <On Platform="Android">0</On>
+                        </OnPlatform>
+                    </floating:FloatingActionButton.Margin>
 
                     <floating:FloatingActionButton.WidthRequest>
                         <OnPlatform x:TypeArguments="x:Double">

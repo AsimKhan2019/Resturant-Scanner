@@ -28,7 +28,8 @@
         <ContentView>
             <StackLayout>
                 <Grid
-                    x:Name="HomeGrid">
+                    x:Name="HomeGrid"
+                    VerticalOptions="FillAndExpand">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="15*" />  <!-- map 18 -->
                         <RowDefinition Height="12*" />  <!-- logo 15 -->
@@ -312,9 +313,9 @@
                         Clicked="FloatingButton_Clicked">
 
                         <floating:FloatingActionButton.Margin>
-                            <OnPlatform x:TypeArguments="x:Double">
-                                <On Platform="iOS">18</On>
-                                <On Platform="Android">0</On>
+                            <OnPlatform x:TypeArguments="Thickness">
+                                <On Platform="iOS" Value="20" />
+                                <On Platform="Android" Value="0" />
                             </OnPlatform>
                         </floating:FloatingActionButton.Margin>
 
@@ -469,9 +470,9 @@
                 Clicked="FloatingButton_Clicked">
 
                 <floating:FloatingActionButton.Margin>
-                    <OnPlatform x:TypeArguments="x:Double">
-                        <On Platform="iOS">18</On>
-                        <On Platform="Android">0</On>
+                    <OnPlatform x:TypeArguments="Thickness">
+                        <On Platform="iOS" Value="20" />
+                        <On Platform="Android" Value="0" />
                     </OnPlatform>
                 </floating:FloatingActionButton.Margin>
 
@@ -527,9 +528,9 @@
                 Clicked="FloatingButton_Clicked">
 
                 <floating:FloatingActionButton.Margin>
-                    <OnPlatform x:TypeArguments="x:Double">
-                        <On Platform="iOS">18</On>
-                        <On Platform="Android">0</On>
+                    <OnPlatform x:TypeArguments="Thickness">
+                        <On Platform="iOS" Value="20" />
+                        <On Platform="Android" Value="0" />
                     </OnPlatform>
                 </floating:FloatingActionButton.Margin>
 
@@ -611,9 +612,9 @@
                     Clicked="FloatingButton_Clicked">
 
                     <floating:FloatingActionButton.Margin>
-                        <OnPlatform x:TypeArguments="x:Double">
-                            <On Platform="iOS">18</On>
-                            <On Platform="Android">0</On>
+                        <OnPlatform x:TypeArguments="Thickness">
+                            <On Platform="iOS" Value="20" />
+                            <On Platform="Android" Value="0" />
                         </OnPlatform>
                     </floating:FloatingActionButton.Margin>
 

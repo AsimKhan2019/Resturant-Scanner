@@ -97,7 +97,8 @@ namespace LogoScanner
                 }
                 catch (NullReferenceException e)
                 {
-                    await DisplayAlert("Restaurant not found", "Please scan again.", "OK"); // Displays an error message to the user
+                    await DisplayAlert("Restaurant not found", "Please scan again." +
+                        "ErrorCode: " + e.Message, "OK"); // Displays an error message to the user
                     await Navigation.PushModalAsync(new MainPage());
                 }
             }

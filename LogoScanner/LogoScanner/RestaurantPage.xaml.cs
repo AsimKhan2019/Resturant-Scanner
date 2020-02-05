@@ -21,7 +21,7 @@ namespace LogoScanner
 
         private string micrositename;
         private string overallReviews;
-        private JObject menu;
+        private JObject consumer;
 
         public RestaurantPage(string micrositename)
         {
@@ -55,7 +55,7 @@ namespace LogoScanner
                         MenuTab.IconImageSource = "MenuIconFilled.png";
                         NavigationPage.SetHasNavigationBar(this, true);
                         Title = "Menu";
-                        setMenu(menu);
+                        setMenu(consumer);
                         break;
 
                     case 3:
@@ -105,70 +105,13 @@ namespace LogoScanner
             }
         }
 
-        private void PopulateHomeTab()
+        // populates the home tab
+        private void PopulateHomeTab(JObject result)
         {
-
-        }
-
-        private void PopulateBookingTab()
-        {
-
-        }
-
-        private void PopulateMenuTab()
-        {
-
-        }
-
-        private void PopulateReviewsTab()
-        {
-
-        }
-
-        private async void GetRestaurantData(string url, string token)
-        {
-            JArray r = await Requests.APICallGet(url, token);
-            JObject result = (JObject)r.First;
-
             //Parse the API Call and split the JSon object into the various variables.
             Logo.Source = Utils.GetRestaurantField(result, "LogoUrl");
             NameLabel.Text = Utils.GetRestaurantField(result, "Name");
             CuisinesLabel.Text = Utils.GetRestaurantField(result, "CuisineTypes");
-
-            // gets restaurant json object and sets the menu
-            var menuUrl = "https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename;
-            JArray restaurant = await Requests.APICallGet(menuUrl, token);
-            menu = (JObject)restaurant.First;
-
-            if (Device.RuntimePlatform == Device.Android) setMenu(menu); // setting the menu here on iOS causes it to load twice
-
-            DescriptionLabel.Text = Utils.GetRestaurantField(menu, "Description");
-            OpeningInformationLabel.Text = Utils.GetRestaurantField(menu, "OpeningInformation").Replace("<br/>", Environment.NewLine);
-
-            if (menu["SocialNetworks"].Type == JTokenType.Null || string.IsNullOrEmpty(menu["SocialNetworks"].ToString()))
-            {
-                SocialMediaLabel.IsVisible = true;
-                SocialMediaLabel.Text = "No social media";
-            }
-            else if (menu["SocialNetworks"] is JArray)
-            {
-                JToken[] arr = menu["SocialNetworks"].ToArray();
-                foreach (var a in arr)
-                {
-                    Button button = new Button
-                    {
-                        Text = a["Type"].ToString(),
-                        Margin = new Thickness(15, 5, 0, 0),
-                        BackgroundColor = Color.White,
-                        TextColor = Color.FromHex("#11a0dc"),
-                        VerticalOptions = LayoutOptions.Start,
-                        HorizontalOptions = LayoutOptions.Start
-                    };
-                    HomeGrid.Children.Add(button, 0, 14);
-
-                    button.Clicked += async (sender, args) => await Browser.OpenAsync(a["Url"].ToString(), BrowserLaunchMode.SystemPreferred);
-                }
-            }
 
             int price = 0;
             if (result["PricePoint"].Type != JTokenType.Null) price = Int32.Parse(result["PricePoint"].ToString());
@@ -177,6 +120,64 @@ namespace LogoScanner
             int stars = (int)Math.Round(Double.Parse(result["AverageReviewScore"].ToString()), 0, MidpointRounding.AwayFromZero);
             StarLabel.Text = Utils.GetRestaurantField(result, "AverageReviewScore", "★", stars);
 
+            DescriptionLabel.Text = Utils.GetRestaurantField(consumer, "Description");
+            OpeningInformationLabel.Text = Utils.GetRestaurantField(consumer, "OpeningInformation").Replace("<br/>", Environment.NewLine);
+
+            if (consumer["SocialNetworks"].Type == JTokenType.Null || string.IsNullOrEmpty(consumer["SocialNetworks"].ToString()))
+            {
+                SocialMediaLabel.IsVisible = true;
+                SocialMediaLabel.Text = "No social media";
+            }
+            else if (consumer["SocialNetworks"] is JArray)
+            {
+                JToken[] arr = consumer["SocialNetworks"].ToArray();
+                int column = 0;
+
+                foreach (var a in arr)
+                {
+                    Button button = new Button
+                    {
+                        Text = a["Type"].ToString(),
+                        Margin = new Thickness(15, 10, 0, 0),
+                        BackgroundColor = Color.White,
+                        TextColor = Color.FromHex("#11a0dc"),
+                        CornerRadius = 10,
+                        VerticalOptions = LayoutOptions.Start,
+                        HorizontalOptions = LayoutOptions.Start
+                    };
+                    HomeGrid.Children.Add(button, column, 14);
+                    column++;
+
+                    button.Clicked += async (sender, args) => await Browser.OpenAsync(a["Url"].ToString(), BrowserLaunchMode.SystemPreferred);
+                }
+            }
+
+            double latitude = Convert.ToDouble(result["Latitude"].ToString());
+            double longitude = Convert.ToDouble(result["Longitude"].ToString());
+            string name = result["Name"].ToString();
+
+            var pin = new Pin()
+            {
+                Position = new Position(latitude, longitude),
+                Label = name,
+            };
+
+            MapArea.Pins.Add(pin);
+            MapArea.MoveToRegion(new MapSpan(new Position(latitude, longitude), 0.01, 0.01));
+
+            // open up directions to restaurant in map app when map area is clicked
+            MapArea.MapClicked += async (object sender, MapClickedEventArgs e) =>
+            {
+                await Xamarin.Essentials.Map.OpenAsync(
+                    new Location(latitude, longitude),
+                    new MapLaunchOptions { Name = name, NavigationMode = NavigationMode.Default }
+                );
+            };
+        }
+
+        // populates the booking tab
+        private async void PopulateBookingTab(JObject result, string token)
+        {
             string[] promotion_ids = Promotions.GetPromotionIDs(result);
 
             if (promotion_ids.Length > 0)
@@ -208,7 +209,23 @@ namespace LogoScanner
                 }
             }
 
-            // reviews section
+            Promotions.GetAvailablePromotions("https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename + "/AvailabilityForDateRangeV2?", token);
+
+            availableTimes.Clear();
+            AvailabilityView.ItemsSource = availableTimes;
+        }
+
+        // populates the menu tab
+        private void PopulateMenuTab()
+        {
+            if (Device.RuntimePlatform == Device.Android) setMenu(consumer); // setting the menu here on iOS causes it to load twice
+        }
+
+        // populates the reviews tab
+        private void PopulateReviewsTab(JObject result)
+        {
+            overallReviews = Utils.GetRestaurantField(result, "AverageReviewScore") + "★  |  " + Utils.GetRestaurantField(result, "NumberOfReviews") + " reviews";
+
             reviews.Clear();
             foreach (JToken review in result["Reviews"].ToArray())
             {
@@ -222,35 +239,25 @@ namespace LogoScanner
                 });
             }
             ReviewsView.ItemsSource = reviews;
-
-            overallReviews = Utils.GetRestaurantField(result, "AverageReviewScore") + "★  |  " + Utils.GetRestaurantField(result, "NumberOfReviews") + " reviews";
-            Promotions.GetAvailablePromotions("https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename + "/AvailabilityForDateRangeV2?", token);
-
-            double latitude = Convert.ToDouble(result["Latitude"].ToString());
-            double longitude = Convert.ToDouble(result["Longitude"].ToString());
-            string name = result["Name"].ToString();
-
-            var pin = new Pin()
-            {
-                Position = new Position(latitude, longitude),
-                Label = name,
-            };
-
-            MapArea.Pins.Add(pin);
-            MapArea.MoveToRegion(new MapSpan(new Position(latitude, longitude), 0.01, 0.01));
-
-            // open up directions to restaurant in map app when map area is clicked
-            MapArea.MapClicked += async (object sender, MapClickedEventArgs e) =>
-            {
-                await Xamarin.Essentials.Map.OpenAsync(
-                    new Location(latitude, longitude),
-                    new MapLaunchOptions { Name = name, NavigationMode = NavigationMode.Default }
-                );
-            };
-
-            availableTimes.Clear();
-            AvailabilityView.ItemsSource = availableTimes;
         }
+
+        // populates the app with all data 
+        private async void GetRestaurantData(string url, string token)
+        {
+            JArray r = await Requests.APICallGet(url, token);
+            JObject result = (JObject)r.First;
+
+            // gets restaurant json object in the consumer api
+            var consumerUrl = "https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename;
+            JArray restaurant = await Requests.APICallGet(consumerUrl, token);
+            consumer = (JObject)restaurant.First;
+
+            PopulateHomeTab(result);
+            PopulateBookingTab(result, token);
+            PopulateMenuTab();
+            PopulateReviewsTab(result);
+        }
+
 
         //method to get menu for restaurant
         private void setMenu(JObject json)
@@ -275,31 +282,35 @@ namespace LogoScanner
             }
         }
 
+
         // event triggered when the floating action button is clicked
         void FloatingButton_Clicked(object sender, EventArgs e)
         {
             Navigation.PushModalAsync(new MainPage());
         }
 
+        // event triggered when the phone button is clicked
         void PhoneButton_Clicked(object sender, EventArgs e)
         {
-            PhoneDialer.Open(Utils.GetRestaurantField(menu, "ReservationPhoneNumber"));
+            PhoneDialer.Open(Utils.GetRestaurantField(consumer, "ReservationPhoneNumber"));
         }
 
+        // event triggered when the email button is clicked
         void EmailButton_Clicked(object sender, EventArgs e)
         {
             var message = new EmailMessage
             {
                 Subject = "",
                 Body = "",
-                To = new List<string> { Utils.GetRestaurantField(menu, "EmailAddress") },
+                To = new List<string> { Utils.GetRestaurantField(consumer, "EmailAddress") },
             };
             Email.ComposeAsync(message);
         }
 
+        // event triggered when the website button is clicked
         void WebsiteButton_Clicked(object sender, EventArgs e)
         {
-            Browser.OpenAsync(Utils.GetRestaurantField(menu, "Website"), BrowserLaunchMode.SystemPreferred);
+            Browser.OpenAsync(Utils.GetRestaurantField(consumer, "Website"), BrowserLaunchMode.SystemPreferred);
         }
     }
 }

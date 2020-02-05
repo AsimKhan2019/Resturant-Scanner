@@ -87,7 +87,7 @@ namespace LogoScanner
                     JObject result = (JObject)hasSummary.First;
                     if (result["Result"] != null)
                     {
-                        GetRestaurantData("https://api.rdbranch.com/api/ConsumerApi/v1/MicrositeSummaryDetails?micrositeNames=" + this.micrositename + "&startDate=2019-11-19T10:53:39&endDate=2019-11-18T10:53:39&channelCodes=ONLINE&numberOfReviews=5", request.message);
+                        GetRestaurantData("https://api.rdbranch.com/api/ConsumerApi/v1/MicrositeSummaryDetails?micrositeNames=" + this.micrositename + "&startDate=2019-11-19T10:53:39&endDate=2022-11-18T10:53:39&channelCodes=ONLINE&numberOfReviews=5", request.message);
                     }
                 }
                 catch (NullReferenceException e)

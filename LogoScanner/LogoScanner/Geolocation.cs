@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
+using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,13 +30,30 @@ namespace LogoScanner
             try
             {
                 var request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10));
-                var location = await Xamarin.Essentials.Geolocation.GetLocationAsync(request);
-
-                if (location != null)
+                var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
+                if (status != PermissionStatus.Granted)
                 {
-                    Console.WriteLine($"Latitude: {location.Latitude}, Longitude: {location.Longitude}, Altitude: {location.Altitude}");
-                    return new Location(location.Latitude, location.Longitude);
+
+                    var results = await CrossPermissions.Current.RequestPermissionsAsync(new[] { Permission.Location });
+                    status = results[Permission.Location];
                 }
+
+                if (status == PermissionStatus.Granted)
+                {
+                    var location = await Xamarin.Essentials.Geolocation.GetLocationAsync(request);
+                    if (location != null)
+                    {
+                        return new Location(location.Latitude, location.Longitude);
+                    }
+                }
+
+                else if (status != PermissionStatus.Unknown)
+                {
+                    await App.Current.MainPage.DisplayAlert("Error", "Location denied. Cannot continue, try again.", "OK");
+                    return await GetMyLocation();
+                }
+
+                
             }
             catch (FeatureNotSupportedException)
             {
@@ -44,7 +63,7 @@ namespace LogoScanner
             catch (FeatureNotEnabledException)
             {
                 // Handle not enabled on device exception
-                await App.Current.MainPage.DisplayAlert("Error", "Location is not enabled on this device. Please turn on the location.", "OK");
+                await App.Current.MainPage.DisplayAlert("Error", "Location is not enabled on this device. Please turn on the location now.", "OK");
                 return await GetMyLocation();
             }
             catch (PermissionException)

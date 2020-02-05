@@ -27,20 +27,24 @@
         IconImageSource="HomeIconFilled.png">
         <ContentView>
             <StackLayout>
-                <Grid>
+                <Grid
+                    x:Name="HomeGrid">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="15*" />  <!-- map 18 -->
-                        <RowDefinition Height="13*" />  <!-- logo 15 -->
+                        <RowDefinition Height="12*" />  <!-- logo 15 -->
                         <RowDefinition Height="Auto" /> <!-- name / ResDiary -->
-                        <RowDefinition Height="Auto" />   <!-- cuisines -->
+                        <RowDefinition Height="Auto" /> <!-- cuisines -->
                         <RowDefinition Height="Auto" /> <!-- price -->
                         <RowDefinition Height="Auto" /> <!-- stars -->
                         <RowDefinition Height="Auto" /> <!-- divider -->
-                        <RowDefinition Height="18*" />  <!-- about section -->
+                        <RowDefinition Height="Auto" /> <!-- about label -->
+                        <RowDefinition Height="Auto" /> <!-- about section -->
                         <RowDefinition Height="Auto" /> <!-- divider -->
+                        <RowDefinition Height="Auto" /> <!-- opening times label -->
                         <RowDefinition Height="10*" />  <!-- opening times section -->
                         <RowDefinition Height="Auto" /> <!-- divider -->
-                        <RowDefinition Height="10*" />  <!-- social media section-->
+                        <RowDefinition Height="Auto" /> <!-- social media label -->
+                        <RowDefinition Height="15*" />  <!-- social media section-->
                     </Grid.RowDefinitions>
 
                     <Grid.ColumnDefinitions>
@@ -109,7 +113,7 @@
                         Grid.Row="2"
                         Grid.Column="0"
                         Grid.ColumnSpan="3"
-                        Padding="14,40,0,0"
+                        Padding="14,60,0,0"
                         FontAttributes="Bold"
                         FontSize="26"
                         HorizontalOptions="Start"
@@ -164,10 +168,11 @@
                         HorizontalOptions="Start"
                         VerticalOptions="Start"
                         BackgroundColor="White"
-                        HeightRequest="29"
-                        WidthRequest="29"
+                        HeightRequest="28"
+                        WidthRequest="28"
                         CornerRadius="14"
-                        Margin="10,0,0,0" />
+                        Margin="8,0,0,0"
+                        Clicked="PhoneButton_Clicked" />
 
                     <ImageButton
                         Source="EmailIcon.png"
@@ -178,7 +183,8 @@
                         BackgroundColor="White"
                         HeightRequest="28"
                         WidthRequest="28"
-                        CornerRadius="14" />
+                        CornerRadius="14"
+                        Clicked="EmailButton_Clicked" />
 
                     <ImageButton
                         Source="WebsiteIcon.png"
@@ -190,7 +196,8 @@
                         HeightRequest="28"
                         WidthRequest="28"
                         CornerRadius="14"
-                        Margin="0,0,10,0" />
+                        Margin="0,0,8,0"
+                        Clicked="WebsiteButton_Clicked"/>
 
                     <BoxView
                         Grid.Row="6"
@@ -216,7 +223,7 @@
 
                     <Label
                         x:Name="DescriptionLabel"
-                        Grid.Row="7"
+                        Grid.Row="8"
                         Grid.Column="0"
                         Grid.ColumnSpan="3"
                         Padding="15,0"
@@ -224,10 +231,10 @@
                         TextColor="DimGray"
                         Text="Description"
                         HorizontalOptions="Start"
-                        VerticalOptions="CenterAndExpand" />
+                        VerticalOptions="Start" />
 
                     <BoxView
-                        Grid.Row="8"
+                        Grid.Row="9"
                         Grid.Column="0"
                         Grid.ColumnSpan="3"
                         BackgroundColor="#dfe4ea"
@@ -238,7 +245,7 @@
                         Margin="0,10" />
 
                     <Label
-                        Grid.Row="9"
+                        Grid.Row="10"
                         Grid.Column="0"
                         Grid.ColumnSpan="3"
                         Padding="15,0"
@@ -250,7 +257,7 @@
 
                     <Label
                         x:Name="OpeningInformationLabel"
-                        Grid.Row="9"
+                        Grid.Row="11"
                         Grid.Column="0"
                         Grid.ColumnSpan="3"
                         Padding="15,0"
@@ -258,10 +265,10 @@
                         TextColor="DimGray"
                         Text="Opening Times"
                         HorizontalOptions="Start"
-                        VerticalOptions="CenterAndExpand" />
+                        VerticalOptions="Start" />
 
                     <BoxView
-                        Grid.Row="10"
+                        Grid.Row="12"
                         Grid.Column="0"
                         Grid.ColumnSpan="3"
                         BackgroundColor="#dfe4ea"
@@ -272,7 +279,7 @@
                         Margin="0,10" />
 
                     <Label
-                        Grid.Row="11"
+                        Grid.Row="13"
                         Grid.Column="0"
                         Grid.ColumnSpan="3"
                         Padding="15,0"
@@ -282,10 +289,22 @@
                         HorizontalOptions="Start"
                         VerticalOptions="Start" />
 
+                    <Label
+                        x:Name="SocialMediaLabel"
+                        Grid.Row="14"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="3"
+                        Padding="15,0,0,0"
+                        FontSize="14"
+                        TextColor="DimGray"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Start"
+                        IsVisible="False" />
+
                     <floating:FloatingActionButton
                         x:Name="FloatingButton1"
                         Image="ScanIcon.png"
-                        Grid.Row="11"
+                        Grid.Row="14"
                         Grid.Column="2"
                         HorizontalOptions="EndAndExpand"
                         VerticalOptions="EndAndExpand"
@@ -318,14 +337,7 @@
         IconImageSource="BookingIcon.png"
         BackgroundColor="White">
 
-        <!--<Grid Padding="0,60">-->
         <Grid>
-            <RefreshView
-                x:Name="RefreshView"
-                IsRefreshing="{Binding IsRefreshing}"
-                Command="{Binding RefreshCommand}"
-                RefreshColor="#11a0dc">
-
             <carousel:CarouselViewControl
                 x:Name="AvailabilityView"
                 ItemsSource="{Binding Availability}"
@@ -441,7 +453,6 @@
                     </DataTemplate>
                 </carousel:CarouselViewControl.ItemTemplate>
             </carousel:CarouselViewControl>
-            </RefreshView>
 
             <floating:FloatingActionButton
                 x:Name="FloatingButton2"
@@ -544,11 +555,7 @@
                     HorizontalOptions="Fill"
                     ItemsSource="{Binding Reviews}"
                     SelectionMode="None"
-                    VerticalOptions="Fill"
-                    IsPullToRefreshEnabled="True"
-                    RefreshControlColor="#11a0dc"
-                    RefreshCommand="{Binding RefreshCommand}"
-                    IsRefreshing="{Binding IsRefreshing}">
+                    VerticalOptions="Fill">
 
                     <ListView.ItemTemplate>
                         <DataTemplate>

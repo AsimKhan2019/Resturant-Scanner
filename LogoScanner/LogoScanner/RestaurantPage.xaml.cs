@@ -1,6 +1,7 @@
 ﻿using LogoScanner.Helpers;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
@@ -144,6 +145,31 @@ namespace LogoScanner
             DescriptionLabel.Text = Utils.GetRestaurantField(menu, "Description");
             OpeningInformationLabel.Text = Utils.GetRestaurantField(menu, "OpeningInformation").Replace("<br/>", Environment.NewLine);
 
+            if (menu["SocialNetworks"].Type == JTokenType.Null || string.IsNullOrEmpty(menu["SocialNetworks"].ToString()))
+            {
+                SocialMediaLabel.IsVisible = true;
+                SocialMediaLabel.Text = "No social media";
+            }
+            else if (menu["SocialNetworks"] is JArray)
+            {
+                JToken[] arr = menu["SocialNetworks"].ToArray();
+                foreach (var a in arr)
+                {
+                    Button button = new Button
+                    {
+                        Text = a["Type"].ToString(),
+                        Margin = new Thickness(15, 5, 0, 0),
+                        BackgroundColor = Color.White,
+                        TextColor = Color.FromHex("#11a0dc"),
+                        VerticalOptions = LayoutOptions.Start,
+                        HorizontalOptions = LayoutOptions.Start
+                    };
+                    HomeGrid.Children.Add(button, 0, 14);
+
+                    button.Clicked += async (sender, args) => await Browser.OpenAsync(a["Url"].ToString(), BrowserLaunchMode.SystemPreferred);
+                }
+            }
+
             int price = 0;
             if (result["PricePoint"].Type != JTokenType.Null) price = Int32.Parse(result["PricePoint"].ToString());
             PriceLabel.Text = Utils.GetRestaurantField(result, "PricePoint", "£", price);
@@ -253,6 +279,27 @@ namespace LogoScanner
         void FloatingButton_Clicked(object sender, EventArgs e)
         {
             Navigation.PushModalAsync(new MainPage());
+        }
+
+        void PhoneButton_Clicked(object sender, EventArgs e)
+        {
+            PhoneDialer.Open(Utils.GetRestaurantField(menu, "ReservationPhoneNumber"));
+        }
+
+        void EmailButton_Clicked(object sender, EventArgs e)
+        {
+            var message = new EmailMessage
+            {
+                Subject = "",
+                Body = "",
+                To = new List<string> { Utils.GetRestaurantField(menu, "EmailAddress") },
+            };
+            Email.ComposeAsync(message);
+        }
+
+        void WebsiteButton_Clicked(object sender, EventArgs e)
+        {
+            Browser.OpenAsync(Utils.GetRestaurantField(menu, "Website"), BrowserLaunchMode.SystemPreferred);
         }
     }
 }

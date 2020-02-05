@@ -10,8 +10,9 @@ namespace LogoScanner.Helpers
 {
     public class Promotions
     {
-        public static async void GetAvailablePromotions(string url, string token, JObject r, int capacity)
+        public static void GetAvailablePromotions(string url, string token, JObject r, int capacity)
         {
+            RestaurantPage.availableTimes.Clear();
             foreach (var day in r["AvailableDates"])
             {
                 if (capacity <= 3)
@@ -22,7 +23,6 @@ namespace LogoScanner.Helpers
                     {
                         areas.Add(area["Id"].ToString(), area["Name"].ToString());
                     }
-
                     foreach (var time in day["AvailableTimes"])
                     {
                         if (capacity == 3)

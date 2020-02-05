@@ -29,9 +29,6 @@ namespace LogoScanner
         public RestaurantPage(string micrositename)
         {
             InitializeComponent();
-            promotions.Clear();
-            reviews.Clear();
-            availableTimes.Clear();
             this.micrositename = micrositename;
 
             // event called when the tab is changed by the user
@@ -71,6 +68,13 @@ namespace LogoScanner
                         break;
                 }
             };
+        }
+
+        protected override void OnDisappearing()
+        {
+            availableTimes.Clear();
+            promotions.Clear();
+            reviews.Clear();
         }
 
         protected override async void OnAppearing() // when page loads
@@ -221,7 +225,7 @@ namespace LogoScanner
                     }
 
                     JArray array_promotions = await Requests.APICallGet(builder.ToString(), token);
-
+                    promotions.Clear();
                     foreach (var pr in array_promotions)
                     {
                         var valid = pr["ValidityPeriods"].First;
@@ -259,7 +263,7 @@ namespace LogoScanner
         private void PopulateReviewsTab(JObject result)
         {
             overallReviews = Utils.GetRestaurantField(result, "AverageReviewScore") + "★  |  " + Utils.GetRestaurantField(result, "NumberOfReviews") + " reviews";
-
+            reviews.Clear();
             foreach (JToken review in result["Reviews"].ToArray())
             {
                 reviews.Add(new Review

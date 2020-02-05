@@ -284,19 +284,19 @@ namespace LogoScanner
 
 
         // event triggered when the floating action button is clicked
-        void FloatingButton_Clicked(object sender, EventArgs e)
+        private void FloatingButton_Clicked(object sender, EventArgs e)
         {
             Navigation.PushModalAsync(new MainPage());
         }
 
         // event triggered when the phone button is clicked
-        void PhoneButton_Clicked(object sender, EventArgs e)
+        private void PhoneButton_Clicked(object sender, EventArgs e)
         {
             PhoneDialer.Open(Utils.GetRestaurantField(consumer, "ReservationPhoneNumber"));
         }
 
         // event triggered when the email button is clicked
-        void EmailButton_Clicked(object sender, EventArgs e)
+        private async void EmailButton_Clicked(object sender, EventArgs e)
         {
             var message = new EmailMessage
             {
@@ -304,13 +304,13 @@ namespace LogoScanner
                 Body = "",
                 To = new List<string> { Utils.GetRestaurantField(consumer, "EmailAddress") },
             };
-            Email.ComposeAsync(message);
+            await Email.ComposeAsync(message);
         }
 
         // event triggered when the website button is clicked
-        void WebsiteButton_Clicked(object sender, EventArgs e)
+        private async void WebsiteButton_Clicked(object sender, EventArgs e)
         {
-            Browser.OpenAsync(Utils.GetRestaurantField(consumer, "Website"), BrowserLaunchMode.SystemPreferred);
+            await Browser.OpenAsync(Utils.GetRestaurantField(consumer, "Website"), BrowserLaunchMode.SystemPreferred);
         }
     }
 }

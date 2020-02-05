@@ -258,8 +258,14 @@ namespace LogoScanner.iOS
 
         public async void SendPhoto(byte[] image)
         {
-            var results = await CustomVisionService.PredictImageContentsAsync(image, (new CancellationTokenSource()).Token);
-            var navigationPage = new NavigationPage(new RestaurantPage(results.ToString()));
+            var results = await CustomVisionService.PredictImageContentsAsync(image);
+            String resultInString = results.ToString();
+            if (Geolocation.HasMoreOptions(resultInString))
+            {
+                DialogService.ShowLoading("More Restaurants Available");
+                resultInString = await Geolocation.GetCloserOptionAsync(resultInString);
+            }
+            var navigationPage = new NavigationPage(new RestaurantPage(resultInString));
 
             await App.Current.MainPage.Navigation.PushModalAsync(navigationPage, false);
 

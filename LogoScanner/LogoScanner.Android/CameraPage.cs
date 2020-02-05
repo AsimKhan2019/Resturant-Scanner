@@ -231,8 +231,14 @@ namespace LogoScanner.Droid
 					imageBytes = imageStream.ToArray();
 				}
 
-				var results = await CustomVisionService.PredictImageContentsAsync(imageBytes, (new CancellationTokenSource()).Token);
-				var navigationPage = new NavigationPage(new RestaurantPage(results.ToString()));
+				var results = await CustomVisionService.PredictImageContentsAsync(imageBytes);
+				String resultInString = results.ToString();
+				if (Geolocation.HasMoreOptions(resultInString))
+				{
+					DialogService.ShowLoading("More Restaurants Available");
+					resultInString = await Geolocation.GetCloserOptionAsync(resultInString);
+				}
+				var navigationPage = new NavigationPage(new RestaurantPage(resultInString));
 
 				DialogService.HideLoading();
 				camera.StartPreview();

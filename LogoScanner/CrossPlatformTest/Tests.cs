@@ -11,8 +11,8 @@ namespace CrossPlatformTest
     [TestFixture(Platform.iOS)]
     public class Tests
     {
-        IApp app;
-        Platform platform;
+        private IApp app;
+        private Platform platform;
 
         public Tests(Platform platform)
         {
@@ -23,6 +23,15 @@ namespace CrossPlatformTest
         public void BeforeEachTest()
         {
             app = AppInitializer.StartApp(platform);
+        }
+
+        [Test]
+        public void WelcomeTextIsDisplayed()
+        {
+            AppResult[] results = app.WaitForElement(c => c.Marked("Welcome to Xamarin.Forms!"));
+            app.Screenshot("Welcome screen.");
+
+            Assert.IsTrue(results.Any());
         }
 
         [Test]

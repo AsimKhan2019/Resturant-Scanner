@@ -203,16 +203,14 @@ namespace LogoScanner
             {
                 string promotions_url = "https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename + "/Promotion?";
                 StringBuilder builder = new StringBuilder();
-                JArray array_promotions = new JArray();
 
+                builder.Append(promotions_url);
                 foreach (string id in promotion_ids)
                 {
-                    builder.Append(promotions_url);
-                    builder.Append("^&promotionIds=" + id);
-
-                    array_promotions.Add(await Requests.APICallGet(builder.ToString(), token));
-                    builder.Clear();
+                    builder.Append("&promotionIds=" + id);
                 }
+
+                JArray array_promotions = await Requests.APICallGet(builder.ToString(), token);
 
                 foreach (var pr in array_promotions)
                 {

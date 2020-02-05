@@ -4,16 +4,20 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
-    xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView"
     xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
     xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
-    xmlns:proc="clr-namespace:PanCardView.Processors;assembly=PanCardView"
-    Title="Logo Scanner"
+    xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    xmlns:carousel="clr-namespace:CarouselView.FormsPlugin.Abstractions;assembly=CarouselView.FormsPlugin.Abstractions"
+    xmlns:floating="clr-namespace:SuaveControls.Views;assembly=SuaveControls.FloatingActionButton"
+    xmlns:xfProxy="clr-namespace:Xamarin.Forms.Proxy;assembly=Xamarin.Forms.Core.UnitTests"
+
     android:TabbedPage.IsSwipePagingEnabled="False"
     android:TabbedPage.ToolbarPlacement="Bottom"
+    NavigationPage.HasNavigationBar="False"
+
+    Title="Logo Scanner"
     BackgroundColor="White"
     BarBackgroundColor="White"
-    NavigationPage.HasNavigationBar="False"
     SelectedTabColor="#11a0dc"
     Visual="Material">
 
@@ -22,233 +26,508 @@
         Title="Home"
         BackgroundColor="White"
         IconImageSource="HomeIconFilled.png">
-        <StackLayout>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="18*" />
-                    <RowDefinition Height="15*" />
-                    <RowDefinition Height="10*" />
-                    <RowDefinition Height="2*" />
-                    <RowDefinition Height="2*" />
-                    <RowDefinition Height="3*" />
-                    <RowDefinition Height="3*" />
-                    <RowDefinition Height="3*" />
-                    <RowDefinition Height="42*" />
-                </Grid.RowDefinitions>
-
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-
-                <maps:Map
-                    x:Name="MapArea"
-                    Grid.Row="0"
-                    Grid.RowSpan="2"
-                    Grid.ColumnSpan="3">
-                    <x:Arguments>
-                        <maps:MapSpan>
-                            <x:Arguments>
-                                <maps:Position>
-                                    <x:Arguments>
-                                        <x:Double>0</x:Double>
-                                        <x:Double>0</x:Double>
-                                    </x:Arguments>
-                                </maps:Position>
-                                <x:Double>0.01</x:Double>
-                                <x:Double>0.01</x:Double>
-                            </x:Arguments>
-                        </maps:MapSpan>
-                    </x:Arguments>
-                </maps:Map>
-
-                <controls:CircleImage
-                    x:Name="Logo"
-                    Grid.Row="1"
-                    Grid.RowSpan="2"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="2"
-                    Margin="11,0"
-                    Aspect="AspectFill"
-                    BorderColor="White"
-                    BorderThickness="4"
-                    HorizontalOptions="Start"
-                    VerticalOptions="Center">
-                    <controls:CircleImage.WidthRequest>
-                        <OnPlatform x:TypeArguments="x:Double">
-                            <On Platform="Android, iOS">120</On>
-                        </OnPlatform>
-                    </controls:CircleImage.WidthRequest>
-                    <controls:CircleImage.HeightRequest>
-                        <OnPlatform x:TypeArguments="x:Double">
-                            <On Platform="Android, iOS">120</On>
-                        </OnPlatform>
-                    </controls:CircleImage.HeightRequest>
-                </controls:CircleImage>
-
-                <Image
-                    x:Name="ResDiary"
-                    Grid.Row="2"
-                    Grid.Column="2"
-                    Margin="0,5,0,0"
-                    HorizontalOptions="Center"
-                    Source="https://www.resdiary.com/Content/Images/powered-by-resdiary.png"
-                    VerticalOptions="Start"
-                    WidthRequest="130" />
-
-                <Label
-                    x:Name="NameLabel"
-                    Grid.Row="2"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="3"
-                    Padding="15,40,0,0"
-                    FontAttributes="Bold"
-                    FontSize="Medium"
-                    HorizontalOptions="Start"
-                    Text="Restaurant" />
-
-                <Label
-                    x:Name="CuisinesLabel"
-                    Grid.Row="3"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="3"
-                    Padding="15,0"
-                    FontSize="Micro"
-                    HorizontalOptions="Start"
-                    Text="Cuisines" />
-
-                <Label
-                    x:Name="PriceLabel"
-                    Grid.Row="4"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="3"
-                    Padding="15,0"
-                    FontSize="Micro" />
-
+        <ContentView>
+            <StackLayout>
                 <Grid
-                    Grid.Row="5"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="3">
-                    <Label
-                        Padding="14,0"
-                        FontSize="Small"
+                    x:Name="HomeGrid"
+                    VerticalOptions="FillAndExpand">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="15*" />
+                        <!-- map 18 -->
+                        <RowDefinition Height="12*" />
+                        <!-- logo 15 -->
+                        <RowDefinition Height="Auto" />
+                        <!-- name / ResDiary -->
+                        <RowDefinition Height="Auto" />
+                        <!-- cuisines -->
+                        <RowDefinition Height="Auto" />
+                        <!-- price -->
+                        <RowDefinition Height="Auto" />
+                        <!-- stars -->
+                        <RowDefinition Height="Auto" />
+                        <!-- divider -->
+                        <RowDefinition Height="Auto" />
+                        <!-- about label -->
+                        <RowDefinition Height="Auto" />
+                        <!-- about section -->
+                        <RowDefinition Height="Auto" />
+                        <!-- divider -->
+                        <RowDefinition Height="Auto" />
+                        <!-- opening times label -->
+                        <RowDefinition Height="10*" />
+                        <!-- opening times section -->
+                        <RowDefinition Height="Auto" />
+                        <!-- divider -->
+                        <RowDefinition Height="Auto" />
+                        <!-- social media label -->
+                        <RowDefinition Height="15*" />
+                        <!-- social media section-->
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <maps:Map
+                        x:Name="MapArea"
+                        Grid.Row="0"
+                        Grid.RowSpan="2"
+                        Grid.ColumnSpan="3">
+                        <x:Arguments>
+                            <maps:MapSpan>
+                                <x:Arguments>
+                                    <maps:Position>
+                                        <x:Arguments>
+                                            <x:Double>0</x:Double>
+                                            <x:Double>0</x:Double>
+                                        </x:Arguments>
+                                    </maps:Position>
+                                    <x:Double>0.01</x:Double>
+                                    <x:Double>0.01</x:Double>
+                                </x:Arguments>
+                            </maps:MapSpan>
+                        </x:Arguments>
+                    </maps:Map>
+
+                    <controls:CircleImage
+                        x:Name="Logo"
+                        Grid.Row="1"
+                        Grid.RowSpan="2"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Margin="11,0"
+                        Aspect="AspectFill"
+                        BorderColor="White"
+                        BorderThickness="4"
                         HorizontalOptions="Start"
-                        Text="★★★★★"
-                        TextColor="#dfe4ea"
-                        VerticalOptions="Center" />
+                        VerticalOptions="Center">
+                        <controls:CircleImage.WidthRequest>
+                            <OnPlatform x:TypeArguments="x:Double">
+                                <On Platform="Android, iOS">120</On>
+                            </OnPlatform>
+                        </controls:CircleImage.WidthRequest>
+                        <controls:CircleImage.HeightRequest>
+                            <OnPlatform x:TypeArguments="x:Double">
+                                <On Platform="Android, iOS">120</On>
+                            </OnPlatform>
+                        </controls:CircleImage.HeightRequest>
+                    </controls:CircleImage>
+
+                    <Image
+                        x:Name="ResDiary"
+                        Grid.Row="2"
+                        Grid.Column="2"
+                        Margin="0,5,0,0"
+                        HorizontalOptions="Center"
+                        Source="https://www.resdiary.com/Content/Images/powered-by-resdiary.png"
+                        VerticalOptions="Start"
+                        WidthRequest="130" />
+
                     <Label
-                        x:Name="StarLabel"
-                        Padding="14,0"
-                        FontSize="Small"
+                        x:Name="NameLabel"
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="3"
+                        Padding="14,60,0,0"
+                        FontAttributes="Bold"
+                        FontSize="26"
                         HorizontalOptions="Start"
-                        TextColor="#11a0dc"
+                        Text="Restaurant" />
+
+                    <Label
+                        x:Name="CuisinesLabel"
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="3"
+                        Padding="15,0"
+                        FontSize="12"
+                        HorizontalOptions="Start"
+                        VerticalOptions="End"
+                        Text="Cuisines"
+                        TextColor="DimGray" />
+
+                    <Label
+                        x:Name="PriceLabel"
+                        Grid.Row="4"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="3"
+                        Padding="15,0"
+                        FontSize="12"
+                        TextColor="DimGray"
+                        HorizontalOptions="Start"
                         VerticalOptions="Center" />
+
+                    <Grid
+                        Grid.Row="5"
+                        Grid.Column="0">
+                        <Label
+                            Padding="14,0"
+                            FontSize="14"
+                            Text="★★★★★"
+                            TextColor="#dfe4ea"
+                            HorizontalOptions="Start"
+                            VerticalOptions="Center" />
+                        <Label
+                            x:Name="StarLabel"
+                            Padding="14,0"
+                            FontSize="14"
+                            TextColor="#11a0dc"
+                            HorizontalOptions="Start"
+                            VerticalOptions="Center" />
+                    </Grid>
+
+                    <ImageButton
+                        Source="PhoneIcon.png"
+                        Grid.Row="5"
+                        Grid.Column="2"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Start"
+                        BackgroundColor="White"
+                        HeightRequest="28"
+                        WidthRequest="28"
+                        CornerRadius="14"
+                        Margin="8,0,0,0"
+                        Clicked="PhoneButton_Clicked" />
+
+                    <ImageButton
+                        Source="EmailIcon.png"
+                        Grid.Row="5"
+                        Grid.Column="2"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Start"
+                        BackgroundColor="White"
+                        HeightRequest="28"
+                        WidthRequest="28"
+                        CornerRadius="14"
+                        Clicked="EmailButton_Clicked" />
+
+                    <ImageButton
+                        Source="WebsiteIcon.png"
+                        Grid.Row="5"
+                        Grid.Column="2"
+                        HorizontalOptions="End"
+                        VerticalOptions="Start"
+                        BackgroundColor="White"
+                        HeightRequest="28"
+                        WidthRequest="28"
+                        CornerRadius="14"
+                        Margin="0,0,8,0"
+                        Clicked="WebsiteButton_Clicked" />
+
+                    <BoxView
+                        Grid.Row="6"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="3"
+                        BackgroundColor="#dfe4ea"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Center"
+                        HeightRequest="2"
+                        WidthRequest="1"
+                        Margin="0,10" />
+
+                    <Label
+                        Grid.Row="7"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="3"
+                        Padding="15,0"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        Text="About"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Start" />
+
+                    <Label
+                        x:Name="DescriptionLabel"
+                        Grid.Row="8"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="3"
+                        Padding="15,0"
+                        FontSize="14"
+                        TextColor="DimGray"
+                        Text="Description"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Start" />
+
+                    <BoxView
+                        Grid.Row="9"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="3"
+                        BackgroundColor="#dfe4ea"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Center"
+                        HeightRequest="2"
+                        WidthRequest="1"
+                        Margin="0,10" />
+
+                    <Label
+                        Grid.Row="10"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="3"
+                        Padding="15,0"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        Text="Opening Times"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Start" />
+
+                    <Label
+                        x:Name="OpeningInformationLabel"
+                        Grid.Row="11"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="3"
+                        Padding="15,0"
+                        FontSize="14"
+                        TextColor="DimGray"
+                        Text="Opening Times"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Start" />
+
+                    <BoxView
+                        Grid.Row="12"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="3"
+                        BackgroundColor="#dfe4ea"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Center"
+                        HeightRequest="2"
+                        WidthRequest="1"
+                        Margin="0,10" />
+
+                    <Label
+                        Grid.Row="13"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="3"
+                        Padding="15,0"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        Text="Social Media"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Start" />
+
+                    <Label
+                        x:Name="SocialMediaLabel"
+                        Grid.Row="14"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="3"
+                        Padding="15,0,0,0"
+                        FontSize="14"
+                        TextColor="DimGray"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Start"
+                        IsVisible="False" />
+
+                    <floating:FloatingActionButton
+                        x:Name="FloatingButton1"
+                        Image="ScanIcon.png"
+                        Grid.Row="14"
+                        Grid.Column="2"
+                        HorizontalOptions="EndAndExpand"
+                        VerticalOptions="EndAndExpand"
+                        ButtonColor="#11a0dc"
+                        Clicked="FloatingButton_Clicked">
+
+                        <floating:FloatingActionButton.Margin>
+                            <OnPlatform x:TypeArguments="Thickness">
+                                <On Platform="iOS" Value="20" />
+                                <On Platform="Android" Value="0" />
+                            </OnPlatform>
+                        </floating:FloatingActionButton.Margin>
+
+                        <floating:FloatingActionButton.WidthRequest>
+                            <OnPlatform x:TypeArguments="x:Double">
+                                <On Platform="iOS">80</On>
+                                <On Platform="Android">80</On>
+                            </OnPlatform>
+                        </floating:FloatingActionButton.WidthRequest>
+
+                        <floating:FloatingActionButton.HeightRequest>
+                            <OnPlatform x:TypeArguments="x:Double">
+                                <On Platform="iOS">80</On>
+                                <On Platform="Android">90</On>
+                            </OnPlatform>
+                        </floating:FloatingActionButton.HeightRequest>
+                    </floating:FloatingActionButton>
                 </Grid>
+            </StackLayout>
+        </ContentView>
+    </ContentPage>
 
-                <BoxView
-                    Grid.Row="6"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="3"
-                    BackgroundColor="#dfe4ea"
-                    HeightRequest="1"
-                    HorizontalOptions="Fill"
-                    VerticalOptions="Center"
-                    WidthRequest="1" />
+    <ContentPage
+        x:Name="BookingTab"
+        Title="Book"
+        IconImageSource="BookingIcon.png"
+        BackgroundColor="White">
 
-                <Label
-                    Grid.Row="7"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="3"
-                    Padding="15,0"
-                    FontSize="Small"
-                    HorizontalOptions="Start"
-                    Text="Availability"
-                    VerticalOptions="End" />
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
-                <Label
-                    x:Name="NoAvailabilityLabel"
-                    Text="No Tables Currently Available."
-                    Grid.Row="8"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="3"
-                    FontSize="Small"
-                    HorizontalOptions="Start"
-                    VerticalOptions="End"
-                    IsVisible="False" />
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-                <cards:CoverFlowView
-                    x:Name="AvailabilityView"
-                    Grid.Row="8"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="3"
-                    IsCyclical="False"
-                    ItemsSource="{Binding Availability}"
-                    PositionShiftValue="145"
-                    SelectedIndex="0">
+            <Label
+                x:Name="NoAvailabilityLabel"
+                Text="No Tables Currently Available."
+                FontSize="Small"
+                Grid.Row="0"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                IsVisible="False" />
 
-                    <x:Arguments>
-                        <proc:BaseCoverFlowFrontViewProcessor OpacityFactor="0.25" ScaleFactor="0.75" />
-                        <proc:BaseCoverFlowBackViewProcessor OpacityFactor="0.25" ScaleFactor="0.75" />
-                    </x:Arguments>
+            <carousel:CarouselViewControl
+                x:Name="AvailabilityView"
+                ItemsSource="{Binding Availability}"
+                ShowArrows="False"
+                ShowIndicators="True"
+                IndicatorsTintColor="Gray"
+                CurrentPageIndicatorTintColor="#11a0dc"
+                IndicatorsShape="Circle"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand"
+                Grid.Row="0"
+                Margin="0,60">
 
-                    <cards:CoverFlowView.ItemTemplate
-                        ItemSelected="Availability_ItemSelected">
-                        <DataTemplate>
-                            <ContentView>
-                                <Frame
-                                    Padding="5"
-                                    BackgroundColor="#dfe4ea"
-                                    CornerRadius="10"
-                                    HasShadow="False"
-                                    HeightRequest="225"
-                                    HorizontalOptions="Center"
-                                    IsClippedToBounds="True"
-                                    VerticalOptions="Center"
-                                    WidthRequest="225">
+                <carousel:CarouselViewControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="32,64">
+                            <yummy:PancakeView
+                                CornerRadius="32"
+                                HeightRequest="400"
+                                BackgroundColor="White"
+                                HasShadow="True"
+                                Grid.Row="0">
 
-                                    <StackLayout>
-                                        <Label
-                                            FontAttributes="Bold"
-                                            FontSize="Medium"
-                                            HorizontalTextAlignment="Center"
-                                            Text="{Binding Name, StringFormat='Date: {0}'}" />
-                                        <Label
-                                            FontAttributes="Bold"
-                                            FontSize="Small"
-                                            HorizontalTextAlignment="Center"
-                                            Text="{Binding Description, StringFormat='Time: {0}'}" />
-                                        <Label
-                                            FontAttributes="Bold"
-                                            FontSize="Small"
-                                            HorizontalTextAlignment="Center"
-                                            Text="{Binding RestaurantAreas, StringFormat='Available Areas: {0}'}" />
-                                        <Label
-                                            FontAttributes="Bold"
-                                            FontSize="Small"
-                                            HorizontalTextAlignment="Center"
-                                            Text="{Binding Promotions, StringFormat='Available Promotions: {0}'}" />
+                                <StackLayout
+                                    VerticalOptions="Fill"
+                                    HorizontalOptions="Fill">
+                                    <yummy:PancakeView
+                                        VerticalOptions="FillAndExpand"
+                                        CornerRadius="32"
+                                        BackgroundGradientStartColor="#11a0dc"
+                                        BackgroundGradientEndColor="#dfe4ea">
+                                        <Grid>
+                                            <StackLayout>
+                                                <StackLayout Orientation="Horizontal">
+                                                    <Label
+                                                        Text="{Binding Date}"
+                                                        TextColor="White"
+                                                        Margin="24,24,24,0"
+                                                        FontSize="18"
+                                                        HorizontalOptions="EndAndExpand" />
+                                                </StackLayout>
 
-                                        <Button
-                                            BackgroundColor="White"
-                                            Padding="20,0"
-                                            CornerRadius="20"
-                                            TextColor="#11a0dc"
-                                            FontSize="12"
-                                            BorderColor="#11a0dc"
-                                            BorderWidth="2"
-                                            HeightRequest="40"
-                                            Text="BOOK NOW"
-                                            HorizontalOptions="Center"
-                                            Clicked="booktimeslot" />
+                                                <Label
+                                                    Text="{Binding Time, StringFormat='{0:N}'}"
+                                                    TextColor="White"
+                                                    Margin="24,24,0,0"
+                                                    FontSize="40"
+                                                    FontAttributes="Bold" />
+
+                                                <Label
+                                                    Text="AVAILABLE AREAS"
+                                                    TextColor="White"
+                                                    FontAttributes="Bold"
+                                                    Margin="24,24,0,0"
+                                                    FontSize="15" />
+
+                                                <Label
+                                                    Text="{Binding RestaurantAreas}"
+                                                    TextColor="White"
+                                                    Margin="24,0,0,0"
+                                                    FontSize="14" />
+
+                                                <Label
+                                                    Text="PROMOTIONS"
+                                                    TextColor="White"
+                                                    FontAttributes="Bold"
+                                                    Margin="24,24,0,0"
+                                                    FontSize="15" />
+                                                <ScrollView>
+                                                    <Label
+                                                    Text="{Binding Promotions}"
+                                                    TextColor="White"
+                                                    Margin="24,0,0,0"
+                                                    FontSize="14" />
+                                                </ScrollView>
+                                            </StackLayout>
+                                        </Grid>
+                                    </yummy:PancakeView>
+
+                                    <StackLayout
+                                        BackgroundColor="White"
+                                        VerticalOptions="FillAndExpand"
+                                        Margin="0,-32,0,32"
+                                        HeightRequest="50">
+
+                                        <StackLayout
+                                            VerticalOptions="CenterAndExpand"
+                                            Margin="0,32,0,0">
+
+                                            <Button
+                                                BackgroundColor="White"
+                                                Padding="20,0"
+                                                CornerRadius="20"
+                                                TextColor="#11a0dc"
+                                                FontSize="12"
+                                                BorderColor="#11a0dc"
+                                                BorderWidth="2"
+                                                HeightRequest="40"
+                                                Text="BOOK NOW"
+                                                HorizontalOptions="Center"
+                                                Clicked="bookTimeSlot"
+                                                BindingContext="{Binding DateTime}" />
+
+                                            <Label
+                                                x:Name="BookingLabel"
+                                                TextColor="{Binding Colour}"
+                                                Text="{Binding Available}"
+                                                FontSize="11"
+                                                FontAttributes="Bold"
+                                                Margin="0,8,0,0"
+                                                HorizontalOptions="Center" />
+                                        </StackLayout>
                                     </StackLayout>
-                                </Frame>
-                            </ContentView>
-                        </DataTemplate>
-                    </cards:CoverFlowView.ItemTemplate>
-                </cards:CoverFlowView>
-            </Grid>
-        </StackLayout>
+                                </StackLayout>
+                            </yummy:PancakeView>
+                        </Grid>
+                    </DataTemplate>
+                </carousel:CarouselViewControl.ItemTemplate>
+            </carousel:CarouselViewControl>
+
+            <floating:FloatingActionButton
+                x:Name="FloatingButton2"
+                Image="ScanIcon.png"
+                HorizontalOptions="EndAndExpand"
+                VerticalOptions="EndAndExpand"
+                ButtonColor="#11a0dc"
+                Clicked="FloatingButton_Clicked">
+
+                <floating:FloatingActionButton.Margin>
+                    <OnPlatform x:TypeArguments="Thickness">
+                        <On Platform="iOS" Value="20" />
+                        <On Platform="Android" Value="0" />
+                    </OnPlatform>
+                </floating:FloatingActionButton.Margin>
+
+                <floating:FloatingActionButton.WidthRequest>
+                    <OnPlatform x:TypeArguments="x:Double">
+                        <On Platform="iOS">80</On>
+                        <On Platform="Android">80</On>
+                    </OnPlatform>
+                </floating:FloatingActionButton.WidthRequest>
+
+                <floating:FloatingActionButton.HeightRequest>
+                    <OnPlatform x:TypeArguments="x:Double">
+                        <On Platform="iOS">80</On>
+                        <On Platform="Android">90</On>
+                    </OnPlatform>
+                </floating:FloatingActionButton.HeightRequest>
+            </floating:FloatingActionButton>
+        </Grid>
     </ContentPage>
 
     <ContentPage
@@ -258,9 +537,7 @@
         IconImageSource="MenuIcon.png">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="2*" />
-                <RowDefinition Height="8*" />
-                <RowDefinition Height="90*" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
@@ -268,23 +545,46 @@
             </Grid.ColumnDefinitions>
 
             <Label
-                Grid.Row="1"
-                Padding="15,0,0,5"
-                Font="Bold, 34"
-                HorizontalOptions="Start"
-                Text="Menu"
-                VerticalOptions="Center" />
-
-            <Label
                 x:Name="MenuLabel"
-                Grid.Row="2"
+                Grid.Row="0"
                 HorizontalOptions="Center"
                 VerticalOptions="Center" />
 
             <WebView
                 x:Name="Menu"
-                Grid.Row="2"
+                Grid.Row="0"
                 VerticalOptions="FillAndExpand" />
+
+            <floating:FloatingActionButton
+                x:Name="FloatingButton3"
+                Image="ScanIcon.png"
+                Grid.Row="0"
+                HorizontalOptions="EndAndExpand"
+                VerticalOptions="EndAndExpand"
+                ButtonColor="#11a0dc"
+                Clicked="FloatingButton_Clicked">
+
+                <floating:FloatingActionButton.Margin>
+                    <OnPlatform x:TypeArguments="Thickness">
+                        <On Platform="iOS" Value="20" />
+                        <On Platform="Android" Value="0" />
+                    </OnPlatform>
+                </floating:FloatingActionButton.Margin>
+
+                <floating:FloatingActionButton.WidthRequest>
+                    <OnPlatform x:TypeArguments="x:Double">
+                        <On Platform="iOS">80</On>
+                        <On Platform="Android">80</On>
+                    </OnPlatform>
+                </floating:FloatingActionButton.WidthRequest>
+
+                <floating:FloatingActionButton.HeightRequest>
+                    <OnPlatform x:TypeArguments="x:Double">
+                        <On Platform="iOS">80</On>
+                        <On Platform="Android">90</On>
+                    </OnPlatform>
+                </floating:FloatingActionButton.HeightRequest>
+            </floating:FloatingActionButton>
         </Grid>
     </ContentPage>
 
@@ -296,47 +596,27 @@
         <StackLayout>
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*" />
-                    <RowDefinition Height="8*" />
-                    <RowDefinition Height="3*" />
-                    <RowDefinition Height="90*" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Label
-                    Grid.Row="1"
-                    Padding="15,0"
-                    Font="Bold, 34"
-                    HorizontalOptions="Start"
-                    Text="Reviews"
-                    VerticalOptions="Center" />
-
-                <Label
-                    x:Name="OverallReviewsLabel"
-                    Grid.Row="2"
-                    Padding="15,0"
-                    Font="Bold, 16"
-                    HorizontalOptions="Start"
-                    Text="Reviews"
-                    TextColor="#11a0dc"
-                    VerticalOptions="End" />
-
                 <ListView
                     x:Name="ReviewsView"
-                    Grid.Row="3"
+                    Grid.Row="0"
                     Margin="15,0"
                     HasUnevenRows="True"
                     HorizontalOptions="Fill"
                     ItemsSource="{Binding Reviews}"
                     SelectionMode="None"
                     VerticalOptions="Fill">
+
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <ViewCell>
-                                <StackLayout Padding="0,20">
+                            <ViewCell IsEnabled="False">
+                                <StackLayout Padding="0,15">
                                     <Label Font="Bold, 16" Text="{Binding Name}" />
 
                                     <Grid>
@@ -351,19 +631,45 @@
                                     </Grid>
 
                                     <Label Font="Italic, 12" Text="{Binding ReviewDate, StringFormat='Reviewed: {0}'}" />
-                                    <Label Text="{Binding Review}" />
+                                    <Label Text="{Binding Content}" />
                                     <Label Font="Italic, 12" Text="{Binding VisitDate, StringFormat='Visited: {0}'}" />
                                 </StackLayout>
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
+
+                <floating:FloatingActionButton
+                    x:Name="FloatingButton4"
+                    Image="ScanIcon.png"
+                    Grid.Row="0"
+                    HorizontalOptions="EndAndExpand"
+                    VerticalOptions="EndAndExpand"
+                    ButtonColor="#11a0dc"
+                    Clicked="FloatingButton_Clicked">
+
+                    <floating:FloatingActionButton.Margin>
+                        <OnPlatform x:TypeArguments="Thickness">
+                            <On Platform="iOS" Value="20" />
+                            <On Platform="Android" Value="0" />
+                        </OnPlatform>
+                    </floating:FloatingActionButton.Margin>
+
+                    <floating:FloatingActionButton.WidthRequest>
+                        <OnPlatform x:TypeArguments="x:Double">
+                            <On Platform="iOS">80</On>
+                            <On Platform="Android">80</On>
+                        </OnPlatform>
+                    </floating:FloatingActionButton.WidthRequest>
+
+                    <floating:FloatingActionButton.HeightRequest>
+                        <OnPlatform x:TypeArguments="x:Double">
+                            <On Platform="iOS">80</On>
+                            <On Platform="Android">90</On>
+                        </OnPlatform>
+                    </floating:FloatingActionButton.HeightRequest>
+                </floating:FloatingActionButton>
             </Grid>
         </StackLayout>
     </ContentPage>
-
-    <ContentPage
-        x:Name="ScanTab"
-        Title="Scan"
-        IconImageSource="ScanIcon.png" />
 </TabbedPage>

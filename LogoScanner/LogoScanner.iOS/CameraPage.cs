@@ -99,7 +99,7 @@ namespace LogoScanner.iOS
 
             else
             {
-                DialogService.ShowLoading("Capturing Every Pixel");
+                DialogService.ShowLoading("Scanning Logo");
 
                 var videoConnection = stillImageOutput.ConnectionFromMediaType(AVMediaType.Video);
                 var sampleBuffer = await stillImageOutput.CaptureStillImageTaskAsync(videoConnection);

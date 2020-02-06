@@ -74,8 +74,6 @@ namespace LogoScanner.Helpers
         public static string[] GetPromotionIDs(JObject json)
         {
             string[] value;
-            RestaurantPage.promotions.Clear();
-
             if (json["AvailablePromotions"].Type == JTokenType.Null || string.IsNullOrEmpty(json["AvailablePromotions"].ToString()))
             {
                 value = new string[0];

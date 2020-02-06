@@ -3,11 +3,9 @@ using LogoScanner.Helpers;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
@@ -18,9 +16,9 @@ namespace LogoScanner
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RestaurantPage : TabbedPage
     {
-        public static ObservableCollection<Promotion> promotions = new ObservableCollection<Promotion>();
-        public static ObservableCollection<Review> reviews = new ObservableCollection<Review>();
-        public static ObservableCollection<AvailableTime> availableTimes = new ObservableCollection<AvailableTime>();
+        public static List<Promotion> promotions = new List<Promotion>();
+        public static List<Review> reviews = new List<Review>();
+        public static List<AvailableTime> availableTimes = new List<AvailableTime>();
 
         private string micrositename;
         private string overallReviews;

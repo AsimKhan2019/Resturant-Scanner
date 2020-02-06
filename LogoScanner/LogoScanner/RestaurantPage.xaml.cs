@@ -51,14 +51,13 @@ namespace LogoScanner
                     case 1:
                         BookingTab.IconImageSource = "BookingIconFilled.png";
                         NavigationPage.SetHasNavigationBar(this, true);
-                        Title = "Book";
+                        Title = "Available Bookings";
                         break;
 
                     case 2:
                         MenuTab.IconImageSource = "MenuIconFilled.png";
                         NavigationPage.SetHasNavigationBar(this, true);
                         Title = "Menu";
-                        setMenu(consumer);
                         break;
 
                     case 3:
@@ -68,13 +67,6 @@ namespace LogoScanner
                         break;
                 }
             };
-        }
-
-        protected override void OnDisappearing()
-        {
-            availableTimes.Clear();
-            promotions.Clear();
-            reviews.Clear();
         }
 
         protected override async void OnAppearing() // when page loads
@@ -95,25 +87,16 @@ namespace LogoScanner
 
             if (request.status.Equals("Success")) // if connection to api is successful
             {
-                try
+                JArray hasSummary = await Requests.APICallGet("https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename + "/HasMicrositeSummary", request.message);
+                JObject result = (JObject)hasSummary.First;
+                if (result["Result"] != null)
                 {
-                    JArray hasSummary = await Requests.APICallGet("https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename + "/HasMicrositeSummary", request.message);
-                    JObject result = (JObject)hasSummary.First;
-                    if (result["Result"] != null)
-                    {
-                        var datestart = DateTime.Now;
-                        var datestartstr = datestart.ToString("yyyy-MM-ddTHH:mm:ss");
+                    var datestart = DateTime.Now;
+                    var datestartstr = datestart.ToString("yyyy-MM-ddTHH:mm:ss");
 
-                        var dateend = DateTime.Now.AddDays(7.00);
-                        var dateendstr = dateend.ToString("yyyy-MM-ddTHH:mm:ss");
-                        GetRestaurantData("https://api.rdbranch.com/api/ConsumerApi/v1/MicrositeSummaryDetails?micrositeNames=" + this.micrositename + "&startDate=" + datestartstr + "&endDate=" + dateendstr + "&channelCodes=ONLINE&numberOfReviews=5", request.message);
-                    }
-                }
-                catch (NullReferenceException e)
-                {
-                    await DisplayAlert("Restaurant not found", "Please scan again." +
-                        "ErrorCode: " + e.Message, "OK"); // Displays an error message to the user
-                    await Navigation.PushModalAsync(new MainPage());
+                    var dateend = DateTime.Now.AddDays(7.00);
+                    var dateendstr = dateend.ToString("yyyy-MM-ddTHH:mm:ss");
+                    GetRestaurantData("https://api.rdbranch.com/api/ConsumerApi/v1/MicrositeSummaryDetails?micrositeNames=" + this.micrositename + "&startDate=" + datestartstr + "&endDate=" + dateendstr + "&channelCodes=ONLINE&numberOfReviews=5", request.message);
                 }
             }
             else
@@ -256,7 +239,7 @@ namespace LogoScanner
         // populates the menu tab
         private void PopulateMenuTab()
         {
-            if (Device.RuntimePlatform == Device.Android) setMenu(consumer); // setting the menu here on iOS causes it to load twice
+            setMenu(consumer);
         }
 
         // populates the reviews tab

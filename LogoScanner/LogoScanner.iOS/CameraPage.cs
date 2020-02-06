@@ -259,19 +259,36 @@ namespace LogoScanner.iOS
 
         public async void SendPhoto(byte[] image)
         {
-            var results = await CustomVisionService.PredictImageContentsAsync(image, (new CancellationTokenSource()).Token);
+            var current = CrossConnectivity.Current.IsConnected;
 
-            var navigationPage = new NavigationPage(new RestaurantPage(results.ToString()));
+            if (!current)
+            {
+                await App.Current.MainPage.DisplayAlert("Connection Error", "Please connect to the internet", "OK");
+            }
+            else
+            {
+                var results = await CustomVisionService.PredictImageContentsAsync(image, (new CancellationTokenSource()).Token);
 
-            await App.Current.MainPage.Navigation.PushModalAsync(navigationPage, false);
+                if (results.ToString().Length > 0)
+                {
+                    var navigationPage = new NavigationPage(new RestaurantPage(results.ToString()));
 
-            DialogService.HideLoading();
+                    await App.Current.MainPage.Navigation.PushModalAsync(navigationPage, false);
 
-            var error = new NSError();
-            var device = captureDeviceInput.Device;
-            device.LockForConfiguration(out error);
-            device.FlashMode = AVCaptureFlashMode.Off;
-            device.UnlockForConfiguration();
+                    DialogService.HideLoading();
+
+                    var error = new NSError();
+                    var device = captureDeviceInput.Device;
+                    device.LockForConfiguration(out error);
+                    device.FlashMode = AVCaptureFlashMode.Off;
+                    device.UnlockForConfiguration();
+                }
+                else
+                {
+                    DialogService.HideLoading();
+                    await App.Current.MainPage.DisplayAlert("Restaurant Not Found", "Please Re-Scan the Logo", "OK");
+                }
+            }
         }
     }
 }

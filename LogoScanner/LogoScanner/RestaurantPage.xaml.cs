@@ -3,11 +3,9 @@ using LogoScanner.Helpers;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
@@ -18,9 +16,9 @@ namespace LogoScanner
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RestaurantPage : TabbedPage
     {
-        public static ObservableCollection<Promotion> promotions = new ObservableCollection<Promotion>();
-        public static ObservableCollection<Review> reviews = new ObservableCollection<Review>();
-        public static ObservableCollection<AvailableTime> availableTimes = new ObservableCollection<AvailableTime>();
+        public static List<Promotion> promotions = new List<Promotion>();
+        public static List<Review> reviews = new List<Review>();
+        public static List<AvailableTime> availableTimes = new List<AvailableTime>();
 
         private string micrositename;
         private string overallReviews;
@@ -29,9 +27,6 @@ namespace LogoScanner
         public RestaurantPage(string micrositename)
         {
             InitializeComponent();
-            promotions.Clear();
-            reviews.Clear();
-            availableTimes.Clear();
             this.micrositename = micrositename;
 
             // event called when the tab is changed by the user
@@ -54,14 +49,13 @@ namespace LogoScanner
                     case 1:
                         BookingTab.IconImageSource = "BookingIconFilled.png";
                         NavigationPage.SetHasNavigationBar(this, true);
-                        Title = "Book";
+                        Title = "Available Bookings";
                         break;
 
                     case 2:
                         MenuTab.IconImageSource = "MenuIconFilled.png";
                         NavigationPage.SetHasNavigationBar(this, true);
                         Title = "Menu";
-                        setMenu(consumer);
                         break;
 
                     case 3:
@@ -91,25 +85,16 @@ namespace LogoScanner
 
             if (request.status.Equals("Success")) // if connection to api is successful
             {
-                try
+                JArray hasSummary = await Requests.APICallGet("https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename + "/HasMicrositeSummary", request.message);
+                JObject result = (JObject)hasSummary.First;
+                if (result["Result"] != null)
                 {
-                    JArray hasSummary = await Requests.APICallGet("https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename + "/HasMicrositeSummary", request.message);
-                    JObject result = (JObject)hasSummary.First;
-                    if (result["Result"] != null)
-                    {
-                        var datestart = DateTime.Now;
-                        var datestartstr = datestart.ToString("yyyy-MM-ddTHH:mm:ss");
+                    var datestart = DateTime.Now;
+                    var datestartstr = datestart.ToString("yyyy-MM-ddTHH:mm:ss");
 
-                        var dateend = DateTime.Now.AddDays(7.00);
-                        var dateendstr = dateend.ToString("yyyy-MM-ddTHH:mm:ss");
-                        GetRestaurantData("https://api.rdbranch.com/api/ConsumerApi/v1/MicrositeSummaryDetails?micrositeNames=" + this.micrositename + "&startDate=" + datestartstr + "&endDate=" + dateendstr + "&channelCodes=ONLINE&numberOfReviews=5", request.message);
-                    }
-                }
-                catch (NullReferenceException e)
-                {
-                    await DisplayAlert("Restaurant not found", "Please scan again." +
-                        "ErrorCode: " + e.Message, "OK"); // Displays an error message to the user
-                    await Navigation.PushModalAsync(new MainPage());
+                    var dateend = DateTime.Now.AddDays(7.00);
+                    var dateendstr = dateend.ToString("yyyy-MM-ddTHH:mm:ss");
+                    GetRestaurantData("https://api.rdbranch.com/api/ConsumerApi/v1/MicrositeSummaryDetails?micrositeNames=" + this.micrositename + "&startDate=" + datestartstr + "&endDate=" + dateendstr + "&channelCodes=ONLINE&numberOfReviews=5", request.message);
                 }
             }
             else
@@ -221,7 +206,7 @@ namespace LogoScanner
                     }
 
                     JArray array_promotions = await Requests.APICallGet(builder.ToString(), token);
-
+                    promotions.Clear();
                     foreach (var pr in array_promotions)
                     {
                         var valid = pr["ValidityPeriods"].First;
@@ -252,14 +237,14 @@ namespace LogoScanner
         // populates the menu tab
         private void PopulateMenuTab()
         {
-            if (Device.RuntimePlatform == Device.Android) setMenu(consumer); // setting the menu here on iOS causes it to load twice
+            setMenu(consumer);
         }
 
         // populates the reviews tab
         private void PopulateReviewsTab(JObject result)
         {
             overallReviews = Utils.GetRestaurantField(result, "AverageReviewScore") + "★  |  " + Utils.GetRestaurantField(result, "NumberOfReviews") + " reviews";
-
+            reviews.Clear();
             foreach (JToken review in result["Reviews"].ToArray())
             {
                 reviews.Add(new Review

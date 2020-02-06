@@ -226,13 +226,23 @@ namespace LogoScanner.Droid
                     image.Recycle();
                     imageBytes = imageStream.ToArray();
                 }
-
                 var results = await CustomVisionService.PredictImageContentsAsync(imageBytes, (new CancellationTokenSource()).Token);
-                var navigationPage = new NavigationPage(new RestaurantPage(results.ToString()));
 
-                DialogService.HideLoading();
-                camera.StartPreview();
-                await App.Current.MainPage.Navigation.PushModalAsync(navigationPage, false);
+                if (results.ToString().Length > 0)
+                {
+                    var navigationPage = new NavigationPage(new RestaurantPage(results.ToString()));
+
+                    DialogService.HideLoading();
+                    camera.StartPreview();
+                    await App.Current.MainPage.Navigation.PushModalAsync(navigationPage, false);
+                }
+                else
+                {
+                    DialogService.HideLoading();
+                    camera.StartPreview();
+
+                    await App.Current.MainPage.DisplayAlert("Restaurant Not Found", "Please Re-Scan the Logo", "OK");
+                }
             }
         }
 

@@ -10,7 +10,6 @@ using Xamarin.Forms.Platform.iOS;
 using Plugin.Connectivity;
 using Rectangle = System.Drawing.Rectangle;
 
-
 /*
  * AVFoundation Reference: http://red-glasses.com/index.php/tutorials/ios4-take-photos-with-live-video-preview-using-avfoundation/
  * Additional Camera Settings Reference: http://stackoverflow.com/questions/4550271/avfoundation-images-coming-in-unusably-dark
@@ -18,17 +17,18 @@ using Rectangle = System.Drawing.Rectangle;
  */
 
 [assembly: ExportRenderer(typeof(LogoScanner.MainPage), typeof(LogoScanner.iOS.CameraPage))]
+
 namespace LogoScanner.iOS
 {
     public class CameraPage : PageRenderer
     {
-        AVCaptureSession captureSession;
-        AVCaptureDeviceInput captureDeviceInput;
-        UIButton cameraRectangle;
-        UIButton toggleFlashButton;
-        UIView liveCameraStream;
-        AVCaptureStillImageOutput stillImageOutput;
-        UIButton takePhotoButton;
+        private AVCaptureSession captureSession;
+        private AVCaptureDeviceInput captureDeviceInput;
+        private UIButton cameraRectangle;
+        private UIButton toggleFlashButton;
+        private UIView liveCameraStream;
+        private AVCaptureStillImageOutput stillImageOutput;
+        private UIButton takePhotoButton;
 
         public override void ViewDidLoad()
         {
@@ -94,9 +94,8 @@ namespace LogoScanner.iOS
 
                 okAlertController.AddAction(UIAlertAction.Create("OK", UIAlertActionStyle.Default, null));
 
-                PresentViewController(okAlertController, true, null);  
+                PresentViewController(okAlertController, true, null);
             }
-
             else
             {
                 DialogService.ShowLoading("Scanning Logo");
@@ -131,7 +130,7 @@ namespace LogoScanner.iOS
             var clippedRect = new RectangleF(0, 0, width, height);
             context.ClipToRect(clippedRect);
 
-            var drawRect = new RectangleF(-x, -y, (float) imgSize.Width, (float) imgSize.Height);
+            var drawRect = new RectangleF(-x, -y, (float)imgSize.Width, (float)imgSize.Height);
             srcImage.Draw(drawRect);
             var modifiedImage = UIGraphics.GetImageFromCurrentImageContext();
             UIGraphics.EndImageContext();
@@ -242,7 +241,8 @@ namespace LogoScanner.iOS
 
         private void SetupEventHandlers()
         {
-            takePhotoButton.TouchUpInside += (object sender, EventArgs e) => {
+            takePhotoButton.TouchUpInside += (object sender, EventArgs e) =>
+            {
                 CapturePhoto();
             };
 
@@ -250,8 +250,9 @@ namespace LogoScanner.iOS
             {
                 UpdateFocusIfNeeded();
             };
-            
-            toggleFlashButton.TouchUpInside += (object sender, EventArgs e) => {
+
+            toggleFlashButton.TouchUpInside += (object sender, EventArgs e) =>
+            {
                 ToggleFlash();
             };
         }
@@ -259,6 +260,7 @@ namespace LogoScanner.iOS
         public async void SendPhoto(byte[] image)
         {
             var results = await CustomVisionService.PredictImageContentsAsync(image, (new CancellationTokenSource()).Token);
+
             var navigationPage = new NavigationPage(new RestaurantPage(results.ToString()));
 
             await App.Current.MainPage.Navigation.PushModalAsync(navigationPage, false);
@@ -271,6 +273,5 @@ namespace LogoScanner.iOS
             device.FlashMode = AVCaptureFlashMode.Off;
             device.UnlockForConfiguration();
         }
-
     }
 }

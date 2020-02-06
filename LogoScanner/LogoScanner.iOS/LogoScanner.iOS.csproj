@@ -76,16 +76,10 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon1024.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon180.png">
-      <Visible>false</Visible>
-    </ImageAsset>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon167.png">
       <Visible>false</Visible>
     </ImageAsset>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon152.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon120.png">
       <Visible>false</Visible>
     </ImageAsset>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon87.png">
@@ -139,6 +133,8 @@
     <ImageAsset Include="Assets.xcassets\TestImage.imageset\resdiary-logo-6.png">
       <Visible>false</Visible>
     </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\launch_logo_120.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\launch_logo_180 .png" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -177,11 +173,14 @@
     <PackageReference Include="Xamarin.Forms">
       <Version>4.4.0.991537</Version>
     </PackageReference>
+    <PackageReference Include="Xam.Plugin.Connectivity">
+      <Version>3.2.0</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
     <ProjectReference Include="..\LogoScanner\LogoScanner.csproj">
-      <Project>{63F01C6B-13EB-4075-8785-A0A54BA85B24}</Project>
+      <Project>{846A20E7-0EE0-4EE6-9F35-6A3A19FA969C}</Project>
       <Name>LogoScanner</Name>
     </ProjectReference>
   </ItemGroup>

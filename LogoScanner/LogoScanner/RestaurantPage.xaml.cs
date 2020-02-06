@@ -117,7 +117,7 @@ namespace LogoScanner
             int stars = (int)Math.Round(Double.Parse(result["AverageReviewScore"].ToString()), 0, MidpointRounding.AwayFromZero);
             StarLabel.Text = Utils.GetRestaurantField(result, "AverageReviewScore", "★", stars);
 
-            DescriptionLabel.Text = Utils.GetRestaurantField(consumer, "Description");
+            DescriptionLabel.Text = Utils.GetRestaurantField(consumer, "ShortDescription");
             OpeningInformationLabel.Text = Utils.GetRestaurantField(consumer, "OpeningInformation").Replace("<br/>", Environment.NewLine);
 
             if (consumer["SocialNetworks"].Type == JTokenType.Null || string.IsNullOrEmpty(consumer["SocialNetworks"].ToString()))
@@ -242,7 +242,7 @@ namespace LogoScanner
         // populates the reviews tab
         private void PopulateReviewsTab(JObject result)
         {
-            overallReviews = Utils.GetRestaurantField(result, "AverageReviewScore") + "★  |  " + Utils.GetRestaurantField(result, "NumberOfReviews") + " reviews";
+            overallReviews = "Reviews (" + Utils.GetRestaurantField(result, "NumberOfReviews") + ")";
             reviews.Clear();
             foreach (JToken review in result["Reviews"].ToArray())
             {

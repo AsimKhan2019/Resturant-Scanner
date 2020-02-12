@@ -5,26 +5,30 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"  
     xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"  
     xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"  
-
     BackgroundColor="Transparent">
 
     <pages:PopupPage.Animation>  
         <animations:ScaleAnimation   
-                      PositionIn="Center"  
-                      PositionOut="Center"  
-                      ScaleIn="1.2"  
-                      ScaleOut="0.8"  
-                      DurationIn="300"  
-                      DurationOut="200"  
-                      EasingIn="CubicIn"  
-                      EasingOut="CubicInOut"  
-      HasBackgroundAnimation="True" />  
+            PositionIn="Center"  
+            PositionOut="Center"  
+            ScaleIn="1.2"  
+            ScaleOut="0.8"  
+            DurationIn="300"  
+            DurationOut="200"  
+            EasingIn="CubicIn"  
+            EasingOut="CubicInOut"  
+            HasBackgroundAnimation="True" />  
     </pages:PopupPage.Animation>  
 
     <StackLayout VerticalOptions="Center" Padding="40,0" HorizontalOptions="FillAndExpand">  
         <Frame CornerRadius="10" Padding="0">  
             <StackLayout Padding="20">  
-                <Label Text="Review Ratings" TextColor="Black" FontSize="16" FontAttributes="Bold" HorizontalOptions="Center" />
+                <Label
+                    Text="Review Ratings"
+                    TextColor="Black"
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    HorizontalOptions="Center" />
 
                 <StackLayout Padding="0,10,0,0">
                     <Grid VerticalOptions="FillAndExpand" RowSpacing="10">
@@ -43,9 +47,25 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
-                        <Label x:Name="RatingsNameLabel" Text="{Binding Name}" FontSize="14" FontAttributes="Bold" TextColor="Black" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
+                        <Label
+                            x:Name="RatingsNameLabel"
+                            Text="{Binding Name}"
+                            FontSize="14"
+                            FontAttributes="Bold"
+                            TextColor="Black"
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2" />
 
-                        <Label Text="Likely to Recommend" FontSize="12" TextColor="DimGray" Grid.Row="1" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Center" />
+                        <Label
+                            Text="Likely to Recommend"
+                            FontSize="12"
+                            TextColor="DimGray"
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            HorizontalOptions="Start"
+                            VerticalOptions="Center" />
+
                         <Grid
                             Grid.Row="1"
                             Grid.Column="1">
@@ -64,7 +84,15 @@
                                 VerticalOptions="Center" />
                         </Grid>
 
-                        <Label Text="Food and Drink" FontSize="12" TextColor="DimGray" Grid.Row="2" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Center" />
+                        <Label
+                            Text="Food and Drink"
+                            FontSize="12"
+                            TextColor="DimGray"
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            HorizontalOptions="Start"
+                            VerticalOptions="Center" />
+
                         <Grid
                             Grid.Row="2"
                             Grid.Column="1">
@@ -83,7 +111,14 @@
                                 VerticalOptions="Center" />
                         </Grid>
 
-                        <Label Text="Service" FontSize="12" TextColor="DimGray" Grid.Row="3" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Center" />
+                        <Label Text="Service"
+                               FontSize="12"
+                               TextColor="DimGray"
+                               Grid.Row="3"
+                               Grid.Column="0"
+                               HorizontalOptions="Start"
+                               VerticalOptions="Center" />
+
                         <Grid
                             Grid.Row="3"
                             Grid.Column="1">
@@ -102,7 +137,15 @@
                                 VerticalOptions="Center" />
                         </Grid>
 
-                        <Label Text="Atmosphere" FontSize="12" TextColor="DimGray" Grid.Row="4" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Center" />
+                        <Label
+                            Text="Atmosphere"
+                            FontSize="12"
+                            TextColor="DimGray"
+                            Grid.Row="4"
+                            Grid.Column="0"
+                            HorizontalOptions="Start"
+                            VerticalOptions="Center" />
+
                         <Grid
                             Grid.Row="4"
                             Grid.Column="1">
@@ -121,7 +164,15 @@
                                 VerticalOptions="Center" />
                         </Grid>
 
-                        <Label Text="Value" FontSize="12" TextColor="DimGray" Grid.Row="5" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Center" />
+                        <Label
+                            Text="Value"
+                            FontSize="12"
+                            TextColor="DimGray"
+                            Grid.Row="5"
+                            Grid.Column="0"
+                            HorizontalOptions="Start"
+                            VerticalOptions="Center" />
+
                         <Grid
                             Grid.Row="5"
                             Grid.Column="1">
@@ -140,7 +191,16 @@
                                 VerticalOptions="Center" />
                         </Grid>
 
-                        <Label x:Name="AverageRatingLabel" Text="{Binding ScoreNumber, StringFormat='Average Rating: {0}★'}" FontSize="12" TextColor="Black" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" HorizontalOptions="Start" VerticalOptions="Center" />  
+                        <Label
+                            x:Name="AverageRatingLabel"
+                            Text="{Binding ScoreNumber, StringFormat='Average Rating: {0}★'}"
+                            FontSize="12"
+                            TextColor="Black"
+                            Grid.Row="6"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            HorizontalOptions="Start"
+                            VerticalOptions="Center" />  
                     </Grid>
                 </StackLayout>
             </StackLayout>  

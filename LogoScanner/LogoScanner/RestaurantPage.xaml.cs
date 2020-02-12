@@ -1,6 +1,7 @@
 ﻿using Logoscanner;
 using LogoScanner.Helpers;
 using Newtonsoft.Json.Linq;
+using Rg.Plugins.Popup.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -138,7 +139,10 @@ namespace LogoScanner
                         Margin = new Thickness(15, 10, 0, 0),
                         BackgroundColor = Color.White,
                         TextColor = Color.FromHex("#11a0dc"),
-                        CornerRadius = 10,
+                        FontSize = 12,
+                        CornerRadius = 20,
+                        BorderWidth = 2,
+                        BorderColor = Color.FromHex("#11a0dc"),
                         VerticalOptions = LayoutOptions.Start,
                         HorizontalOptions = LayoutOptions.Start
                     };
@@ -244,6 +248,7 @@ namespace LogoScanner
         {
             overallReviews = "Reviews (" + Utils.GetRestaurantField(result, "NumberOfReviews") + ")";
             reviews.Clear();
+
             foreach (JToken review in result["Reviews"].ToArray())
             {
                 reviews.Add(new Review
@@ -252,7 +257,13 @@ namespace LogoScanner
                     Content = review["Review"].ToString(),
                     Score = Utils.GetRestaurantField((JObject)review, "AverageScore", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
                     ReviewDate = review["ReviewDateTime"].ToString(),
-                    VisitDate = review["VisitDateTime"].ToString()
+                    VisitDate = review["VisitDateTime"].ToString(),
+                    LikelyToRecommend = Utils.GetRestaurantField((JObject)review, "Answer1", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
+                    FoodAndDrink = Utils.GetRestaurantField((JObject)review, "Answer2", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
+                    Service = Utils.GetRestaurantField((JObject)review, "Answer3", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
+                    Atmosphere = Utils.GetRestaurantField((JObject)review, "Answer4", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
+                    Value = Utils.GetRestaurantField((JObject)review, "Answer5", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
+                    ScoreNumber = review["AverageScore"].ToString()
                 });
             }
             ReviewsView.ItemsSource = reviews;
@@ -322,17 +333,24 @@ namespace LogoScanner
             await Email.ComposeAsync(message);
         }
 
+        // event triggered when the website button is clicked
+        private async void WebsiteButton_Clicked(object sender, EventArgs e)
+        {
+            await Browser.OpenAsync(Utils.GetRestaurantField(consumer, "Website"), BrowserLaunchMode.SystemPreferred);
+        }
+
+        // event triggered when a review is tapped
+        private async void ReviewsView_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            var review = e.Item as Review;
+            await Navigation.PushPopupAsync(new ReviewsPopup(review));
+        }
+
         public void bookTimeSlot(Object Sender, EventArgs e)
         {
             Button b = (Button)Sender;
             string dateTime = b.BindingContext as string;
             Booking.Makebooking(micrositename, dateTime.Split(',')[0], dateTime.Split(',')[1]);
-        }
-
-        // event triggered when the website button is clicked
-        private async void WebsiteButton_Clicked(object sender, EventArgs e)
-        {
-            await Browser.OpenAsync(Utils.GetRestaurantField(consumer, "Website"), BrowserLaunchMode.SystemPreferred);
         }
     }
 }

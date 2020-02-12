@@ -9,7 +9,7 @@
     xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     xmlns:carousel="clr-namespace:CarouselView.FormsPlugin.Abstractions;assembly=CarouselView.FormsPlugin.Abstractions"
     xmlns:floating="clr-namespace:SuaveControls.Views;assembly=SuaveControls.FloatingActionButton"
-    xmlns:xfProxy="clr-namespace:Xamarin.Forms.Proxy;assembly=Xamarin.Forms.Core.UnitTests"
+    
 
     android:TabbedPage.IsSwipePagingEnabled="False"
     android:TabbedPage.ToolbarPlacement="Bottom"
@@ -32,36 +32,21 @@
                     x:Name="HomeGrid"
                     VerticalOptions="FillAndExpand">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="15*" />
-                        <!-- map 18 -->
-                        <RowDefinition Height="12*" />
-                        <!-- logo 15 -->
-                        <RowDefinition Height="Auto" />
-                        <!-- name / ResDiary -->
-                        <RowDefinition Height="Auto" />
-                        <!-- cuisines -->
-                        <RowDefinition Height="Auto" />
-                        <!-- price -->
-                        <RowDefinition Height="Auto" />
-                        <!-- stars -->
-                        <RowDefinition Height="Auto" />
-                        <!-- divider -->
-                        <RowDefinition Height="Auto" />
-                        <!-- about label -->
-                        <RowDefinition Height="Auto" />
-                        <!-- about section -->
-                        <RowDefinition Height="Auto" />
-                        <!-- divider -->
-                        <RowDefinition Height="Auto" />
-                        <!-- opening times label -->
-                        <RowDefinition Height="10*" />
-                        <!-- opening times section -->
-                        <RowDefinition Height="Auto" />
-                        <!-- divider -->
-                        <RowDefinition Height="Auto" />
-                        <!-- social media label -->
-                        <RowDefinition Height="15*" />
-                        <!-- social media section-->
+                        <RowDefinition Height="15*" />  <!-- map 18 -->
+                        <RowDefinition Height="12*" />  <!-- logo 15 -->
+                        <RowDefinition Height="Auto" /> <!-- name / ResDiary -->
+                        <RowDefinition Height="Auto" /> <!-- cuisines -->
+                        <RowDefinition Height="Auto" /> <!-- price -->
+                        <RowDefinition Height="Auto" /> <!-- stars -->
+                        <RowDefinition Height="Auto" /> <!-- divider -->
+                        <RowDefinition Height="Auto" /> <!-- about label -->
+                        <RowDefinition Height="Auto" /> <!-- about section -->
+                        <RowDefinition Height="Auto" /> <!-- divider -->
+                        <RowDefinition Height="Auto" /> <!-- opening times label -->
+                        <RowDefinition Height="10*" />  <!-- opening times section -->
+                        <RowDefinition Height="Auto" /> <!-- divider -->
+                        <RowDefinition Height="Auto" /> <!-- social media label -->
+                        <RowDefinition Height="15*" />  <!-- social media section-->
                     </Grid.RowDefinitions>
 
                     <Grid.ColumnDefinitions>
@@ -606,17 +591,17 @@
                 <ListView
                     x:Name="ReviewsView"
                     Grid.Row="0"
-                    Margin="15,0"
                     HasUnevenRows="True"
-                    HorizontalOptions="Fill"
                     ItemsSource="{Binding Reviews}"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Fill"
                     SelectionMode="None"
-                    VerticalOptions="Fill">
+                    ItemTapped="ReviewsView_ItemTapped">
 
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <ViewCell IsEnabled="False">
-                                <StackLayout Padding="0,15">
+                            <ViewCell>
+                                <StackLayout Padding="15">
                                     <Label Font="Bold, 16" Text="{Binding Name}" />
 
                                     <Grid>
@@ -630,9 +615,9 @@
                                             TextColor="#11a0dc" />
                                     </Grid>
 
-                                    <Label Font="Italic, 12" Text="{Binding ReviewDate, StringFormat='Reviewed: {0}'}" />
+                                    <Label Font="Italic, 12" TextColor="DimGray" Text="{Binding ReviewDate, StringFormat='Reviewed: {0}'}" />
                                     <Label Text="{Binding Content}" />
-                                    <Label Font="Italic, 12" Text="{Binding VisitDate, StringFormat='Visited: {0}'}" />
+                                    <Label Font="Italic, 12" TextColor="DimGray" Text="{Binding VisitDate, StringFormat='Visited: {0}'}" />
                                 </StackLayout>
                             </ViewCell>
                         </DataTemplate>

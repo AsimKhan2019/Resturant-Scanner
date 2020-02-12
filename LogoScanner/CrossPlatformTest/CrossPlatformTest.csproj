@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -29,6 +29,9 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="NUnit" Version="3.12.0" />
+    <PackageReference Include="Syncfusion.Xamarin.SfPdfViewer">
+      <Version>17.4.0.49</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.UITest" Version="3.0.3" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.13.0" />
   </ItemGroup>

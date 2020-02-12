@@ -24,7 +24,8 @@ namespace LogoScanner.iOS
             global::Xamarin.Forms.Forms.Init();
             global::Xamarin.Forms.FormsMaterial.Init();
             global::Xamarin.FormsMaps.Init();
-
+            Syncfusion.SfPdfViewer.XForms.iOS.SfPdfDocumentViewRenderer.Init();
+            Syncfusion.SfRangeSlider.XForms.iOS.SfRangeSliderRenderer.Init();
             ImageCircleRenderer.Init();
             CarouselViewRenderer.Init();
             FloatingActionButtonRenderer.InitRenderer();

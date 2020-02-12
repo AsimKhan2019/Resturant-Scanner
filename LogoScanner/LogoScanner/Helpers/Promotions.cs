@@ -54,7 +54,7 @@ namespace LogoScanner.Helpers
 
                             AvailableTime at = new AvailableTime
                             {
-                                Date = day["Date"].ToString().Substring(0, 10),
+                                Date = Convert.ToDateTime(day["Date"].ToString()).Date.ToString("dd/MM/yyyy"),
                                 Time = timeSlot.ToString().Substring(0, 5),
                                 RestaurantAreas = availableAreas.ToString().Replace("\t", ""),
                                 Available = available,

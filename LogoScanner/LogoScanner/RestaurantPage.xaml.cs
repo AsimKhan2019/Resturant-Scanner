@@ -10,6 +10,9 @@ using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Xamarin.Forms.Xaml;
+using System.Net;
+using System.Net.Http;
+using System.Reflection;
 
 namespace LogoScanner
 {
@@ -26,6 +29,16 @@ namespace LogoScanner
 
         public RestaurantPage(string micrositename)
         {
+            //register syncfusion api
+            var credentialsFile = "LogoScanner.credentials.json";
+            JObject line;
+            var assembly = Assembly.GetExecutingAssembly();
+            using (Stream stream = assembly.GetManifestResourceStream(credentialsFile))
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                line = JObject.Parse(reader.ReadToEnd()); // opens credentials file, reads it and parse JSON
+            }
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(line["SyncfusionAPI"]["key"].ToString());
             InitializeComponent();
             this.micrositename = micrositename;
 
@@ -275,27 +288,33 @@ namespace LogoScanner
             PopulateMenuTab();
             PopulateReviewsTab(result);
         }
+        //method do download pdf from url
+        public Stream DownloadPdfStream(string URL, string documentName)
+        {
 
+            var uri = new System.Uri(URL);
+            var client = new WebClient();
+
+            //Returns the PDF document stream from the given URL 
+            return client.OpenRead(uri);
+
+        }
         //method to get menu for restaurant
         private void setMenu(JObject json)
         {
             if (json["Menus"].Type == JTokenType.Null || string.IsNullOrEmpty(json["Menus"].ToString()) || !json["Menus"].Any())
             {
-                Menu.IsVisible = false;
                 MenuLabel.Text = "No Menus Currently Available.";
             }
             else
             {
                 var pdfUrl = json["Menus"][0]["StorageUrl"].ToString();
-                var googleUrl = "http://drive.google.com/viewerng/viewer?embedded=true&url=";
-                if (Device.RuntimePlatform == Device.iOS)
-                {
-                    Menu.Source = pdfUrl;
-                }
-                else if (Device.RuntimePlatform == Device.Android)
-                {
-                    Menu.Source = new UrlWebViewSource() { Url = googleUrl + pdfUrl };
-                }
+                //Provide the PDF document URL in the below overload. 
+                Stream documenStream = DownloadPdfStream(pdfUrl, "Sample");
+                //Loads the PDF document as Stream to PDF viewer control 
+                pdfViewerControl.LoadDocument(documenStream);
+
+
             }
         }
 
@@ -336,4 +355,5 @@ namespace LogoScanner
             await Browser.OpenAsync(Utils.GetRestaurantField(consumer, "Website"), BrowserLaunchMode.SystemPreferred);
         }
     }
-}
+
+    }

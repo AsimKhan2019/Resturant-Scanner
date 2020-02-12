@@ -119,6 +119,14 @@ namespace LogoScanner
             StarLabel.Text = Utils.GetRestaurantField(result, "AverageReviewScore", "★", stars);
 
             DescriptionLabel.Text = Utils.GetRestaurantField(consumer, "ShortDescription");
+
+            var viewMoreTap = new TapGestureRecognizer();
+            viewMoreTap.Tapped += async (s, e) =>
+            {
+                await Navigation.PushPopupAsync(new AboutPopup(Utils.GetRestaurantField(consumer, "Description")));
+            };
+            ViewMoreLabel.GestureRecognizers.Add(viewMoreTap);
+
             OpeningInformationLabel.Text = Utils.GetRestaurantField(consumer, "OpeningInformation").Replace("<br/>", Environment.NewLine);
 
             if (consumer["SocialNetworks"].Type == JTokenType.Null || string.IsNullOrEmpty(consumer["SocialNetworks"].ToString()))
@@ -146,7 +154,7 @@ namespace LogoScanner
                         VerticalOptions = LayoutOptions.Start,
                         HorizontalOptions = LayoutOptions.Start
                     };
-                    HomeGrid.Children.Add(button, column, 14);
+                    HomeGrid.Children.Add(button, column, 15);
                     column++;
 
                     button.Clicked += async (sender, args) => await Browser.OpenAsync(a["Url"].ToString(), BrowserLaunchMode.SystemPreferred);

@@ -30,7 +30,7 @@
                     FontAttributes="Bold"
                     HorizontalOptions="Center" />
 
-                <StackLayout Padding="0,10,0,0">
+                <StackLayout Padding="0,10">
                     <Grid VerticalOptions="FillAndExpand" RowSpacing="10">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -50,6 +50,7 @@
                         <Label
                             x:Name="RatingsNameLabel"
                             Text="{Binding Name}"
+                            Padding="30,0,0,0"
                             FontSize="14"
                             FontAttributes="Bold"
                             TextColor="Black"
@@ -58,7 +59,8 @@
                             Grid.ColumnSpan="2" />
 
                         <Label
-                            Text="Likely to Recommend"
+                            Text="Recommendation"
+                            Padding="30,0,0,0"
                             FontSize="12"
                             TextColor="DimGray"
                             Grid.Row="1"
@@ -68,7 +70,8 @@
 
                         <Grid
                             Grid.Row="1"
-                            Grid.Column="1">
+                            Grid.Column="1"
+                            Padding="35,0,0,0">
                             <Label
                                 FontSize="14"
                                 Text="★★★★★"
@@ -86,6 +89,7 @@
 
                         <Label
                             Text="Food and Drink"
+                            Padding="30,0,0,0"
                             FontSize="12"
                             TextColor="DimGray"
                             Grid.Row="2"
@@ -95,7 +99,8 @@
 
                         <Grid
                             Grid.Row="2"
-                            Grid.Column="1">
+                            Grid.Column="1"
+                            Padding="35,0,0,0">
                             <Label
                                 FontSize="14"
                                 Text="★★★★★"
@@ -111,17 +116,20 @@
                                 VerticalOptions="Center" />
                         </Grid>
 
-                        <Label Text="Service"
-                               FontSize="12"
-                               TextColor="DimGray"
-                               Grid.Row="3"
-                               Grid.Column="0"
-                               HorizontalOptions="Start"
-                               VerticalOptions="Center" />
+                        <Label
+                            Text="Service"
+                            Padding="30,0,0,0"
+                            FontSize="12"
+                            TextColor="DimGray"
+                            Grid.Row="3"
+                            Grid.Column="0"
+                            HorizontalOptions="Start"
+                            VerticalOptions="Center" />
 
                         <Grid
                             Grid.Row="3"
-                            Grid.Column="1">
+                            Grid.Column="1"
+                            Padding="35,0,0,0">
                             <Label
                                 FontSize="14"
                                 Text="★★★★★"
@@ -139,6 +147,7 @@
 
                         <Label
                             Text="Atmosphere"
+                            Padding="30,0,0,0"
                             FontSize="12"
                             TextColor="DimGray"
                             Grid.Row="4"
@@ -148,7 +157,8 @@
 
                         <Grid
                             Grid.Row="4"
-                            Grid.Column="1">
+                            Grid.Column="1"
+                            Padding="35,0,0,0">
                             <Label
                                 FontSize="14"
                                 Text="★★★★★"
@@ -166,6 +176,7 @@
 
                         <Label
                             Text="Value"
+                            Padding="30,0,0,0"
                             FontSize="12"
                             TextColor="DimGray"
                             Grid.Row="5"
@@ -175,7 +186,8 @@
 
                         <Grid
                             Grid.Row="5"
-                            Grid.Column="1">
+                            Grid.Column="1"
+                            Padding="35,0,0,0">
                             <Label
                                 FontSize="14"
                                 Text="★★★★★"
@@ -194,8 +206,10 @@
                         <Label
                             x:Name="AverageRatingLabel"
                             Text="{Binding ScoreNumber, StringFormat='Average Rating: {0}★'}"
+                            Padding="30,0,0,0"
                             FontSize="12"
                             TextColor="Black"
+                            FontAttributes="Italic"
                             Grid.Row="6"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"

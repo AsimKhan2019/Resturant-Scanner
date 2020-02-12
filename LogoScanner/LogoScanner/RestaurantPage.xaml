@@ -41,6 +41,7 @@
                         <RowDefinition Height="Auto" /> <!-- divider -->
                         <RowDefinition Height="Auto" /> <!-- about label -->
                         <RowDefinition Height="Auto" /> <!-- about section -->
+                        <RowDefinition Height="Auto" /> <!-- view more label -->
                         <RowDefinition Height="Auto" /> <!-- divider -->
                         <RowDefinition Height="Auto" /> <!-- opening times label -->
                         <RowDefinition Height="10*" />  <!-- opening times section -->
@@ -233,10 +234,23 @@
                         TextColor="DimGray"
                         Text="Description"
                         HorizontalOptions="Start"
-                        VerticalOptions="Start" />
+                        VerticalOptions="Start"
+                        LineBreakMode="WordWrap" />
+
+                    <Label
+                        x:Name="ViewMoreLabel"
+                        Padding="0,5,15,0"
+                        Grid.Row="9"
+                        Grid.Column="2"
+                        FontSize="14"
+                        TextColor="#11a0dc"
+                        Text="View more"
+                        TextDecorations="Underline"
+                        HorizontalOptions="End"
+                        VerticalOptions="Center" />
 
                     <BoxView
-                        Grid.Row="9"
+                        Grid.Row="10"
                         Grid.Column="0"
                         Grid.ColumnSpan="3"
                         BackgroundColor="#dfe4ea"
@@ -247,7 +261,7 @@
                         Margin="0,10" />
 
                     <Label
-                        Grid.Row="10"
+                        Grid.Row="11"
                         Grid.Column="0"
                         Grid.ColumnSpan="3"
                         Padding="15,0"
@@ -259,7 +273,7 @@
 
                     <Label
                         x:Name="OpeningInformationLabel"
-                        Grid.Row="11"
+                        Grid.Row="12"
                         Grid.Column="0"
                         Grid.ColumnSpan="3"
                         Padding="15,0"
@@ -270,7 +284,7 @@
                         VerticalOptions="Start" />
 
                     <BoxView
-                        Grid.Row="12"
+                        Grid.Row="13"
                         Grid.Column="0"
                         Grid.ColumnSpan="3"
                         BackgroundColor="#dfe4ea"
@@ -281,7 +295,7 @@
                         Margin="0,10" />
 
                     <Label
-                        Grid.Row="13"
+                        Grid.Row="14"
                         Grid.Column="0"
                         Grid.ColumnSpan="3"
                         Padding="15,0"
@@ -293,7 +307,7 @@
 
                     <Label
                         x:Name="SocialMediaLabel"
-                        Grid.Row="14"
+                        Grid.Row="15"
                         Grid.Column="0"
                         Grid.ColumnSpan="3"
                         Padding="15,0,0,0"
@@ -306,7 +320,7 @@
                     <floating:FloatingActionButton
                         x:Name="FloatingButton1"
                         Image="ScanIcon.png"
-                        Grid.Row="14"
+                        Grid.Row="15"
                         Grid.Column="2"
                         HorizontalOptions="EndAndExpand"
                         VerticalOptions="EndAndExpand"
@@ -615,9 +629,17 @@
                                             TextColor="#11a0dc" />
                                     </Grid>
 
-                                    <Label Font="Italic, 12" TextColor="DimGray" Text="{Binding ReviewDate, StringFormat='Reviewed: {0}'}" />
+                                    <Label
+                                        Font="Italic, 12"
+                                        TextColor="DimGray"
+                                        Text="{Binding ReviewDate, StringFormat='Reviewed: {0}'}" />
+
                                     <Label Text="{Binding Content}" />
-                                    <Label Font="Italic, 12" TextColor="DimGray" Text="{Binding VisitDate, StringFormat='Visited: {0}'}" />
+
+                                    <Label
+                                        Font="Italic, 12"
+                                        TextColor="DimGray"
+                                        Text="{Binding VisitDate, StringFormat='Visited: {0}'}" />
                                 </StackLayout>
                             </ViewCell>
                         </DataTemplate>

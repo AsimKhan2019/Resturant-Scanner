@@ -7,6 +7,7 @@ using System.Net.Http.Headers;
 using System.Reflection;
 using System.Threading.Tasks;
 using LogoScanner;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using Xamarin.UITest;
@@ -48,9 +49,8 @@ namespace CrossPlatformTest
             return line;
         }
 
-        //test that app was successfully connected to custom vision api with post method
-        [Test]
-        public async Task IsAppConnectedToCustomVision()
+        // helper method to access Custom Vision, which returns HttpClient response
+        private async Task<HttpResponseMessage> ConnectToCustomVisionForTesting(byte[] InputImage)
         {
             //new http client with key
             var client = new HttpClient();
@@ -62,14 +62,54 @@ namespace CrossPlatformTest
             HttpResponseMessage response;
 
             //get image
-            byte[] image = System.IO.File.ReadAllBytes("./CrossPlatformTest/logo-test.png");
+            byte[] image = InputImage;
 
             using (var content = new ByteArrayContent(image))
             {
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
                 response = await client.PostAsync(credentials["CustomVisionAPI"]["url"].ToString(), content);
             }
+            return response;
+        }
+
+        //test that app was successfully connected to custom vision api with post method
+        [Test]
+        public async Task IsAppConnectedToCustomVision()
+        {
+            // get image
+            byte [] image = File.ReadAllBytes(System.AppDomain.CurrentDomain.BaseDirectory+"../../logo-test.png");
+            // call helper method to access API, which returns response from HttpClient
+            HttpResponseMessage response = await ConnectToCustomVisionForTesting(image);
+
             Assert.AreEqual("OK", response.StatusCode.ToString(), "The response status code is " + response.StatusCode.ToString() + ", while expected OK.");
+        }
+
+        //test that app was not connected to custom vision api with post method
+        [Test]
+        public async Task IsCustomVisionNotConnectedWhenBadRequest()
+        {
+            // get image
+            byte[] image = new byte[1987];
+            // call helper method to access API, which returns response from HttpClient
+            HttpResponseMessage response = await ConnectToCustomVisionForTesting(image);
+
+            Assert.AreEqual("BadRequest", response.StatusCode.ToString(), "The response status code is " + response.StatusCode.ToString() + ", while expected BadRequest.");
+        }
+
+        // test if Custom Vision returns correct prediction for a picture
+        [Test]
+        public async Task IsCustomVisionReturningRightPrediction()
+        {
+            //get image
+            byte[] image = System.IO.File.ReadAllBytes(System.AppDomain.CurrentDomain.BaseDirectory + "../../logo-test.png");
+            // call helper method to access API, which returns response from HttpClient
+            HttpResponseMessage response = await ConnectToCustomVisionForTesting(image);
+
+            //get the name of the restaurant
+            var resultJson = await response.Content.ReadAsStringAsync();
+            var restaurantName = JsonConvert.DeserializeObject<PredictionResult>(resultJson);
+
+            Assert.AreEqual("Union", restaurantName.ToString(), "The response status code is " + restaurantName.ToString() + ", while expected Union.");
         }
 
         //prediciton results to string return only one parameter with probability higher as 0.3
@@ -83,6 +123,15 @@ namespace CrossPlatformTest
                                            new Prediction{Probability=73.5, TagName="Restaurant3"},
                                            new Prediction{Probability=65.5, TagName="Restaurant4"}}
             };
+
+            Assert.AreEqual("Restaurant3", data1.ToString(), "The Prediction Result is " + data1.ToString() + ", while expected Restaurant3.");
+        }
+
+        //prediciton results to string return only one parameter with probability higher as 0.3
+        [Test]
+        public void ArePredicitionResultToStringReturningEmptyString()
+        {
+
             var data2 = new PredictionResult
             {
                 Predictions = new List<Prediction>{new Prediction{Probability=0.2, TagName="Restaurant1"},
@@ -90,8 +139,8 @@ namespace CrossPlatformTest
                                            new Prediction{Probability=0.1, TagName="Restaurant3"}}
             };
 
-            Assert.AreEqual("Restaurant3", data1.ToString(), "The Prediction Result is " + data1.ToString() + ", while expected Restaurant3.");
             Assert.AreEqual("", data2.ToString(), "The Prediction Result is " + data2.ToString() + ", while expected \"\".");
         }
     }
+
 }

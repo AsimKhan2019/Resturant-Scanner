@@ -362,18 +362,23 @@
 
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
             <Label
                 x:Name="NoAvailabilityLabel"
                 Text="No Tables Currently Available."
                 FontSize="Small"
-                Grid.Row="0"
                 HorizontalOptions="Center"
                 VerticalOptions="Center"
                 IsVisible="False" />
@@ -389,7 +394,9 @@
                 HorizontalOptions="FillAndExpand"
                 VerticalOptions="FillAndExpand"
                 Grid.Row="0"
-                Margin="0,60">
+                Grid.RowSpan="3"
+                Grid.Column="0"
+                Grid.ColumnSpan="3">
 
                 <carousel:CarouselViewControl.ItemTemplate>
                     <DataTemplate>
@@ -498,11 +505,31 @@
                 </carousel:CarouselViewControl.ItemTemplate>
             </carousel:CarouselViewControl>
 
+            <Label
+                x:Name="sliderValueLabel"
+                Text="Party Size of 3"
+                Grid.Row="3" />
+
+            <Slider
+                x:Name="partySizeSlider"
+                Maximum="10"
+                Minimum="1"
+                Value="3"
+                ValueChanged="OnSliderValueChanged"
+                DragCompleted="changePartySize"
+                Grid.Row="4"
+                Grid.Column="0"
+                Grid.ColumnSpan="3"
+                VerticalOptions="Start"
+                Margin="0,10,0,10" />
+
             <floating:FloatingActionButton
                 x:Name="FloatingButton2"
                 Image="ScanIcon.png"
                 HorizontalOptions="EndAndExpand"
                 VerticalOptions="EndAndExpand"
+                Grid.Row="4"
+                Grid.Column="2"
                 ButtonColor="#11a0dc"
                 Clicked="FloatingButton_Clicked">
 

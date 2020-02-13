@@ -9,7 +9,7 @@ namespace Logoscanner
         {
         }
 
-        public static void Makebooking(string microsite, string date, string time)
+        public static void Makebooking(string microsite, string date, string time, int partysize)
         {
             //Passed in as "Date: 29/01/2020"
             //Passed in as "Time: 11:45:00"
@@ -20,7 +20,7 @@ namespace Logoscanner
                         "/Book/Customer?bookingDateTime=" + bookingdate +
                         "T" + time.Substring(0, 2) +
                         "%3A" + time.Substring(3, 2) +
-                        "%3A00&covers=" + "3";
+                        "%3A00&covers=" + partysize.ToString();
 
             Launcher.OpenAsync(booking);
         }

@@ -3,6 +3,7 @@ using LogoScanner.Helpers;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -16,13 +17,16 @@ namespace LogoScanner
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RestaurantPage : TabbedPage
     {
-        public static List<Promotion> promotions = new List<Promotion>();
+        public static ObservableCollection<Promotion> promotions = new ObservableCollection<Promotion>();
         public static List<Review> reviews = new List<Review>();
-        public static List<AvailableTime> availableTimes = new List<AvailableTime>();
+        public static ObservableCollection<AvailableTime> availableTimes = new ObservableCollection<AvailableTime>();
 
         private string micrositename;
         private string overallReviews;
+        private string token;
         private JObject consumer;
+        private JObject result;
+        private int partysize = 3;
 
         public RestaurantPage(string micrositename)
         {
@@ -72,6 +76,7 @@ namespace LogoScanner
             base.OnAppearing();
 
             var request = await Requests.ConnectToResDiary(); // connect to resdiary api
+            token = request.message;
 
             while (request.message.Equals("Unable to Connect to Internet"))
             {
@@ -174,7 +179,7 @@ namespace LogoScanner
         }
 
         // populates the booking tab
-        private async void PopulateBookingTab(JObject result, string token)
+        private async void PopulateBookingTab(JObject result)
         {
             string[] promotion_ids = Promotions.GetPromotionIDs(result);
 
@@ -186,7 +191,7 @@ namespace LogoScanner
 
             string url = "https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename + "/AvailabilityForDateRangeV2?";
 
-            JObject r = await Requests.APICallPost(url, token, dateStartStr, dateEndStr, 3);
+            JObject r = await Requests.APICallPost(url, token, dateStartStr, dateEndStr, partysize);
 
             var capacity = 0;
 
@@ -263,7 +268,7 @@ namespace LogoScanner
         private async void GetRestaurantData(string url, string token)
         {
             JArray r = await Requests.APICallGet(url, token);
-            JObject result = (JObject)r.First;
+            result = (JObject)r.First;
 
             // gets restaurant json object in the consumer api
             var consumerUrl = "https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename;
@@ -271,7 +276,7 @@ namespace LogoScanner
             consumer = (JObject)restaurant.First;
 
             PopulateHomeTab(result);
-            PopulateBookingTab(result, token);
+            PopulateBookingTab(result);
             PopulateMenuTab();
             PopulateReviewsTab(result);
         }
@@ -327,13 +332,29 @@ namespace LogoScanner
         {
             Button b = (Button)Sender;
             string dateTime = b.BindingContext as string;
-            Booking.Makebooking(micrositename, dateTime.Split(',')[0], dateTime.Split(',')[1]);
+            Booking.Makebooking(micrositename, dateTime.Split(',')[0], dateTime.Split(',')[1], partysize);
         }
 
         // event triggered when the website button is clicked
         private async void WebsiteButton_Clicked(object sender, EventArgs e)
         {
             await Browser.OpenAsync(Utils.GetRestaurantField(consumer, "Website"), BrowserLaunchMode.SystemPreferred);
+        }
+
+        private void OnSliderValueChanged(object sender, ValueChangedEventArgs args)
+        {
+            int value = (int)args.NewValue;
+            sliderValueLabel.Text = "Party Size of " + value.ToString();
+        }
+
+        private void changePartySize(object sender, EventArgs e)
+        {
+            partysize = (int)partySizeSlider.Value;
+            sliderValueLabel.Text = "Party Size of " + partysize.ToString();
+
+            promotions.Clear();
+            availableTimes.Clear();
+            PopulateBookingTab(result);
         }
     }
 }

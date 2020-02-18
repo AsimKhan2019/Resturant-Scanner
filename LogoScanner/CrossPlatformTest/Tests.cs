@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 using LogoScanner;
 using Newtonsoft.Json;
@@ -69,6 +70,21 @@ namespace CrossPlatformTest
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
                 response = await client.PostAsync(credentials["CustomVisionAPI"]["url"].ToString(), content);
             }
+            return response;
+        }
+
+        // helper method to access ResDiary API, which returns HttpClient response
+        private async Task<HttpResponseMessage> ConnectToResDiary()
+        {
+            //new http client with key
+            var client = new HttpClient();
+            var line = getCredentials();
+
+            string credentials = @"{""Username"" : """ + line["ResDiaryAPI"]["username"].ToString() + @""", ""Password"" : """ + line["ResDiaryAPI"]["password"].ToString() + @"""}"; // parse in username/password to json
+            var content = new StringContent(credentials, Encoding.UTF8, "application/json");
+
+            var response = await client.PostAsync("https://api.rdbranch.com/api/Jwt/v2/Authenticate", content); // get response from the api
+
             return response;
         }
 
@@ -140,6 +156,27 @@ namespace CrossPlatformTest
             };
 
             Assert.AreEqual("", data2.ToString(), "The Prediction Result is " + data2.ToString() + ", while expected \"\".");
+        }
+
+        // test that was successfully connected to resdiary api with post method
+        [Test]
+        public async Task IsAppConnectedToResDiary()
+        {
+            // call helper method to access API, which returns response from HttpClient
+            HttpResponseMessage response = await ConnectToResDiary();
+
+            Assert.AreEqual("OK", response.StatusCode.ToString(), "The response status code is " + response.StatusCode.ToString() + ", while expected OK.");
+        }
+
+        // check if the device supports camera
+        [Test]
+        public void IsDeviceSupportCamera()
+        {
+            // Camera contain 1 texture view & 3 app compat button; toggleFlashButton, cameraRectangle, takePhotoButton
+            AppResult[] textureView = app.Query(x => x.Class("textureView"));
+            AppResult[] cameraButton = app.Query(x => x.Class("AppCompatButton"));
+
+            Assert.IsTrue(textureView.Any() & cameraButton.Length == 3, "Camera not exist");
         }
     }
 

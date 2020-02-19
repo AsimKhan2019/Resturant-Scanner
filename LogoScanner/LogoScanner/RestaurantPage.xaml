@@ -40,14 +40,14 @@
                         <RowDefinition Height="Auto" /> <!-- stars -->
                         <RowDefinition Height="Auto" /> <!-- divider -->
                         <RowDefinition Height="Auto" /> <!-- about label -->
-                        <RowDefinition Height="Auto" /> <!-- about section -->
+                        <RowDefinition Height="15*" /> <!-- about section -->
                         <RowDefinition Height="Auto" /> <!-- view more label -->
                         <RowDefinition Height="Auto" /> <!-- divider -->
                         <RowDefinition Height="Auto" /> <!-- opening times label -->
-                        <RowDefinition Height="10*" />  <!-- opening times section -->
+                        <RowDefinition Height="Auto" />  <!-- opening times section -->
                         <RowDefinition Height="Auto" /> <!-- divider -->
                         <RowDefinition Height="Auto" /> <!-- social media label -->
-                        <RowDefinition Height="15*" />  <!-- social media section-->
+                        <RowDefinition Height="Auto" />  <!-- social media section-->
                     </Grid.RowDefinitions>
 
                     <Grid.ColumnDefinitions>
@@ -91,12 +91,12 @@
                         VerticalOptions="Center">
                         <controls:CircleImage.WidthRequest>
                             <OnPlatform x:TypeArguments="x:Double">
-                                <On Platform="Android, iOS">120</On>
+                                <On Platform="Android, iOS">100</On>
                             </OnPlatform>
                         </controls:CircleImage.WidthRequest>
                         <controls:CircleImage.HeightRequest>
                             <OnPlatform x:TypeArguments="x:Double">
-                                <On Platform="Android, iOS">120</On>
+                                <On Platform="Android, iOS">100</On>
                             </OnPlatform>
                         </controls:CircleImage.HeightRequest>
                     </controls:CircleImage>

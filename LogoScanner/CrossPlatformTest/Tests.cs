@@ -20,7 +20,7 @@ namespace CrossPlatformTest
     public class Tests
     {
         private IApp app;
-        private Platform platform;
+        private readonly Platform platform;
 
         public Tests(Platform platform)
         {
@@ -34,7 +34,7 @@ namespace CrossPlatformTest
         }
 
         //get credentials file
-        private JObject getCredentials()
+        private JObject GetCredentials()
         {
             var assembly = typeof(LogoScanner.App).GetTypeInfo().Assembly;
             var credentialsFile = "LogoScanner.credentials.json";
@@ -54,7 +54,7 @@ namespace CrossPlatformTest
         {
             //new http client with key
             var client = new HttpClient();
-            var credentials = getCredentials();
+            var credentials = GetCredentials();
 
             client.DefaultRequestHeaders.Add("Prediction-key", credentials["CustomVisionAPI"]["key"].ToString());
 
@@ -86,7 +86,7 @@ namespace CrossPlatformTest
 
         //test that app was not connected to custom vision api with post method
         [Test]
-        public async Task IsCustomVisionNotConnectedWhenBadRequest()
+        public async Task IsAppNotConnectedToCustomVision()
         {
             // get image
             byte[] image = new byte[1987];
@@ -140,6 +140,14 @@ namespace CrossPlatformTest
             };
 
             Assert.AreEqual("", data2.ToString(), "The Prediction Result is " + data2.ToString() + ", while expected \"\".");
+        }
+
+        // test that there are only 3 promotions
+        public void AreThereOnly3Promotions()
+        {
+            //take picture
+            //go to the book page
+            //check if 3 or less slots only
         }
     }
 

@@ -32,22 +32,38 @@
             <StackLayout>
                 <Grid x:Name="HomeGrid" VerticalOptions="FillAndExpand">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="15*" /> <!-- map 18 -->
-                        <RowDefinition Height="12*" /> <!-- logo 15 -->
-                        <RowDefinition Height="Auto" /> <!-- name / ResDiary -->
-                        <RowDefinition Height="Auto" /> <!-- cuisines -->
-                        <RowDefinition Height="Auto" /> <!-- price -->
-                        <RowDefinition Height="Auto" /> <!-- stars -->
-                        <RowDefinition Height="Auto" /> <!-- divider -->
-                        <RowDefinition Height="Auto" /> <!-- about label -->
-                        <RowDefinition Height="Auto" /> <!-- about section -->
-                        <RowDefinition Height="Auto" /> <!-- view more label -->
-                        <RowDefinition Height="Auto" /> <!-- divider -->
-                        <RowDefinition Height="Auto" /> <!-- opening times label -->
-                        <RowDefinition Height="Auto" /> <!-- opening times section -->
-                        <RowDefinition Height="Auto" /> <!-- divider -->
-                        <RowDefinition Height="Auto" /> <!-- social media label -->
-                        <RowDefinition Height="20*" /> <!-- social media section-->
+                        <RowDefinition Height="15*" />
+                        <!-- map 18 -->
+                        <RowDefinition Height="12*" />
+                        <!-- logo 15 -->
+                        <RowDefinition Height="Auto" />
+                        <!-- name / ResDiary -->
+                        <RowDefinition Height="Auto" />
+                        <!-- cuisines -->
+                        <RowDefinition Height="Auto" />
+                        <!-- price -->
+                        <RowDefinition Height="Auto" />
+                        <!-- stars -->
+                        <RowDefinition Height="Auto" />
+                        <!-- divider -->
+                        <RowDefinition Height="Auto" />
+                        <!-- about label -->
+                        <RowDefinition Height="Auto" />
+                        <!-- about section -->
+                        <RowDefinition Height="Auto" />
+                        <!-- view more label -->
+                        <RowDefinition Height="Auto" />
+                        <!-- divider -->
+                        <RowDefinition Height="Auto" />
+                        <!-- opening times label -->
+                        <RowDefinition Height="Auto" />
+                        <!-- opening times section -->
+                        <RowDefinition Height="Auto" />
+                        <!-- divider -->
+                        <RowDefinition Height="Auto" />
+                        <!-- social media label -->
+                        <RowDefinition Height="20*" />
+                        <!-- social media section-->
                     </Grid.RowDefinitions>
 
                     <Grid.ColumnDefinitions>
@@ -323,7 +339,6 @@
                         ButtonColor="#11a0dc"
                         Clicked="FloatingButton_Clicked"
                         HorizontalOptions="EndAndExpand"
-                        Image="ScanIcon.png"
                         VerticalOptions="EndAndExpand">
 
                         <floating:FloatingActionButton.Margin>
@@ -358,17 +373,20 @@
         IconImageSource="BookingIcon.png"
         BackgroundColor="White">
 
-        <Grid>
+        <Grid VerticalOptions="FillAndExpand">
             <Grid.RowDefinitions>
-                <RowDefinition Height="83*" /> <!-- Booking Scroll View -->
-                <RowDefinition Height="4*" /> <!-- Party Size Label-->
-                <RowDefinition Height="13*" /> <!-- Slider + Floating Action Button-->
+                <RowDefinition Height="83*" />
+                <!-- Booking Scroll View -->
+                <RowDefinition Height="4*" />
+                <!-- Party Size Label-->
+                <RowDefinition Height="13*" />
+                <!-- Slider + Floating Action Button-->
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="33*" />
-                <ColumnDefinition Width="33*" />
-                <ColumnDefinition Width="33*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
 
             <Label
@@ -500,11 +518,11 @@
                     </DataTemplate>
                 </carousel:CarouselViewControl.ItemTemplate>
             </carousel:CarouselViewControl>
-            
+
             <Label
                 x:Name="sliderValueLabel"
                 Text="Party Size of 3"
-                Grid.Row="1"
+                Grid.Row="2"
                 Grid.Column="0"
                 Grid.ColumnSpan="3"
                 HorizontalOptions="Center"
@@ -517,11 +535,13 @@
                 Value="3"
                 ValueChanged="OnSliderValueChanged"
                 DragCompleted="changePartySize"
-                Grid.Row="2"
+                Grid.Row="1"
                 Grid.Column="0"
                 Grid.ColumnSpan="3"
+                MinimumTrackColor="#11a0dc"
+                ThumbColor="#11a0dc"
                 VerticalOptions="Start"
-                Margin="5,0,5,0" />
+                Margin="15,0,15,0" />
 
             <floating:FloatingActionButton
                 x:Name="FloatingButton2"

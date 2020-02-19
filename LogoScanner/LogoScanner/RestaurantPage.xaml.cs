@@ -46,7 +46,7 @@ namespace LogoScanner
             }
 
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(line["SyncfusionAPI"]["key"].ToString());
-            
+
             InitializeComponent();
             this.micrositename = micrositename;
 
@@ -315,17 +315,17 @@ namespace LogoScanner
             PopulateMenuTab();
             PopulateReviewsTab(result);
         }
+
         //method do download pdf from url
         public Stream DownloadPdfStream(string URL, string documentName)
         {
-
             var uri = new System.Uri(URL);
             var client = new WebClient();
 
-            //Returns the PDF document stream from the given URL 
+            //Returns the PDF document stream from the given URL
             return client.OpenRead(uri);
-
         }
+
         //method to get menu for restaurant
         private void setMenu(JObject json)
         {
@@ -336,12 +336,10 @@ namespace LogoScanner
             else
             {
                 var pdfUrl = json["Menus"][0]["StorageUrl"].ToString();
-                //Provide the PDF document URL in the below overload. 
+                //Provide the PDF document URL in the below overload.
                 Stream documenStream = DownloadPdfStream(pdfUrl, "Sample");
-                //Loads the PDF document as Stream to PDF viewer control 
+                //Loads the PDF document as Stream to PDF viewer control
                 pdfViewerControl.LoadDocument(documenStream);
-
-
             }
         }
 
@@ -393,7 +391,6 @@ namespace LogoScanner
         {
             int value = (int)args.NewValue;
             sliderValueLabel.Text = "Party Size of " + value.ToString();
-            Booking.Makebooking(micrositename, dateTime.Split(',')[0], dateTime.Split(',')[1]);
         }
 
         private void changePartySize(object sender, EventArgs e)

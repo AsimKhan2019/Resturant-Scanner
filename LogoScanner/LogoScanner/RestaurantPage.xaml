@@ -9,7 +9,6 @@
     xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     xmlns:carousel="clr-namespace:CarouselView.FormsPlugin.Abstractions;assembly=CarouselView.FormsPlugin.Abstractions"
     xmlns:floating="clr-namespace:SuaveControls.Views;assembly=SuaveControls.FloatingActionButton"
-    
 
     android:TabbedPage.IsSwipePagingEnabled="False"
     android:TabbedPage.ToolbarPlacement="Bottom"
@@ -32,22 +31,38 @@
                     x:Name="HomeGrid"
                     VerticalOptions="FillAndExpand">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="15*" />  <!-- map 18 -->
-                        <RowDefinition Height="12*" />  <!-- logo 15 -->
-                        <RowDefinition Height="Auto" /> <!-- name / ResDiary -->
-                        <RowDefinition Height="Auto" /> <!-- cuisines -->
-                        <RowDefinition Height="Auto" /> <!-- price -->
-                        <RowDefinition Height="Auto" /> <!-- stars -->
-                        <RowDefinition Height="Auto" /> <!-- divider -->
-                        <RowDefinition Height="Auto" /> <!-- about label -->
-                        <RowDefinition Height="15*" /> <!-- about section -->
-                        <RowDefinition Height="Auto" /> <!-- view more label -->
-                        <RowDefinition Height="Auto" /> <!-- divider -->
-                        <RowDefinition Height="Auto" /> <!-- opening times label -->
-                        <RowDefinition Height="Auto" />  <!-- opening times section -->
-                        <RowDefinition Height="Auto" /> <!-- divider -->
-                        <RowDefinition Height="Auto" /> <!-- social media label -->
-                        <RowDefinition Height="Auto" />  <!-- social media section-->
+                        <RowDefinition Height="15*" />
+                        <!-- map 18 -->
+                        <RowDefinition Height="12*" />
+                        <!-- logo 15 -->
+                        <RowDefinition Height="Auto" />
+                        <!-- name / ResDiary -->
+                        <RowDefinition Height="Auto" />
+                        <!-- cuisines -->
+                        <RowDefinition Height="Auto" />
+                        <!-- price -->
+                        <RowDefinition Height="Auto" />
+                        <!-- stars -->
+                        <RowDefinition Height="Auto" />
+                        <!-- divider -->
+                        <RowDefinition Height="Auto" />
+                        <!-- about label -->
+                        <RowDefinition Height="Auto" />
+                        <!-- about section -->
+                        <RowDefinition Height="Auto" />
+                        <!-- view more label -->
+                        <RowDefinition Height="Auto" />
+                        <!-- divider -->
+                        <RowDefinition Height="Auto" />
+                        <!-- opening times label -->
+                        <RowDefinition Height="Auto" />
+                        <!-- opening times section -->
+                        <RowDefinition Height="Auto" />
+                        <!-- divider -->
+                        <RowDefinition Height="Auto" />
+                        <!-- social media label -->
+                        <RowDefinition Height="20*" />
+                        <!-- social media section-->
                     </Grid.RowDefinitions>
 
                     <Grid.ColumnDefinitions>
@@ -86,17 +101,17 @@
                         Margin="11,0"
                         Aspect="AspectFill"
                         BorderColor="White"
-                        BorderThickness="4"
+                        BorderThickness="3"
                         HorizontalOptions="Start"
                         VerticalOptions="Center">
                         <controls:CircleImage.WidthRequest>
                             <OnPlatform x:TypeArguments="x:Double">
-                                <On Platform="Android, iOS">100</On>
+                                <On Platform="Android, iOS">105</On>
                             </OnPlatform>
                         </controls:CircleImage.WidthRequest>
                         <controls:CircleImage.HeightRequest>
                             <OnPlatform x:TypeArguments="x:Double">
-                                <On Platform="Android, iOS">100</On>
+                                <On Platform="Android, iOS">105</On>
                             </OnPlatform>
                         </controls:CircleImage.HeightRequest>
                     </controls:CircleImage>
@@ -410,19 +425,17 @@
                                         BackgroundGradientEndColor="#dfe4ea">
                                         <Grid>
                                             <StackLayout>
-                                                <StackLayout Orientation="Horizontal">
-                                                    <Label
-                                                        Text="{Binding Date}"
-                                                        TextColor="White"
-                                                        Margin="24,24,24,0"
-                                                        FontSize="18"
-                                                        HorizontalOptions="EndAndExpand" />
-                                                </StackLayout>
+                                                <Label
+                                                    Text="{Binding Date}"
+                                                   TextColor="White"
+                                                    Margin="24,24,24,0"
+                                                    FontSize="18"
+                                                    HorizontalOptions="EndAndExpand" />
 
                                                 <Label
                                                     Text="{Binding Time, StringFormat='{0:N}'}"
                                                     TextColor="White"
-                                                    Margin="24,24,0,0"
+                                                    Margin="24,8,0,0"
                                                     FontSize="40"
                                                     FontAttributes="Bold" />
 
@@ -430,7 +443,7 @@
                                                     Text="AVAILABLE AREAS"
                                                     TextColor="White"
                                                     FontAttributes="Bold"
-                                                    Margin="24,24,0,0"
+                                                    Margin="24,12,0,0"
                                                     FontSize="15" />
 
                                                 <Label
@@ -443,8 +456,9 @@
                                                     Text="PROMOTIONS"
                                                     TextColor="White"
                                                     FontAttributes="Bold"
-                                                    Margin="24,24,0,0"
+                                                    Margin="24,12,0,0"
                                                     FontSize="15" />
+
                                                 <ScrollView>
                                                     <Label
                                                     Text="{Binding Promotions}"

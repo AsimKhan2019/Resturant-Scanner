@@ -10,7 +10,6 @@ using Xamarin.Forms.Platform.iOS;
 using Plugin.Connectivity;
 using Rectangle = System.Drawing.Rectangle;
 
-
 /*
  * AVFoundation Reference: http://red-glasses.com/index.php/tutorials/ios4-take-photos-with-live-video-preview-using-avfoundation/
  * Additional Camera Settings Reference: http://stackoverflow.com/questions/4550271/avfoundation-images-coming-in-unusably-dark
@@ -18,17 +17,18 @@ using Rectangle = System.Drawing.Rectangle;
  */
 
 [assembly: ExportRenderer(typeof(LogoScanner.MainPage), typeof(LogoScanner.iOS.CameraPage))]
+
 namespace LogoScanner.iOS
 {
     public class CameraPage : PageRenderer
     {
-        AVCaptureSession captureSession;
-        AVCaptureDeviceInput captureDeviceInput;
-        UIButton cameraRectangle;
-        UIButton toggleFlashButton;
-        UIView liveCameraStream;
-        AVCaptureStillImageOutput stillImageOutput;
-        UIButton takePhotoButton;
+        private AVCaptureSession captureSession;
+        private AVCaptureDeviceInput captureDeviceInput;
+        private UIButton cameraRectangle;
+        private UIButton toggleFlashButton;
+        private UIView liveCameraStream;
+        private AVCaptureStillImageOutput stillImageOutput;
+        private UIButton takePhotoButton;
 
         public override void ViewDidLoad()
         {
@@ -94,12 +94,11 @@ namespace LogoScanner.iOS
 
                 okAlertController.AddAction(UIAlertAction.Create("OK", UIAlertActionStyle.Default, null));
 
-                PresentViewController(okAlertController, true, null);  
+                PresentViewController(okAlertController, true, null);
             }
-
             else
             {
-                DialogService.ShowLoading("Capturing Every Pixel");
+                DialogService.ShowLoading("Scanning Logo");
 
                 var videoConnection = stillImageOutput.ConnectionFromMediaType(AVMediaType.Video);
                 var sampleBuffer = await stillImageOutput.CaptureStillImageTaskAsync(videoConnection);
@@ -131,7 +130,7 @@ namespace LogoScanner.iOS
             var clippedRect = new RectangleF(0, 0, width, height);
             context.ClipToRect(clippedRect);
 
-            var drawRect = new RectangleF(-x, -y, (float) imgSize.Width, (float) imgSize.Height);
+            var drawRect = new RectangleF(-x, -y, (float)imgSize.Width, (float)imgSize.Height);
             srcImage.Draw(drawRect);
             var modifiedImage = UIGraphics.GetImageFromCurrentImageContext();
             UIGraphics.EndImageContext();
@@ -242,7 +241,8 @@ namespace LogoScanner.iOS
 
         private void SetupEventHandlers()
         {
-            takePhotoButton.TouchUpInside += (object sender, EventArgs e) => {
+            takePhotoButton.TouchUpInside += (object sender, EventArgs e) =>
+            {
                 CapturePhoto();
             };
 
@@ -250,33 +250,51 @@ namespace LogoScanner.iOS
             {
                 UpdateFocusIfNeeded();
             };
-            
-            toggleFlashButton.TouchUpInside += (object sender, EventArgs e) => {
+
+            toggleFlashButton.TouchUpInside += (object sender, EventArgs e) =>
+            {
                 ToggleFlash();
             };
         }
 
         public async void SendPhoto(byte[] image)
         {
-            var results = await CustomVisionService.PredictImageContentsAsync(image);
-            String resultInString = results.ToString();
-            if (Geolocation.HasMoreOptions(resultInString))
+            var current = CrossConnectivity.Current.IsConnected;
+
+            if (!current)
             {
-                DialogService.ShowLoading("More Restaurants Available");
-                resultInString = await Geolocation.GetCloserOptionAsync(resultInString);
+                await App.Current.MainPage.DisplayAlert("Connection Error", "Please connect to the internet", "OK");
             }
-            var navigationPage = new NavigationPage(new RestaurantPage(resultInString));
+            else
+            {
+                var results = await CustomVisionService.PredictImageContentsAsync(image);
+                String resultInString = results.ToString();
+                
+                if (resultInString.Length > 0)
+                {
+                    if (Geolocation.HasMoreOptions(resultInString))
+                    {
+                        DialogService.ShowLoading("More Restaurants Available");
+                        resultInString = await Geolocation.GetCloserOptionAsync(resultInString);
+                    }
+                    var navigationPage = new NavigationPage(new RestaurantPage(resultInString));
 
-            await App.Current.MainPage.Navigation.PushModalAsync(navigationPage, false);
+                    await App.Current.MainPage.Navigation.PushModalAsync(navigationPage, false);
 
-            DialogService.HideLoading();
+                    DialogService.HideLoading();
 
-            var error = new NSError();
-            var device = captureDeviceInput.Device;
-            device.LockForConfiguration(out error);
-            device.FlashMode = AVCaptureFlashMode.Off;
-            device.UnlockForConfiguration();
+                    var error = new NSError();
+                    var device = captureDeviceInput.Device;
+                    device.LockForConfiguration(out error);
+                    device.FlashMode = AVCaptureFlashMode.Off;
+                    device.UnlockForConfiguration();
+                }
+                else
+                {
+                    DialogService.HideLoading();
+                    await App.Current.MainPage.DisplayAlert("Restaurant Not Found", "Please Re-Scan the Logo", "OK");
+                }
+            }
         }
-
     }
 }

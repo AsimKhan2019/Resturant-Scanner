@@ -11,8 +11,8 @@ namespace CrossPlatformTest
     [TestFixture(Platform.iOS)]
     public class Tests
     {
-        IApp app;
-        Platform platform;
+        private IApp app;
+        private Platform platform;
 
         public Tests(Platform platform)
         {

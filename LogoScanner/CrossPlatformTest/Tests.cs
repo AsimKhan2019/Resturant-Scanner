@@ -158,12 +158,26 @@ namespace CrossPlatformTest
             Assert.AreEqual("", data2.ToString(), "The Prediction Result is " + data2.ToString() + ", while expected \"\".");
         }
 
+        [Test]
         // test that there are only 3 promotions
         public void AreThereOnly3Promotions()
         {
+            int promotionSize = 0;
+    
             //take picture
+            app.Tap("takePhotoButton");
+
             //go to the book page
+            app.Tap(c => c.Property("text").Contains("Book"));
+
+            for (int i=0; i<3; i++)
+            {
+                promotionSize += app.Query(x => x.Class("CarouselViewRenderer")).Length;
+                app.SwipeRightToLeft();
+            }
+            
             //check if 3 or less slots only
+            Assert.IsTrue(promotionSize <= 3);
         }
 
         // test that was successfully connected to resdiary api with post method

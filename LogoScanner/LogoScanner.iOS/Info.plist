@@ -33,5 +33,7 @@
 	<true/>
 	<key>UIRequiresFullScreen</key>
 	<true/>
+	<key>XSAppIconAssets</key>
+	<string>Assets.xcassets/AppIcon.appiconset</string>
 </dict>
 </plist>

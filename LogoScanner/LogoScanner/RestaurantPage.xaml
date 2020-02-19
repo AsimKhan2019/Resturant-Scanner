@@ -32,36 +32,22 @@
             <StackLayout>
                 <Grid x:Name="HomeGrid" VerticalOptions="FillAndExpand">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="15*" />
-                        <!--  map 18  -->
-                        <RowDefinition Height="12*" />
-                        <!--  logo 15  -->
-                        <RowDefinition Height="Auto" />
-                        <!--  name / ResDiary  -->
-                        <RowDefinition Height="Auto" />
-                        <!--  cuisines  -->
-                        <RowDefinition Height="Auto" />
-                        <!--  price  -->
-                        <RowDefinition Height="Auto" />
-                        <!--  stars  -->
-                        <RowDefinition Height="Auto" />
-                        <!--  divider  -->
-                        <RowDefinition Height="Auto" />
-                        <!--  about label  -->
-                        <RowDefinition Height="Auto" />
-                        <!--  about section  -->
-                        <RowDefinition Height="Auto" />
-                        <!--  divider  -->
-                        <RowDefinition Height="Auto" />
-                        <!--  opening times label  -->
-                        <RowDefinition Height="10*" />
-                        <!--  opening times section  -->
-                        <RowDefinition Height="Auto" />
-                        <!--  divider  -->
-                        <RowDefinition Height="Auto" />
-                        <!--  social media label  -->
-                        <RowDefinition Height="15*" />
-                        <!--  social media section  -->
+                        <RowDefinition Height="15*" /> <!-- map 18 -->
+                        <RowDefinition Height="12*" /> <!-- logo 15 -->
+                        <RowDefinition Height="Auto" /> <!-- name / ResDiary -->
+                        <RowDefinition Height="Auto" /> <!-- cuisines -->
+                        <RowDefinition Height="Auto" /> <!-- price -->
+                        <RowDefinition Height="Auto" /> <!-- stars -->
+                        <RowDefinition Height="Auto" /> <!-- divider -->
+                        <RowDefinition Height="Auto" /> <!-- about label -->
+                        <RowDefinition Height="Auto" /> <!-- about section -->
+                        <RowDefinition Height="Auto" /> <!-- view more label -->
+                        <RowDefinition Height="Auto" /> <!-- divider -->
+                        <RowDefinition Height="Auto" /> <!-- opening times label -->
+                        <RowDefinition Height="Auto" /> <!-- opening times section -->
+                        <RowDefinition Height="Auto" /> <!-- divider -->
+                        <RowDefinition Height="Auto" /> <!-- social media label -->
+                        <RowDefinition Height="20*" /> <!-- social media section-->
                     </Grid.RowDefinitions>
 
                     <Grid.ColumnDefinitions>
@@ -100,17 +86,17 @@
                         Margin="11,0"
                         Aspect="AspectFill"
                         BorderColor="White"
-                        BorderThickness="4"
+                        BorderThickness="3"
                         HorizontalOptions="Start"
                         VerticalOptions="Center">
                         <controls:CircleImage.WidthRequest>
                             <OnPlatform x:TypeArguments="x:Double">
-                                <On Platform="Android, iOS">120</On>
+                                <On Platform="Android, iOS">105</On>
                             </OnPlatform>
                         </controls:CircleImage.WidthRequest>
                         <controls:CircleImage.HeightRequest>
                             <OnPlatform x:TypeArguments="x:Double">
-                                <On Platform="Android, iOS">120</On>
+                                <On Platform="Android, iOS">105</On>
                             </OnPlatform>
                         </controls:CircleImage.HeightRequest>
                     </controls:CircleImage>
@@ -246,10 +232,23 @@
                         HorizontalOptions="Start"
                         Text="Description"
                         TextColor="DimGray"
-                        VerticalOptions="Start" />
+                        VerticalOptions="Start"
+                        LineBreakMode="WordWrap" />
+
+                    <Label
+                        x:Name="ViewMoreLabel"
+                        Padding="0,5,15,0"
+                        Grid.Row="9"
+                        Grid.Column="2"
+                        FontSize="14"
+                        TextColor="#11a0dc"
+                        Text="View more"
+                        TextDecorations="Underline"
+                        HorizontalOptions="End"
+                        VerticalOptions="Center" />
 
                     <BoxView
-                        Grid.Row="9"
+                        Grid.Row="10"
                         Grid.Column="0"
                         Grid.ColumnSpan="3"
                         Margin="0,10"
@@ -260,7 +259,7 @@
                         WidthRequest="1" />
 
                     <Label
-                        Grid.Row="10"
+                        Grid.Row="11"
                         Grid.Column="0"
                         Grid.ColumnSpan="3"
                         Padding="15,0"
@@ -272,7 +271,7 @@
 
                     <Label
                         x:Name="OpeningInformationLabel"
-                        Grid.Row="11"
+                        Grid.Row="12"
                         Grid.Column="0"
                         Grid.ColumnSpan="3"
                         Padding="15,0"
@@ -283,7 +282,7 @@
                         VerticalOptions="Start" />
 
                     <BoxView
-                        Grid.Row="12"
+                        Grid.Row="13"
                         Grid.Column="0"
                         Grid.ColumnSpan="3"
                         Margin="0,10"
@@ -294,7 +293,7 @@
                         WidthRequest="1" />
 
                     <Label
-                        Grid.Row="13"
+                        Grid.Row="14"
                         Grid.Column="0"
                         Grid.ColumnSpan="3"
                         Padding="15,0"
@@ -306,7 +305,7 @@
 
                     <Label
                         x:Name="SocialMediaLabel"
-                        Grid.Row="14"
+                        Grid.Row="15"
                         Grid.Column="0"
                         Grid.ColumnSpan="3"
                         Padding="15,0,0,0"
@@ -318,12 +317,12 @@
 
                     <floating:FloatingActionButton
                         x:Name="FloatingButton1"
-                        Grid.Row="14"
+                        Image="ScanIcon.png"
+                        Grid.Row="15"
                         Grid.Column="2"
                         ButtonColor="#11a0dc"
                         Clicked="FloatingButton_Clicked"
                         HorizontalOptions="EndAndExpand"
-                        Image="ScanIcon.png"
                         VerticalOptions="EndAndExpand">
 
                         <floating:FloatingActionButton.Margin>
@@ -360,12 +359,9 @@
 
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="83*" />
-                <!-- Booking Scroll View -->
-                <RowDefinition Height="4*" />
-                <!-- Party Size Label-->
-                <RowDefinition Height="13*" />
-                <!-- Slider + Floating Action Button-->
+                <RowDefinition Height="83*" /> <!-- Booking Scroll View -->
+                <RowDefinition Height="4*" /> <!-- Party Size Label-->
+                <RowDefinition Height="13*" /> <!-- Slider + Floating Action Button-->
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
@@ -418,19 +414,17 @@
                                         BackgroundGradientEndColor="#dfe4ea">
                                         <Grid>
                                             <StackLayout>
-                                                <StackLayout Orientation="Horizontal">
-                                                    <Label
-                                                        Text="{Binding Date}"
-                                                        TextColor="White"
-                                                        Margin="24,24,24,0"
-                                                        FontSize="18"
-                                                        HorizontalOptions="EndAndExpand" />
-                                                </StackLayout>
+                                                <Label
+                                                    Text="{Binding Date}"
+                                                   TextColor="White"
+                                                    Margin="24,24,24,0"
+                                                    FontSize="18"
+                                                    HorizontalOptions="EndAndExpand" />
 
                                                 <Label
                                                     Text="{Binding Time, StringFormat='{0:N}'}"
                                                     TextColor="White"
-                                                    Margin="24,24,0,0"
+                                                    Margin="24,8,0,0"
                                                     FontSize="40"
                                                     FontAttributes="Bold" />
 
@@ -438,7 +432,7 @@
                                                     Text="AVAILABLE AREAS"
                                                     TextColor="White"
                                                     FontAttributes="Bold"
-                                                    Margin="24,24,0,0"
+                                                    Margin="24,12,0,0"
                                                     FontSize="15" />
 
                                                 <Label
@@ -451,8 +445,9 @@
                                                     Text="PROMOTIONS"
                                                     TextColor="White"
                                                     FontAttributes="Bold"
-                                                    Margin="24,24,0,0"
+                                                    Margin="24,12,0,0"
                                                     FontSize="15" />
+
                                                 <ScrollView>
                                                     <Label
                                                     Text="{Binding Promotions}"
@@ -504,7 +499,7 @@
                     </DataTemplate>
                 </carousel:CarouselViewControl.ItemTemplate>
             </carousel:CarouselViewControl>
-
+            
             <Label
                 x:Name="sliderValueLabel"
                 Text="Party Size of 3"
@@ -640,17 +635,17 @@
                 <ListView
                     x:Name="ReviewsView"
                     Grid.Row="0"
-                    Margin="15,0"
                     HasUnevenRows="True"
-                    HorizontalOptions="Fill"
                     ItemsSource="{Binding Reviews}"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Fill"
                     SelectionMode="None"
-                    VerticalOptions="Fill">
+                    ItemTapped="ReviewsView_ItemTapped">
 
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <ViewCell IsEnabled="False">
-                                <StackLayout Padding="0,15">
+                            <ViewCell>
+                                <StackLayout Padding="15">
                                     <Label Font="Bold, 16" Text="{Binding Name}" />
 
                                     <Grid>
@@ -664,9 +659,17 @@
                                             TextColor="#11a0dc" />
                                     </Grid>
 
-                                    <Label Font="Italic, 12" Text="{Binding ReviewDate, StringFormat='Reviewed: {0}'}" />
+                                    <Label
+                                        Font="Italic, 12"
+                                        TextColor="DimGray"
+                                        Text="{Binding ReviewDate, StringFormat='Reviewed: {0}'}" />
+
                                     <Label Text="{Binding Content}" />
-                                    <Label Font="Italic, 12" Text="{Binding VisitDate, StringFormat='Visited: {0}'}" />
+
+                                    <Label
+                                        Font="Italic, 12"
+                                        TextColor="DimGray"
+                                        Text="{Binding VisitDate, StringFormat='Visited: {0}'}" />
                                 </StackLayout>
                             </ViewCell>
                         </DataTemplate>

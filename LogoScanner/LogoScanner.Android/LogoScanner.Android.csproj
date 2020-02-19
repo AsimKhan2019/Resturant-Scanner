@@ -31,10 +31,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AndroidLinkMode>None</AndroidLinkMode>
-    <AotAssemblies>false</AotAssemblies>
-    <EnableLLVM>false</EnableLLVM>
-    <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
-    <BundleAssemblies>false</BundleAssemblies>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -45,10 +41,6 @@
     <WarningLevel>4</WarningLevel>
     <AndroidManagedSymbols>true</AndroidManagedSymbols>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
-    <AotAssemblies>false</AotAssemblies>
-    <EnableLLVM>false</EnableLLVM>
-    <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
-    <BundleAssemblies>false</BundleAssemblies>
     <AndroidLinkMode>Full</AndroidLinkMode>
     <AndroidLinkTool>proguard</AndroidLinkTool>
   </PropertyGroup>
@@ -126,6 +118,9 @@
     </PackageReference>
     <PackageReference Include="Xamarin.Forms">
       <Version>4.4.0.991537</Version>
+    </PackageReference>
+    <PackageReference Include="Rg.Plugins.Popup">
+      <Version>1.2.0.223</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
@@ -244,7 +239,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LogoScanner\LogoScanner.csproj">
-      <Project>{63F01C6B-13EB-4075-8785-A0A54BA85B24}</Project>
+      <Project>{846A20E7-0EE0-4EE6-9F35-6A3A19FA969C}</Project>
       <Name>LogoScanner</Name>
     </ProjectReference>
   </ItemGroup>

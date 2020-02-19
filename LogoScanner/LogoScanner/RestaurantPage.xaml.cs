@@ -270,7 +270,7 @@ namespace LogoScanner
         // populates the menu tab
         private void PopulateMenuTab()
         {
-            setMenu(consumer);
+            SetMenu(consumer);
         }
 
         // populates the reviews tab
@@ -327,7 +327,7 @@ namespace LogoScanner
         }
 
         //method to get menu for restaurant
-        private void setMenu(JObject json)
+        private void SetMenu(JObject json)
         {
             if (json["Menus"].Type == JTokenType.Null || string.IsNullOrEmpty(json["Menus"].ToString()) || !json["Menus"].Any())
             {
@@ -380,7 +380,7 @@ namespace LogoScanner
             await Navigation.PushPopupAsync(new ReviewsPopup(review));
         }
 
-        public void bookTimeSlot(Object Sender, EventArgs e)
+        public void BookTimeSlot(Object Sender, EventArgs e)
         {
             Button b = (Button)Sender;
             string dateTime = b.BindingContext as string;
@@ -393,7 +393,7 @@ namespace LogoScanner
             sliderValueLabel.Text = "Party Size of " + value.ToString();
         }
 
-        private void changePartySize(object sender, EventArgs e)
+        private void ChangePartySize(object sender, EventArgs e)
         {
             partysize = (int)partySizeSlider.Value;
             sliderValueLabel.Text = "Party Size of " + partysize.ToString();

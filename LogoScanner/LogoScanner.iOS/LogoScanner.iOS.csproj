@@ -144,6 +144,8 @@
     <ImageAsset Include="Assets.xcassets\TestImage.imageset\resdiary-logo-6.png">
       <Visible>false</Visible>
     </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\launch_logo_120-1.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon180-1.png" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

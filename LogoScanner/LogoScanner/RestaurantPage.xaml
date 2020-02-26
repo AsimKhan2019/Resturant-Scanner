@@ -32,9 +32,9 @@
             <StackLayout>
                 <Grid x:Name="HomeGrid" VerticalOptions="FillAndExpand">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="18*" />
+                        <RowDefinition Height="16*" />
                         <!-- map -->
-                        <RowDefinition Height="15*" />
+                        <RowDefinition Height="14*" />
                         <!-- logo -->
                         <RowDefinition Height="Auto" />
                         <!-- name / ResDiary -->
@@ -132,7 +132,7 @@
                         Grid.Row="2"
                         Grid.Column="0"
                         Grid.ColumnSpan="3"
-                        Padding="14,60,0,0"
+                        Padding="14,40,0,0"
                         FontAttributes="Bold"
                         FontSize="26"
                         HorizontalOptions="Start"

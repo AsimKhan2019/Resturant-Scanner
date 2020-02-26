@@ -6,9 +6,6 @@ namespace Logoscanner
 {
     public class Booking
     {
-        public Booking()
-        {
-        }
 
         public static void Makebooking(string microsite, string date, string time, int partysize)
         {

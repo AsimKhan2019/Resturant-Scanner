@@ -41,7 +41,7 @@ namespace LogoScanner
                     token = Application.Current.Properties["Token"].ToString(); // get token which was save locally
                     tokenExpiracy = Application.Current.Properties["TokenExpiryUtc"].ToString(); //get time of token saved locally
 
-                    if (DateTimeOffset.Parse(tokenExpiracy).UtcDateTime > DateTime.UtcNow)
+                    if (DateTimeOffset.Parse(tokenExpiracy, CultureInfo.CurrentCulture).UtcDateTime > DateTime.UtcNow)
                     {
                         return new Request("Success", token); // return a successful request with api token
                     }
@@ -74,20 +74,25 @@ namespace LogoScanner
                         string status = JObject.Parse(result)["Status"].ToString(); // parse the json to string format
                         token = JObject.Parse(result)["Token"].ToString();
 
-                        if (status.Equals("Fail") || token == null)
+                        if (status.Equals("Fail", StringComparison.InvariantCulture) || token == null)
                         {
-                            return new Request(status, "Invalid credentials");
+                            content.Dispose();
+                            client.Dispose();
+                            return new Request(status, "Invalid credentials");                            
                         }
                         else
                         {
                             Application.Current.Properties["Token"] = token; // save the token locally
                             Application.Current.Properties["TokenExpiryUtc"] = JObject.Parse(result)["TokenExpiryUtc"].ToString(); // save the time
-
+                            content.Dispose();
+                            client.Dispose();
                             return new Request(status, token); // return a successful request with api token
                         }
                     }
                     else
                     {
+                        content.Dispose();
+                        client.Dispose();
                         return new Request("Fail", "Unable to connect to ReSDiary API");
                     }
                 }
@@ -123,8 +128,13 @@ namespace LogoScanner
 
                 result = JArray.Parse(contents);
 
+                client.Dispose();
+                requestMessage.Dispose();
+
                 return result;
             }
+            client.Dispose();
+            requestMessage.Dispose();
 
             return null;
         }
@@ -148,10 +158,14 @@ namespace LogoScanner
                 var retstring = await response.Content.ReadAsStringAsync();
 
                 result = JObject.Parse(retstring);
-
+                content.Dispose();
+                client.Dispose();
+                
                 return result;
             }
 
+            content.Dispose();
+            client.Dispose();
             return null;
         }
     }

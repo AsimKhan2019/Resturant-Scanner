@@ -15,6 +15,7 @@ using Xamarin.Forms.Xaml;
 using System.Net;
 using System.Net.Http;
 using System.Reflection;
+using ImageCircle.Forms.Plugin.Abstractions;
 
 namespace LogoScanner
 {
@@ -116,6 +117,7 @@ namespace LogoScanner
 
                     var dateend = DateTime.Now.AddDays(7.00);
                     var dateendstr = dateend.ToString("yyyy-MM-ddTHH:mm:ss");
+
                     GetRestaurantData("https://api.rdbranch.com/api/ConsumerApi/v1/MicrositeSummaryDetails?micrositeNames=" + this.micrositename + "&startDate=" + datestartstr + "&endDate=" + dateendstr + "&channelCodes=ONLINE&numberOfReviews=5", request.message);
                 }
             }
@@ -128,8 +130,10 @@ namespace LogoScanner
         // populates the home tab
         private void PopulateHomeTab(JObject result)
         {
-            //Parse the API Call and split the JSon object into the various variables.
             Logo.Source = Utils.GetRestaurantField(result, "LogoUrl");
+            Logo.WidthRequest = Application.Current.MainPage.Height / 8;
+            Logo.HeightRequest = Application.Current.MainPage.Height / 8;
+
             NameLabel.Text = Utils.GetRestaurantField(result, "Name");
             CuisinesLabel.Text = Utils.GetRestaurantField(result, "CuisineTypes");
 
@@ -170,7 +174,7 @@ namespace LogoScanner
                         BackgroundColor = Color.White,
                         TextColor = Color.FromHex("#11a0dc"),
                         FontSize = 12,
-                        CornerRadius = 20,
+                        CornerRadius = 18,
                         BorderWidth = 2,
                         BorderColor = Color.FromHex("#11a0dc"),
                         VerticalOptions = LayoutOptions.Start,
@@ -317,7 +321,7 @@ namespace LogoScanner
         }
 
         //method do download pdf from url
-        public Stream DownloadPdfStream(string URL, string documentName)
+        public Stream DownloadPdfStream(string URL)
         {
             var uri = new System.Uri(URL);
             var client = new WebClient();
@@ -337,7 +341,7 @@ namespace LogoScanner
             {
                 var pdfUrl = json["Menus"][0]["StorageUrl"].ToString();
                 //Provide the PDF document URL in the below overload.
-                Stream documenStream = DownloadPdfStream(pdfUrl, "Sample");
+                Stream documenStream = DownloadPdfStream(pdfUrl);
                 //Loads the PDF document as Stream to PDF viewer control
                 pdfViewerControl.LoadDocument(documenStream);
             }
@@ -380,7 +384,7 @@ namespace LogoScanner
             await Navigation.PushPopupAsync(new ReviewsPopup(review));
         }
 
-        public void BookTimeSlot(Object Sender, EventArgs e)
+        public void bookTimeSlot(Object Sender, EventArgs e)
         {
             Button b = (Button)Sender;
             string dateTime = b.BindingContext as string;
@@ -393,7 +397,7 @@ namespace LogoScanner
             sliderValueLabel.Text = "Party Size of " + value.ToString();
         }
 
-        private void ChangePartySize(object sender, EventArgs e)
+        private void changePartySize(object sender, EventArgs e)
         {
             partysize = (int)partySizeSlider.Value;
             sliderValueLabel.Text = "Party Size of " + partysize.ToString();
@@ -404,3 +408,4 @@ namespace LogoScanner
         }
     }
 }
+ 

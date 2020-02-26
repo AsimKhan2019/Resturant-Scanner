@@ -7,12 +7,12 @@
 Our project management processes such as issue tracking and milestones were conducted within the GitLab environment.
 
 ### Meet the Team
-Ollie Gardner | 2310049g@student.gla.ac.uk  
-Patrick Devanney | 2329979d@student.gla.ac.uk  
-Andreas Chari | 2293299c@student.gla.ac.uk  
-Pasuta Paopun | 2506138p@student.gla.ac.uk  
-Lucia Cangarova | 2330954c@student.gla.ac.uk  
-Peter Macaldowie (Team Coach) | 2258785m@student.gla.ac.uk  
+* Ollie Gardner | 2310049g@student.gla.ac.uk  
+* Patrick Devanney | 2329979d@student.gla.ac.uk  
+* Andreas Chari | 2293299c@student.gla.ac.uk  
+* Pasuta Paopun | 2506138p@student.gla.ac.uk  
+* Lucia Cangarova | 2330954c@student.gla.ac.uk  
+* Peter Macaldowie (Team Coach) | 2258785m@student.gla.ac.uk  
 
 ### Project Specification
 * The application must be usable on an iOS/Android mobile phone. There is no requirement to work on both but it would be ideal if it could.
@@ -47,13 +47,19 @@ The `Resource.designer.cs` class provides an index of identifiers for all the re
 ### iOS
 The application is made up of several view controller classes and associated views, collectively known as scenes, that are loaded into the main application window. View controllers are grouped into storyboards with each storyboard having an initial view controller. Views are made up of a view controls used for display or user interaction.
 
-The entry point for the application is the `Main.cs` class that instantiates the specified `AppDelegate.cs class`, which loads the initial view controller of the default storyboard set in the `Info.plist configuration file`. Resources such as images, videos etc are referenced from the `Resources` and `Assets.xeassets` folders by view controllers and view controls. The `AppDelegate.cs` class includes delegates that handle application events and the view controllers handle the lifecycle for a given view.
+The entry point for the application is the `Main.cs` class that instantiates the specified `AppDelegate.cs` class, which loads the initial view controller of the default storyboard set in the `Info.plist` configuration file. Resources such as images, videos etc are referenced from the `Resources` and `Assets.xcassets` folders by view controllers and view controls. The `AppDelegate.cs` class includes delegates that handle application events and the view controllers handle the lifecycle for a given view.
 
 ![iOS Structure](https://capgemini.github.io/images/2018-08-03-designing-mobile-cross-platform-applications-with-xamarin/NativeIOSArchitecture.png)
 
-
 ## External Services
-### Git Secret
+The application uses multiple 3rd party services that are essential in order for the app to run.
+
+### Git-Secret
+Git-Secret (https://git-secret.io/) is used in order to store an encrypted credentials file within the repository. Follow these steps in order to decyrpt the data:
+1. Install git-secret by following the installation tutorial (https://git-secret.io/installation)
+2. Use `git secret reveal` to decrypt the data - this won't be an issue if you are installing the app from an APK
+3. If the previous step fails, then it is most likely that your public key has not been added to the project - please ask a team member to do this for you
+4. After the data is decrypted you will be able to see the `credentials.json` file - right click this file and make sure the `Build Action` is set to `EmbeddedResource`
 
 ### ResDiary API
 
@@ -69,6 +75,4 @@ The entry point for the application is the `Main.cs` class that instantiates the
 ## App Demo
 
 ## License
-
 See [LICENSE](LICENSE).
-

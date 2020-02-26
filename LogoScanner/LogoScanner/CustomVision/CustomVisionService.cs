@@ -11,11 +11,7 @@ namespace LogoScanner
 {
     public class CustomVisionService
     {
-<<<<<<< LogoScanner/LogoScanner/CustomVision/CustomVisionService.cs
         public static async Task<PredictionResult> PredictImageContentsAsync(byte[] imageStream)
-=======
-        public static async Task<PredictionResult> PredictImageContentsAsync(byte[] imageStream, CancellationToken cancellationToken)
->>>>>>> LogoScanner/LogoScanner/CustomVision/CustomVisionService.cs
         {
             var assembly = Assembly.GetExecutingAssembly();
             var credentialsFile = "LogoScanner.credentials.json";

@@ -10,7 +10,7 @@ namespace CrossPlatformTest
         {
             if (platform == Platform.Android)
             {
-                return ConfigureApp.Android.InstalledApp("com.se06.logoscanner").EnableLocalScreenshots().StartApp();
+                return ConfigureApp.Android.StartApp();
             }
 
             return ConfigureApp.iOS.StartApp();

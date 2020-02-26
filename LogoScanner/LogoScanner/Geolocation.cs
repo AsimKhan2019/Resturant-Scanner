@@ -31,14 +31,14 @@ namespace LogoScanner
             {
                 var request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10));
                 var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
-                if (status != PermissionStatus.Granted)
+                if (status != Plugin.Permissions.Abstractions.PermissionStatus.Granted)
                 {
 
                     var results = await CrossPermissions.Current.RequestPermissionsAsync(new[] { Permission.Location });
                     status = results[Permission.Location];
                 }
 
-                if (status == PermissionStatus.Granted)
+                if (status == Plugin.Permissions.Abstractions.PermissionStatus.Granted)
                 {
                     var location = await Xamarin.Essentials.Geolocation.GetLocationAsync(request);
                     if (location != null)
@@ -47,7 +47,7 @@ namespace LogoScanner
                     }
                 }
 
-                else if (status != PermissionStatus.Unknown)
+                else if (status != Plugin.Permissions.Abstractions.PermissionStatus.Unknown)
                 {
                     await App.Current.MainPage.DisplayAlert("Error", "Location denied. Cannot continue, try again.", "OK");
                     return await GetMyLocation();

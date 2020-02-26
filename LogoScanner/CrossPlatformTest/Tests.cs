@@ -93,7 +93,7 @@ namespace CrossPlatformTest
         public async Task IsAppConnectedToCustomVision()
         {
             // get image
-            byte [] image = File.ReadAllBytes(System.AppDomain.CurrentDomain.BaseDirectory+"../../logo-test.png");
+            byte [] image = File.ReadAllBytes("../../logo-test.png");
             // call helper method to access API, which returns response from HttpClient
             HttpResponseMessage response = await ConnectToCustomVisionForTesting(image);
 
@@ -117,7 +117,7 @@ namespace CrossPlatformTest
         public async Task IsCustomVisionReturningRightPrediction()
         {
             //get image
-            byte[] image = System.IO.File.ReadAllBytes(System.AppDomain.CurrentDomain.BaseDirectory + "../../logo-test.png");
+            byte[] image = File.ReadAllBytes("../../logo-test.png");
             // call helper method to access API, which returns response from HttpClient
             HttpResponseMessage response = await ConnectToCustomVisionForTesting(image);
 

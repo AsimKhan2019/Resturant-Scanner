@@ -499,7 +499,7 @@
                                                 HeightRequest="40"
                                                 Text="BOOK NOW"
                                                 HorizontalOptions="Center"
-                                                Clicked="bookTimeSlot"
+                                                Clicked="BookTimeSlot"
                                                 BindingContext="{Binding DateTime}" />
 
                                             <Label
@@ -534,7 +534,7 @@
                 Minimum="1"
                 Value="3"
                 ValueChanged="OnSliderValueChanged"
-                DragCompleted="changePartySize"
+                DragCompleted="ChangePartySize"
                 Grid.Row="1"
                 Grid.Column="0"
                 Grid.ColumnSpan="3"

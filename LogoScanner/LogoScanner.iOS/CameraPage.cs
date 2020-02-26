@@ -292,7 +292,7 @@ namespace LogoScanner.iOS
                 else
                 {
                     DialogService.HideLoading();
-                    await App.Current.MainPage.DisplayAlert("Restaurant Not Found", "Please Re-Scan the Logo", "OK");
+                    await App.Current.MainPage.DisplayAlert("Restaurant Not Found", "Please rescan the Logo", "OK");
                 }
             }
         }

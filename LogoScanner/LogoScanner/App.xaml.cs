@@ -11,6 +11,8 @@ namespace LogoScanner
             InitializeComponent();
 
             MainPage = new MainPage();
+
+            //MainPage = new RestaurantPage("cairncrosscafe");
         }
 
         protected override void OnStart()

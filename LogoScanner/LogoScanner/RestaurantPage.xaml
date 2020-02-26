@@ -32,10 +32,10 @@
             <StackLayout>
                 <Grid x:Name="HomeGrid" VerticalOptions="FillAndExpand">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="15*" />
-                        <!-- map 18 -->
-                        <RowDefinition Height="12*" />
-                        <!-- logo 15 -->
+                        <RowDefinition Height="16*" />
+                        <!-- map -->
+                        <RowDefinition Height="14*" />
+                        <!-- logo -->
                         <RowDefinition Height="Auto" />
                         <!-- name / ResDiary -->
                         <RowDefinition Height="Auto" />
@@ -99,7 +99,7 @@
                         Grid.RowSpan="2"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
-                        Margin="11,0"
+                        Margin="10,0"
                         Aspect="AspectFill"
                         BorderColor="White"
                         BorderThickness="3"
@@ -107,12 +107,12 @@
                         VerticalOptions="Center">
                         <controls:CircleImage.WidthRequest>
                             <OnPlatform x:TypeArguments="x:Double">
-                                <On Platform="Android, iOS">105</On>
+                                <On Platform="Android, iOS">100</On>
                             </OnPlatform>
                         </controls:CircleImage.WidthRequest>
                         <controls:CircleImage.HeightRequest>
                             <OnPlatform x:TypeArguments="x:Double">
-                                <On Platform="Android, iOS">105</On>
+                                <On Platform="Android, iOS">100</On>
                             </OnPlatform>
                         </controls:CircleImage.HeightRequest>
                     </controls:CircleImage>
@@ -132,7 +132,7 @@
                         Grid.Row="2"
                         Grid.Column="0"
                         Grid.ColumnSpan="3"
-                        Padding="14,60,0,0"
+                        Padding="14,40,0,0"
                         FontAttributes="Bold"
                         FontSize="26"
                         HorizontalOptions="Start"

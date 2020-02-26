@@ -80,7 +80,11 @@ Custom vision is an image recognition and training model platform which we are u
 
 ### iOs
 
-## Test Suite
+## Testing
+### CI Pipeline
+
+### Test Restaurants
+Folder of logos in /logos
 
 ## App Demo
 ![App Demo Video](https://www.youtube.com/?gl=GB&hl=en-GB)

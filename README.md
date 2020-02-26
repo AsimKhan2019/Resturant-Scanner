@@ -62,8 +62,17 @@ Git-Secret (https://git-secret.io/) is used in order to store an encrypted crede
 4. After the data is decrypted you will be able to see the `credentials.json` file - right click this file and make sure the `Build Action` is set to `EmbeddedResource`
 
 ### ResDiary API
+The ResDiary consumer API began as an internal API supporting the resdiary.com portal. Everything (and more) that you see on resdiary.com can be replicated via this API. The primary purpose of the consumer API is to supply everything required for a ‘consumer facing’ restaurant discovery search and book user experience. The core features provided are:
+* Location Availability Searches
+* Restaurant Online Profiles
+* Restaurant Availability Searches
+* Create-update-cancel Bookings
+* Create-update Customer Profiles
+
+The API docs can be found here - https://login.rdbranch.com/Admin/ApiAccount/Documentation
 
 ### Custom Vision
+Custom vision is an image recognition and training model platform which we are using to store the Restaurant Logos on.
 
 ## Running the App
 ### Android
@@ -73,6 +82,7 @@ Git-Secret (https://git-secret.io/) is used in order to store an encrypted crede
 ## Test Suite
 
 ## App Demo
+![App Demo Video](https://www.youtube.com/?gl=GB&hl=en-GB)
 
 ## License
 See [LICENSE](LICENSE).

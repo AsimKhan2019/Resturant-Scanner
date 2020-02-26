@@ -259,19 +259,42 @@ namespace LogoScanner.iOS
 
         public async void SendPhoto(byte[] image)
         {
-            var results = await CustomVisionService.PredictImageContentsAsync(image, (new CancellationTokenSource()).Token);
+            var current = CrossConnectivity.Current.IsConnected;
 
-            var navigationPage = new NavigationPage(new RestaurantPage(results.ToString()));
+            if (!current)
+            {
+                await App.Current.MainPage.DisplayAlert("Connection Error", "Please connect to the internet", "OK");
+            }
+            else
+            {
+                var results = await CustomVisionService.PredictImageContentsAsync(image);
+                String resultInString = results.ToString();
+                
+                if (resultInString.Length > 0)
+                {
+                    if (Geolocation.HasMoreOptions(resultInString))
+                    {
+                        DialogService.ShowLoading("More Restaurants Available");
+                        resultInString = await Geolocation.GetCloserOptionAsync(resultInString);
+                    }
+                    var navigationPage = new NavigationPage(new RestaurantPage(resultInString));
 
-            await App.Current.MainPage.Navigation.PushModalAsync(navigationPage, false);
+                    await App.Current.MainPage.Navigation.PushModalAsync(navigationPage, false);
 
-            DialogService.HideLoading();
+                    DialogService.HideLoading();
 
-            var error = new NSError();
-            var device = captureDeviceInput.Device;
-            device.LockForConfiguration(out error);
-            device.FlashMode = AVCaptureFlashMode.Off;
-            device.UnlockForConfiguration();
+                    var error = new NSError();
+                    var device = captureDeviceInput.Device;
+                    device.LockForConfiguration(out error);
+                    device.FlashMode = AVCaptureFlashMode.Off;
+                    device.UnlockForConfiguration();
+                }
+                else
+                {
+                    DialogService.HideLoading();
+                    await App.Current.MainPage.DisplayAlert("Restaurant Not Found", "Please Re-Scan the Logo", "OK");
+                }
+            }
         }
     }
 }

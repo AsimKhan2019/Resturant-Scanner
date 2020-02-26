@@ -226,11 +226,17 @@ namespace LogoScanner.Droid
                     image.Recycle();
                     imageBytes = imageStream.ToArray();
                 }
-                var results = await CustomVisionService.PredictImageContentsAsync(imageBytes, (new CancellationTokenSource()).Token);
+                var results = await CustomVisionService.PredictImageContentsAsync(imageBytes);
+                String resultInString = results.ToString();
 
-                if (results.ToString().Length > 0)
+                if (resultInString.Length > 0)
                 {
-                    var navigationPage = new NavigationPage(new RestaurantPage(results.ToString()));
+                    if (Geolocation.HasMoreOptions(resultInString))
+                    {
+                        DialogService.ShowLoading("More Restaurants Available");
+                        resultInString = await Geolocation.GetCloserOptionAsync(resultInString);
+                    }
+                    var navigationPage = new NavigationPage(new RestaurantPage(resultInString));
 
                     DialogService.HideLoading();
                     camera.StartPreview();

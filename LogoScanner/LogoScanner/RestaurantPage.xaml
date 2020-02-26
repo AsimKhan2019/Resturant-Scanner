@@ -4,11 +4,13 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:carousel="clr-namespace:CarouselView.FormsPlugin.Abstractions;assembly=CarouselView.FormsPlugin.Abstractions"
     xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
     xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
-    xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
-    xmlns:carousel="clr-namespace:CarouselView.FormsPlugin.Abstractions;assembly=CarouselView.FormsPlugin.Abstractions"
     xmlns:floating="clr-namespace:SuaveControls.Views;assembly=SuaveControls.FloatingActionButton"
+    xmlns:local="clr-namespace:LogoScanner"
+    xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    xmlns:syncfusion="clr-namespace:Syncfusion.SfPdfViewer.XForms;assembly=Syncfusion.SfPdfViewer.XForms"
     xmlns:xfProxy="clr-namespace:Xamarin.Forms.Proxy;assembly=Xamarin.Forms.Core.UnitTests"
 
     android:TabbedPage.IsSwipePagingEnabled="False"
@@ -28,9 +30,7 @@
         IconImageSource="HomeIconFilled.png">
         <ContentView>
             <StackLayout>
-                <Grid
-                    x:Name="HomeGrid"
-                    VerticalOptions="FillAndExpand">
+                <Grid x:Name="HomeGrid" VerticalOptions="FillAndExpand">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="15*" />
                         <!-- map 18 -->
@@ -51,16 +51,18 @@
                         <RowDefinition Height="Auto" />
                         <!-- about section -->
                         <RowDefinition Height="Auto" />
+                        <!-- view more label -->
+                        <RowDefinition Height="Auto" />
                         <!-- divider -->
                         <RowDefinition Height="Auto" />
                         <!-- opening times label -->
-                        <RowDefinition Height="10*" />
+                        <RowDefinition Height="Auto" />
                         <!-- opening times section -->
                         <RowDefinition Height="Auto" />
                         <!-- divider -->
                         <RowDefinition Height="Auto" />
                         <!-- social media label -->
-                        <RowDefinition Height="15*" />
+                        <RowDefinition Height="20*" />
                         <!-- social media section-->
                     </Grid.RowDefinitions>
 
@@ -100,17 +102,17 @@
                         Margin="11,0"
                         Aspect="AspectFill"
                         BorderColor="White"
-                        BorderThickness="4"
+                        BorderThickness="3"
                         HorizontalOptions="Start"
                         VerticalOptions="Center">
                         <controls:CircleImage.WidthRequest>
                             <OnPlatform x:TypeArguments="x:Double">
-                                <On Platform="Android, iOS">120</On>
+                                <On Platform="Android, iOS">105</On>
                             </OnPlatform>
                         </controls:CircleImage.WidthRequest>
                         <controls:CircleImage.HeightRequest>
                             <OnPlatform x:TypeArguments="x:Double">
-                                <On Platform="Android, iOS">120</On>
+                                <On Platform="Android, iOS">105</On>
                             </OnPlatform>
                         </controls:CircleImage.HeightRequest>
                     </controls:CircleImage>
@@ -144,9 +146,9 @@
                         Padding="15,0"
                         FontSize="12"
                         HorizontalOptions="Start"
-                        VerticalOptions="End"
                         Text="Cuisines"
-                        TextColor="DimGray" />
+                        TextColor="DimGray"
+                        VerticalOptions="End" />
 
                     <Label
                         x:Name="PriceLabel"
@@ -155,87 +157,85 @@
                         Grid.ColumnSpan="3"
                         Padding="15,0"
                         FontSize="12"
-                        TextColor="DimGray"
                         HorizontalOptions="Start"
+                        TextColor="DimGray"
                         VerticalOptions="Center" />
 
-                    <Grid
-                        Grid.Row="5"
-                        Grid.Column="0">
+                    <Grid Grid.Row="5" Grid.Column="0">
                         <Label
                             Padding="14,0"
                             FontSize="14"
+                            HorizontalOptions="Start"
                             Text="★★★★★"
                             TextColor="#dfe4ea"
-                            HorizontalOptions="Start"
                             VerticalOptions="Center" />
                         <Label
                             x:Name="StarLabel"
                             Padding="14,0"
                             FontSize="14"
-                            TextColor="#11a0dc"
                             HorizontalOptions="Start"
+                            TextColor="#11a0dc"
                             VerticalOptions="Center" />
                     </Grid>
 
                     <ImageButton
-                        Source="PhoneIcon.png"
                         Grid.Row="5"
                         Grid.Column="2"
-                        HorizontalOptions="Start"
-                        VerticalOptions="Start"
-                        BackgroundColor="White"
-                        HeightRequest="28"
-                        WidthRequest="28"
-                        CornerRadius="14"
                         Margin="8,0,0,0"
-                        Clicked="PhoneButton_Clicked" />
+                        BackgroundColor="White"
+                        Clicked="PhoneButton_Clicked"
+                        CornerRadius="14"
+                        HeightRequest="28"
+                        HorizontalOptions="Start"
+                        Source="PhoneIcon.png"
+                        VerticalOptions="Start"
+                        WidthRequest="28" />
 
                     <ImageButton
-                        Source="EmailIcon.png"
                         Grid.Row="5"
                         Grid.Column="2"
+                        BackgroundColor="White"
+                        Clicked="EmailButton_Clicked"
+                        CornerRadius="14"
+                        HeightRequest="28"
                         HorizontalOptions="Center"
+                        Source="EmailIcon.png"
                         VerticalOptions="Start"
-                        BackgroundColor="White"
-                        HeightRequest="28"
-                        WidthRequest="28"
-                        CornerRadius="14"
-                        Clicked="EmailButton_Clicked" />
+                        WidthRequest="28" />
 
                     <ImageButton
-                        Source="WebsiteIcon.png"
                         Grid.Row="5"
                         Grid.Column="2"
-                        HorizontalOptions="End"
-                        VerticalOptions="Start"
-                        BackgroundColor="White"
-                        HeightRequest="28"
-                        WidthRequest="28"
-                        CornerRadius="14"
                         Margin="0,0,8,0"
-                        Clicked="WebsiteButton_Clicked" />
+                        BackgroundColor="White"
+                        Clicked="WebsiteButton_Clicked"
+                        CornerRadius="14"
+                        HeightRequest="28"
+                        HorizontalOptions="End"
+                        Source="WebsiteIcon.png"
+                        VerticalOptions="Start"
+                        WidthRequest="28" />
 
                     <BoxView
                         Grid.Row="6"
                         Grid.Column="0"
                         Grid.ColumnSpan="3"
+                        Margin="0,10"
                         BackgroundColor="#dfe4ea"
+                        HeightRequest="2"
                         HorizontalOptions="Fill"
                         VerticalOptions="Center"
-                        HeightRequest="2"
-                        WidthRequest="1"
-                        Margin="0,10" />
+                        WidthRequest="1" />
 
                     <Label
                         Grid.Row="7"
                         Grid.Column="0"
                         Grid.ColumnSpan="3"
                         Padding="15,0"
-                        FontSize="16"
                         FontAttributes="Bold"
-                        Text="About"
+                        FontSize="16"
                         HorizontalOptions="Start"
+                        Text="About"
                         VerticalOptions="Start" />
 
                     <Label
@@ -245,88 +245,101 @@
                         Grid.ColumnSpan="3"
                         Padding="15,0"
                         FontSize="14"
-                        TextColor="DimGray"
-                        Text="Description"
                         HorizontalOptions="Start"
-                        VerticalOptions="Start" />
-
-                    <BoxView
-                        Grid.Row="9"
-                        Grid.Column="0"
-                        Grid.ColumnSpan="3"
-                        BackgroundColor="#dfe4ea"
-                        HorizontalOptions="Fill"
-                        VerticalOptions="Center"
-                        HeightRequest="2"
-                        WidthRequest="1"
-                        Margin="0,10" />
+                        Text="Description"
+                        TextColor="DimGray"
+                        VerticalOptions="Start"
+                        LineBreakMode="WordWrap" />
 
                     <Label
+                        x:Name="ViewMoreLabel"
+                        Padding="0,5,15,0"
+                        Grid.Row="9"
+                        Grid.Column="2"
+                        FontSize="14"
+                        TextColor="#11a0dc"
+                        Text="View more"
+                        TextDecorations="Underline"
+                        HorizontalOptions="End"
+                        VerticalOptions="Center" />
+
+                    <BoxView
                         Grid.Row="10"
                         Grid.Column="0"
                         Grid.ColumnSpan="3"
-                        Padding="15,0"
-                        FontSize="16"
-                        FontAttributes="Bold"
-                        Text="Opening Times"
-                        HorizontalOptions="Start"
-                        VerticalOptions="Start" />
+                        Margin="0,10"
+                        BackgroundColor="#dfe4ea"
+                        HeightRequest="2"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Center"
+                        WidthRequest="1" />
 
                     <Label
-                        x:Name="OpeningInformationLabel"
                         Grid.Row="11"
                         Grid.Column="0"
                         Grid.ColumnSpan="3"
                         Padding="15,0"
-                        FontSize="14"
-                        TextColor="DimGray"
-                        Text="Opening Times"
+                        FontAttributes="Bold"
+                        FontSize="16"
                         HorizontalOptions="Start"
+                        Text="Opening Times"
                         VerticalOptions="Start" />
 
-                    <BoxView
+                    <Label
+                        x:Name="OpeningInformationLabel"
                         Grid.Row="12"
                         Grid.Column="0"
                         Grid.ColumnSpan="3"
-                        BackgroundColor="#dfe4ea"
-                        HorizontalOptions="Fill"
-                        VerticalOptions="Center"
-                        HeightRequest="2"
-                        WidthRequest="1"
-                        Margin="0,10" />
+                        Padding="15,0"
+                        FontSize="14"
+                        HorizontalOptions="Start"
+                        Text="Opening Times"
+                        TextColor="DimGray"
+                        VerticalOptions="Start" />
 
-                    <Label
+                    <BoxView
                         Grid.Row="13"
                         Grid.Column="0"
                         Grid.ColumnSpan="3"
+                        Margin="0,10"
+                        BackgroundColor="#dfe4ea"
+                        HeightRequest="2"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Center"
+                        WidthRequest="1" />
+
+                    <Label
+                        Grid.Row="14"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="3"
                         Padding="15,0"
-                        FontSize="16"
                         FontAttributes="Bold"
-                        Text="Social Media"
+                        FontSize="16"
                         HorizontalOptions="Start"
+                        Text="Social Media"
                         VerticalOptions="Start" />
 
                     <Label
                         x:Name="SocialMediaLabel"
-                        Grid.Row="14"
+                        Grid.Row="15"
                         Grid.Column="0"
                         Grid.ColumnSpan="3"
                         Padding="15,0,0,0"
                         FontSize="14"
-                        TextColor="DimGray"
                         HorizontalOptions="Start"
-                        VerticalOptions="Start"
-                        IsVisible="False" />
+                        IsVisible="False"
+                        TextColor="DimGray"
+                        VerticalOptions="Start" />
 
                     <floating:FloatingActionButton
                         x:Name="FloatingButton1"
                         Image="ScanIcon.png"
-                        Grid.Row="14"
+                        Grid.Row="15"
                         Grid.Column="2"
-                        HorizontalOptions="EndAndExpand"
-                        VerticalOptions="EndAndExpand"
                         ButtonColor="#11a0dc"
-                        Clicked="FloatingButton_Clicked">
+                        Clicked="FloatingButton_Clicked"
+                        HorizontalOptions="EndAndExpand"
+                        VerticalOptions="EndAndExpand">
 
                         <floating:FloatingActionButton.Margin>
                             <OnPlatform x:TypeArguments="Thickness">
@@ -360,22 +373,30 @@
         IconImageSource="BookingIcon.png"
         BackgroundColor="White">
 
-        <Grid>
+        <Grid VerticalOptions="FillAndExpand">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
+                <RowDefinition Height="83*" />
+                <!-- Booking Scroll View -->
+                <RowDefinition Height="4*" />
+                <!-- Party Size Label-->
+                <RowDefinition Height="13*" />
+                <!-- Slider + Floating Action Button-->
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
 
             <Label
                 x:Name="NoAvailabilityLabel"
                 Text="No Tables Currently Available."
                 FontSize="Small"
-                Grid.Row="0"
                 HorizontalOptions="Center"
                 VerticalOptions="Center"
+                Grid.Column="0"
+                Grid.ColumnSpan="3"
                 IsVisible="False" />
 
             <carousel:CarouselViewControl
@@ -389,7 +410,8 @@
                 HorizontalOptions="FillAndExpand"
                 VerticalOptions="FillAndExpand"
                 Grid.Row="0"
-                Margin="0,60">
+                Grid.Column="0"
+                Grid.ColumnSpan="3">
 
                 <carousel:CarouselViewControl.ItemTemplate>
                     <DataTemplate>
@@ -411,19 +433,17 @@
                                         BackgroundGradientEndColor="#dfe4ea">
                                         <Grid>
                                             <StackLayout>
-                                                <StackLayout Orientation="Horizontal">
-                                                    <Label
-                                                        Text="{Binding Date}"
-                                                        TextColor="White"
-                                                        Margin="24,24,24,0"
-                                                        FontSize="18"
-                                                        HorizontalOptions="EndAndExpand" />
-                                                </StackLayout>
+                                                <Label
+                                                    Text="{Binding Date}"
+                                                   TextColor="White"
+                                                    Margin="24,24,24,0"
+                                                    FontSize="18"
+                                                    HorizontalOptions="EndAndExpand" />
 
                                                 <Label
                                                     Text="{Binding Time, StringFormat='{0:N}'}"
                                                     TextColor="White"
-                                                    Margin="24,24,0,0"
+                                                    Margin="24,8,0,0"
                                                     FontSize="40"
                                                     FontAttributes="Bold" />
 
@@ -431,7 +451,7 @@
                                                     Text="AVAILABLE AREAS"
                                                     TextColor="White"
                                                     FontAttributes="Bold"
-                                                    Margin="24,24,0,0"
+                                                    Margin="24,12,0,0"
                                                     FontSize="15" />
 
                                                 <Label
@@ -444,8 +464,9 @@
                                                     Text="PROMOTIONS"
                                                     TextColor="White"
                                                     FontAttributes="Bold"
-                                                    Margin="24,24,0,0"
+                                                    Margin="24,12,0,0"
                                                     FontSize="15" />
+
                                                 <ScrollView>
                                                     <Label
                                                     Text="{Binding Promotions}"
@@ -498,12 +519,38 @@
                 </carousel:CarouselViewControl.ItemTemplate>
             </carousel:CarouselViewControl>
 
+            <Label
+                x:Name="sliderValueLabel"
+                Text="Party Size of 3"
+                Grid.Row="2"
+                Grid.Column="0"
+                Grid.ColumnSpan="3"
+                HorizontalOptions="Center"
+                VerticalOptions="Center" />
+
+            <Slider
+                x:Name="partySizeSlider"
+                Maximum="10.5"
+                Minimum="1"
+                Value="3"
+                ValueChanged="OnSliderValueChanged"
+                DragCompleted="changePartySize"
+                Grid.Row="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="3"
+                MinimumTrackColor="#11a0dc"
+                ThumbColor="#11a0dc"
+                VerticalOptions="Start"
+                Margin="15,0,15,0" />
+
             <floating:FloatingActionButton
                 x:Name="FloatingButton2"
                 Image="ScanIcon.png"
                 HorizontalOptions="EndAndExpand"
                 VerticalOptions="EndAndExpand"
                 ButtonColor="#11a0dc"
+                Grid.Row="2"
+                Grid.Column="2"
                 Clicked="FloatingButton_Clicked">
 
                 <floating:FloatingActionButton.Margin>
@@ -535,6 +582,9 @@
         Title="Menu"
         BackgroundColor="White"
         IconImageSource="MenuIcon.png">
+        <ContentPage.BindingContext>
+            <local:PdfViewerViewModel />
+        </ContentPage.BindingContext>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
@@ -550,19 +600,19 @@
                 HorizontalOptions="Center"
                 VerticalOptions="Center" />
 
-            <WebView
-                x:Name="Menu"
+            <syncfusion:SfPdfViewer
+                x:Name="pdfViewerControl"
                 Grid.Row="0"
-                VerticalOptions="FillAndExpand" />
+                InputFileStream="{Binding PdfDocumentStream}" />
 
             <floating:FloatingActionButton
                 x:Name="FloatingButton3"
-                Image="ScanIcon.png"
                 Grid.Row="0"
-                HorizontalOptions="EndAndExpand"
-                VerticalOptions="EndAndExpand"
                 ButtonColor="#11a0dc"
-                Clicked="FloatingButton_Clicked">
+                Clicked="FloatingButton_Clicked"
+                HorizontalOptions="EndAndExpand"
+                Image="ScanIcon.png"
+                VerticalOptions="EndAndExpand">
 
                 <floating:FloatingActionButton.Margin>
                     <OnPlatform x:TypeArguments="Thickness">
@@ -606,17 +656,17 @@
                 <ListView
                     x:Name="ReviewsView"
                     Grid.Row="0"
-                    Margin="15,0"
                     HasUnevenRows="True"
-                    HorizontalOptions="Fill"
                     ItemsSource="{Binding Reviews}"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Fill"
                     SelectionMode="None"
-                    VerticalOptions="Fill">
+                    ItemTapped="ReviewsView_ItemTapped">
 
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <ViewCell IsEnabled="False">
-                                <StackLayout Padding="0,15">
+                            <ViewCell>
+                                <StackLayout Padding="15">
                                     <Label Font="Bold, 16" Text="{Binding Name}" />
 
                                     <Grid>
@@ -630,9 +680,17 @@
                                             TextColor="#11a0dc" />
                                     </Grid>
 
-                                    <Label Font="Italic, 12" Text="{Binding ReviewDate, StringFormat='Reviewed: {0}'}" />
+                                    <Label
+                                        Font="Italic, 12"
+                                        TextColor="DimGray"
+                                        Text="{Binding ReviewDate, StringFormat='Reviewed: {0}'}" />
+
                                     <Label Text="{Binding Content}" />
-                                    <Label Font="Italic, 12" Text="{Binding VisitDate, StringFormat='Visited: {0}'}" />
+
+                                    <Label
+                                        Font="Italic, 12"
+                                        TextColor="DimGray"
+                                        Text="{Binding VisitDate, StringFormat='Visited: {0}'}" />
                                 </StackLayout>
                             </ViewCell>
                         </DataTemplate>
@@ -641,12 +699,12 @@
 
                 <floating:FloatingActionButton
                     x:Name="FloatingButton4"
-                    Image="ScanIcon.png"
                     Grid.Row="0"
-                    HorizontalOptions="EndAndExpand"
-                    VerticalOptions="EndAndExpand"
                     ButtonColor="#11a0dc"
-                    Clicked="FloatingButton_Clicked">
+                    Clicked="FloatingButton_Clicked"
+                    HorizontalOptions="EndAndExpand"
+                    Image="ScanIcon.png"
+                    VerticalOptions="EndAndExpand">
 
                     <floating:FloatingActionButton.Margin>
                         <OnPlatform x:TypeArguments="Thickness">

@@ -1,8 +1,10 @@
 ﻿using Logoscanner;
 using LogoScanner.Helpers;
 using Newtonsoft.Json.Linq;
+using Rg.Plugins.Popup.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -10,22 +12,41 @@ using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Xamarin.Forms.Xaml;
+using System.Net;
+using System.Net.Http;
+using System.Reflection;
 
 namespace LogoScanner
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RestaurantPage : TabbedPage
     {
-        public static List<Promotion> promotions = new List<Promotion>();
+        public static ObservableCollection<Promotion> promotions = new ObservableCollection<Promotion>();
         public static List<Review> reviews = new List<Review>();
-        public static List<AvailableTime> availableTimes = new List<AvailableTime>();
+        public static ObservableCollection<AvailableTime> availableTimes = new ObservableCollection<AvailableTime>();
 
         private string micrositename;
         private string overallReviews;
+        private string token;
         private JObject consumer;
+        private JObject result;
+        private int partysize = 3;
 
         public RestaurantPage(string micrositename)
         {
+            //register syncfusion api
+            var credentialsFile = "LogoScanner.credentials.json";
+            JObject line;
+            var assembly = Assembly.GetExecutingAssembly();
+
+            using (Stream stream = assembly.GetManifestResourceStream(credentialsFile))
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                line = JObject.Parse(reader.ReadToEnd()); // opens credentials file, reads it and parse JSON
+            }
+
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(line["SyncfusionAPI"]["key"].ToString());
+
             InitializeComponent();
             this.micrositename = micrositename;
 
@@ -72,6 +93,7 @@ namespace LogoScanner
             base.OnAppearing();
 
             var request = await Requests.ConnectToResDiary(); // connect to resdiary api
+            token = request.message;
 
             while (request.message.Equals("Unable to Connect to Internet"))
             {
@@ -118,7 +140,15 @@ namespace LogoScanner
             int stars = (int)Math.Round(Double.Parse(result["AverageReviewScore"].ToString()), 0, MidpointRounding.AwayFromZero);
             StarLabel.Text = Utils.GetRestaurantField(result, "AverageReviewScore", "★", stars);
 
-            DescriptionLabel.Text = Utils.GetRestaurantField(consumer, "Description");
+            DescriptionLabel.Text = Utils.GetRestaurantField(consumer, "ShortDescription");
+
+            var viewMoreTap = new TapGestureRecognizer();
+            viewMoreTap.Tapped += async (s, e) =>
+            {
+                await Navigation.PushPopupAsync(new AboutPopup(Utils.GetRestaurantField(consumer, "Description")));
+            };
+            ViewMoreLabel.GestureRecognizers.Add(viewMoreTap);
+
             OpeningInformationLabel.Text = Utils.GetRestaurantField(consumer, "OpeningInformation").Replace("<br/>", Environment.NewLine);
 
             if (consumer["SocialNetworks"].Type == JTokenType.Null || string.IsNullOrEmpty(consumer["SocialNetworks"].ToString()))
@@ -139,11 +169,14 @@ namespace LogoScanner
                         Margin = new Thickness(15, 10, 0, 0),
                         BackgroundColor = Color.White,
                         TextColor = Color.FromHex("#11a0dc"),
-                        CornerRadius = 10,
+                        FontSize = 12,
+                        CornerRadius = 20,
+                        BorderWidth = 2,
+                        BorderColor = Color.FromHex("#11a0dc"),
                         VerticalOptions = LayoutOptions.Start,
                         HorizontalOptions = LayoutOptions.Start
                     };
-                    HomeGrid.Children.Add(button, column, 14);
+                    HomeGrid.Children.Add(button, column, 15);
                     column++;
 
                     button.Clicked += async (sender, args) => await Browser.OpenAsync(a["Url"].ToString(), BrowserLaunchMode.SystemPreferred);
@@ -174,7 +207,7 @@ namespace LogoScanner
         }
 
         // populates the booking tab
-        private async void PopulateBookingTab(JObject result, string token)
+        private async void PopulateBookingTab(JObject result)
         {
             string[] promotion_ids = Promotions.GetPromotionIDs(result);
 
@@ -186,7 +219,7 @@ namespace LogoScanner
 
             string url = "https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename + "/AvailabilityForDateRangeV2?";
 
-            JObject r = await Requests.APICallPost(url, token, dateStartStr, dateEndStr, 3);
+            JObject r = await Requests.APICallPost(url, token, dateStartStr, dateEndStr, partysize);
 
             var capacity = 0;
 
@@ -237,14 +270,15 @@ namespace LogoScanner
         // populates the menu tab
         private void PopulateMenuTab()
         {
-            setMenu(consumer);
+            SetMenu(consumer);
         }
 
         // populates the reviews tab
         private void PopulateReviewsTab(JObject result)
         {
-            overallReviews = Utils.GetRestaurantField(result, "AverageReviewScore") + "★  |  " + Utils.GetRestaurantField(result, "NumberOfReviews") + " reviews";
+            overallReviews = "Reviews (" + Utils.GetRestaurantField(result, "NumberOfReviews") + ")";
             reviews.Clear();
+
             foreach (JToken review in result["Reviews"].ToArray())
             {
                 reviews.Add(new Review
@@ -253,7 +287,13 @@ namespace LogoScanner
                     Content = review["Review"].ToString(),
                     Score = Utils.GetRestaurantField((JObject)review, "AverageScore", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
                     ReviewDate = review["ReviewDateTime"].ToString(),
-                    VisitDate = review["VisitDateTime"].ToString()
+                    VisitDate = review["VisitDateTime"].ToString(),
+                    LikelyToRecommend = Utils.GetRestaurantField((JObject)review, "Answer1", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
+                    FoodAndDrink = Utils.GetRestaurantField((JObject)review, "Answer2", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
+                    Service = Utils.GetRestaurantField((JObject)review, "Answer3", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
+                    Atmosphere = Utils.GetRestaurantField((JObject)review, "Answer4", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
+                    Value = Utils.GetRestaurantField((JObject)review, "Answer5", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
+                    ScoreNumber = review["AverageScore"].ToString()
                 });
             }
             ReviewsView.ItemsSource = reviews;
@@ -263,7 +303,7 @@ namespace LogoScanner
         private async void GetRestaurantData(string url, string token)
         {
             JArray r = await Requests.APICallGet(url, token);
-            JObject result = (JObject)r.First;
+            result = (JObject)r.First;
 
             // gets restaurant json object in the consumer api
             var consumerUrl = "https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename;
@@ -271,31 +311,35 @@ namespace LogoScanner
             consumer = (JObject)restaurant.First;
 
             PopulateHomeTab(result);
-            PopulateBookingTab(result, token);
+            PopulateBookingTab(result);
             PopulateMenuTab();
             PopulateReviewsTab(result);
         }
 
+        //method do download pdf from url
+        public Stream DownloadPdfStream(string URL, string documentName)
+        {
+            var uri = new System.Uri(URL);
+            var client = new WebClient();
+
+            //Returns the PDF document stream from the given URL
+            return client.OpenRead(uri);
+        }
+
         //method to get menu for restaurant
-        private void setMenu(JObject json)
+        private void SetMenu(JObject json)
         {
             if (json["Menus"].Type == JTokenType.Null || string.IsNullOrEmpty(json["Menus"].ToString()) || !json["Menus"].Any())
             {
-                Menu.IsVisible = false;
                 MenuLabel.Text = "No Menus Currently Available.";
             }
             else
             {
                 var pdfUrl = json["Menus"][0]["StorageUrl"].ToString();
-                var googleUrl = "http://drive.google.com/viewerng/viewer?embedded=true&url=";
-                if (Device.RuntimePlatform == Device.iOS)
-                {
-                    Menu.Source = pdfUrl;
-                }
-                else if (Device.RuntimePlatform == Device.Android)
-                {
-                    Menu.Source = new UrlWebViewSource() { Url = googleUrl + pdfUrl };
-                }
+                //Provide the PDF document URL in the below overload.
+                Stream documenStream = DownloadPdfStream(pdfUrl, "Sample");
+                //Loads the PDF document as Stream to PDF viewer control
+                pdfViewerControl.LoadDocument(documenStream);
             }
         }
 
@@ -323,17 +367,40 @@ namespace LogoScanner
             await Email.ComposeAsync(message);
         }
 
-        public void bookTimeSlot(Object Sender, EventArgs e)
-        {
-            Button b = (Button)Sender;
-            string dateTime = b.BindingContext as string;
-            Booking.Makebooking(micrositename, dateTime.Split(',')[0], dateTime.Split(',')[1]);
-        }
-
         // event triggered when the website button is clicked
         private async void WebsiteButton_Clicked(object sender, EventArgs e)
         {
             await Browser.OpenAsync(Utils.GetRestaurantField(consumer, "Website"), BrowserLaunchMode.SystemPreferred);
+        }
+
+        // event triggered when a review is tapped
+        private async void ReviewsView_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            var review = e.Item as Review;
+            await Navigation.PushPopupAsync(new ReviewsPopup(review));
+        }
+
+        public void BookTimeSlot(Object Sender, EventArgs e)
+        {
+            Button b = (Button)Sender;
+            string dateTime = b.BindingContext as string;
+            Booking.Makebooking(micrositename, dateTime.Split(',')[0], dateTime.Split(',')[1], partysize);
+        }
+
+        private void OnSliderValueChanged(object sender, ValueChangedEventArgs args)
+        {
+            int value = (int)args.NewValue;
+            sliderValueLabel.Text = "Party Size of " + value.ToString();
+        }
+
+        private void ChangePartySize(object sender, EventArgs e)
+        {
+            partysize = (int)partySizeSlider.Value;
+            sliderValueLabel.Text = "Party Size of " + partysize.ToString();
+
+            promotions.Clear();
+            availableTimes.Clear();
+            PopulateBookingTab(result);
         }
     }
 }

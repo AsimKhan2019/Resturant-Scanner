@@ -279,7 +279,7 @@ namespace LogoScanner.iOS
                     }
                     var navigationPage = new NavigationPage(new RestaurantPage(resultInString));
 
-                    await App.Current.MainPage.Navigation.PushModalAsync(navigationPage, false);
+                    await App.Current.MainPage.Navigation.PushModalAsync(navigationPage, true);
 
                     DialogService.HideLoading();
 

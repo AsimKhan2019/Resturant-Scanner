@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Acr.UserDialogs;
+﻿using Acr.UserDialogs;
 
 namespace LogoScanner
 {

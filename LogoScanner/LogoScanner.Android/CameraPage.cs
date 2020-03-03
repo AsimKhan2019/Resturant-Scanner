@@ -240,7 +240,7 @@ namespace LogoScanner.Droid
 
                     DialogService.HideLoading();
                     camera.StartPreview();
-                    await App.Current.MainPage.Navigation.PushModalAsync(navigationPage, false);
+                    await App.Current.MainPage.Navigation.PushModalAsync(navigationPage, true);
                 }
                 else
                 {

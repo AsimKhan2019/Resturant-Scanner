@@ -362,6 +362,24 @@
                             </OnPlatform>
                         </floating:FloatingActionButton.HeightRequest>
                     </floating:FloatingActionButton>
+
+                    <Frame
+                        x:Name="Frame1"
+                        Grid.RowSpan="16"
+                        Grid.ColumnSpan="3"
+                        IsVisible="True"
+                        BackgroundColor="White">
+                        <ActivityIndicator
+                            x:Name="Indicator1"
+                            BackgroundColor="White"
+                            Color="#11a0dc"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            IsVisible="True"
+                            IsRunning="True"
+                            WidthRequest="40"
+                            HeightRequest="40" />
+                    </Frame>
                 </Grid>
             </StackLayout>
         </ContentView>
@@ -467,13 +485,12 @@
                                                     Margin="24,12,0,0"
                                                     FontSize="15" />
 
-                                                <ScrollView>
-                                                    <Label
+                                                <Label
                                                     Text="{Binding Promotions}"
+                                                    TextType="Html"
                                                     TextColor="White"
                                                     Margin="24,0,0,0"
                                                     FontSize="14" />
-                                                </ScrollView>
                                             </StackLayout>
                                         </Grid>
                                     </yummy:PancakeView>
@@ -574,6 +591,24 @@
                     </OnPlatform>
                 </floating:FloatingActionButton.HeightRequest>
             </floating:FloatingActionButton>
+
+            <Frame
+                x:Name="Frame2"
+                Grid.RowSpan="3"
+                Grid.ColumnSpan="3"
+                IsVisible="True"
+                BackgroundColor="White">
+                <ActivityIndicator
+                    x:Name="Indicator2"
+                    BackgroundColor="White"
+                    Color="#11a0dc"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    IsVisible="True"
+                    IsRunning="True"
+                    WidthRequest="40"
+                    HeightRequest="40" />
+            </Frame>
         </Grid>
     </ContentPage>
 
@@ -635,6 +670,24 @@
                     </OnPlatform>
                 </floating:FloatingActionButton.HeightRequest>
             </floating:FloatingActionButton>
+
+            <Frame
+                x:Name="Frame3"
+                Grid.RowSpan="1"
+                Grid.ColumnSpan="1"
+                IsVisible="True"
+                BackgroundColor="White">
+                <ActivityIndicator
+                    x:Name="Indicator3"
+                    BackgroundColor="White"
+                    Color="#11a0dc"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    IsVisible="True"
+                    IsRunning="True"
+                    WidthRequest="40"
+                    HeightRequest="40" />
+            </Frame>
         </Grid>
     </ContentPage>
 
@@ -727,6 +780,24 @@
                         </OnPlatform>
                     </floating:FloatingActionButton.HeightRequest>
                 </floating:FloatingActionButton>
+
+                <Frame
+                    x:Name="Frame4"
+                    Grid.RowSpan="1"
+                    Grid.ColumnSpan="1"
+                    IsVisible="True"
+                    BackgroundColor="White">
+                    <ActivityIndicator
+                        x:Name="Indicator4"
+                        BackgroundColor="White"
+                        Color="#11a0dc"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center"
+                        IsVisible="True"
+                        IsRunning="True"
+                        WidthRequest="40"
+                        HeightRequest="40" />
+                </Frame>
             </Grid>
         </StackLayout>
     </ContentPage>

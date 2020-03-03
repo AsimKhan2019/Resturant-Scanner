@@ -13,9 +13,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Xamarin.Forms.Xaml;
 using System.Net;
-using System.Net.Http;
 using System.Reflection;
-using ImageCircle.Forms.Plugin.Abstractions;
 
 namespace LogoScanner
 {
@@ -57,9 +55,9 @@ namespace LogoScanner
                 var tab = this.Children.IndexOf(this.CurrentPage);
 
                 HomeTab.IconImageSource = "HomeIcon.png";
+                BookingTab.IconImageSource = "BookingIcon.png";
                 MenuTab.IconImageSource = "MenuIcon.png";
                 ReviewsTab.IconImageSource = "ReviewIcon.png";
-                BookingTab.IconImageSource = "BookingIcon.png";
 
                 switch (tab)
                 {
@@ -271,11 +269,6 @@ namespace LogoScanner
             AvailabilityView.ItemsSource = availableTimes;
         }
 
-        // populates the menu tab
-        private void PopulateMenuTab()
-        {
-            SetMenu(consumer);
-        }
 
         // populates the reviews tab
         private void PopulateReviewsTab(JObject result)
@@ -316,8 +309,23 @@ namespace LogoScanner
 
             PopulateHomeTab(result);
             PopulateBookingTab(result);
-            PopulateMenuTab();
+            SetMenu(consumer);
             PopulateReviewsTab(result);
+
+            Indicator1.IsVisible = false;
+            Indicator2.IsVisible = false;
+            Indicator3.IsVisible = false;
+            Indicator4.IsVisible = false;
+
+            Indicator1.IsRunning = false;
+            Indicator2.IsRunning = false;
+            Indicator3.IsRunning = false;
+            Indicator4.IsRunning = false;
+
+            Frame1.IsVisible = false;
+            Frame2.IsVisible = false;
+            Frame3.IsVisible = false;
+            Frame4.IsVisible = false;
         }
 
         //method do download pdf from url

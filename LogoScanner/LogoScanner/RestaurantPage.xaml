@@ -410,7 +410,6 @@
             <Label
                 x:Name="NoAvailabilityLabel"
                 Text="No Tables Currently Available."
-                FontSize="Small"
                 HorizontalOptions="Center"
                 VerticalOptions="Center"
                 Grid.Column="0"
@@ -617,9 +616,11 @@
         Title="Menu"
         BackgroundColor="White"
         IconImageSource="MenuIcon.png">
+
         <ContentPage.BindingContext>
             <local:PdfViewerViewModel />
         </ContentPage.BindingContext>
+
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
@@ -697,7 +698,7 @@
         BackgroundColor="White"
         IconImageSource="ReviewIcon.png">
         <StackLayout>
-            <Grid>
+            <Grid VerticalOptions="FillAndExpand">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
@@ -705,6 +706,12 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
+
+                <Label
+                    x:Name="ReviewsLabel"
+                    Grid.Row="0"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center" />
 
                 <ListView
                     x:Name="ReviewsView"
@@ -744,6 +751,13 @@
                                         Font="Italic, 12"
                                         TextColor="DimGray"
                                         Text="{Binding VisitDate, StringFormat='Visited: {0}'}" />
+
+                                    <Label
+                                        FontSize="12"
+                                        TextColor="#11a0dc"
+                                        Text="View Ratings"
+                                        TextDecorations="Underline"
+                                        HorizontalTextAlignment="End" />
                                 </StackLayout>
                             </ViewCell>
                         </DataTemplate>

@@ -24,7 +24,8 @@
         <Frame CornerRadius="10" Padding="0">  
             <StackLayout Padding="20">  
                 <Label
-                    Text="Review Ratings"
+                    x:Name="RatingsNameLabel"
+                    Text="{Binding Name}"
                     TextColor="Black"
                     FontSize="16"
                     FontAttributes="Bold"
@@ -39,7 +40,6 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
                         <Grid.ColumnDefinitions>
@@ -48,28 +48,17 @@
                         </Grid.ColumnDefinitions>
 
                         <Label
-                            x:Name="RatingsNameLabel"
-                            Text="{Binding Name}"
-                            Padding="30,0,0,0"
-                            FontSize="14"
-                            FontAttributes="Bold"
-                            TextColor="Black"
-                            Grid.Row="0"
-                            Grid.Column="0"
-                            Grid.ColumnSpan="2" />
-
-                        <Label
                             Text="Recommendation"
                             Padding="30,0,0,0"
                             FontSize="12"
                             TextColor="DimGray"
-                            Grid.Row="1"
+                            Grid.Row="0"
                             Grid.Column="0"
                             HorizontalOptions="Start"
                             VerticalOptions="Center" />
 
                         <Grid
-                            Grid.Row="1"
+                            Grid.Row="0"
                             Grid.Column="1"
                             Padding="35,0,0,0">
                             <Label
@@ -92,13 +81,13 @@
                             Padding="30,0,0,0"
                             FontSize="12"
                             TextColor="DimGray"
-                            Grid.Row="2"
+                            Grid.Row="1"
                             Grid.Column="0"
                             HorizontalOptions="Start"
                             VerticalOptions="Center" />
 
                         <Grid
-                            Grid.Row="2"
+                            Grid.Row="1"
                             Grid.Column="1"
                             Padding="35,0,0,0">
                             <Label
@@ -121,13 +110,13 @@
                             Padding="30,0,0,0"
                             FontSize="12"
                             TextColor="DimGray"
-                            Grid.Row="3"
+                            Grid.Row="2"
                             Grid.Column="0"
                             HorizontalOptions="Start"
                             VerticalOptions="Center" />
 
                         <Grid
-                            Grid.Row="3"
+                            Grid.Row="2"
                             Grid.Column="1"
                             Padding="35,0,0,0">
                             <Label
@@ -150,13 +139,13 @@
                             Padding="30,0,0,0"
                             FontSize="12"
                             TextColor="DimGray"
-                            Grid.Row="4"
+                            Grid.Row="3"
                             Grid.Column="0"
                             HorizontalOptions="Start"
                             VerticalOptions="Center" />
 
                         <Grid
-                            Grid.Row="4"
+                            Grid.Row="3"
                             Grid.Column="1"
                             Padding="35,0,0,0">
                             <Label
@@ -179,13 +168,13 @@
                             Padding="30,0,0,0"
                             FontSize="12"
                             TextColor="DimGray"
-                            Grid.Row="5"
+                            Grid.Row="4"
                             Grid.Column="0"
                             HorizontalOptions="Start"
                             VerticalOptions="Center" />
 
                         <Grid
-                            Grid.Row="5"
+                            Grid.Row="4"
                             Grid.Column="1"
                             Padding="35,0,0,0">
                             <Label
@@ -210,7 +199,7 @@
                             FontSize="12"
                             TextColor="Black"
                             FontAttributes="Italic"
-                            Grid.Row="6"
+                            Grid.Row="5"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
                             HorizontalOptions="Start"

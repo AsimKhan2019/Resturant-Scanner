@@ -485,13 +485,12 @@
                                                     Margin="24,12,0,0"
                                                     FontSize="15" />
 
-                                                <ScrollView>
-                                                    <Label
+                                                <Label
                                                     Text="{Binding Promotions}"
+                                                    TextType="Html"
                                                     TextColor="White"
                                                     Margin="24,0,0,0"
                                                     FontSize="14" />
-                                                </ScrollView>
                                             </StackLayout>
                                         </Grid>
                                     </yummy:PancakeView>

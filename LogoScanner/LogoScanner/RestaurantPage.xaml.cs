@@ -55,9 +55,9 @@ namespace LogoScanner
                 var tab = this.Children.IndexOf(this.CurrentPage);
 
                 HomeTab.IconImageSource = "HomeIcon.png";
+                BookingTab.IconImageSource = "BookingIcon.png";
                 MenuTab.IconImageSource = "MenuIcon.png";
                 ReviewsTab.IconImageSource = "ReviewIcon.png";
-                BookingTab.IconImageSource = "BookingIcon.png";
 
                 switch (tab)
                 {

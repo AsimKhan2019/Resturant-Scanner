@@ -13,8 +13,8 @@ prepare:
   cache:
     key: "$CI_COMMIT_REF_NAME"
     paths:
-      - LogoScanner/packages/**
-      - LogoScanner/build/tools/**
+      #- LogoScanner/packages/**
+      - build/tools/**
     policy: push
   script:
     - cd build

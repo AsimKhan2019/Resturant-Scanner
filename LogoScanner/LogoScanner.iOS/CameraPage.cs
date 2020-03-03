@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.Threading;
 using AVFoundation;
 using CoreGraphics;
 using Foundation;
@@ -8,7 +7,6 @@ using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 using Plugin.Connectivity;
-using Rectangle = System.Drawing.Rectangle;
 
 /*
  * AVFoundation Reference: http://red-glasses.com/index.php/tutorials/ios4-take-photos-with-live-video-preview-using-avfoundation/

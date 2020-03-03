@@ -276,24 +276,32 @@ namespace LogoScanner
             overallReviews = "Reviews (" + Utils.GetRestaurantField(result, "NumberOfReviews") + ")";
             reviews.Clear();
 
-            foreach (JToken review in result["Reviews"].ToArray())
+            if (int.Parse(Utils.GetRestaurantField(result, "NumberOfReviews")) == 0)
             {
-                reviews.Add(new Review
-                {
-                    Name = review["ReviewedBy"].ToString(),
-                    Content = review["Review"].ToString(),
-                    Score = Utils.GetRestaurantField((JObject)review, "AverageScore", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
-                    ReviewDate = review["ReviewDateTime"].ToString(),
-                    VisitDate = review["VisitDateTime"].ToString(),
-                    LikelyToRecommend = Utils.GetRestaurantField((JObject)review, "Answer1", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
-                    FoodAndDrink = Utils.GetRestaurantField((JObject)review, "Answer2", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
-                    Service = Utils.GetRestaurantField((JObject)review, "Answer3", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
-                    Atmosphere = Utils.GetRestaurantField((JObject)review, "Answer4", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
-                    Value = Utils.GetRestaurantField((JObject)review, "Answer5", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
-                    ScoreNumber = review["AverageScore"].ToString()
-                });
+                ReviewsView.IsVisible = false;
+                ReviewsLabel.Text = "No Reviews Currently Available.";
             }
-            ReviewsView.ItemsSource = reviews;
+            else
+            {
+                foreach (JToken review in result["Reviews"].ToArray())
+                {
+                    reviews.Add(new Review
+                    {
+                        Name = review["ReviewedBy"].ToString(),
+                        Content = review["Review"].ToString(),
+                        Score = Utils.GetRestaurantField((JObject)review, "AverageScore", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
+                        ReviewDate = review["ReviewDateTime"].ToString(),
+                        VisitDate = review["VisitDateTime"].ToString(),
+                        LikelyToRecommend = Utils.GetRestaurantField((JObject)review, "Answer1", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
+                        FoodAndDrink = Utils.GetRestaurantField((JObject)review, "Answer2", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
+                        Service = Utils.GetRestaurantField((JObject)review, "Answer3", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
+                        Atmosphere = Utils.GetRestaurantField((JObject)review, "Answer4", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
+                        Value = Utils.GetRestaurantField((JObject)review, "Answer5", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
+                        ScoreNumber = review["AverageScore"].ToString()
+                    });
+                }
+                ReviewsView.ItemsSource = reviews;
+            }
         }
 
         // populates the app with all data
@@ -343,6 +351,7 @@ namespace LogoScanner
         {
             if (json["Menus"].Type == JTokenType.Null || string.IsNullOrEmpty(json["Menus"].ToString()) || !json["Menus"].Any())
             {
+                pdfViewerControl.IsVisible = false;
                 MenuLabel.Text = "No Menus Currently Available.";
             }
             else

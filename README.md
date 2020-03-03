@@ -32,7 +32,7 @@ Our project management processes such as issue tracking and milestones were cond
 * Custom Vision | image recognition and training model | https://www.customvision.ai/
 
 ## Code Base
-Xamarin facilitates the development of Android and iOS applications by providing the Xamarin.iOS and Mono.Android libraries, as shown in Figure 1. These libraries are built on top of the Mono .NET framework and bridge the gap between the application and the platform specific APIs.
+Xamarin facilitates the development of Android and iOS applications by providing the Xamarin.iOS and Mono.Android libraries. These libraries are built on top of the Mono .NET framework and bridge the gap between the application and the platform specific APIs.
 
 ### Android
 An Android application is a group of activities, navigable using intents, that provide the code that runs the application. The entry point of the application is the activity whose `MainLauncher` property is set to true, which is the `MainActivity.cs` by default. Activities that provide a view have an associated layout template that is made up of view controls. Activities and view controls reference the following resources:
@@ -51,6 +51,8 @@ The application is made up of several view controller classes and associated vie
 The entry point for the application is the `Main.cs` class that instantiates the specified `AppDelegate.cs` class, which loads the initial view controller of the default storyboard set in the `Info.plist` configuration file. Resources such as images, videos etc are referenced from the `Resources` and `Assets.xcassets` folders by view controllers and view controls. The `AppDelegate.cs` class includes delegates that handle application events and the view controllers handle the lifecycle for a given view.
 
 ![iOS Structure](https://capgemini.github.io/images/2018-08-03-designing-mobile-cross-platform-applications-with-xamarin/NativeIOSArchitecture.png)
+
+### Cross Platform Test
 
 ## External Services
 The application uses multiple 3rd party services that are essential in order for the app to run.

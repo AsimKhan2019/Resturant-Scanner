@@ -14,6 +14,7 @@ using Xamarin.Forms.Maps;
 using Xamarin.Forms.Xaml;
 using System.Net;
 using System.Reflection;
+using LogoScanner.Themes;
 
 namespace LogoScanner
 {
@@ -169,7 +170,6 @@ namespace LogoScanner
                     {
                         Text = a["Type"].ToString(),
                         Margin = new Thickness(15, 10, 0, 0),
-                        BackgroundColor = Color.White,
                         TextColor = Color.FromHex("#11a0dc"),
                         FontSize = 12,
                         CornerRadius = 18,
@@ -178,6 +178,7 @@ namespace LogoScanner
                         VerticalOptions = LayoutOptions.Start,
                         HorizontalOptions = LayoutOptions.Start
                     };
+                    button.SetDynamicResource(Button.BackgroundColorProperty, "BarBackgroundColor");
                     HomeGrid.Children.Add(button, column, 15);
                     column++;
 
@@ -422,6 +423,31 @@ namespace LogoScanner
             promotions.Clear();
             availableTimes.Clear();
             PopulateBookingTab(result);
+        }
+
+        private void ThemeButton_Clicked(object sender, EventArgs e)
+        {
+            /*if (App.Current.Resources == new LightTheme())
+            {
+                ThemeButton.Text = "Light";
+                App.Current.Resources = new DarkTheme();
+            }
+            else if (App.Current.Resources == new DarkTheme())
+            {
+                ThemeButton.Text = "Dark";
+                App.Current.Resources = new LightTheme();
+            }*/
+
+            if (ThemeButton.Text == "Light")
+            {
+                ThemeButton.Text = "Dark";
+                App.Current.Resources = new LightTheme();
+            }
+            else if (ThemeButton.Text == "Dark")
+            {
+                ThemeButton.Text = "Light";
+                App.Current.Resources = new DarkTheme();
+            }
         }
     }
 }

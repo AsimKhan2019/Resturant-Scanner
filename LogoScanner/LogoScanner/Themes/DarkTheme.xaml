@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ResourceDictionary
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="LogoScanner.Themes.DarkTheme">
+
+    <!--
+        https://material.io/design/color/dark-theme.html#custom-application
+        High-emphasis text has an opacity of 87% - #DEFFFFFF
+        Medium-emphasis text and hint text have opacities of 60% - #99FFFFFF
+        Disabled text has an opacity of 38%
+    -->
+
+    <Color x:Key="BackgroundColor">#000000</Color>
+    <Color x:Key="BarBackgroundColor">#121212</Color>
+    <Color x:Key="SelectedTabColor">#DEFFFFFF</Color>
+    <Color x:Key="TitleColor">#DEFFFFFF</Color>
+    <Color x:Key="TextColor">#99FFFFFF</Color>
+    <Color x:Key="HorizontalSpacerColor">#99FFFFFF</Color>
+    <Color x:Key="StarColor">#99FFFFFF</Color>
+    <Color x:Key="BookingTextColor">#DEFFFFFF</Color>
+
+    <Color x:Key="iOSNavigationBarColor">#121212</Color>
+    <Color x:Key="AndroidNavigationBarColor">#121212</Color>
+    <Color x:Key="iOSNavigationBarTextColor">#DEFFFFFF</Color>
+    <Color x:Key="AndroidNavigationBarTextColor">#DEFFFFFF</Color>
+
+    <!-- Implicit styles -->
+    <Style TargetType="{x:Type NavigationPage}">
+        <Setter Property="BarBackgroundColor"
+                Value="{OnPlatform iOS={StaticResource iOSNavigationBarColor},
+                                    Android={StaticResource AndroidNavigationBarColor}}" />
+        <Setter Property="BarTextColor"
+                Value="{OnPlatform iOS={StaticResource iOSNavigationBarTextColor},
+                                    Android={StaticResource AndroidNavigationBarTextColor}}" />
+    </Style>
+
+    <!--<Style x:Key="Title" TargetType="Label">
+        <Setter Property="TextColor" 
+            Value="{StaticResource TextPrimaryColor}"/>
+        <Setter Property="FontSize" Value="Large"/>
+    </Style>-->
+</ResourceDictionary>
+

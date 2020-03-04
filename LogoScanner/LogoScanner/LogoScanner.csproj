@@ -47,6 +47,7 @@
     <Folder Include="Models\" />
     <Folder Include="Helpers\" />
     <Folder Include="ViewModels\" />
+    <Folder Include="Themes\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="RestaurantPage.xaml">

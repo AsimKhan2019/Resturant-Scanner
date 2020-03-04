@@ -20,13 +20,22 @@
             HasBackgroundAnimation="True" />  
     </pages:PopupPage.Animation>  
 
-    <StackLayout VerticalOptions="Center" Padding="40,0" HorizontalOptions="FillAndExpand">  
-        <Frame CornerRadius="10" Padding="0">  
+    <StackLayout
+        VerticalOptions="Center"
+        Padding="40,0"
+        HorizontalOptions="FillAndExpand">
+        <Frame
+            CornerRadius="10"
+            Padding="0"
+            HasShadow="True"
+            BackgroundColor="{DynamicResource BarBackgroundColor}"
+            BorderColor="{DynamicResource StarColor}">
+
             <StackLayout Padding="20">  
                 <Label
                     x:Name="RatingsNameLabel"
                     Text="{Binding Name}"
-                    TextColor="Black"
+                    TextColor="{DynamicResource TitleColor}"
                     FontSize="16"
                     FontAttributes="Bold"
                     HorizontalOptions="Center" />
@@ -51,7 +60,7 @@
                             Text="Recommendation"
                             Padding="30,0,0,0"
                             FontSize="12"
-                            TextColor="DimGray"
+                            TextColor="{DynamicResource TextColor}"
                             Grid.Row="0"
                             Grid.Column="0"
                             HorizontalOptions="Start"
@@ -64,7 +73,7 @@
                             <Label
                                 FontSize="14"
                                 Text="★★★★★"
-                                TextColor="#dfe4ea"
+                                TextColor="{DynamicResource StarColor}"
                                 HorizontalOptions="Start"
                                 VerticalOptions="Center" />
                             <Label
@@ -80,7 +89,7 @@
                             Text="Food and Drink"
                             Padding="30,0,0,0"
                             FontSize="12"
-                            TextColor="DimGray"
+                            TextColor="{DynamicResource TextColor}"
                             Grid.Row="1"
                             Grid.Column="0"
                             HorizontalOptions="Start"
@@ -93,7 +102,7 @@
                             <Label
                                 FontSize="14"
                                 Text="★★★★★"
-                                TextColor="#dfe4ea"
+                                TextColor="{DynamicResource StarColor}"
                                 HorizontalOptions="Start"
                                 VerticalOptions="Center" />
                             <Label
@@ -109,7 +118,7 @@
                             Text="Service"
                             Padding="30,0,0,0"
                             FontSize="12"
-                            TextColor="DimGray"
+                            TextColor="{DynamicResource TextColor}"
                             Grid.Row="2"
                             Grid.Column="0"
                             HorizontalOptions="Start"
@@ -122,7 +131,7 @@
                             <Label
                                 FontSize="14"
                                 Text="★★★★★"
-                                TextColor="#dfe4ea"
+                                TextColor="{DynamicResource StarColor}"
                                 HorizontalOptions="Start"
                                 VerticalOptions="Center" />
                             <Label
@@ -138,7 +147,7 @@
                             Text="Atmosphere"
                             Padding="30,0,0,0"
                             FontSize="12"
-                            TextColor="DimGray"
+                            TextColor="{DynamicResource TextColor}"
                             Grid.Row="3"
                             Grid.Column="0"
                             HorizontalOptions="Start"
@@ -151,7 +160,7 @@
                             <Label
                                 FontSize="14"
                                 Text="★★★★★"
-                                TextColor="#dfe4ea"
+                                TextColor="{DynamicResource StarColor}"
                                 HorizontalOptions="Start"
                                 VerticalOptions="Center" />
                             <Label
@@ -167,7 +176,7 @@
                             Text="Value"
                             Padding="30,0,0,0"
                             FontSize="12"
-                            TextColor="DimGray"
+                            TextColor="{DynamicResource TextColor}"
                             Grid.Row="4"
                             Grid.Column="0"
                             HorizontalOptions="Start"
@@ -180,7 +189,7 @@
                             <Label
                                 FontSize="14"
                                 Text="★★★★★"
-                                TextColor="#dfe4ea"
+                                TextColor="{DynamicResource StarColor}"
                                 HorizontalOptions="Start"
                                 VerticalOptions="Center" />
                             <Label
@@ -197,7 +206,7 @@
                             Text="{Binding ScoreNumber, StringFormat='Average Rating: {0}★'}"
                             Padding="30,0,0,0"
                             FontSize="12"
-                            TextColor="Black"
+                            TextColor="{DynamicResource TitleColor}"
                             FontAttributes="Italic"
                             Grid.Row="5"
                             Grid.Column="0"

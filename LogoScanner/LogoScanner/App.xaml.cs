@@ -1,6 +1,5 @@
-﻿using System;
+﻿using LogoScanner.Themes;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace LogoScanner
 {
@@ -11,8 +10,6 @@ namespace LogoScanner
             InitializeComponent();
 
             MainPage = new MainPage();
-
-            //MainPage = new RestaurantPage("cairncrosscafe");
         }
 
         protected override void OnStart()
@@ -29,5 +26,7 @@ namespace LogoScanner
         {
             // Handle when your app resumes
         }
+
+        public Theme AppTheme { get; set; }
     }
 }

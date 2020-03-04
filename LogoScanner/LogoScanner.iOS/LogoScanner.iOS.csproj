@@ -73,6 +73,7 @@
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PageRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
@@ -199,18 +200,20 @@
   <ItemGroup>
     <BundleResource Include="Resources\NoFlashButton.png" />
     <BundleResource Include="Resources\FlashButton.png" />
-    <BundleResource Include="Resources\ReviewIcon.png" />
     <BundleResource Include="Resources\HomeIcon.png" />
     <BundleResource Include="Resources\MenuIcon.png" />
     <BundleResource Include="Resources\HomeIconFilled.png" />
     <BundleResource Include="Resources\ReviewIconFilled.png" />
     <BundleResource Include="Resources\MenuIconFilled.png" />
-    <BundleResource Include="Resources\ScanIcon.png" />
+    <BundleResource Include="Resources\ScanIconDark.png" />
     <BundleResource Include="Resources\BookingIconFilled.png" />
     <BundleResource Include="Resources\BookingIcon.png" />
     <BundleResource Include="Resources\EmailIcon.png" />
     <BundleResource Include="Resources\PhoneIcon.png" />
     <BundleResource Include="Resources\WebsiteIcon.png" />
+    <BundleResource Include="Resources\ScanIcon.png" />
+    <BundleResource Include="Resources\ResDiary.png" />
+    <BundleResource Include="Resources\ResDiaryDark.png" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\TakePhotoButton.png" />

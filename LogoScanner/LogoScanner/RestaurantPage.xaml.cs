@@ -265,7 +265,7 @@ namespace LogoScanner
                 NoAvailabilityLabel.IsVisible = true;
             }
 
-            Promotions.GetAvailablePromotions(url, token, r, capacity);
+            Promotions.GetAvailablePromotions(r, capacity);
 
             AvailabilityView.ItemsSource = availableTimes;
         }
@@ -423,31 +423,6 @@ namespace LogoScanner
             promotions.Clear();
             availableTimes.Clear();
             PopulateBookingTab(result);
-        }
-
-        private void ThemeButton_Clicked(object sender, EventArgs e)
-        {
-            /*if (App.Current.Resources == new LightTheme())
-            {
-                ThemeButton.Text = "Light";
-                App.Current.Resources = new DarkTheme();
-            }
-            else if (App.Current.Resources == new DarkTheme())
-            {
-                ThemeButton.Text = "Dark";
-                App.Current.Resources = new LightTheme();
-            }*/
-
-            if (ThemeButton.Text == "Light")
-            {
-                ThemeButton.Text = "Dark";
-                App.Current.Resources = new LightTheme();
-            }
-            else if (ThemeButton.Text == "Dark")
-            {
-                ThemeButton.Text = "Light";
-                App.Current.Resources = new DarkTheme();
-            }
         }
     }
 }

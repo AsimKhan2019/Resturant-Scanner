@@ -20,18 +20,8 @@
     Title="Logo Scanner"
     BackgroundColor="{DynamicResource BackgroundColor}"
     BarBackgroundColor="{DynamicResource BackgroundColor}"
-    UnselectedTabColor="{DynamicResource TextColor}"
     SelectedTabColor="{DynamicResource SelectedTabColor}"
     Visual="Material">
-
-    <TabbedPage.ToolbarItems>
-        <ToolbarItem
-            x:Name="ThemeButton"
-            Text="Dark"
-            Order="Primary"
-            Priority="0"
-            Clicked="ThemeButton_Clicked" />
-    </TabbedPage.ToolbarItems>
 
     <ContentPage
         x:Name="HomeTab"
@@ -135,7 +125,7 @@
                         Grid.Column="2"
                         Margin="0,5,0,0"
                         HorizontalOptions="Center"
-                        Source="https://www.resdiary.com/Content/Images/powered-by-resdiary.png"
+                        Source="{DynamicResource ResDiaryLogo}"
                         VerticalOptions="Start"
                         WidthRequest="130" />
 
@@ -349,7 +339,7 @@
 
                     <floating:FloatingActionButton
                         x:Name="FloatingButton1"
-                        Image="ScanIcon.png"
+                        Image="{DynamicResource ScanIcon}"
                         Grid.Row="15"
                         Grid.Column="2"
                         ButtonColor="#11a0dc"
@@ -387,7 +377,7 @@
                         BackgroundColor="{DynamicResource BackgroundColor}">
                         <ActivityIndicator
                             x:Name="Indicator1"
-                            BackgroundColor="White"
+                            BackgroundColor="{DynamicResource BackgroundColor}"
                             Color="#11a0dc"
                             VerticalOptions="Center"
                             HorizontalOptions="Center"
@@ -438,7 +428,7 @@
                 ItemsSource="{Binding Availability}"
                 ShowArrows="False"
                 ShowIndicators="True"
-                IndicatorsTintColor="Gray"
+                IndicatorsTintColor="{DynamicResource TextColor}"
                 CurrentPageIndicatorTintColor="#11a0dc"
                 IndicatorsShape="Circle"
                 HorizontalOptions="FillAndExpand"
@@ -453,9 +443,11 @@
                             <yummy:PancakeView
                                 CornerRadius="32"
                                 HeightRequest="400"
-                                BackgroundColor="White"
+                                BackgroundColor="{DynamicResource BarBackgroundColor}"
                                 HasShadow="True"
-                                Grid.Row="0">
+                                Grid.Row="0"
+                                BorderColor="{DynamicResource BorderColor}"
+                                BorderThickness="1">
 
                                 <StackLayout
                                     VerticalOptions="Fill"
@@ -463,27 +455,27 @@
                                     <yummy:PancakeView
                                         VerticalOptions="FillAndExpand"
                                         CornerRadius="32"
-                                        BackgroundGradientStartColor="#11a0dc"
-                                        BackgroundGradientEndColor="#dfe4ea">
+                                        BackgroundGradientStartColor="{DynamicResource BookingGradientStart}"
+                                        BackgroundGradientEndColor="{DynamicResource BookingGradientEnd}">
                                         <Grid>
                                             <StackLayout>
                                                 <Label
                                                     Text="{Binding Date}"
-                                                    TextColor="{DynamicResource BookingTextColor}"
+                                                    TextColor="{DynamicResource BookingTitleColor}"
                                                     Margin="24,24,24,0"
                                                     FontSize="18"
                                                     HorizontalOptions="EndAndExpand" />
 
                                                 <Label
                                                     Text="{Binding Time, StringFormat='{0:N}'}"
-                                                    TextColor="{DynamicResource BookingTextColor}"
+                                                    TextColor="{DynamicResource BookingTitleColor}"
                                                     Margin="24,8,0,0"
                                                     FontSize="40"
                                                     FontAttributes="Bold" />
 
                                                 <Label
                                                     Text="AVAILABLE AREAS"
-                                                    TextColor="{DynamicResource BookingTextColor}"
+                                                    TextColor="{DynamicResource BookingTitleColor}"
                                                     FontAttributes="Bold"
                                                     Margin="24,12,0,0"
                                                     FontSize="15" />
@@ -496,7 +488,7 @@
 
                                                 <Label
                                                     Text="PROMOTIONS"
-                                                    TextColor="{DynamicResource BookingTextColor}"
+                                                    TextColor="{DynamicResource BookingTitleColor}"
                                                     FontAttributes="Bold"
                                                     Margin="24,12,0,0"
                                                     FontSize="15" />
@@ -578,7 +570,7 @@
 
             <floating:FloatingActionButton
                 x:Name="FloatingButton2"
-                Image="ScanIcon.png"
+                Image="{DynamicResource ScanIcon}"
                 HorizontalOptions="EndAndExpand"
                 VerticalOptions="EndAndExpand"
                 ButtonColor="#11a0dc"
@@ -616,7 +608,7 @@
                 BackgroundColor="{DynamicResource BackgroundColor}">
                 <ActivityIndicator
                     x:Name="Indicator2"
-                    BackgroundColor="White"
+                    BackgroundColor="{DynamicResource BackgroundColor}"
                     Color="#11a0dc"
                     VerticalOptions="Center"
                     HorizontalOptions="Center"
@@ -665,7 +657,7 @@
                 ButtonColor="#11a0dc"
                 Clicked="FloatingButton_Clicked"
                 HorizontalOptions="EndAndExpand"
-                Image="ScanIcon.png"
+                Image="{DynamicResource ScanIcon}"
                 VerticalOptions="EndAndExpand">
 
                 <floating:FloatingActionButton.Margin>
@@ -698,7 +690,7 @@
                 BackgroundColor="{DynamicResource BackgroundColor}">
                 <ActivityIndicator
                     x:Name="Indicator3"
-                    BackgroundColor="White"
+                    BackgroundColor="{DynamicResource BackgroundColor}"
                     Color="#11a0dc"
                     VerticalOptions="Center"
                     HorizontalOptions="Center"
@@ -799,7 +791,7 @@
                     ButtonColor="#11a0dc"
                     Clicked="FloatingButton_Clicked"
                     HorizontalOptions="EndAndExpand"
-                    Image="ScanIcon.png"
+                    Image="{DynamicResource ScanIcon}"
                     VerticalOptions="EndAndExpand">
 
                     <floating:FloatingActionButton.Margin>
@@ -832,7 +824,7 @@
                     BackgroundColor="{DynamicResource BackgroundColor}">
                     <ActivityIndicator
                         x:Name="Indicator4"
-                        BackgroundColor="White"
+                        BackgroundColor="{DynamicResource BackgroundColor}"
                         Color="#11a0dc"
                         VerticalOptions="Center"
                         HorizontalOptions="Center"

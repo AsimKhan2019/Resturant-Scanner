@@ -16216,58 +16216,67 @@ namespace LogoScanner.Droid
 			public const int Prev = 2131165581;
 			
 			// aapt resource value: 0x7F07018E
-			public const int ReviewIcon = 2131165582;
+			public const int ResDiary = 2131165582;
 			
 			// aapt resource value: 0x7F07018F
-			public const int ReviewIconFilled = 2131165583;
+			public const int ResDiaryDark = 2131165583;
 			
 			// aapt resource value: 0x7F070190
-			public const int roundedbg = 2131165584;
+			public const int ReviewIcon = 2131165584;
 			
 			// aapt resource value: 0x7F070191
-			public const int roundedbgdark = 2131165585;
+			public const int ReviewIconFilled = 2131165585;
 			
 			// aapt resource value: 0x7F070192
-			public const int ScanIcon = 2131165586;
+			public const int roundedbg = 2131165586;
 			
 			// aapt resource value: 0x7F070193
-			public const int Search = 2131165587;
+			public const int roundedbgdark = 2131165587;
 			
 			// aapt resource value: 0x7F070194
-			public const int sfprogressbar_determinate_linear = 2131165588;
+			public const int ScanIcon = 2131165588;
 			
 			// aapt resource value: 0x7F070195
-			public const int sfprogressbar_indeterminate_circular = 2131165589;
+			public const int ScanIconDark = 2131165589;
 			
 			// aapt resource value: 0x7F070196
-			public const int sfprogressbar_indeterminate_linear = 2131165590;
+			public const int Search = 2131165590;
 			
 			// aapt resource value: 0x7F070197
-			public const int SignaturePadBottomCorner = 2131165591;
+			public const int sfprogressbar_determinate_linear = 2131165591;
 			
 			// aapt resource value: 0x7F070198
-			public const int SignaturepadRoundedCorners = 2131165592;
+			public const int sfprogressbar_indeterminate_circular = 2131165592;
 			
 			// aapt resource value: 0x7F070199
-			public const int SignaturePadTopCorner = 2131165593;
+			public const int sfprogressbar_indeterminate_linear = 2131165593;
 			
 			// aapt resource value: 0x7F07019A
-			public const int TakePhotoButton = 2131165594;
+			public const int SignaturePadBottomCorner = 2131165594;
 			
 			// aapt resource value: 0x7F07019B
-			public const int tooltip_frame_dark = 2131165595;
+			public const int SignaturepadRoundedCorners = 2131165595;
 			
 			// aapt resource value: 0x7F07019C
-			public const int tooltip_frame_light = 2131165596;
+			public const int SignaturePadTopCorner = 2131165596;
 			
 			// aapt resource value: 0x7F07019D
-			public const int Up = 2131165597;
+			public const int TakePhotoButton = 2131165597;
 			
 			// aapt resource value: 0x7F07019E
-			public const int Viewmode = 2131165598;
+			public const int tooltip_frame_dark = 2131165598;
 			
 			// aapt resource value: 0x7F07019F
-			public const int WebsiteIcon = 2131165599;
+			public const int tooltip_frame_light = 2131165599;
+			
+			// aapt resource value: 0x7F0701A0
+			public const int Up = 2131165600;
+			
+			// aapt resource value: 0x7F0701A1
+			public const int Viewmode = 2131165601;
+			
+			// aapt resource value: 0x7F0701A2
+			public const int WebsiteIcon = 2131165602;
 			
 			static Drawable()
 			{

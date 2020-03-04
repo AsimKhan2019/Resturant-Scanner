@@ -11,6 +11,7 @@
         Disabled text has an opacity of 38%
     -->
 
+    <!-- Colors -->
     <Color x:Key="BackgroundColor">#000000</Color>
     <Color x:Key="BarBackgroundColor">#121212</Color>
     <Color x:Key="SelectedTabColor">#DEFFFFFF</Color>
@@ -18,7 +19,14 @@
     <Color x:Key="TextColor">#99FFFFFF</Color>
     <Color x:Key="HorizontalSpacerColor">#99FFFFFF</Color>
     <Color x:Key="StarColor">#99FFFFFF</Color>
+
+    <Color x:Key="BorderColor">#61FFFFFF</Color>
+
+    <Color x:Key="BookingTitleColor">#DEFFFFFF</Color>
     <Color x:Key="BookingTextColor">#DEFFFFFF</Color>
+
+    <Color x:Key="BookingGradientStart">#11a0dc</Color>
+    <Color x:Key="BookingGradientEnd">#121212</Color>
 
     <Color x:Key="iOSNavigationBarColor">#121212</Color>
     <Color x:Key="AndroidNavigationBarColor">#121212</Color>
@@ -35,10 +43,9 @@
                                     Android={StaticResource AndroidNavigationBarTextColor}}" />
     </Style>
 
-    <!--<Style x:Key="Title" TargetType="Label">
-        <Setter Property="TextColor" 
-            Value="{StaticResource TextPrimaryColor}"/>
-        <Setter Property="FontSize" Value="Large"/>
-    </Style>-->
+    <!-- Icons -->
+    <x:String x:Key="ScanIcon">ScanIconDark.png</x:String>
+    <x:String x:Key="ResDiaryLogo">ResDiaryDark.png</x:String>
+
 </ResourceDictionary>
 

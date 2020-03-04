@@ -1,5 +1,4 @@
-﻿using LogoScanner.Themes;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
 namespace LogoScanner
 {
@@ -26,7 +25,5 @@ namespace LogoScanner
         {
             // Handle when your app resumes
         }
-
-        public Theme AppTheme { get; set; }
     }
 }

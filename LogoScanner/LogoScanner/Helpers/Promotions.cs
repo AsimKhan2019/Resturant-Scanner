@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
-using Xamarin.Forms;
 
 namespace LogoScanner.Helpers
 {
     public class Promotions
     {
-        public static void GetAvailablePromotions(string url, string token, JObject r, int capacity)
+        public static void GetAvailablePromotions(JObject r, int capacity)
         {
             RestaurantPage.availableTimes.Clear();
             foreach (var day in r["AvailableDates"])
@@ -45,7 +43,7 @@ namespace LogoScanner.Helpers
                             availableAreas.Remove(availableAreas.Length - 2, 2);
 
                             string available = "Book to avoid disappointment";
-                            string colour = "Gray";
+                            string colour = "LightSlateGray";
 
                             if (capacity == 0)
                             {

@@ -267,11 +267,17 @@ namespace LogoScanner.iOS
             }
             else
             {
-                var results = await CustomVisionService.PredictImageContentsAsync(image, (new CancellationTokenSource()).Token);
-
-                if (results.ToString().Length > 0)
+                var results = await CustomVisionService.PredictImageContentsAsync(image);
+                String resultInString = results.ToString();
+                
+                if (resultInString.Length > 0)
                 {
-                    var navigationPage = new NavigationPage(new RestaurantPage(results.ToString()));
+                    if (Geolocation.HasMoreOptions(resultInString))
+                    {
+                        DialogService.ShowLoading("More Restaurants Available");
+                        resultInString = await Geolocation.GetCloserOptionAsync(resultInString);
+                    }
+                    var navigationPage = new NavigationPage(new RestaurantPage(resultInString));
 
                     await App.Current.MainPage.Navigation.PushModalAsync(navigationPage, false);
 

@@ -11,7 +11,7 @@ using Xamarin.Forms;
 
 namespace LogoScanner
 {
-     public class Requests
+     public static class Requests
     {
         // structure to store request status and corresponding message
         public struct Request

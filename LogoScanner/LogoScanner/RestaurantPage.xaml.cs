@@ -317,7 +317,7 @@ namespace LogoScanner
 
             PopulateHomeTab(result);
             PopulateBookingTab(result);
-            SetMenu(consumer);
+            setMenu(consumer);
             PopulateReviewsTab(result);
 
             Indicator1.IsVisible = false;
@@ -360,7 +360,7 @@ namespace LogoScanner
             {
                 var pdfUrl = json["Menus"][0]["StorageUrl"].ToString();
                 //Provide the PDF document URL in the below overload. 
-                Stream documentStream = DownloadPdfStream(pdfUrl, "menu");
+                Stream documentStream = DownloadPdfStream(pdfUrl);
                 //Loads the PDF document as Stream to PDF viewer control 
                 pdfViewerControl.LoadDocument(documentStream);
 

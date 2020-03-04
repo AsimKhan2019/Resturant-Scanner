@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
+using Xamarin.Forms;
 
 namespace LogoScanner.Helpers
 {
@@ -101,6 +102,8 @@ namespace LogoScanner.Helpers
             StringBuilder currentTime = new StringBuilder();
             StringBuilder allPromotions = new StringBuilder();
 
+            string style = "<span style =\"font-size: 14; color: white; font-family: Roboto-Regular;\">";
+
             IFormatProvider provider = CultureInfo.InvariantCulture;
 
             currentTime.Append(current.Date);
@@ -132,10 +135,7 @@ namespace LogoScanner.Helpers
 
                     if (res1 >= 0 && res2 <= 0)
                     {
-                        allPromotions.Append(p.Name);
-                        allPromotions.Append("\n");
-                        allPromotions.Append(p.Description);
-                        allPromotions.Append("\n\n");
+                        allPromotions.Append(style + "<b>" + p.Name + "</b> - " + p.Description + "</span><br>");
                     }
                 }
             }
@@ -143,7 +143,7 @@ namespace LogoScanner.Helpers
             if (allPromotions.Length > 0)
                 current.Promotions = allPromotions.ToString();
             else
-                current.Promotions = "No Promotions Available";
+                current.Promotions = style + "No Promotions Available</span>";
 
             return current;
         }

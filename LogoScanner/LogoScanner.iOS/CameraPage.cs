@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.Threading;
 using AVFoundation;
 using CoreGraphics;
 using Foundation;
@@ -8,7 +7,6 @@ using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 using Plugin.Connectivity;
-using Rectangle = System.Drawing.Rectangle;
 
 /*
  * AVFoundation Reference: http://red-glasses.com/index.php/tutorials/ios4-take-photos-with-live-video-preview-using-avfoundation/
@@ -106,7 +104,8 @@ namespace LogoScanner.iOS
 
                 // crop photo, first change it to UIImage, then crop it
                 UIImage img = new UIImage(jpegImageAsNsData);
-                img = CropImage(img, (int)View.Bounds.GetMidX() + 40, (int)View.Bounds.GetMidY() + 225, 600, 600); // values in rectange are the starting point and then width and height
+                img = CropImage(img, (int)View.Bounds.GetMidX() + 40, (int)View.Bounds.GetMidY() + 225, 600, 600); // values in rectangle are the starting point and then width and height
+
                 byte[] CroppedImage;
 
                 // change UIImage to byte array
@@ -269,7 +268,7 @@ namespace LogoScanner.iOS
             {
                 var results = await CustomVisionService.PredictImageContentsAsync(image);
                 String resultInString = results.ToString();
-                
+
                 if (resultInString.Length > 0)
                 {
                     if (Geolocation.HasMoreOptions(resultInString))
@@ -279,9 +278,9 @@ namespace LogoScanner.iOS
                     }
                     var navigationPage = new NavigationPage(new RestaurantPage(resultInString));
 
-                    await App.Current.MainPage.Navigation.PushModalAsync(navigationPage, false);
-
                     DialogService.HideLoading();
+
+                    await App.Current.MainPage.Navigation.PushModalAsync(navigationPage, true);
 
                     var error = new NSError();
                     var device = captureDeviceInput.Device;
@@ -292,9 +291,10 @@ namespace LogoScanner.iOS
                 else
                 {
                     DialogService.HideLoading();
-                    await App.Current.MainPage.DisplayAlert("Restaurant Not Found", "Please Re-Scan the Logo", "OK");
+                    await App.Current.MainPage.DisplayAlert("Restaurant Not Found", "Please rescan the Logo", "OK");
                 }
             }
         }
     }
 }
+ 

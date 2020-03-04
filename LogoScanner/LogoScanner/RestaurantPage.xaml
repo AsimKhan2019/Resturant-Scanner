@@ -10,7 +10,6 @@
     xmlns:local="clr-namespace:LogoScanner"
     xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
     xmlns:syncfusion="clr-namespace:Syncfusion.SfPdfViewer.XForms;assembly=Syncfusion.SfPdfViewer.XForms"
-    xmlns:xfProxy="clr-namespace:Xamarin.Forms.Proxy;assembly=Xamarin.Forms.Core.UnitTests"
     xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     Title="Logo Scanner"
     android:TabbedPage.IsSwipePagingEnabled="False"

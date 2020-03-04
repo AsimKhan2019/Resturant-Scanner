@@ -323,8 +323,9 @@ namespace LogoScanner
             var client = new WebClient();
 
             //Returns the PDF document stream from the given URL 
-            return client.OpenRead(uri);
-
+            Stream pdf = client.OpenRead(uri);
+            client.Dispose();
+            return pdf;
         }
         //method to get menu for restaurant
         private void setMenu(JObject json)
@@ -337,9 +338,9 @@ namespace LogoScanner
             {
                 var pdfUrl = json["Menus"][0]["StorageUrl"].ToString();
                 //Provide the PDF document URL in the below overload. 
-                Stream documenStream = DownloadPdfStream(pdfUrl, "Sample");
+                Stream documentStream = DownloadPdfStream(pdfUrl, "menu");
                 //Loads the PDF document as Stream to PDF viewer control 
-                pdfViewerControl.LoadDocument(documenStream);
+                pdfViewerControl.LoadDocument(documentStream);
 
 
             }

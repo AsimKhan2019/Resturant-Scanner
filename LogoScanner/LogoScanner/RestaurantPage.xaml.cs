@@ -14,6 +14,7 @@ using Xamarin.Forms.Maps;
 using Xamarin.Forms.Xaml;
 using System.Net;
 using System.Reflection;
+using System.Globalization;
 
 namespace LogoScanner
 {
@@ -45,7 +46,7 @@ namespace LogoScanner
             }
 
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(line["SyncfusionAPI"]["key"].ToString());
-
+            
             InitializeComponent();
             this.micrositename = micrositename;
 
@@ -94,7 +95,7 @@ namespace LogoScanner
             var request = await Requests.ConnectToResDiary(); // connect to resdiary api
             token = request.message;
 
-            while (request.message.Equals("Unable to Connect to Internet"))
+            while (request.message.Equals("Unable to Connect to Internet", StringComparison.InvariantCulture))
             {
                 await DisplayAlert("Error", request.message, "OK"); // displays an error message to the user
 
@@ -104,18 +105,17 @@ namespace LogoScanner
                 }
             }
 
-            if (request.status.Equals("Success")) // if connection to api is successful
+            if (request.status.Equals("Success", StringComparison.InvariantCulture)) // if connection to api is successful
             {
                 JArray hasSummary = await Requests.APICallGet("https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename + "/HasMicrositeSummary", request.message);
                 JObject result = (JObject)hasSummary.First;
                 if (result["Result"] != null)
                 {
                     var datestart = DateTime.Now;
-                    var datestartstr = datestart.ToString("yyyy-MM-ddTHH:mm:ss");
+                    var datestartstr = datestart.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.CurrentCulture);
 
                     var dateend = DateTime.Now.AddDays(7.00);
-                    var dateendstr = dateend.ToString("yyyy-MM-ddTHH:mm:ss");
-
+                    var dateendstr = dateend.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.CurrentCulture);
                     GetRestaurantData("https://api.rdbranch.com/api/ConsumerApi/v1/MicrositeSummaryDetails?micrositeNames=" + this.micrositename + "&startDate=" + datestartstr + "&endDate=" + dateendstr + "&channelCodes=ONLINE&numberOfReviews=5", request.message);
                 }
             }
@@ -136,10 +136,10 @@ namespace LogoScanner
             CuisinesLabel.Text = Utils.GetRestaurantField(result, "CuisineTypes");
 
             int price = 0;
-            if (result["PricePoint"].Type != JTokenType.Null) price = Int32.Parse(result["PricePoint"].ToString());
+            if (result["PricePoint"].Type != JTokenType.Null) price = Int32.Parse(result["PricePoint"].ToString(), CultureInfo.CurrentCulture);
             PriceLabel.Text = Utils.GetRestaurantField(result, "PricePoint", "£", price);
 
-            int stars = (int)Math.Round(Double.Parse(result["AverageReviewScore"].ToString()), 0, MidpointRounding.AwayFromZero);
+            int stars = (int)Math.Round(Double.Parse(result["AverageReviewScore"].ToString(), CultureInfo.CurrentCulture), 0, MidpointRounding.AwayFromZero);
             StarLabel.Text = Utils.GetRestaurantField(result, "AverageReviewScore", "★", stars);
 
             DescriptionLabel.Text = Utils.GetRestaurantField(consumer, "ShortDescription");
@@ -185,8 +185,8 @@ namespace LogoScanner
                 }
             }
 
-            double latitude = Convert.ToDouble(result["Latitude"].ToString());
-            double longitude = Convert.ToDouble(result["Longitude"].ToString());
+            double latitude = Convert.ToDouble(result["Latitude"].ToString(), CultureInfo.CurrentCulture);
+            double longitude = Convert.ToDouble(result["Longitude"].ToString(), CultureInfo.CurrentCulture);
             string name = result["Name"].ToString();
 
             var pin = new Pin()
@@ -339,15 +339,17 @@ namespace LogoScanner
         //method do download pdf from url
         public Stream DownloadPdfStream(string URL)
         {
+
             var uri = new System.Uri(URL);
             var client = new WebClient();
 
-            //Returns the PDF document stream from the given URL
-            return client.OpenRead(uri);
+            //Returns the PDF document stream from the given URL 
+            Stream pdf = client.OpenRead(uri);
+            client.Dispose();
+            return pdf;
         }
-
         //method to get menu for restaurant
-        private void SetMenu(JObject json)
+        private void setMenu(JObject json)
         {
             if (json["Menus"].Type == JTokenType.Null || string.IsNullOrEmpty(json["Menus"].ToString()) || !json["Menus"].Any())
             {
@@ -357,10 +359,12 @@ namespace LogoScanner
             else
             {
                 var pdfUrl = json["Menus"][0]["StorageUrl"].ToString();
-                //Provide the PDF document URL in the below overload.
-                Stream documenStream = DownloadPdfStream(pdfUrl);
-                //Loads the PDF document as Stream to PDF viewer control
-                pdfViewerControl.LoadDocument(documenStream);
+                //Provide the PDF document URL in the below overload. 
+                Stream documentStream = DownloadPdfStream(pdfUrl, "menu");
+                //Loads the PDF document as Stream to PDF viewer control 
+                pdfViewerControl.LoadDocument(documentStream);
+
+
             }
         }
 
@@ -401,7 +405,7 @@ namespace LogoScanner
             await Navigation.PushPopupAsync(new ReviewsPopup(review));
         }
 
-        public void BookTimeSlot(Object Sender, EventArgs e)
+        public void bookTimeSlot(Object Sender, EventArgs e)
         {
             Button b = (Button)Sender;
             string dateTime = b.BindingContext as string;
@@ -411,13 +415,13 @@ namespace LogoScanner
         private void OnSliderValueChanged(object sender, ValueChangedEventArgs args)
         {
             int value = (int)args.NewValue;
-            sliderValueLabel.Text = "Party Size of " + value.ToString();
+            sliderValueLabel.Text = "Party Size of " + value.ToString(CultureInfo.CurrentCulture);
         }
 
-        private void ChangePartySize(object sender, EventArgs e)
+        private void changePartySize(object sender, EventArgs e)
         {
             partysize = (int)partySizeSlider.Value;
-            sliderValueLabel.Text = "Party Size of " + partysize.ToString();
+            sliderValueLabel.Text = "Party Size of " + partysize.ToString(CultureInfo.CurrentCulture);
 
             promotions.Clear();
             availableTimes.Clear();

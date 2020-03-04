@@ -149,6 +149,7 @@ namespace LogoScanner
             {
                 await Navigation.PushPopupAsync(new AboutPopup(Utils.GetRestaurantField(consumer, "Description")));
             };
+            ViewMoreLabel.GestureRecognizers.Clear();
             ViewMoreLabel.GestureRecognizers.Add(viewMoreTap);
 
             OpeningInformationLabel.Text = Utils.GetRestaurantField(consumer, "OpeningInformation").Replace("<br/>", Environment.NewLine);

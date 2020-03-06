@@ -445,9 +445,7 @@
                                 HeightRequest="400"
                                 BackgroundColor="{DynamicResource BarBackgroundColor}"
                                 HasShadow="True"
-                                Grid.Row="0"
-                                BorderColor="{DynamicResource BorderColor}"
-                                BorderThickness="1">
+                                Grid.Row="0">
 
                                 <StackLayout
                                     VerticalOptions="Fill"
@@ -723,7 +721,7 @@
                     Grid.Row="0"
                     HorizontalOptions="Center"
                     VerticalOptions="Center"
-                    TextColor="{DynamicResource TitleColor}" />
+                    TextColor="{DynamicResource TitleColor}"/>
 
                 <ListView
                     x:Name="ReviewsView"
@@ -766,7 +764,7 @@
 
                                     <Label
                                         Text="{Binding Content}"
-                                        TextColor="{DynamicResource TitleColor}" />
+                                        TextColor="{DynamicResource TitleColor}"/>
 
                                     <Label
                                         Font="Italic, 12"

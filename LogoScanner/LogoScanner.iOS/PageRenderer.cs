@@ -35,7 +35,7 @@ namespace LogoScanner.iOS
 
         private void SetTheme()
         {
-            if (UIDevice.CurrentDevice.CheckSystemVersion(12, 0))
+            if (UIDevice.CurrentDevice.CheckSystemVersion(12, 0)) // support iOS 13 and up
             {
                 if (TraitCollection.UserInterfaceStyle == UIUserInterfaceStyle.Dark)
                     App.Current.Resources = new DarkTheme();

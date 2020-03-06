@@ -27,8 +27,7 @@
         <Frame
             CornerRadius="10"
             Padding="0"
-            BackgroundColor="{DynamicResource BarBackgroundColor}"
-            BorderColor="{DynamicResource StarColor}">
+            BackgroundColor="{DynamicResource BarBackgroundColor}" >
 
             <StackLayout Padding="20">
                 <Label

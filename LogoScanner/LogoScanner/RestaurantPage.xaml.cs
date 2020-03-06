@@ -15,6 +15,8 @@ using Xamarin.Forms.Xaml;
 using System.Net;
 using System.Net.Http;
 using System.Reflection;
+using Syncfusion.Pdf.Parsing;
+using Syncfusion.Pdf;
 
 namespace LogoScanner
 {
@@ -317,13 +319,13 @@ namespace LogoScanner
         }
 
         //method do download pdf from url
-        public Stream DownloadPdfStream(string URL, string documentName)
+        public byte[] DownloadPdfStream(string URL, string documentName)
         {
             var uri = new System.Uri(URL);
             var client = new WebClient();
 
-            //Returns the PDF document stream from the given URL
-            return client.OpenRead(uri);
+            //Returns the PDF document from the given URL
+            return client.DownloadData(uri);
         }
 
         //method to get menu for restaurant
@@ -335,11 +337,44 @@ namespace LogoScanner
             }
             else
             {
-                var pdfUrl = json["Menus"][0]["StorageUrl"].ToString();
-                //Provide the PDF document URL in the below overload.
-                Stream documenStream = DownloadPdfStream(pdfUrl, "Sample");
-                //Loads the PDF document as Stream to PDF viewer control
-                pdfViewerControl.LoadDocument(documenStream);
+                int menuLength = json["Menus"].Count();
+                //Create a new PDF document
+                PdfDocument document = new PdfDocument();
+                var listMenu = new List<byte[]>();
+
+                for (int i = 0; i < menuLength; i++)
+                {
+                    //Provide the PDF document URL in the below overload.
+                    var pdfUrl = json["Menus"][i]["StorageUrl"].ToString();
+
+                    try
+                    {
+                        //Returns the PDF document from the given URL
+                        var documenStream = DownloadPdfStream(pdfUrl, "Sample");
+                        listMenu.Add(documenStream);
+                    }
+                    catch (WebException wex)
+                    {
+                    }
+                }
+
+                PdfMergeOptions mergeOptions = new PdfMergeOptions();
+
+                //Enable Optimize Resources
+                mergeOptions.OptimizeResources = true;
+
+                //Merge the documents
+                PdfDocumentBase.Merge(document, mergeOptions, listMenu.ToArray());
+
+                //Save the PDF document to stream
+                MemoryStream stream = new MemoryStream();
+
+                document.Save(stream);
+
+                //Close the documents
+                document.Close(true);
+
+                pdfViewerControl.LoadDocument(stream);
             }
         }
 

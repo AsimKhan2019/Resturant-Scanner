@@ -2,8 +2,7 @@
 <ResourceDictionary
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="LogoScanner.Themes.DarkTheme"
-    xmlns:syncTheme="clr-namespace:Syncfusion.XForms.Themes;assembly=Syncfusion.Core.XForms">
+    x:Class="LogoScanner.Themes.DarkTheme">
 
     <!--
         https://material.io/design/color/dark-theme.html#custom-application
@@ -11,15 +10,6 @@
         Medium-emphasis text and hint text have opacities of 60% - #99FFFFFF
         Disabled text has an opacity of 38%
     -->
-
-
-    <ResourceDictionary.MergedDictionaries>
-        <!-- Theme resource dictionary -->
-        <syncTheme:DarkTheme />
-        <!-- Control style resource dictionaries -->
-        <!--<gauge:SfCircularGaugeStyles />
-        <buttons:SfButtonStyles />-->
-    </ResourceDictionary.MergedDictionaries>
 
     <!-- Colors -->
     <Color x:Key="BackgroundColor">#000000</Color>
@@ -29,16 +19,6 @@
     <Color x:Key="TextColor">#99FFFFFF</Color>
     <Color x:Key="HorizontalSpacerColor">#99FFFFFF</Color>
     <Color x:Key="StarColor">#99FFFFFF</Color>
-
-    <Color x:Key="BorderColor">#61FFFFFF</Color>
-
-    <Color x:Key="BookingTitleColor">#DEFFFFFF</Color>
-    <Color x:Key="BookingTextColor">#DEFFFFFF</Color>
-
-    <Color x:Key="BookingGradientStart">#121212</Color>
-    <Color x:Key="BookingGradientEnd">#11a0dc</Color>
-    <!--<Color x:Key="BookingGradientStart">#11a0dc</Color>-->
-    <!--<Color x:Key="BookingGradientEnd">#121212</Color>-->
 
     <Color x:Key="iOSNavigationBarColor">#121212</Color>
     <Color x:Key="AndroidNavigationBarColor">#121212</Color>
@@ -58,6 +38,6 @@
     <!-- Icons -->
     <x:String x:Key="ScanIcon">ScanIconDark.png</x:String>
     <x:String x:Key="ResDiaryLogo">ResDiaryDark.png</x:String>
-
+    <x:String x:Key="RightArrow">RightArrowDark.png</x:String>
 </ResourceDictionary>
 

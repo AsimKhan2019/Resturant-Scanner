@@ -1,5 +1,4 @@
-﻿using CarouselView.FormsPlugin.iOS;
-using Foundation;
+﻿using Foundation;
 using ImageCircle.Forms.Plugin.iOS;
 using SuaveControls.FloatingActionButton.iOS.Renderers;
 using UIKit;
@@ -29,7 +28,6 @@ namespace LogoScanner.iOS
             Syncfusion.SfPdfViewer.XForms.iOS.SfPdfDocumentViewRenderer.Init();
             Syncfusion.SfRangeSlider.XForms.iOS.SfRangeSliderRenderer.Init();
             ImageCircleRenderer.Init();
-            CarouselViewRenderer.Init();
             FloatingActionButtonRenderer.InitRenderer();
 
             LoadApplication(new App());

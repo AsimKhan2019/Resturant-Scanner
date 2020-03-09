@@ -14,7 +14,6 @@ using Xamarin.Forms.Maps;
 using Xamarin.Forms.Xaml;
 using System.Net;
 using System.Reflection;
-using LogoScanner.Themes;
 
 namespace LogoScanner
 {
@@ -225,7 +224,6 @@ namespace LogoScanner
             JObject r = await Requests.APICallPost(url, token, dateStartStr, dateEndStr, partysize);
 
             var capacity = 0;
-
             var checkAvail = r["AvailableDates"].ToString();
 
             if (r != null && checkAvail.Length > 2)
@@ -402,27 +400,12 @@ namespace LogoScanner
             await Navigation.PushPopupAsync(new ReviewsPopup(review));
         }
 
-        public void BookTimeSlot(Object Sender, EventArgs e)
+        // event triggered when a timeslot is tapped
+        private void AvailabilityView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            Button b = (Button)Sender;
-            string dateTime = b.BindingContext as string;
+            var slot = e.Item as AvailableTime;
+            string dateTime = slot.DateTime as string;
             Booking.Makebooking(micrositename, dateTime.Split(',')[0], dateTime.Split(',')[1], partysize);
-        }
-
-        private void OnSliderValueChanged(object sender, ValueChangedEventArgs args)
-        {
-            int value = (int)args.NewValue;
-            sliderValueLabel.Text = "Party Size of " + value.ToString();
-        }
-
-        private void ChangePartySize(object sender, EventArgs e)
-        {
-            partysize = (int)partySizeSlider.Value;
-            sliderValueLabel.Text = "Party Size of " + partysize.ToString();
-
-            promotions.Clear();
-            availableTimes.Clear();
-            PopulateBookingTab(result);
         }
     }
 }

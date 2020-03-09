@@ -39,26 +39,18 @@ namespace LogoScanner.Helpers
                             foreach (var availArea in time["AvailableAreaIds"])
                             {
                                 availableAreas.Append(areas[availArea.ToString()]);
-                                availableAreas.Append(", ");
+                                availableAreas.Append(" • ");
                             }
                             availableAreas.Remove(availableAreas.Length - 2, 2);
 
-                            string available = "Book to avoid disappointment";
-                            string colour = "LightSlateGray";
-
-                            if (capacity == 0)
-                            {
-                                available = "AVAILABLE NOW";
-                                colour = "LimeGreen";
-                            }
+                            DateTime date = Convert.ToDateTime(day["Date"].ToString());
 
                             AvailableTime at = new AvailableTime
                             {
-                                Date = Convert.ToDateTime(day["Date"].ToString()).Date.ToString("dd/MM/yyyy"),
+                                Date = date.Date.ToString("dd/MM/yyyy"),
                                 Time = timeSlot.ToString().Substring(0, 5),
                                 RestaurantAreas = availableAreas.ToString().Replace("\t", ""),
-                                Available = available,
-                                Colour = colour
+                                StringDate = date.Day + " " + CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(date.Month) + " " + date.Year
                             };
 
                             GetValidPromotions(at);
@@ -101,8 +93,6 @@ namespace LogoScanner.Helpers
             StringBuilder currentTime = new StringBuilder();
             StringBuilder allPromotions = new StringBuilder();
 
-            string style = "<span style =\"font-size: 14; color: white; font-family: Roboto-Regular;\">";
-
             IFormatProvider provider = CultureInfo.InvariantCulture;
 
             currentTime.Append(current.Date);
@@ -134,7 +124,7 @@ namespace LogoScanner.Helpers
 
                     if (res1 >= 0 && res2 <= 0)
                     {
-                        allPromotions.Append(style + "<b>" + p.Name + "</b> - " + p.Description + "</span><br>");
+                        allPromotions.Append(p.Name + " • " + p.Description + "\n");
                     }
                 }
             }
@@ -142,7 +132,7 @@ namespace LogoScanner.Helpers
             if (allPromotions.Length > 0)
                 current.Promotions = allPromotions.ToString();
             else
-                current.Promotions = style + "No Promotions Available</span>";
+                current.Promotions = "No Promotions Available";
 
             return current;
         }

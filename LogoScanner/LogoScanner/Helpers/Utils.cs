@@ -21,7 +21,7 @@ namespace LogoScanner.Helpers
                 foreach (string a in arr)
                 {
                     builder.Append(a);
-                    if (arr.IndexOf(a) != arr.Count() - 1) builder.Append(", ");
+                    if (arr.IndexOf(a) != arr.Count() - 1) builder.Append(" • ");
                 }
 
                 return builder.ToString();

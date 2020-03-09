@@ -4,16 +4,14 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
-    xmlns:carousel="clr-namespace:CarouselView.FormsPlugin.Abstractions;assembly=CarouselView.FormsPlugin.Abstractions"
     xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
     xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
     xmlns:floating="clr-namespace:SuaveControls.Views;assembly=SuaveControls.FloatingActionButton"
     xmlns:local="clr-namespace:LogoScanner"
-    xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     xmlns:syncfusion="clr-namespace:Syncfusion.SfPdfViewer.XForms;assembly=Syncfusion.SfPdfViewer.XForms"
     xmlns:xfProxy="clr-namespace:Xamarin.Forms.Proxy;assembly=Xamarin.Forms.Core.UnitTests"
 
-    android:TabbedPage.IsSwipePagingEnabled="False"
+    android:TabbedPage.IsSwipePagingEnabled="True"
     android:TabbedPage.ToolbarPlacement="Bottom"
     NavigationPage.HasNavigationBar="False"
 
@@ -399,18 +397,12 @@
 
         <Grid VerticalOptions="FillAndExpand">
             <Grid.RowDefinitions>
-                <RowDefinition Height="83*" />
-                <!-- Booking Scroll View -->
-                <RowDefinition Height="4*" />
-                <!-- Party Size Label-->
-                <RowDefinition Height="13*" />
-                <!-- Slider + Floating Action Button-->
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
             <Label
@@ -418,153 +410,106 @@
                 Text="No Tables Currently Available."
                 HorizontalOptions="Center"
                 VerticalOptions="Center"
-                Grid.Column="0"
-                Grid.ColumnSpan="3"
+                Grid.Row="1"
                 IsVisible="False"
                 TextColor="{DynamicResource TitleColor}" />
 
-            <carousel:CarouselViewControl
+            <StackLayout Orientation="Horizontal">
+                <Button
+                    HorizontalOptions="Start"
+                    BackgroundColor="{DynamicResource BarBackgroundColor}"
+                    Grid.Row="0"
+                    Margin="15,15,0,0"
+                    CornerRadius="20"
+                    TextColor="#11a0dc"
+                    FontSize="12"
+                    BorderColor="#11a0dc"
+                    BorderWidth="2"
+                    HeightRequest="40"
+                    Text="3 PERSONS" />
+
+                <Button
+                    HorizontalOptions="Start"
+                    BackgroundColor="{DynamicResource BarBackgroundColor}"
+                    Grid.Row="0"
+                    Margin="15,15,0,0"
+                    CornerRadius="20"
+                    TextColor="#11a0dc"
+                    FontSize="12"
+                    BorderColor="#11a0dc"
+                    BorderWidth="2"
+                    HeightRequest="40"
+                    Text="3 SLOTS" />
+            </StackLayout>
+
+            <ListView
                 x:Name="AvailabilityView"
                 ItemsSource="{Binding Availability}"
-                ShowArrows="False"
-                ShowIndicators="True"
-                IndicatorsTintColor="{DynamicResource TextColor}"
-                CurrentPageIndicatorTintColor="#11a0dc"
-                IndicatorsShape="Circle"
-                HorizontalOptions="FillAndExpand"
-                VerticalOptions="FillAndExpand"
-                Grid.Row="0"
-                Grid.Column="0"
-                Grid.ColumnSpan="3">
-
-                <carousel:CarouselViewControl.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Padding="32,64">
-                            <yummy:PancakeView
-                                CornerRadius="32"
-                                HeightRequest="400"
-                                BackgroundColor="{DynamicResource BarBackgroundColor}"
-                                HasShadow="True"
-                                Grid.Row="0">
-
-                                <StackLayout
-                                    VerticalOptions="Fill"
-                                    HorizontalOptions="Fill">
-                                    <yummy:PancakeView
-                                        VerticalOptions="FillAndExpand"
-                                        CornerRadius="32"
-                                        BackgroundGradientStartColor="{DynamicResource BookingGradientStart}"
-                                        BackgroundGradientEndColor="{DynamicResource BookingGradientEnd}">
-                                        <Grid>
-                                            <StackLayout>
-                                                <Label
-                                                    Text="{Binding Date}"
-                                                    TextColor="{DynamicResource BookingTitleColor}"
-                                                    Margin="24,24,24,0"
-                                                    FontSize="18"
-                                                    HorizontalOptions="EndAndExpand" />
-
-                                                <Label
-                                                    Text="{Binding Time, StringFormat='{0:N}'}"
-                                                    TextColor="{DynamicResource BookingTitleColor}"
-                                                    Margin="24,8,0,0"
-                                                    FontSize="40"
-                                                    FontAttributes="Bold" />
-
-                                                <Label
-                                                    Text="AVAILABLE AREAS"
-                                                    TextColor="{DynamicResource BookingTitleColor}"
-                                                    FontAttributes="Bold"
-                                                    Margin="24,12,0,0"
-                                                    FontSize="15" />
-
-                                                <Label
-                                                    Text="{Binding RestaurantAreas}"
-                                                    TextColor="{DynamicResource BookingTextColor}"
-                                                    Margin="24,0,0,0"
-                                                    FontSize="14" />
-
-                                                <Label
-                                                    Text="PROMOTIONS"
-                                                    TextColor="{DynamicResource BookingTitleColor}"
-                                                    FontAttributes="Bold"
-                                                    Margin="24,12,0,0"
-                                                    FontSize="15" />
-
-                                                <Label
-                                                    Text="{Binding Promotions}"
-                                                    TextType="Html"
-                                                    TextColor="{DynamicResource BookingTextColor}"
-                                                    Margin="24,0,0,0"
-                                                    FontSize="14" />
-                                            </StackLayout>
-                                        </Grid>
-                                    </yummy:PancakeView>
-
-                                    <StackLayout
-                                        BackgroundColor="{DynamicResource BarBackgroundColor}"
-                                        VerticalOptions="FillAndExpand"
-                                        Margin="0,-32,0,32"
-                                        HeightRequest="50">
-
-                                        <StackLayout
-                                            VerticalOptions="CenterAndExpand"
-                                            Margin="0,32,0,0">
-
-                                            <Button
-                                                BackgroundColor="{DynamicResource BarBackgroundColor}"
-                                                Padding="20,0"
-                                                CornerRadius="20"
-                                                TextColor="#11a0dc"
-                                                FontSize="12"
-                                                BorderColor="#11a0dc"
-                                                BorderWidth="2"
-                                                HeightRequest="40"
-                                                Text="BOOK NOW"
-                                                HorizontalOptions="Center"
-                                                Clicked="BookTimeSlot"
-                                                BindingContext="{Binding DateTime}" />
-
-                                            <Label
-                                                x:Name="BookingLabel"
-                                                TextColor="{Binding Colour}"
-                                                Text="{Binding Available}"
-                                                FontSize="11"
-                                                FontAttributes="Bold"
-                                                Margin="0,8,0,0"
-                                                HorizontalOptions="Center" />
-                                        </StackLayout>
-                                    </StackLayout>
-                                </StackLayout>
-                            </yummy:PancakeView>
-                        </Grid>
-                    </DataTemplate>
-                </carousel:CarouselViewControl.ItemTemplate>
-            </carousel:CarouselViewControl>
-
-            <Label
-                x:Name="sliderValueLabel"
-                Text="Party Size of 3"
-                Grid.Row="2"
-                Grid.Column="0"
-                Grid.ColumnSpan="3"
-                HorizontalOptions="Center"
-                VerticalOptions="Center" />
-
-            <Slider
-                x:Name="partySizeSlider"
-                Maximum="10.5"
-                Minimum="1"
-                Value="3"
-                ValueChanged="OnSliderValueChanged"
-                DragCompleted="ChangePartySize"
                 Grid.Row="1"
-                Grid.Column="0"
-                Grid.ColumnSpan="3"
-                MinimumTrackColor="#11a0dc"
-                ThumbColor="#11a0dc"
-                VerticalOptions="Start"
-                Margin="15,0,15,0" />
+                HasUnevenRows="True"
+                HorizontalOptions="Fill"
+                VerticalOptions="Fill"
+                SelectionMode="None"
+                SeparatorVisibility="Default"
+                ItemTapped="AvailabilityView_ItemTapped"
+                SeparatorColor="{DynamicResource HorizontalSpacerColor}"
+                Margin="0,10,0,0">
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Padding="15">
+                                <Label
+                                    FontSize="17"
+                                    Text="{Binding StringDate}"
+                                    TextColor="{DynamicResource TextColor}"
+                                    HorizontalOptions="EndAndExpand"
+                                    Margin="0,0,10,0" />
+
+                                <StackLayout Orientation="Horizontal">
+                                    <StackLayout Orientation="Vertical">
+                                        <Label
+                                            Font="Bold, 40"
+                                            Text="{Binding Time}"
+                                            TextColor="{DynamicResource SelectedTabColor}"
+                                            Margin="0,-15,0,0" />
+
+                                        <Label
+                                            Text="AVAILABLE AREAS"
+                                            TextColor="{DynamicResource TitleColor}"
+                                            FontAttributes="Bold"
+                                            FontSize="14" />
+
+                                        <Label
+                                            Text="{Binding RestaurantAreas}"
+                                            TextColor="{DynamicResource TextColor}"
+                                            FontSize="13"
+                                            Margin="0,0,0,10"/>
+
+                                        <Label
+                                            Text="PROMOTIONS"
+                                            TextColor="{DynamicResource TitleColor}"
+                                            FontAttributes="Bold"
+                                            FontSize="14" />
+
+                                        <Label
+                                            Text="{Binding Promotions}"
+                                            TextColor="{DynamicResource TextColor}"
+                                            FontSize="13" />
+                                    </StackLayout>
+
+                                    <Image
+                                        Source="{DynamicResource RightArrow}"
+                                        HorizontalOptions="EndAndExpand"
+                                        VerticalOptions="Center"
+                                        HeightRequest="20"
+                                        WidthRequest="20" />
+                                </StackLayout>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
 
             <floating:FloatingActionButton
                 x:Name="FloatingButton2"
@@ -572,8 +517,7 @@
                 HorizontalOptions="EndAndExpand"
                 VerticalOptions="EndAndExpand"
                 ButtonColor="#11a0dc"
-                Grid.Row="2"
-                Grid.Column="2"
+                Grid.Row="1"
                 Clicked="FloatingButton_Clicked">
 
                 <floating:FloatingActionButton.Margin>
@@ -600,8 +544,8 @@
 
             <Frame
                 x:Name="Frame2"
-                Grid.RowSpan="3"
-                Grid.ColumnSpan="3"
+                Grid.RowSpan="2"
+                Grid.ColumnSpan="1"
                 IsVisible="True"
                 BackgroundColor="{DynamicResource BackgroundColor}">
                 <ActivityIndicator
@@ -730,17 +674,15 @@
                     ItemsSource="{Binding Reviews}"
                     HorizontalOptions="Fill"
                     VerticalOptions="Fill"
-                    ItemTapped="ReviewsView_ItemTapped"
+                    SeparatorVisibility="Default"
                     SelectionMode="None"
-                    SeparatorColor="{DynamicResource HorizontalSpacerColor}"
-                    BackgroundColor="{DynamicResource BackgroundColor}">
+                    ItemTapped="ReviewsView_ItemTapped"
+                    SeparatorColor="{DynamicResource HorizontalSpacerColor}">
 
-                    <ListView.ItemTemplate BackgroundColor="{DynamicResource BackgroundColor}">
+                    <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <StackLayout
-                                    Padding="15"
-                                    BackgroundColor="{DynamicResource BackgroundColor}">
+                                <StackLayout Padding="15">
                                     <Label
                                         Font="Bold, 16"
                                         Text="{Binding Name}"

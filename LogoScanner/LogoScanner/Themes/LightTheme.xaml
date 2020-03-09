@@ -13,14 +13,6 @@
     <Color x:Key="HorizontalSpacerColor">#dfe4ea</Color>
     <Color x:Key="StarColor">#dfe4ea</Color>
 
-    <Color x:Key="BorderColor"></Color>
-
-    <Color x:Key="BookingTitleColor">#FFFFFF</Color>
-    <Color x:Key="BookingTextColor">#FFFFFF</Color>
-
-    <Color x:Key="BookingGradientStart">#11a0dc</Color>
-    <Color x:Key="BookingGradientEnd">#dfe4ea</Color>
-
     <Color x:Key="iOSNavigationBarColor">#11a0dc</Color>
     <Color x:Key="AndroidNavigationBarColor">#11a0dc</Color>
     <Color x:Key="iOSNavigationBarTextColor">#FFFFFF</Color>
@@ -36,9 +28,8 @@
                                     Android={StaticResource AndroidNavigationBarTextColor}}" />
     </Style>
 
-
     <!-- Icons -->
     <x:String x:Key="ScanIcon">ScanIcon.png</x:String>
     <x:String x:Key="ResDiaryLogo">ResDiary.png</x:String>
-
+    <x:String x:Key="RightArrow">RightArrow.png</x:String>
 </ResourceDictionary>

@@ -32,7 +32,6 @@ namespace LogoScanner.Droid
 
             ImageCircleRenderer.Init();
             UserDialogs.Init(this);
-            CarouselViewRenderer.Init();
             FloatingActionButtonRenderer.Initialize();
 
             CrossCurrentActivity.Current.Init(this, savedInstanceState);

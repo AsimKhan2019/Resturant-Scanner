@@ -13,7 +13,6 @@ using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Xamarin.Forms.Xaml;
 using System.Net;
-using System.Net.Http;
 using System.Reflection;
 using Syncfusion.Pdf.Parsing;
 using Syncfusion.Pdf;
@@ -48,7 +47,7 @@ namespace LogoScanner
             }
 
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(line["SyncfusionAPI"]["key"].ToString());
-
+            
             InitializeComponent();
             this.micrositename = micrositename;
 
@@ -58,9 +57,9 @@ namespace LogoScanner
                 var tab = this.Children.IndexOf(this.CurrentPage);
 
                 HomeTab.IconImageSource = "HomeIcon.png";
+                BookingTab.IconImageSource = "BookingIcon.png";
                 MenuTab.IconImageSource = "MenuIcon.png";
                 ReviewsTab.IconImageSource = "ReviewIcon.png";
-                BookingTab.IconImageSource = "BookingIcon.png";
 
                 switch (tab)
                 {
@@ -97,7 +96,7 @@ namespace LogoScanner
             var request = await Requests.ConnectToResDiary(); // connect to resdiary api
             token = request.message;
 
-            while (request.message.Equals("Unable to Connect to Internet"))
+            while (request.message.Equals("Unable to Connect to Internet", StringComparison.InvariantCulture))
             {
                 await DisplayAlert("Error", request.message, "OK"); // displays an error message to the user
 
@@ -107,17 +106,17 @@ namespace LogoScanner
                 }
             }
 
-            if (request.status.Equals("Success")) // if connection to api is successful
+            if (request.status.Equals("Success", StringComparison.InvariantCulture)) // if connection to api is successful
             {
                 JArray hasSummary = await Requests.APICallGet("https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename + "/HasMicrositeSummary", request.message);
                 JObject result = (JObject)hasSummary.First;
                 if (result["Result"] != null)
                 {
                     var datestart = DateTime.Now;
-                    var datestartstr = datestart.ToString("yyyy-MM-ddTHH:mm:ss");
+                    var datestartstr = datestart.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.CurrentCulture);
 
                     var dateend = DateTime.Now.AddDays(7.00);
-                    var dateendstr = dateend.ToString("yyyy-MM-ddTHH:mm:ss");
+                    var dateendstr = dateend.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.CurrentCulture);
                     GetRestaurantData("https://api.rdbranch.com/api/ConsumerApi/v1/MicrositeSummaryDetails?micrositeNames=" + this.micrositename + "&startDate=" + datestartstr + "&endDate=" + dateendstr + "&channelCodes=ONLINE&numberOfReviews=5", request.message);
                 }
             }
@@ -130,16 +129,18 @@ namespace LogoScanner
         // populates the home tab
         private void PopulateHomeTab(JObject result)
         {
-            //Parse the API Call and split the JSon object into the various variables.
             Logo.Source = Utils.GetRestaurantField(result, "LogoUrl");
+            Logo.WidthRequest = Application.Current.MainPage.Height / 8;
+            Logo.HeightRequest = Application.Current.MainPage.Height / 8;
+
             NameLabel.Text = Utils.GetRestaurantField(result, "Name");
             CuisinesLabel.Text = Utils.GetRestaurantField(result, "CuisineTypes");
 
             int price = 0;
-            if (result["PricePoint"].Type != JTokenType.Null) price = Int32.Parse(result["PricePoint"].ToString());
+            if (result["PricePoint"].Type != JTokenType.Null) price = Int32.Parse(result["PricePoint"].ToString(), CultureInfo.CurrentCulture);
             PriceLabel.Text = Utils.GetRestaurantField(result, "PricePoint", "£", price);
 
-            int stars = (int)Math.Round(Double.Parse(result["AverageReviewScore"].ToString()), 0, MidpointRounding.AwayFromZero);
+            int stars = (int)Math.Round(Double.Parse(result["AverageReviewScore"].ToString(), CultureInfo.CurrentCulture), 0, MidpointRounding.AwayFromZero);
             StarLabel.Text = Utils.GetRestaurantField(result, "AverageReviewScore", "★", stars);
 
             DescriptionLabel.Text = Utils.GetRestaurantField(consumer, "ShortDescription");
@@ -149,6 +150,7 @@ namespace LogoScanner
             {
                 await Navigation.PushPopupAsync(new AboutPopup(Utils.GetRestaurantField(consumer, "Description")));
             };
+            ViewMoreLabel.GestureRecognizers.Clear();
             ViewMoreLabel.GestureRecognizers.Add(viewMoreTap);
 
             OpeningInformationLabel.Text = Utils.GetRestaurantField(consumer, "OpeningInformation").Replace("<br/>", Environment.NewLine);
@@ -172,7 +174,7 @@ namespace LogoScanner
                         BackgroundColor = Color.White,
                         TextColor = Color.FromHex("#11a0dc"),
                         FontSize = 12,
-                        CornerRadius = 20,
+                        CornerRadius = 18,
                         BorderWidth = 2,
                         BorderColor = Color.FromHex("#11a0dc"),
                         VerticalOptions = LayoutOptions.Start,
@@ -185,8 +187,8 @@ namespace LogoScanner
                 }
             }
 
-            double latitude = Convert.ToDouble(result["Latitude"].ToString());
-            double longitude = Convert.ToDouble(result["Longitude"].ToString());
+            double latitude = Convert.ToDouble(result["Latitude"].ToString(), CultureInfo.CurrentCulture);
+            double longitude = Convert.ToDouble(result["Longitude"].ToString(), CultureInfo.CurrentCulture);
             string name = result["Name"].ToString();
 
             var pin = new Pin()
@@ -269,11 +271,6 @@ namespace LogoScanner
             AvailabilityView.ItemsSource = availableTimes;
         }
 
-        // populates the menu tab
-        private void PopulateMenuTab()
-        {
-            SetMenu(consumer);
-        }
 
         // populates the reviews tab
         private void PopulateReviewsTab(JObject result)
@@ -281,24 +278,32 @@ namespace LogoScanner
             overallReviews = "Reviews (" + Utils.GetRestaurantField(result, "NumberOfReviews") + ")";
             reviews.Clear();
 
-            foreach (JToken review in result["Reviews"].ToArray())
+            if (int.Parse(Utils.GetRestaurantField(result, "NumberOfReviews")) == 0)
             {
-                reviews.Add(new Review
-                {
-                    Name = review["ReviewedBy"].ToString(),
-                    Content = review["Review"].ToString(),
-                    Score = Utils.GetRestaurantField((JObject)review, "AverageScore", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
-                    ReviewDate = review["ReviewDateTime"].ToString(),
-                    VisitDate = review["VisitDateTime"].ToString(),
-                    LikelyToRecommend = Utils.GetRestaurantField((JObject)review, "Answer1", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
-                    FoodAndDrink = Utils.GetRestaurantField((JObject)review, "Answer2", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
-                    Service = Utils.GetRestaurantField((JObject)review, "Answer3", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
-                    Atmosphere = Utils.GetRestaurantField((JObject)review, "Answer4", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
-                    Value = Utils.GetRestaurantField((JObject)review, "Answer5", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
-                    ScoreNumber = review["AverageScore"].ToString()
-                });
+                ReviewsView.IsVisible = false;
+                ReviewsLabel.Text = "No Reviews Currently Available.";
             }
-            ReviewsView.ItemsSource = reviews;
+            else
+            {
+                foreach (JToken review in result["Reviews"].ToArray())
+                {
+                    reviews.Add(new Review
+                    {
+                        Name = review["ReviewedBy"].ToString(),
+                        Content = review["Review"].ToString(),
+                        Score = Utils.GetRestaurantField((JObject)review, "AverageScore", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
+                        ReviewDate = review["ReviewDateTime"].ToString(),
+                        VisitDate = review["VisitDateTime"].ToString(),
+                        LikelyToRecommend = Utils.GetRestaurantField((JObject)review, "Answer1", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
+                        FoodAndDrink = Utils.GetRestaurantField((JObject)review, "Answer2", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
+                        Service = Utils.GetRestaurantField((JObject)review, "Answer3", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
+                        Atmosphere = Utils.GetRestaurantField((JObject)review, "Answer4", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
+                        Value = Utils.GetRestaurantField((JObject)review, "Answer5", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
+                        ScoreNumber = review["AverageScore"].ToString()
+                    });
+                }
+                ReviewsView.ItemsSource = reviews;
+            }
         }
 
         // populates the app with all data
@@ -314,13 +319,29 @@ namespace LogoScanner
 
             PopulateHomeTab(result);
             PopulateBookingTab(result);
-            PopulateMenuTab();
+            setMenu(consumer);
             PopulateReviewsTab(result);
+
+            Indicator1.IsVisible = false;
+            Indicator2.IsVisible = false;
+            Indicator3.IsVisible = false;
+            Indicator4.IsVisible = false;
+
+            Indicator1.IsRunning = false;
+            Indicator2.IsRunning = false;
+            Indicator3.IsRunning = false;
+            Indicator4.IsRunning = false;
+
+            Frame1.IsVisible = false;
+            Frame2.IsVisible = false;
+            Frame3.IsVisible = false;
+            Frame4.IsVisible = false;
         }
 
         //method do download pdf from url
         public byte[] DownloadPdfStream(string URL, string documentName)
         {
+
             var uri = new System.Uri(URL);
             var client = new WebClient();
 
@@ -329,10 +350,11 @@ namespace LogoScanner
         }
 
         //method to get menu for restaurant
-        private void SetMenu(JObject json)
+        private void setMenu(JObject json)
         {
             if (json["Menus"].Type == JTokenType.Null || string.IsNullOrEmpty(json["Menus"].ToString()) || !json["Menus"].Any())
             {
+                pdfViewerControl.IsVisible = false;
                 MenuLabel.Text = "No Menus Currently Available.";
             }
             else
@@ -415,7 +437,7 @@ namespace LogoScanner
             await Navigation.PushPopupAsync(new ReviewsPopup(review));
         }
 
-        public void BookTimeSlot(Object Sender, EventArgs e)
+        public void bookTimeSlot(Object Sender, EventArgs e)
         {
             Button b = (Button)Sender;
             string dateTime = b.BindingContext as string;
@@ -425,13 +447,13 @@ namespace LogoScanner
         private void OnSliderValueChanged(object sender, ValueChangedEventArgs args)
         {
             int value = (int)args.NewValue;
-            sliderValueLabel.Text = "Party Size of " + value.ToString();
+            sliderValueLabel.Text = "Party Size of " + value.ToString(CultureInfo.CurrentCulture);
         }
 
-        private void ChangePartySize(object sender, EventArgs e)
+        private void changePartySize(object sender, EventArgs e)
         {
             partysize = (int)partySizeSlider.Value;
-            sliderValueLabel.Text = "Party Size of " + partysize.ToString();
+            sliderValueLabel.Text = "Party Size of " + partysize.ToString(CultureInfo.CurrentCulture);
 
             promotions.Clear();
             availableTimes.Clear();
@@ -439,3 +461,4 @@ namespace LogoScanner
         }
     }
 }
+ 

@@ -240,14 +240,14 @@ namespace LogoScanner.Droid
 
                     DialogService.HideLoading();
                     camera.StartPreview();
-                    await App.Current.MainPage.Navigation.PushModalAsync(navigationPage, false);
+                    await App.Current.MainPage.Navigation.PushModalAsync(navigationPage, true);
                 }
                 else
                 {
                     DialogService.HideLoading();
                     camera.StartPreview();
 
-                    await App.Current.MainPage.DisplayAlert("Restaurant Not Found", "Please Re-Scan the Logo", "OK");
+                    await App.Current.MainPage.DisplayAlert("Restaurant Not Found", "Please recan the Logo", "OK");
                 }
             }
         }

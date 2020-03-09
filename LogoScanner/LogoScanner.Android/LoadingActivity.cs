@@ -26,5 +26,9 @@ namespace LogoScanner.Droid
             base.OnResume();
             StartActivity(new Intent(Application.Context, typeof(MainActivity)));
         }
+
+        public override void OnBackPressed()
+        {
+        }
     }
 }

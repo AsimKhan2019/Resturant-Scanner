@@ -6,16 +6,19 @@
     xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
     xmlns:carousel="clr-namespace:CarouselView.FormsPlugin.Abstractions;assembly=CarouselView.FormsPlugin.Abstractions"
     xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
+    xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
     xmlns:floating="clr-namespace:SuaveControls.Views;assembly=SuaveControls.FloatingActionButton"
     xmlns:local="clr-namespace:LogoScanner"
-    xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
-    xmlns:syncfusion="clr-namespace:Syncfusion.SfPdfViewer.XForms;assembly=Syncfusion.SfPdfViewer.XForms"
     xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    xmlns:syncfusion="clr-namespace:Syncfusion.SfPdfViewer.XForms;assembly=Syncfusion.SfPdfViewer.XForms"
+
+    android:TabbedPage.IsSwipePagingEnabled="True"
+    android:TabbedPage.ToolbarPlacement="Bottom"
+    NavigationPage.HasNavigationBar="False"
+
     Title="Logo Scanner"
-    android:TabbedPage.IsSwipePagingEnabled="False"
     BackgroundColor="White"
     BarBackgroundColor="White"
-    NavigationPage.HasNavigationBar="False"
     SelectedTabColor="#11a0dc"
     Visual="Material">
 
@@ -28,10 +31,10 @@
             <StackLayout>
                 <Grid x:Name="HomeGrid" VerticalOptions="FillAndExpand">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="16*" />
-                        <!--  map  -->
-                        <RowDefinition Height="14*" />
-                        <!--  logo  -->
+                        <RowDefinition Height="15*" />
+                        <!-- map 18 -->
+                        <RowDefinition Height="12*" />
+                        <!-- logo 15 -->
                         <RowDefinition Height="Auto" />
                         <!--  name / ResDiary  -->
                         <RowDefinition Height="Auto" />
@@ -387,20 +390,27 @@
         BackgroundColor="White"
         IconImageSource="BookingIcon.png">
 
+        <ContentPage.ToolbarItems>
+            <ToolbarItem
+            x:Name="PartySizeButton"
+            Text="Change Group Size"
+            Order="Secondary"
+            Priority="0"
+            Clicked="OpenPicker" />
+        </ContentPage.ToolbarItems>
+
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="83*" />
+                <RowDefinition Height="87*" />
                 <!--  Booking Scroll View  -->
-                <RowDefinition Height="4*" />
-                <!--  Party Size Label  -->
                 <RowDefinition Height="13*" />
-                <!--  Slider + Floating Action Button  -->
+                <!--  Floating Action Button  -->
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="33*" />
-                <ColumnDefinition Width="33*" />
-                <ColumnDefinition Width="33*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
 
             <Label
@@ -410,12 +420,13 @@
                 FontSize="Small"
                 HorizontalOptions="Center"
                 IsVisible="False"
-                Text="No Tables Currently Available."
+                Text="No Tables Currently Available For Selected Group Size"
                 VerticalOptions="Center" />
 
             <carousel:CarouselViewControl
                 x:Name="AvailabilityView"
                 Grid.Row="0"
+                Grid.RowSpan="1"
                 Grid.Column="0"
                 Grid.ColumnSpan="3"
                 CurrentPageIndicatorTintColor="#11a0dc"
@@ -497,17 +508,26 @@
 
                                         <StackLayout Margin="0,32,0,0" VerticalOptions="CenterAndExpand">
 
+                                            <Label
+                                                    x:Name="PartySizeLabel"
+                                                    Text="{Binding PartySize, StringFormat='Book a table for {0}'}"
+                                                    FontSize="11"
+                                                    FontAttributes="Bold"
+                                                    Margin="0,8,0,0"
+                                                    VerticalOptions="Start"
+                                                    HorizontalOptions="Center" />
+
                                             <Button
-                                                Padding="20,0"
                                                 BackgroundColor="White"
-                                                BindingContext="{Binding DateTime}"
+                                                CornerRadius="20"
+                                                TextColor="#11a0dc"
+                                                FontSize="12"
                                                 BorderColor="#11a0dc"
                                                 BorderWidth="2"
-                                                Clicked="bookTimeSlot"
-                                                CornerRadius="20"
-                                                FontSize="12"
-                                                HeightRequest="40"
-                                                HorizontalOptions="Center" />
+                                                Text="BOOK NOW"
+                                                HorizontalOptions="CenterAndExpand"
+                                                Clicked="BookTimeSlot"
+                                                BindingContext="{Binding DateTime}" />
 
                                             <Label
                                                 x:Name="BookingLabel"
@@ -526,32 +546,16 @@
                 </carousel:CarouselViewControl.ItemTemplate>
             </carousel:CarouselViewControl>
 
-            <Label
-                x:Name="sliderValueLabel"
-                Grid.Row="1"
-                Grid.Column="0"
-                Grid.ColumnSpan="3"
-                HorizontalOptions="Center"
-                Text="Party Size of 3"
-                VerticalOptions="Center" />
-
-            <Slider
-                x:Name="partySizeSlider"
-                Grid.Row="1"
-                Grid.Column="0"
-                Grid.ColumnSpan="3"
-                Margin="15,0,15,0"
-                DragCompleted="changePartySize"
-                Maximum="10.5"
-                Minimum="1"
-                MinimumTrackColor="#11a0dc"
-                ThumbColor="#11a0dc"
-                ValueChanged="OnSliderValueChanged"
-                VerticalOptions="Start" />
+            <Picker
+                x:Name="PartySizePicker"
+                Title="Change Group Size"
+                TitleColor="#11a0dc"
+                SelectedIndexChanged="ChangePartySize"
+                IsVisible="False" />
 
             <floating:FloatingActionButton
                 x:Name="FloatingButton2"
-                Grid.Row="2"
+                Grid.Row="1"
                 Grid.Column="2"
                 ButtonColor="#11a0dc"
                 Clicked="FloatingButton_Clicked"

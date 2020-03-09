@@ -9,4 +9,5 @@ public class AvailableTime
     public string Available { get; set; }
     public string Colour { get; set; }
     public string DateTime { get { return Date + "," + Time; } }
+    public string PartySize { get; set; }
 }

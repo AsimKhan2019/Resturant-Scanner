@@ -16,6 +16,7 @@ using System.Net;
 using System.Reflection;
 using Syncfusion.Pdf.Parsing;
 using Syncfusion.Pdf;
+using System.Globalization;
 
 namespace LogoScanner
 {
@@ -31,7 +32,7 @@ namespace LogoScanner
         private string token;
         private JObject consumer;
         private JObject result;
-        private int partysize = 3;
+        public static int partysize;
 
         public RestaurantPage(string micrositename)
         {
@@ -47,7 +48,7 @@ namespace LogoScanner
             }
 
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(line["SyncfusionAPI"]["key"].ToString());
-            
+
             InitializeComponent();
             this.micrositename = micrositename;
 
@@ -110,6 +111,7 @@ namespace LogoScanner
             {
                 JArray hasSummary = await Requests.APICallGet("https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename + "/HasMicrositeSummary", request.message);
                 JObject result = (JObject)hasSummary.First;
+
                 if (result["Result"] != null)
                 {
                     var datestart = DateTime.Now;
@@ -117,6 +119,20 @@ namespace LogoScanner
 
                     var dateend = DateTime.Now.AddDays(7.00);
                     var dateendstr = dateend.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.CurrentCulture);
+
+                    JArray setupData = await Requests.APICallGet("https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename + "/Setup?date=" + datestartstr + "&channelCode=ONLINE", token);
+                    var data = (JObject)setupData.First;
+
+                    if (data["OnlinePartySizeDefault"] != null)
+                    {
+                        partysize = (int)data["OnlinePartySizeDefault"];
+                    }
+                    else
+                    {
+                        partysize = 3;
+                    }
+
+                    SetUpPicker(data);
                     GetRestaurantData("https://api.rdbranch.com/api/ConsumerApi/v1/MicrositeSummaryDetails?micrositeNames=" + this.micrositename + "&startDate=" + datestartstr + "&endDate=" + dateendstr + "&channelCodes=ONLINE&numberOfReviews=5", request.message);
                 }
             }
@@ -231,6 +247,9 @@ namespace LogoScanner
 
             if (r != null && checkAvail.Length > 2)
             {
+                AvailabilityView.IsVisible = true;
+                NoAvailabilityLabel.IsVisible = false;
+
                 if (promotion_ids.Length > 0)
                 {
                     string promotions_url = "https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename + "/Promotion?";
@@ -270,7 +289,6 @@ namespace LogoScanner
 
             AvailabilityView.ItemsSource = availableTimes;
         }
-
 
         // populates the reviews tab
         private void PopulateReviewsTab(JObject result)
@@ -341,7 +359,6 @@ namespace LogoScanner
         //method do download pdf from url
         public byte[] DownloadPdfStream(string URL, string documentName)
         {
-
             var uri = new System.Uri(URL);
             var client = new WebClient();
 
@@ -437,28 +454,55 @@ namespace LogoScanner
             await Navigation.PushPopupAsync(new ReviewsPopup(review));
         }
 
-        public void bookTimeSlot(Object Sender, EventArgs e)
+        public void BookTimeSlot(Object Sender, EventArgs e)
         {
             Button b = (Button)Sender;
             string dateTime = b.BindingContext as string;
             Booking.Makebooking(micrositename, dateTime.Split(',')[0], dateTime.Split(',')[1], partysize);
         }
 
-        private void OnSliderValueChanged(object sender, ValueChangedEventArgs args)
+        private void SetUpPicker(JObject data)
         {
-            int value = (int)args.NewValue;
-            sliderValueLabel.Text = "Party Size of " + value.ToString(CultureInfo.CurrentCulture);
+            var AcceptableCoversList = new List<int>();
+
+            if (data["MaxOnlinePartySize"] != null && data["MinOnlinePartySize"] != null)
+            {
+                for (int i = (int)data["MinOnlinePartySize"]; i <= (int)data["MaxOnlinePartySize"]; i++)
+                {
+                    AcceptableCoversList.Add(i);
+                }
+            }
+            else
+            {
+                for (int i = 1; i <= 10; i++)
+                {
+                    AcceptableCoversList.Add(i);
+                }
+            }
+
+            PartySizePicker.ItemsSource = AcceptableCoversList;
+
+            PartySizePicker.IsVisible = false;
         }
 
-        private void changePartySize(object sender, EventArgs e)
+        private void ChangePartySize(object sender, EventArgs e)
         {
-            partysize = (int)partySizeSlider.Value;
-            sliderValueLabel.Text = "Party Size of " + partysize.ToString(CultureInfo.CurrentCulture);
-
+            if (PartySizePicker.SelectedItem != null)
+            {
+                partysize = (int)PartySizePicker.SelectedItem;
+            }
             promotions.Clear();
             availableTimes.Clear();
             PopulateBookingTab(result);
         }
+
+        private void OpenPicker(object sender, EventArgs e)
+        {
+            PartySizePicker.IsVisible = true;
+
+            PartySizePicker.Focus();
+
+            PartySizePicker.IsVisible = false;
+        }
     }
 }
- 

@@ -44,7 +44,7 @@ namespace LogoScanner.Helpers
                             }
                             availableAreas.Remove(availableAreas.Length - 2, 2);
 
-                            string available = "Book to avoid disappointment";
+                            string available = " ";
                             string colour = "Gray";
 
                             if (capacity == 0)
@@ -59,7 +59,8 @@ namespace LogoScanner.Helpers
                                 Time = timeSlot.ToString().Substring(0, 5),
                                 RestaurantAreas = availableAreas.ToString().Replace("\t", ""),
                                 Available = available,
-                                Colour = colour
+                                Colour = colour,
+                                PartySize = RestaurantPage.partysize.ToString()
                             };
 
                             GetValidPromotions(at);

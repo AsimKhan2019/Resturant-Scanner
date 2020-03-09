@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="Acr.UserDialogs" Version="7.0.35" />
+    <PackageReference Include="BadgeView" Version="2017.10.17" />
     <PackageReference Include="CarouselView.FormsPlugin" Version="5.2.0" />
     <PackageReference Include="SuaveControls.FloatingActionButton" Version="2018.1.5" />
     <PackageReference Include="Syncfusion.Xamarin.SfPdfViewer" Version="17.4.0.51" />

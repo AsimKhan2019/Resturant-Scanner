@@ -429,6 +429,7 @@
                     Text="3 PERSONS" />
 
                 <Button
+                    x:Name="SlotButton"
                     HorizontalOptions="Start"
                     BackgroundColor="{DynamicResource BarBackgroundColor}"
                     Grid.Row="0"
@@ -439,7 +440,8 @@
                     BorderColor="#11a0dc"
                     BorderWidth="2"
                     HeightRequest="40"
-                    Text="3 SLOTS" />
+                    Text="3 SLOTS"
+                    Clicked="Slot_Clicked" />
             </StackLayout>
 
             <ListView
@@ -510,6 +512,13 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+
+            <Picker
+                x:Name="SlotPicker"
+                Title="Time Slots"
+                TitleColor="#11a0dc"
+                SelectedIndexChanged="SlotPicker_SelectedIndexChanged"
+                IsVisible="False" />
 
             <floating:FloatingActionButton
                 x:Name="FloatingButton2"

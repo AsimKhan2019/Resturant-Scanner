@@ -27,9 +27,12 @@ namespace LogoScanner
         private string micrositename;
         private string overallReviews;
         private string token;
+
         private JObject consumer;
         private JObject result;
+
         private int partysize = 3;
+        private int slotNumber = 3;
 
         public RestaurantPage(string micrositename)
         {
@@ -223,7 +226,6 @@ namespace LogoScanner
 
             JObject r = await Requests.APICallPost(url, token, dateStartStr, dateEndStr, partysize);
 
-            var capacity = 0;
             var checkAvail = r["AvailableDates"].ToString();
 
             if (r != null && checkAvail.Length > 2)
@@ -263,7 +265,7 @@ namespace LogoScanner
                 NoAvailabilityLabel.IsVisible = true;
             }
 
-            Promotions.GetAvailablePromotions(r, capacity);
+            Promotions.GetAvailablePromotions(r, slotNumber);
 
             AvailabilityView.ItemsSource = availableTimes;
         }
@@ -318,6 +320,9 @@ namespace LogoScanner
             PopulateBookingTab(result);
             SetMenu(consumer);
             PopulateReviewsTab(result);
+
+            SlotPicker.ItemsSource = Enumerable.Range(1, 10).ToList();
+            SlotPicker.IsVisible = false;
 
             Indicator1.IsVisible = false;
             Indicator2.IsVisible = false;
@@ -406,6 +411,28 @@ namespace LogoScanner
             var slot = e.Item as AvailableTime;
             string dateTime = slot.DateTime as string;
             Booking.Makebooking(micrositename, dateTime.Split(',')[0], dateTime.Split(',')[1], partysize);
+        }
+
+        private void Slot_Clicked(object sender, EventArgs e)
+        {
+            SlotPicker.IsVisible = true;
+            SlotPicker.Focus();
+            SlotPicker.SelectedIndex = slotNumber - 1;
+            SlotPicker.IsVisible = false;
+        }
+
+        private void SlotPicker_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (SlotPicker.SelectedItem != null) slotNumber = (int)SlotPicker.SelectedItem;
+
+            if (slotNumber == 1)
+                SlotButton.Text = slotNumber + " SLOT";
+            else
+                SlotButton.Text = slotNumber + " SLOTS";
+
+            promotions.Clear();
+            availableTimes.Clear();
+            PopulateBookingTab(result);
         }
     }
 }

@@ -10,12 +10,14 @@ namespace LogoScanner.Helpers
 {
     public class Promotions
     {
-        public static void GetAvailablePromotions(JObject r, int capacity)
+        public static void GetAvailablePromotions(JObject r, int slotNumber)
         {
             RestaurantPage.availableTimes.Clear();
+            int capacity = 0;
+
             foreach (var day in r["AvailableDates"])
             {
-                if (capacity <= 3)
+                if (capacity <= slotNumber)
                 {
                     Dictionary<string, string> areas = new Dictionary<string, string>();
 
@@ -25,7 +27,7 @@ namespace LogoScanner.Helpers
                     }
                     foreach (var time in day["AvailableTimes"])
                     {
-                        if (capacity == 3)
+                        if (capacity == slotNumber)
                         {
                             break;
                         }

@@ -518,16 +518,14 @@
                 Title="Time Slots"
                 SelectedIndexChanged="SlotPicker_SelectedIndexChanged"
                 IsVisible="False"
-                TitleColor="{DynamicResource SelectedTabColor}"
-                BackgroundColor="{DynamicResource BarBackgroundColor}"
-                TextColor="{DynamicResource TitleColor}" />
+                TitleColor="{DynamicResource SelectedTabColor}" />
 
             <Picker
                 x:Name="PartySizePicker"
                 Title="Change Group Size"
-                TitleColor="#11a0dc"
                 SelectedIndexChanged="PartySizePicker_SelectedIndexChanged"
-                IsVisible="False" />
+                IsVisible="False"
+                TitleColor="{DynamicResource SelectedTabColor}" />
 
             <floating:FloatingActionButton
                 x:Name="FloatingButton2"

@@ -20,12 +20,19 @@
             HasBackgroundAnimation="True" />  
     </pages:PopupPage.Animation>  
 
-    <StackLayout VerticalOptions="Center" Padding="40,0" HorizontalOptions="FillAndExpand">  
-        <Frame CornerRadius="10" Padding="0">  
+    <StackLayout
+        VerticalOptions="Center"
+        Padding="40,0"
+        HorizontalOptions="FillAndExpand">  
+        <Frame
+            CornerRadius="10"
+            Padding="0"
+            BackgroundColor="{DynamicResource BarBackgroundColor}" >
+
             <StackLayout Padding="20">
                 <Label
                     Text="About Restaurant"
-                    TextColor="Black"
+                    TextColor="{DynamicResource TitleColor}"
                     FontSize="16"
                     FontAttributes="Bold"
                     HorizontalOptions="Center" />
@@ -45,7 +52,7 @@
                             Grid.Row="0"
                             Grid.Column="0"
                             Text="Full Description"
-                            TextColor="Black"
+                            TextColor="{DynamicResource TextColor}"
                             FontSize="14"
                             HorizontalOptions="Center"
                             VerticalOptions="Center"

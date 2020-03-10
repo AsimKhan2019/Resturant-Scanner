@@ -8,6 +8,8 @@ using ImageCircle.Forms.Plugin.Droid;
 using Plugin.Permissions;
 using CarouselView.FormsPlugin.Android;
 using SuaveControls.FloatingActionButton.Droid.Renderers;
+using Android.Content.Res;
+using LogoScanner.Themes;
 
 namespace LogoScanner.Droid
 {
@@ -30,19 +32,44 @@ namespace LogoScanner.Droid
 
             ImageCircleRenderer.Init();
             UserDialogs.Init(this);
-            CarouselViewRenderer.Init();
             FloatingActionButtonRenderer.Initialize();
 
             CrossCurrentActivity.Current.Init(this, savedInstanceState);
             Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, savedInstanceState);
 
             LoadApplication(new App());
+
+            SetAppTheme();
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
             PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+        private void SetAppTheme()
+        {
+            // Ensure the device is running Android Froyo or higher because UIMode was added in Android Froyo, API 8.0
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.Froyo)
+            {
+                var uiModeFlags = CrossCurrentActivity.Current.AppContext.Resources.Configuration.UiMode & UiMode.NightMask;
+
+                switch (uiModeFlags)
+                {
+                    case UiMode.NightYes:
+                        App.Current.Resources = new DarkTheme();
+                        break;
+
+                    case UiMode.NightNo:
+                        App.Current.Resources = new LightTheme();
+                        break;
+                }
+            }
+            else
+            {
+                App.Current.Resources = new LightTheme();
+            }
         }
     }
 }

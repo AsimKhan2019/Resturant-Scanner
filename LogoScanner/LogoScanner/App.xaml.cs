@@ -1,6 +1,4 @@
-﻿using System;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
+﻿using Xamarin.Forms;
 
 namespace LogoScanner
 {
@@ -11,8 +9,6 @@ namespace LogoScanner
             InitializeComponent();
 
             MainPage = new MainPage();
-
-            //MainPage = new RestaurantPage("cairncrosscafe");
         }
 
         protected override void OnStart()

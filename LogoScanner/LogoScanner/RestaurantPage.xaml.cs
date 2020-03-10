@@ -318,7 +318,7 @@ namespace LogoScanner
 
             PopulateHomeTab(result);
             PopulateBookingTab(result);
-            SetMenu(consumer);
+            PopulateMenuTab(consumer);
             PopulateReviewsTab(result);
 
             SlotPicker.ItemsSource = Enumerable.Range(1, 10).ToList();
@@ -351,7 +351,7 @@ namespace LogoScanner
         }
 
         //method to get menu for restaurant
-        private void SetMenu(JObject json)
+        private void PopulateMenuTab(JObject json)
         {
             if (json["Menus"].Type == JTokenType.Null || string.IsNullOrEmpty(json["Menus"].ToString()) || !json["Menus"].Any())
             {

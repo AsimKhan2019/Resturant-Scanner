@@ -581,6 +581,14 @@
             <local:PdfViewerViewModel />
         </ContentPage.BindingContext>
 
+        <ContentPage.Resources>
+            <ResourceDictionary>
+                <syncfusion:Toolbar x:Key="ToolbarSettings">
+                    <syncfusion:Toolbar.Enabled>false</syncfusion:Toolbar.Enabled>
+                </syncfusion:Toolbar>
+            </ResourceDictionary>
+        </ContentPage.Resources>
+
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
@@ -600,7 +608,8 @@
             <syncfusion:SfPdfViewer
                 x:Name="pdfViewerControl"
                 Grid.Row="0"
-                InputFileStream="{Binding PdfDocumentStream}" />
+                InputFileStream="{Binding PdfDocumentStream}"
+                Toolbar="{StaticResource ToolbarSettings}" />
 
             <floating:FloatingActionButton
                 x:Name="FloatingButton3"

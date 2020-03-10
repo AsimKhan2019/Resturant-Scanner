@@ -16,7 +16,6 @@ using System.Net;
 using System.Reflection;
 using Syncfusion.Pdf;
 using System.Globalization;
-using Xamarin.Forms.Internals;
 
 namespace LogoScanner
 {
@@ -78,7 +77,6 @@ namespace LogoScanner
                             NavigationPage.SetHasNavigationBar(this, true);
                             Title = "ResDiary Logo Scanner";
                         }
-
                         break;
 
                     case 1:
@@ -138,7 +136,8 @@ namespace LogoScanner
                     if (data["OnlinePartySizeDefault"] != null)
                         partySize = (int)data["OnlinePartySizeDefault"];
 
-                    PartyButton.Text = partySize.ToString() + " PERSONS";
+                    PartyButton.Text = partySize + " PERSONS";
+                    SlotButton.Text = slotNumber + " SLOTS";
 
                     SetUpPartyPicker(data);
                     GetRestaurantData("https://api.rdbranch.com/api/ConsumerApi/v1/MicrositeSummaryDetails?micrositeNames=" + this.micrositename + "&startDate=" + datestartstr + "&endDate=" + dateendstr + "&channelCodes=ONLINE&numberOfReviews=5", request.message);

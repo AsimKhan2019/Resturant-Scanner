@@ -11,7 +11,7 @@ using Xamarin.Forms;
 
 namespace LogoScanner
 {
-     public static class Requests
+    public static class Requests
     {
         // structure to store request status and corresponding message
         public struct Request
@@ -142,8 +142,6 @@ namespace LogoScanner
         public static async Task<JObject> APICallPost(string url, string token, string datestart, string dateend, int partysize)
         {
             HttpClient client = new HttpClient();
-            //HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Post, url);
-            //requestMessage.Headers.Add("Authorization", "Bearer " + token);
 
             client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 

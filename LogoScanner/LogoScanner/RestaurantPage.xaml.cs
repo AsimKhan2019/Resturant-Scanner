@@ -16,6 +16,7 @@ using System.Net;
 using System.Reflection;
 using Syncfusion.Pdf;
 using System.Globalization;
+using Xamarin.Forms.Internals;
 
 namespace LogoScanner
 {
@@ -68,7 +69,16 @@ namespace LogoScanner
                 {
                     case 0:
                         HomeTab.IconImageSource = "HomeIconFilled.png";
-                        NavigationPage.SetHasNavigationBar(this, false);
+                        if (Device.RuntimePlatform == Device.iOS)
+                        {
+                            NavigationPage.SetHasNavigationBar(this, false);
+                        }
+                        else
+                        {
+                            NavigationPage.SetHasNavigationBar(this, true);
+                            Title = "ResDiary Logo Scanner";
+                        }
+
                         break;
 
                     case 1:
@@ -127,6 +137,8 @@ namespace LogoScanner
 
                     if (data["OnlinePartySizeDefault"] != null)
                         partySize = (int)data["OnlinePartySizeDefault"];
+
+                    PartyButton.Text = partySize.ToString() + " PERSONS";
 
                     SetUpPartyPicker(data);
                     GetRestaurantData("https://api.rdbranch.com/api/ConsumerApi/v1/MicrositeSummaryDetails?micrositeNames=" + this.micrositename + "&startDate=" + datestartstr + "&endDate=" + dateendstr + "&channelCodes=ONLINE&numberOfReviews=5", request.message);

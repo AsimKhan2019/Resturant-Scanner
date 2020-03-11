@@ -159,25 +159,71 @@ namespace CrossPlatformTest
         }
 
         [Test]
-        // test that there are only 3 promotions
-        public void AreThereOnly3Promotions()
+        // test that there are only 3 default booking slot
+        public void AreThere3DefaultBookingSlot()
         {
-            int promotionSize = 0;
-    
-            //take picture
+            var dateList = new List<string>();
+
+            // take picture
             app.Tap("takePhotoButton");
 
-            //go to the book page
+            // go to the book page
             app.Tap(c => c.Property("text").Contains("Book"));
 
-            for (int i=0; i<3; i++)
+            for (int i = 0; i < 2; i++)
             {
-                promotionSize += app.Query(x => x.Class("CarouselViewRenderer")).Length;
-                app.SwipeRightToLeft();
+                app.WaitForElement(x => x.Class("ConditionalFocusLayout"), timeout: TimeSpan.FromSeconds(120));
+                if (!dateList.Contains(app.Query("BookTime")[0].Text))
+                {
+                    dateList.Add(app.Query("BookTime")[0].Text);
+                }
+                if (!dateList.Contains(app.Query("BookTime")[1].Text))
+                {
+                    dateList.Add(app.Query("BookTime")[1].Text);
+                }
+                app.ScrollDown();
             }
-            
-            //check if 3 or less slots only
-            Assert.IsTrue(promotionSize <= 3);
+
+            // check if the default booking slot are 3
+            Assert.AreEqual(3, dateList.Count);
+        }
+
+        [Test]
+        // test that select the size of the booking slot is working
+        public void AreSelectSlotForBookingWorking()
+        {
+            var dateList = new List<string>();
+            Random rnd = new Random();
+            int randomSlot = rnd.Next(1, 11);
+
+            // take picture
+            app.Tap("takePhotoButton");
+
+            // go to the book page
+            app.Tap(c => c.Property("text").Contains("Book"));
+
+            // tap to select the amount of booking slot
+            app.Tap(c => c.Property("text").Contains("3 SLOTS"));
+
+            // random the amount of booking slot
+            app.Tap(c => c.Property("text").Contains(randomSlot.ToString()));
+
+            for (int i = 0; i < randomSlot; i++)
+            {
+                app.WaitForElement(x => x.Class("ConditionalFocusLayout"), timeout: TimeSpan.FromSeconds(120));
+                if (!dateList.Contains(app.Query("BookTime")[0].Text))
+                {
+                    dateList.Add(app.Query("BookTime")[0].Text);
+                }
+                if (randomSlot > 1 && !dateList.Contains(app.Query("BookTime")[1].Text))
+                {
+                    dateList.Add(app.Query("BookTime")[1].Text);
+                }
+                app.ScrollDown();
+            }
+
+            // check if the booking slot display true
+            Assert.AreEqual(randomSlot, dateList.Count);
         }
 
         // test that was successfully connected to resdiary api with post method

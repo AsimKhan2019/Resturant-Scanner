@@ -6,7 +6,6 @@ using Plugin.CurrentActivity;
 using Acr.UserDialogs;
 using ImageCircle.Forms.Plugin.Droid;
 using Plugin.Permissions;
-using CarouselView.FormsPlugin.Android;
 using SuaveControls.FloatingActionButton.Droid.Renderers;
 using Android.Content.Res;
 using LogoScanner.Themes;

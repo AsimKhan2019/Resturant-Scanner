@@ -10,13 +10,17 @@
     xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
     xmlns:syncfusion="clr-namespace:Syncfusion.SfPdfViewer.XForms;assembly=Syncfusion.SfPdfViewer.XForms"
     xmlns:xfProxy="clr-namespace:Xamarin.Forms.Proxy;assembly=Xamarin.Forms.Core.UnitTests"
+
     Title="Logo Scanner"
     android:TabbedPage.IsSwipePagingEnabled="True"
     android:TabbedPage.ToolbarPlacement="Bottom"
+    android:TabbedPage.IsSmoothScrollEnabled="True"
+
     BackgroundColor="{DynamicResource BackgroundColor}"
     BarBackgroundColor="{DynamicResource BackgroundColor}"
-    NavigationPage.HasNavigationBar="False"
     SelectedTabColor="{DynamicResource SelectedTabColor}"
+
+    NavigationPage.HasNavigationBar="False"
     Visual="Material">
 
     <ContentPage

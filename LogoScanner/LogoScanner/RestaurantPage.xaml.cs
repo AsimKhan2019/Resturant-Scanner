@@ -68,15 +68,7 @@ namespace LogoScanner
                 {
                     case 0:
                         HomeTab.IconImageSource = "HomeIconFilled.png";
-                        if (Device.RuntimePlatform == Device.iOS)
-                        {
-                            NavigationPage.SetHasNavigationBar(this, false);
-                        }
-                        else
-                        {
-                            NavigationPage.SetHasNavigationBar(this, true);
-                            Title = "ResDiary Logo Scanner";
-                        }
+                        NavigationPage.SetHasNavigationBar(this, false);
                         break;
 
                     case 1:

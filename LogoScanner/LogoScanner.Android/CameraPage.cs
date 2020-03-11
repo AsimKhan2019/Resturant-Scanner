@@ -93,14 +93,22 @@ namespace LogoScanner.Droid
             try
             {
                 var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Camera);
-                if (status != PermissionStatus.Granted)
+                while (status != PermissionStatus.Granted)
                 {
                     if (await CrossPermissions.Current.ShouldShowRequestPermissionRationaleAsync(Permission.Camera))
                     {
-                        await App.Current.MainPage.DisplayAlert("Camera Permission", "Allow us to access your camera", "OK");
+                        await App.Current.MainPage.DisplayAlert("Camera Permission", "Access to Camera Required", "OK");
+                        while (status != PermissionStatus.Granted)
+                        {
+                            var results = await CrossPermissions.Current.RequestPermissionsAsync(new[] { Permission.Camera });
+                            status = results[Permission.Camera];
+                        }
                     }
-                    var results = await CrossPermissions.Current.RequestPermissionsAsync(new[] { Permission.Camera });
-                    status = results[Permission.Camera];
+                    else
+                    {
+                        var results = await CrossPermissions.Current.RequestPermissionsAsync(new[] { Permission.Camera });
+                        status = results[Permission.Camera];
+                    }
                 }
 
                 if (status == PermissionStatus.Granted)
@@ -111,14 +119,12 @@ namespace LogoScanner.Droid
                     camera.SetPreviewTexture(surface);
                     PrepareAndStartCamera();
                 }
-                else if (status != PermissionStatus.Unknown)
-                {
-                    await App.Current.MainPage.DisplayAlert("Permission unknown", "Please allow your camera", "OK");
-                }
             }
             catch (System.Exception)
             {
-                await App.Current.MainPage.DisplayAlert("Runtime error", "Please reopen the app", "OK");
+                await App.Current.MainPage.DisplayAlert("Error", "Please Restart App", "OK");
+                var activity = (Activity)Forms.Context;
+                activity.FinishAffinity();
             }
         }
 

@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ResourceDictionary
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="LogoScanner.Themes.LightTheme">
+
+    <!-- Colors -->
+    <Color x:Key="BackgroundColor">#FFFFFF</Color>
+    <Color x:Key="BarBackgroundColor">#FFFFFF</Color>
+    <Color x:Key="SelectedTabColor">#11a0dc</Color>
+    <Color x:Key="TitleColor">#000000</Color>
+    <Color x:Key="TextColor">DimGray</Color>
+    <Color x:Key="HorizontalSpacerColor">#dfe4ea</Color>
+    <Color x:Key="StarColor">#dfe4ea</Color>
+
+    <Color x:Key="iOSNavigationBarColor">#11a0dc</Color>
+    <Color x:Key="AndroidNavigationBarColor">#11a0dc</Color>
+    <Color x:Key="iOSNavigationBarTextColor">#FFFFFF</Color>
+    <Color x:Key="AndroidNavigationBarTextColor">#FFFFFF</Color>
+
+    <!-- Implicit styles -->
+    <Style TargetType="{x:Type NavigationPage}">
+        <Setter Property="BarBackgroundColor"
+                Value="{OnPlatform iOS={StaticResource iOSNavigationBarColor},
+                                    Android={StaticResource AndroidNavigationBarColor}}" />
+        <Setter Property="BarTextColor"
+                Value="{OnPlatform iOS={StaticResource iOSNavigationBarTextColor},
+                                    Android={StaticResource AndroidNavigationBarTextColor}}" />
+    </Style>
+
+    <!-- Icons -->
+    <x:String x:Key="ScanIcon">ScanIcon.png</x:String>
+    <x:String x:Key="ResDiaryLogo">ResDiary.png</x:String>
+    <x:String x:Key="RightArrow">RightArrow.png</x:String>
+</ResourceDictionary>

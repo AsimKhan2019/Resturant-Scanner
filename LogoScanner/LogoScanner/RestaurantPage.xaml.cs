@@ -14,6 +14,8 @@ using Xamarin.Forms.Maps;
 using Xamarin.Forms.Xaml;
 using System.Net;
 using System.Reflection;
+using Syncfusion.Pdf;
+using System.Globalization;
 
 namespace LogoScanner
 {
@@ -27,9 +29,12 @@ namespace LogoScanner
         private string micrositename;
         private string overallReviews;
         private string token;
+
         private JObject consumer;
         private JObject result;
-        private int partysize = 3;
+
+        private static int partySize = 3;
+        private static int slotNumber = 3;
 
         public RestaurantPage(string micrositename)
         {
@@ -94,7 +99,7 @@ namespace LogoScanner
             var request = await Requests.ConnectToResDiary(); // connect to resdiary api
             token = request.message;
 
-            while (request.message.Equals("Unable to Connect to Internet"))
+            while (request.message.Equals("Unable to Connect to Internet", StringComparison.InvariantCulture))
             {
                 await DisplayAlert("Error", request.message, "OK"); // displays an error message to the user
 
@@ -104,18 +109,26 @@ namespace LogoScanner
                 }
             }
 
-            if (request.status.Equals("Success")) // if connection to api is successful
+            if (request.status.Equals("Success", StringComparison.InvariantCulture)) // if connection to api is successful
             {
                 JArray hasSummary = await Requests.APICallGet("https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename + "/HasMicrositeSummary", request.message);
                 JObject result = (JObject)hasSummary.First;
+
                 if (result["Result"] != null)
                 {
                     var datestart = DateTime.Now;
-                    var datestartstr = datestart.ToString("yyyy-MM-ddTHH:mm:ss");
+                    var datestartstr = datestart.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.CurrentCulture);
 
                     var dateend = DateTime.Now.AddDays(7.00);
-                    var dateendstr = dateend.ToString("yyyy-MM-ddTHH:mm:ss");
+                    var dateendstr = dateend.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.CurrentCulture);
 
+                    JArray setupData = await Requests.APICallGet("https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename + "/Setup?date=" + datestartstr + "&channelCode=ONLINE", token);
+                    var data = (JObject)setupData.First;
+
+                    if (data["OnlinePartySizeDefault"] != null)
+                        partySize = (int)data["OnlinePartySizeDefault"];
+
+                    SetUpPartyPicker(data);
                     GetRestaurantData("https://api.rdbranch.com/api/ConsumerApi/v1/MicrositeSummaryDetails?micrositeNames=" + this.micrositename + "&startDate=" + datestartstr + "&endDate=" + dateendstr + "&channelCodes=ONLINE&numberOfReviews=5", request.message);
                 }
             }
@@ -136,10 +149,10 @@ namespace LogoScanner
             CuisinesLabel.Text = Utils.GetRestaurantField(result, "CuisineTypes");
 
             int price = 0;
-            if (result["PricePoint"].Type != JTokenType.Null) price = Int32.Parse(result["PricePoint"].ToString());
+            if (result["PricePoint"].Type != JTokenType.Null) price = Int32.Parse(result["PricePoint"].ToString(), CultureInfo.CurrentCulture);
             PriceLabel.Text = Utils.GetRestaurantField(result, "PricePoint", "£", price);
 
-            int stars = (int)Math.Round(Double.Parse(result["AverageReviewScore"].ToString()), 0, MidpointRounding.AwayFromZero);
+            int stars = (int)Math.Round(Double.Parse(result["AverageReviewScore"].ToString(), CultureInfo.CurrentCulture), 0, MidpointRounding.AwayFromZero);
             StarLabel.Text = Utils.GetRestaurantField(result, "AverageReviewScore", "★", stars);
 
             DescriptionLabel.Text = Utils.GetRestaurantField(consumer, "ShortDescription");
@@ -149,6 +162,7 @@ namespace LogoScanner
             {
                 await Navigation.PushPopupAsync(new AboutPopup(Utils.GetRestaurantField(consumer, "Description")));
             };
+            ViewMoreLabel.GestureRecognizers.Clear();
             ViewMoreLabel.GestureRecognizers.Add(viewMoreTap);
 
             OpeningInformationLabel.Text = Utils.GetRestaurantField(consumer, "OpeningInformation").Replace("<br/>", Environment.NewLine);
@@ -169,7 +183,6 @@ namespace LogoScanner
                     {
                         Text = a["Type"].ToString(),
                         Margin = new Thickness(15, 10, 0, 0),
-                        BackgroundColor = Color.White,
                         TextColor = Color.FromHex("#11a0dc"),
                         FontSize = 12,
                         CornerRadius = 18,
@@ -178,6 +191,7 @@ namespace LogoScanner
                         VerticalOptions = LayoutOptions.Start,
                         HorizontalOptions = LayoutOptions.Start
                     };
+                    button.SetDynamicResource(Button.BackgroundColorProperty, "BarBackgroundColor");
                     HomeGrid.Children.Add(button, column, 15);
                     column++;
 
@@ -185,8 +199,8 @@ namespace LogoScanner
                 }
             }
 
-            double latitude = Convert.ToDouble(result["Latitude"].ToString());
-            double longitude = Convert.ToDouble(result["Longitude"].ToString());
+            double latitude = Convert.ToDouble(result["Latitude"].ToString(), CultureInfo.CurrentCulture);
+            double longitude = Convert.ToDouble(result["Longitude"].ToString(), CultureInfo.CurrentCulture);
             string name = result["Name"].ToString();
 
             var pin = new Pin()
@@ -211,7 +225,7 @@ namespace LogoScanner
         // populates the booking tab
         private async void PopulateBookingTab(JObject result)
         {
-            string[] promotion_ids = Promotions.GetPromotionIDs(result);
+            string[] promotionIds = Promotions.GetPromotionIDs(result);
 
             var dateStart = DateTime.Now;
             var dateStartStr = dateStart.ToString("yyyy-MM-ddTHH:mm:ss");
@@ -221,21 +235,22 @@ namespace LogoScanner
 
             string url = "https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename + "/AvailabilityForDateRangeV2?";
 
-            JObject r = await Requests.APICallPost(url, token, dateStartStr, dateEndStr, partysize);
-
-            var capacity = 0;
+            JObject r = await Requests.APICallPost(url, token, dateStartStr, dateEndStr, partySize);
 
             var checkAvail = r["AvailableDates"].ToString();
 
             if (r != null && checkAvail.Length > 2)
             {
-                if (promotion_ids.Length > 0)
+                AvailabilityView.IsVisible = true;
+                NoAvailabilityLabel.IsVisible = false;
+
+                if (promotionIds.Length > 0)
                 {
                     string promotions_url = "https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename + "/Promotion?";
                     StringBuilder builder = new StringBuilder();
 
                     builder.Append(promotions_url);
-                    foreach (string id in promotion_ids)
+                    foreach (string id in promotionIds)
                     {
                         builder.Append("&promotionIds=" + id);
                     }
@@ -264,11 +279,10 @@ namespace LogoScanner
                 NoAvailabilityLabel.IsVisible = true;
             }
 
-            Promotions.GetAvailablePromotions(url, token, r, capacity);
+            Promotions.GetAvailablePromotions(r, slotNumber);
 
             AvailabilityView.ItemsSource = availableTimes;
         }
-
 
         // populates the reviews tab
         private void PopulateReviewsTab(JObject result)
@@ -317,8 +331,11 @@ namespace LogoScanner
 
             PopulateHomeTab(result);
             PopulateBookingTab(result);
-            SetMenu(consumer);
+            PopulateMenuTab(consumer);
             PopulateReviewsTab(result);
+
+            SlotPicker.ItemsSource = Enumerable.Range(1, 10).ToList();
+            SlotPicker.IsVisible = false;
 
             Indicator1.IsVisible = false;
             Indicator2.IsVisible = false;
@@ -337,17 +354,17 @@ namespace LogoScanner
         }
 
         //method do download pdf from url
-        public Stream DownloadPdfStream(string URL)
+        public byte[] DownloadPdfStream(string URL, string documentName)
         {
             var uri = new System.Uri(URL);
             var client = new WebClient();
 
-            //Returns the PDF document stream from the given URL
-            return client.OpenRead(uri);
+            //Returns the PDF document from the given URL
+            return client.DownloadData(uri);
         }
 
         //method to get menu for restaurant
-        private void SetMenu(JObject json)
+        private void PopulateMenuTab(JObject json)
         {
             if (json["Menus"].Type == JTokenType.Null || string.IsNullOrEmpty(json["Menus"].ToString()) || !json["Menus"].Any())
             {
@@ -356,11 +373,44 @@ namespace LogoScanner
             }
             else
             {
-                var pdfUrl = json["Menus"][0]["StorageUrl"].ToString();
-                //Provide the PDF document URL in the below overload.
-                Stream documenStream = DownloadPdfStream(pdfUrl);
-                //Loads the PDF document as Stream to PDF viewer control
-                pdfViewerControl.LoadDocument(documenStream);
+                int menuLength = json["Menus"].Count();
+                //Create a new PDF document
+                PdfDocument document = new PdfDocument();
+                var listMenu = new List<byte[]>();
+
+                for (int i = 0; i < menuLength; i++)
+                {
+                    //Provide the PDF document URL in the below overload.
+                    var pdfUrl = json["Menus"][i]["StorageUrl"].ToString();
+
+                    try
+                    {
+                        //Returns the PDF document from the given URL
+                        var documenStream = DownloadPdfStream(pdfUrl, "Sample");
+                        listMenu.Add(documenStream);
+                    }
+                    catch (WebException wex)
+                    {
+                    }
+                }
+
+                PdfMergeOptions mergeOptions = new PdfMergeOptions();
+
+                //Enable Optimize Resources
+                mergeOptions.OptimizeResources = true;
+
+                //Merge the documents
+                PdfDocumentBase.Merge(document, mergeOptions, listMenu.ToArray());
+
+                //Save the PDF document to stream
+                MemoryStream stream = new MemoryStream();
+
+                document.Save(stream);
+
+                //Close the documents
+                document.Close(true);
+
+                pdfViewerControl.LoadDocument(stream);
             }
         }
 
@@ -401,28 +451,69 @@ namespace LogoScanner
             await Navigation.PushPopupAsync(new ReviewsPopup(review));
         }
 
-        public void BookTimeSlot(Object Sender, EventArgs e)
+        // event triggered when a timeslot is tapped
+        private void AvailabilityView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            Button b = (Button)Sender;
-            string dateTime = b.BindingContext as string;
-            Booking.Makebooking(micrositename, dateTime.Split(',')[0], dateTime.Split(',')[1], partysize);
+            var slot = e.Item as AvailableTime;
+            string dateTime = slot.DateTime as string;
+            Booking.Makebooking(micrositename, dateTime.Split(',')[0], dateTime.Split(',')[1], partySize);
         }
 
-        private void OnSliderValueChanged(object sender, ValueChangedEventArgs args)
+        private void Slot_Clicked(object sender, EventArgs e)
         {
-            int value = (int)args.NewValue;
-            sliderValueLabel.Text = "Party Size of " + value.ToString();
+            SlotPicker.IsVisible = true;
+            SlotPicker.Focus();
+            SlotPicker.SelectedIndex = slotNumber - 1;
+            SlotPicker.IsVisible = false;
         }
 
-        private void ChangePartySize(object sender, EventArgs e)
+        private void SlotPicker_SelectedIndexChanged(object sender, EventArgs e)
         {
-            partysize = (int)partySizeSlider.Value;
-            sliderValueLabel.Text = "Party Size of " + partysize.ToString();
+            if (SlotPicker.SelectedItem != null) slotNumber = (int)SlotPicker.SelectedItem;
+
+            if (slotNumber == 1)
+                SlotButton.Text = slotNumber + " SLOT";
+            else
+                SlotButton.Text = slotNumber + " SLOTS";
 
             promotions.Clear();
             availableTimes.Clear();
             PopulateBookingTab(result);
         }
+
+        private void Party_Clicked(object sender, EventArgs e)
+        {
+            PartySizePicker.IsVisible = true;
+            PartySizePicker.Focus();
+            PartySizePicker.SelectedIndex = partySize - 1;
+            PartySizePicker.IsVisible = false;
+        }
+
+        private void PartySizePicker_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (PartySizePicker.SelectedItem != null) partySize = (int)PartySizePicker.SelectedItem;
+
+            if (partySize == 1)
+                PartyButton.Text = partySize + " PERSON";
+            else
+                PartyButton.Text = partySize + " PERSONS";
+
+            promotions.Clear();
+            availableTimes.Clear();
+            PopulateBookingTab(result);
+        }
+
+        private void SetUpPartyPicker(JObject data)
+        {
+            var acceptableCoversList = new List<int>();
+
+            if (data["MaxOnlinePartySize"] != null && data["MinOnlinePartySize"] != null)
+                acceptableCoversList = Enumerable.Range((int)data["MinOnlinePartySize"], (int)data["MaxOnlinePartySize"]).ToList();
+            else
+                acceptableCoversList = Enumerable.Range(1, 10).ToList();
+
+            PartySizePicker.ItemsSource = acceptableCoversList;
+            PartySizePicker.IsVisible = false;
+        }
     }
 }
- 

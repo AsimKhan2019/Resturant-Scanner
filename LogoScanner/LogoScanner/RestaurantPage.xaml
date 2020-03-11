@@ -500,12 +500,21 @@
                                             FontSize="13" />
                                     </StackLayout>
 
-                                    <Image
-                                        Source="{DynamicResource RightArrow}"
-                                        HorizontalOptions="EndAndExpand"
-                                        VerticalOptions="Center"
-                                        HeightRequest="20"
-                                        WidthRequest="20" />
+                                    <StackLayout
+                                        Orientation="Horizontal"
+                                        HorizontalOptions="EndAndExpand">
+                                        <Label
+                                            Text="Book Now"
+                                            TextColor="{DynamicResource TitleColor}"
+                                            FontSize="13"
+                                            VerticalOptions="Center" />
+
+                                        <Image
+                                            Source="{DynamicResource RightArrow}"
+                                            VerticalOptions="Center"
+                                            HeightRequest="20"
+                                            WidthRequest="20" />
+                                    </StackLayout>
                                 </StackLayout>
                             </StackLayout>
                         </ViewCell>

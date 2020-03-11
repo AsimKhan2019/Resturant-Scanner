@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using LogoScanner.Themes;
 using Newtonsoft.Json.Linq;
 
 namespace LogoScanner.Helpers
@@ -25,6 +24,7 @@ namespace LogoScanner.Helpers
                     {
                         areas.Add(area["Id"].ToString(), area["Name"].ToString());
                     }
+
                     foreach (var time in day["AvailableTimes"])
                     {
                         if (capacity == slotNumber)

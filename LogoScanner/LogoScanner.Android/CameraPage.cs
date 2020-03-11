@@ -253,7 +253,7 @@ namespace LogoScanner.Droid
                     DialogService.HideLoading();
                     camera.StartPreview();
 
-                    await App.Current.MainPage.DisplayAlert("Restaurant Not Found", "Please recan the Logo", "OK");
+                    await App.Current.MainPage.DisplayAlert("Restaurant Not Found", "Please re-scan the Logo", "OK");
                 }
             }
         }

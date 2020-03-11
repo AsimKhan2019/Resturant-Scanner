@@ -5,19 +5,17 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
     xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
-    xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
     xmlns:floating="clr-namespace:SuaveControls.Views;assembly=SuaveControls.FloatingActionButton"
     xmlns:local="clr-namespace:LogoScanner"
+    xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
     xmlns:syncfusion="clr-namespace:Syncfusion.SfPdfViewer.XForms;assembly=Syncfusion.SfPdfViewer.XForms"
     xmlns:xfProxy="clr-namespace:Xamarin.Forms.Proxy;assembly=Xamarin.Forms.Core.UnitTests"
-
+    Title="Logo Scanner"
     android:TabbedPage.IsSwipePagingEnabled="True"
     android:TabbedPage.ToolbarPlacement="Bottom"
-    NavigationPage.HasNavigationBar="False"
-
-    Title="Logo Scanner"
     BackgroundColor="{DynamicResource BackgroundColor}"
     BarBackgroundColor="{DynamicResource BackgroundColor}"
+    NavigationPage.HasNavigationBar="False"
     SelectedTabColor="{DynamicResource SelectedTabColor}"
     Visual="Material">
 
@@ -32,9 +30,9 @@
                 <Grid x:Name="HomeGrid" VerticalOptions="FillAndExpand">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="16*" />
-                        <!-- map -->
+                        <!--  map  -->
                         <RowDefinition Height="14*" />
-                        <!-- logo -->
+                        <!--  logo  -->
                         <RowDefinition Height="Auto" />
                         <!--  name / ResDiary  -->
                         <RowDefinition Height="Auto" />
@@ -62,7 +60,7 @@
                         <RowDefinition Height="Auto" />
                         <!--  social media label  -->
                         <RowDefinition Height="20*" />
-                        <!-- social media section-->
+                        <!--  social media section  -->
                     </Grid.RowDefinitions>
 
                     <Grid.ColumnDefinitions>
@@ -75,8 +73,7 @@
                         x:Name="MapArea"
                         Grid.Row="0"
                         Grid.RowSpan="2"
-                        Grid.ColumnSpan="3"
-                        IsShowingUser="True">
+                        Grid.ColumnSpan="3">
                         <x:Arguments>
                             <maps:MapSpan>
                                 <x:Arguments>
@@ -135,9 +132,9 @@
                         Padding="14,40,0,0"
                         FontAttributes="Bold"
                         FontSize="26"
-                        TextColor="{DynamicResource TitleColor}"
                         HorizontalOptions="Start"
-                        Text="Restaurant" />
+                        Text="Restaurant"
+                        TextColor="{DynamicResource TitleColor}" />
 
                     <Label
                         x:Name="CuisinesLabel"
@@ -235,9 +232,9 @@
                         Padding="15,0"
                         FontAttributes="Bold"
                         FontSize="16"
-                        TextColor="{DynamicResource TitleColor}"
                         HorizontalOptions="Start"
                         Text="About"
+                        TextColor="{DynamicResource TitleColor}"
                         VerticalOptions="Start" />
 
                     <Label
@@ -248,21 +245,21 @@
                         Padding="15,0"
                         FontSize="14"
                         HorizontalOptions="Start"
+                        LineBreakMode="WordWrap"
                         Text="Description"
                         TextColor="{DynamicResource TextColor}"
-                        VerticalOptions="Start"
-                        LineBreakMode="WordWrap" />
+                        VerticalOptions="Start" />
 
                     <Label
                         x:Name="ViewMoreLabel"
-                        Padding="0,5,15,0"
                         Grid.Row="9"
                         Grid.Column="2"
+                        Padding="0,5,15,0"
                         FontSize="14"
-                        TextColor="#11a0dc"
-                        Text="View more"
-                        TextDecorations="Underline"
                         HorizontalOptions="End"
+                        Text="View more"
+                        TextColor="#11a0dc"
+                        TextDecorations="Underline"
                         VerticalOptions="Center" />
 
                     <BoxView
@@ -283,9 +280,9 @@
                         Padding="15,0"
                         FontAttributes="Bold"
                         FontSize="16"
-                        TextColor="{DynamicResource TitleColor}"
                         HorizontalOptions="Start"
                         Text="Opening Times"
+                        TextColor="{DynamicResource TitleColor}"
                         VerticalOptions="Start" />
 
                     <Label
@@ -318,9 +315,9 @@
                         Padding="15,0"
                         FontAttributes="Bold"
                         FontSize="16"
-                        TextColor="{DynamicResource TitleColor}"
                         HorizontalOptions="Start"
                         Text="Social Media"
+                        TextColor="{DynamicResource TitleColor}"
                         VerticalOptions="Start" />
 
                     <Label
@@ -337,12 +334,12 @@
 
                     <floating:FloatingActionButton
                         x:Name="FloatingButton1"
-                        Image="{DynamicResource ScanIcon}"
                         Grid.Row="15"
                         Grid.Column="2"
                         ButtonColor="#11a0dc"
                         Clicked="FloatingButton_Clicked"
                         HorizontalOptions="EndAndExpand"
+                        Image="{DynamicResource ScanIcon}"
                         VerticalOptions="EndAndExpand">
 
                         <floating:FloatingActionButton.Margin>
@@ -371,18 +368,18 @@
                         x:Name="Frame1"
                         Grid.RowSpan="16"
                         Grid.ColumnSpan="3"
-                        IsVisible="True"
-                        BackgroundColor="{DynamicResource BackgroundColor}">
+                        BackgroundColor="{DynamicResource BackgroundColor}"
+                        IsVisible="True">
                         <ActivityIndicator
                             x:Name="Indicator1"
                             BackgroundColor="{DynamicResource BackgroundColor}"
-                            Color="#11a0dc"
-                            VerticalOptions="Center"
+                            HeightRequest="40"
                             HorizontalOptions="Center"
-                            IsVisible="True"
                             IsRunning="True"
+                            IsVisible="True"
+                            VerticalOptions="Center"
                             WidthRequest="40"
-                            HeightRequest="40" />
+                            Color="#11a0dc" />
                     </Frame>
                 </Grid>
             </StackLayout>
@@ -407,68 +404,66 @@
 
             <Label
                 x:Name="NoAvailabilityLabel"
-                Text="No Tables Currently Available."
-                HorizontalOptions="Center"
-                VerticalOptions="Center"
                 Grid.Row="1"
+                HorizontalOptions="Center"
                 IsVisible="False"
-                TextColor="{DynamicResource TitleColor}" />
+                Text="No Tables Currently Available."
+                TextColor="{DynamicResource TitleColor}"
+                VerticalOptions="Center" />
 
             <StackLayout Orientation="Horizontal">
                 <Button
                     x:Name="PartyButton"
-                    HorizontalOptions="Start"
-                    BackgroundColor="{DynamicResource BarBackgroundColor}"
                     Grid.Row="0"
                     Margin="15,15,0,0"
-                    CornerRadius="20"
-                    TextColor="#11a0dc"
-                    FontSize="12"
+                    BackgroundColor="{DynamicResource BarBackgroundColor}"
                     BorderColor="#11a0dc"
                     BorderWidth="2"
+                    Clicked="Party_Clicked"
+                    CornerRadius="20"
+                    FontSize="12"
                     HeightRequest="40"
-                    Text="3 PERSONS"
-                    Clicked="Party_Clicked" />
+                    HorizontalOptions="Start"
+                    TextColor="#11a0dc" />
 
                 <Button
                     x:Name="SlotButton"
-                    HorizontalOptions="Start"
-                    BackgroundColor="{DynamicResource BarBackgroundColor}"
                     Grid.Row="0"
                     Margin="15,15,0,0"
-                    CornerRadius="20"
-                    TextColor="#11a0dc"
-                    FontSize="12"
+                    BackgroundColor="{DynamicResource BarBackgroundColor}"
                     BorderColor="#11a0dc"
                     BorderWidth="2"
+                    Clicked="Slot_Clicked"
+                    CornerRadius="20"
+                    FontSize="12"
                     HeightRequest="40"
-                    Text="3 SLOTS"
-                    Clicked="Slot_Clicked" />
+                    HorizontalOptions="Start"
+                    TextColor="#11a0dc" />
             </StackLayout>
 
             <ListView
                 x:Name="AvailabilityView"
-                ItemsSource="{Binding Availability}"
                 Grid.Row="1"
+                Margin="0,10,0,0"
                 HasUnevenRows="True"
                 HorizontalOptions="Fill"
-                VerticalOptions="Fill"
-                SelectionMode="None"
-                SeparatorVisibility="Default"
                 ItemTapped="AvailabilityView_ItemTapped"
+                ItemsSource="{Binding Availability}"
+                SelectionMode="None"
                 SeparatorColor="{DynamicResource HorizontalSpacerColor}"
-                Margin="0,10,0,0">
+                SeparatorVisibility="Default"
+                VerticalOptions="Fill">
 
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <StackLayout Padding="15">
                                 <Label
+                                    Margin="0,0,10,0"
                                     FontSize="17"
-                                    Text="{Binding StringDate}"
-                                    TextColor="{DynamicResource TextColor}"
                                     HorizontalOptions="EndAndExpand"
-                                    Margin="0,0,10,0" />
+                                    Text="{Binding StringDate}"
+                                    TextColor="{DynamicResource TextColor}" />
 
                                 <StackLayout Orientation="Horizontal">
                                     <StackLayout Orientation="Vertical">
@@ -480,35 +475,44 @@
                                             Margin="0,-15,0,0" />
 
                                         <Label
+                                            FontAttributes="Bold"
+                                            FontSize="14"
                                             Text="AVAILABLE AREAS"
-                                            TextColor="{DynamicResource TitleColor}"
-                                            FontAttributes="Bold"
-                                            FontSize="14" />
+                                            TextColor="{DynamicResource TitleColor}" />
 
                                         <Label
-                                            Text="{Binding RestaurantAreas}"
-                                            TextColor="{DynamicResource TextColor}"
+                                            Margin="0,0,0,10"
                                             FontSize="13"
-                                            Margin="0,0,0,10"/>
+                                            Text="{Binding RestaurantAreas}"
+                                            TextColor="{DynamicResource TextColor}" />
 
                                         <Label
-                                            Text="PROMOTIONS"
-                                            TextColor="{DynamicResource TitleColor}"
                                             FontAttributes="Bold"
-                                            FontSize="14" />
+                                            FontSize="14"
+                                            Text="PROMOTIONS"
+                                            TextColor="{DynamicResource TitleColor}" />
 
                                         <Label
+                                            FontSize="13"
                                             Text="{Binding Promotions}"
-                                            TextColor="{DynamicResource TextColor}"
-                                            FontSize="13" />
+                                            TextColor="{DynamicResource TextColor}" />
                                     </StackLayout>
 
-                                    <Image
-                                        Source="{DynamicResource RightArrow}"
-                                        HorizontalOptions="EndAndExpand"
-                                        VerticalOptions="Center"
-                                        HeightRequest="20"
-                                        WidthRequest="20" />
+                                    <StackLayout
+                                        Orientation="Horizontal"
+                                        HorizontalOptions="EndAndExpand">
+                                        <Label
+                                            Text="Book Now"
+                                            TextColor="{DynamicResource TitleColor}"
+                                            FontSize="13"
+                                            VerticalOptions="Center" />
+
+                                        <Image
+                                            Source="{DynamicResource RightArrow}"
+                                            VerticalOptions="Center"
+                                            HeightRequest="20"
+                                            WidthRequest="20" />
+                                    </StackLayout>
                                 </StackLayout>
                             </StackLayout>
                         </ViewCell>
@@ -519,25 +523,25 @@
             <Picker
                 x:Name="SlotPicker"
                 Title="Time Slots"
-                TitleColor="#11a0dc"
+                IsVisible="False"
                 SelectedIndexChanged="SlotPicker_SelectedIndexChanged"
-                IsVisible="False" />
+                TitleColor="{DynamicResource SelectedTabColor}" />
 
             <Picker
                 x:Name="PartySizePicker"
                 Title="Change Group Size"
-                TitleColor="#11a0dc"
+                IsVisible="False"
                 SelectedIndexChanged="PartySizePicker_SelectedIndexChanged"
-                IsVisible="False" />
+                TitleColor="{DynamicResource SelectedTabColor}" />
 
             <floating:FloatingActionButton
                 x:Name="FloatingButton2"
-                Image="{DynamicResource ScanIcon}"
-                HorizontalOptions="EndAndExpand"
-                VerticalOptions="EndAndExpand"
-                ButtonColor="#11a0dc"
                 Grid.Row="1"
-                Clicked="FloatingButton_Clicked">
+                ButtonColor="#11a0dc"
+                Clicked="FloatingButton_Clicked"
+                HorizontalOptions="EndAndExpand"
+                Image="{DynamicResource ScanIcon}"
+                VerticalOptions="EndAndExpand">
 
                 <floating:FloatingActionButton.Margin>
                     <OnPlatform x:TypeArguments="Thickness">
@@ -565,18 +569,18 @@
                 x:Name="Frame2"
                 Grid.RowSpan="2"
                 Grid.ColumnSpan="1"
-                IsVisible="True"
-                BackgroundColor="{DynamicResource BackgroundColor}">
+                BackgroundColor="{DynamicResource BackgroundColor}"
+                IsVisible="True">
                 <ActivityIndicator
                     x:Name="Indicator2"
                     BackgroundColor="{DynamicResource BackgroundColor}"
-                    Color="#11a0dc"
-                    VerticalOptions="Center"
+                    HeightRequest="40"
                     HorizontalOptions="Center"
-                    IsVisible="True"
                     IsRunning="True"
+                    IsVisible="True"
+                    VerticalOptions="Center"
                     WidthRequest="40"
-                    HeightRequest="40" />
+                    Color="#11a0dc" />
             </Frame>
         </Grid>
     </ContentPage>
@@ -612,8 +616,8 @@
                 x:Name="MenuLabel"
                 Grid.Row="0"
                 HorizontalOptions="Center"
-                VerticalOptions="Center"
-                TextColor="{DynamicResource TitleColor}" />
+                TextColor="{DynamicResource TitleColor}"
+                VerticalOptions="Center" />
 
             <syncfusion:SfPdfViewer
                 x:Name="pdfViewerControl"
@@ -656,18 +660,18 @@
                 x:Name="Frame3"
                 Grid.RowSpan="1"
                 Grid.ColumnSpan="1"
-                IsVisible="True"
-                BackgroundColor="{DynamicResource BackgroundColor}">
+                BackgroundColor="{DynamicResource BackgroundColor}"
+                IsVisible="True">
                 <ActivityIndicator
                     x:Name="Indicator3"
                     BackgroundColor="{DynamicResource BackgroundColor}"
-                    Color="#11a0dc"
-                    VerticalOptions="Center"
+                    HeightRequest="40"
                     HorizontalOptions="Center"
-                    IsVisible="True"
                     IsRunning="True"
+                    IsVisible="True"
+                    VerticalOptions="Center"
                     WidthRequest="40"
-                    HeightRequest="40" />
+                    Color="#11a0dc" />
             </Frame>
         </Grid>
     </ContentPage>
@@ -692,20 +696,20 @@
                     x:Name="ReviewsLabel"
                     Grid.Row="0"
                     HorizontalOptions="Center"
-                    VerticalOptions="Center"
-                    TextColor="{DynamicResource TitleColor}"/>
+                    TextColor="{DynamicResource TitleColor}"
+                    VerticalOptions="Center" />
 
                 <ListView
                     x:Name="ReviewsView"
                     Grid.Row="0"
                     HasUnevenRows="True"
-                    ItemsSource="{Binding Reviews}"
                     HorizontalOptions="Fill"
-                    VerticalOptions="Fill"
-                    SeparatorVisibility="Default"
-                    SelectionMode="None"
                     ItemTapped="ReviewsView_ItemTapped"
-                    SeparatorColor="{DynamicResource HorizontalSpacerColor}">
+                    ItemsSource="{Binding Reviews}"
+                    SelectionMode="None"
+                    SeparatorColor="{DynamicResource HorizontalSpacerColor}"
+                    SeparatorVisibility="Default"
+                    VerticalOptions="Fill">
 
                     <ListView.ItemTemplate>
                         <DataTemplate>
@@ -729,24 +733,22 @@
 
                                     <Label
                                         Font="Italic, 12"
-                                        TextColor="{DynamicResource TextColor}"
-                                        Text="{Binding ReviewDate, StringFormat='Reviewed: {0}'}" />
+                                        Text="{Binding ReviewDate, StringFormat='Reviewed: {0}'}"
+                                        TextColor="{DynamicResource TextColor}" />
 
-                                    <Label
-                                        Text="{Binding Content}"
-                                        TextColor="{DynamicResource TitleColor}"/>
+                                    <Label Text="{Binding Content}" TextColor="{DynamicResource TitleColor}" />
 
                                     <Label
                                         Font="Italic, 12"
-                                        TextColor="{DynamicResource TextColor}"
-                                        Text="{Binding VisitDate, StringFormat='Visited: {0}'}" />
+                                        Text="{Binding VisitDate, StringFormat='Visited: {0}'}"
+                                        TextColor="{DynamicResource TextColor}" />
 
                                     <Label
                                         FontSize="12"
-                                        TextColor="#11a0dc"
+                                        HorizontalTextAlignment="End"
                                         Text="View Ratings"
-                                        TextDecorations="Underline"
-                                        HorizontalTextAlignment="End" />
+                                        TextColor="#11a0dc"
+                                        TextDecorations="Underline" />
                                 </StackLayout>
                             </ViewCell>
                         </DataTemplate>
@@ -788,18 +790,18 @@
                     x:Name="Frame4"
                     Grid.RowSpan="1"
                     Grid.ColumnSpan="1"
-                    IsVisible="True"
-                    BackgroundColor="{DynamicResource BackgroundColor}">
+                    BackgroundColor="{DynamicResource BackgroundColor}"
+                    IsVisible="True">
                     <ActivityIndicator
                         x:Name="Indicator4"
                         BackgroundColor="{DynamicResource BackgroundColor}"
-                        Color="#11a0dc"
-                        VerticalOptions="Center"
+                        HeightRequest="40"
                         HorizontalOptions="Center"
-                        IsVisible="True"
                         IsRunning="True"
+                        IsVisible="True"
+                        VerticalOptions="Center"
                         WidthRequest="40"
-                        HeightRequest="40" />
+                        Color="#11a0dc" />
                 </Frame>
             </Grid>
         </StackLayout>

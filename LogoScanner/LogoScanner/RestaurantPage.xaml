@@ -468,10 +468,11 @@
                                 <StackLayout Orientation="Horizontal">
                                     <StackLayout Orientation="Vertical">
                                         <Label
-                                            Margin="0,-15,0,0"
                                             Font="Bold, 40"
                                             Text="{Binding Time}"
-                                            TextColor="{DynamicResource SelectedTabColor}" />
+                                            TextColor="{DynamicResource SelectedTabColor}"
+                                            AutomationId="BookTime"
+                                            Margin="0,-15,0,0" />
 
                                         <Label
                                             FontAttributes="Bold"

@@ -6,15 +6,15 @@ before_script:
 stages:
   - prepare
   - build
-##  - test
+  - test
 
 prepare:
   stage: prepare
   cache:
     key: "$CI_COMMIT_REF_NAME"
     paths:
-      - LogoScanner/packages/**
-      - LogoScanner/build/tools/**
+      #- LogoScanner/packages/**
+      - build/tools/**
     policy: push
   script:
     - cd build
@@ -30,11 +30,12 @@ build:
     - cd build
     - ./build.sh --target Build-tests
 
-##test:
-##  key: "$CI_COMMIT_REF_NAME"
-##  policy: pull
-##  untracked: true
-##  stage: test
-##  script:
-##    - "cd build"
-##    - "./build.sh --target Run-unit-tests"
+test:
+  stage: test
+  cache:
+    key: "$CI_COMMIT_REF_NAME"
+    untracked: true
+    policy: pull
+  script:
+    - cd build
+    - ./build.sh --target Run-unit-tests

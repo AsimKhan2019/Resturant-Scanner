@@ -511,7 +511,7 @@ namespace LogoScanner
             var acceptableCoversList = new List<int>();
 
             if (data["MaxOnlinePartySize"] != null && data["MinOnlinePartySize"] != null)
-                acceptableCoversList = Enumerable.Range((int)data["MinOnlinePartySize"], (int)data["MaxOnlinePartySize"]).ToList();
+                acceptableCoversList = Enumerable.Range((int)data["MinOnlinePartySize"], (int)data["MaxOnlinePartySize"] - (int)data["MinOnlinePartySize"] + 1).ToList();
             else
                 acceptableCoversList = Enumerable.Range(1, 10).ToList();
 

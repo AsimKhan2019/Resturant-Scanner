@@ -15,7 +15,7 @@
 	<key>CFBundleIdentifier</key>
 	<string>com.LogoScanner</string>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>2.0</string>
 	<key>CFBundleName</key>
 	<string>LogoScanner</string>
 	<key>NSCameraUsageDescription</key>
@@ -32,5 +32,15 @@
 	<true/>
 	<key>UIRequiresFullScreen</key>
 	<true/>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Needs contacts permission</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Needs microphone permission</string>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Needs apple music permission</string>
+	<key>NSSiriUsageDescription</key>
+	<string>Needs siri permission</string>
 </dict>
 </plist>

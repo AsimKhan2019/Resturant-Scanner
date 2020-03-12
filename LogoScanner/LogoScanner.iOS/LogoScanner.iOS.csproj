@@ -62,9 +62,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <MtouchArch>ARM64</MtouchArch>
-    <CodesignKey>iPhone Developer: Oliver Gardner (93X95RJPF3)</CodesignKey>
+    <CodesignKey>Apple Distribution: Restaurantdiary (CWJT96K455)</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <CodesignProvision>VS: WildCard Development</CodesignProvision>
+    <CodesignProvision>LogoScanner - provisioning Dist profile</CodesignProvision>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="CameraPage.cs" />

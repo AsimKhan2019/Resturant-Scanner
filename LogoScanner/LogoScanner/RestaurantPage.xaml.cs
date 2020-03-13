@@ -288,19 +288,23 @@ namespace LogoScanner
         }
 
         // populates the reviews tab
-        private void PopulateReviewsTab(JObject result)
+        private async void PopulateReviewsTab()
         {
-            overallReviews = "Reviews (" + Utils.GetRestaurantField(result, "NumberOfReviews") + ")";
+            var reviewsUrl = "https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename + "/Reviews?sortBy=Newest&page=1&pageSize=100";
+            JArray reviewsCall = await Requests.APICallGet(reviewsUrl, token);
+            JObject reviewsResponse = (JObject)reviewsCall.First;
+
+            overallReviews = "Reviews (" + Utils.GetRestaurantField(reviewsResponse, "TotalRows") + ")";
             reviews.Clear();
 
-            if (int.Parse(Utils.GetRestaurantField(result, "NumberOfReviews")) == 0)
+            if (int.Parse(Utils.GetRestaurantField(reviewsResponse, "TotalRows")) == 0)
             {
                 ReviewsView.IsVisible = false;
                 ReviewsLabel.Text = "No Reviews Currently Available.";
             }
             else
             {
-                foreach (JToken review in result["Reviews"].ToArray())
+                foreach (JToken review in reviewsResponse["Data"].ToArray())
                 {
                     reviews.Add(new Review
                     {
@@ -335,7 +339,7 @@ namespace LogoScanner
             PopulateHomeTab(result);
             PopulateBookingTab(result);
             PopulateMenuTab(consumer);
-            PopulateReviewsTab(result);
+            PopulateReviewsTab();
 
             SlotPicker.ItemsSource = Enumerable.Range(1, 10).ToList();
             SlotPicker.IsVisible = false;

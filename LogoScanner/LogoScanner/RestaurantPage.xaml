@@ -627,7 +627,8 @@
                 x:Name="pdfViewerControl"
                 Grid.Row="0"
                 InputFileStream="{Binding PdfDocumentStream}"
-                Toolbar="{StaticResource ToolbarSettings}" />
+                Toolbar="{StaticResource ToolbarSettings}"
+                EnableScrollHead="False" />
 
             <floating:FloatingActionButton
                 x:Name="FloatingButton3"

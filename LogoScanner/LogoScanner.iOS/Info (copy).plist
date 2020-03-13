@@ -19,11 +19,11 @@
 	<key>CFBundleName</key>
 	<string>LogoScanner</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Requires camera permission</string>
+	<string>Needs camera permission</string>
 	<key>NSCalendarsUsageDescription</key>
-	<string>Requires calendar Permission</string>
+	<string>Needs calendar Permission</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Requires access to location.</string>
+	<string>Needs access to location.</string>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/AppIcon.appiconset</string>
 	<key>UILaunchStoryboardName</key>
@@ -35,11 +35,11 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>NSContactsUsageDescription</key>
-	<string>Requires contacts permission</string>
+	<string>Needs contacts permission</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Requires microphone permission</string>
+	<string>Needs microphone permission</string>
 	<key>NSAppleMusicUsageDescription</key>
-	<string>Requires apple music permission</string>
+	<string>Needs apple music permission</string>
 	<key>NSSiriUsageDescription</key>
 	<string>Requires siri permission</string>
 </dict>

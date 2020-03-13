@@ -357,7 +357,7 @@ namespace LogoScanner
         }
 
         //method do download pdf from url
-        public byte[] DownloadPdfStream(string URL, string documentName)
+        public byte[] DownloadPdfStream(string URL)
         {
             var uri = new System.Uri(URL);
             var client = new WebClient();
@@ -389,7 +389,7 @@ namespace LogoScanner
                     try
                     {
                         //Returns the PDF document from the given URL
-                        var documenStream = DownloadPdfStream(pdfUrl, "Sample");
+                        var documenStream = DownloadPdfStream(pdfUrl);
                         listMenu.Add(documenStream);
                     }
                     catch (WebException wex)

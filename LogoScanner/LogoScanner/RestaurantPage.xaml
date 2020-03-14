@@ -10,6 +10,8 @@
     xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
     xmlns:syncfusion="clr-namespace:Syncfusion.SfPdfViewer.XForms;assembly=Syncfusion.SfPdfViewer.XForms"
     xmlns:xfProxy="clr-namespace:Xamarin.Forms.Proxy;assembly=Xamarin.Forms.Core.UnitTests"
+    xmlns:rating="clr-namespace:Syncfusion.SfRating.XForms;assembly=Syncfusion.SfRating.XForms"
+    xmlns:listview="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
 
     Title="Logo Scanner"
     android:TabbedPage.IsSwipePagingEnabled="True"
@@ -33,11 +35,10 @@
             <StackLayout>
                 <Grid x:Name="HomeGrid" VerticalOptions="FillAndExpand">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="16*" />
                         <!--  map  -->
-                        <RowDefinition Height="14*" />
+                        <RowDefinition Height="16*" />
                         <!--  logo  -->
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="14*" />
                         <!--  name / ResDiary  -->
                         <RowDefinition Height="Auto" />
                         <!--  cuisines  -->
@@ -63,8 +64,9 @@
                         <!--  divider  -->
                         <RowDefinition Height="Auto" />
                         <!--  social media label  -->
-                        <RowDefinition Height="20*" />
+                        <RowDefinition Height="Auto" />
                         <!--  social media section  -->
+                        <RowDefinition Height="20*" />
                     </Grid.RowDefinitions>
 
                     <Grid.ColumnDefinitions>
@@ -163,22 +165,26 @@
                         TextColor="{DynamicResource TextColor}"
                         VerticalOptions="Center" />
 
-                    <Grid Grid.Row="5" Grid.Column="0">
-                        <Label
-                            Padding="14,0"
-                            FontSize="14"
-                            HorizontalOptions="Start"
-                            Text="★★★★★"
-                            TextColor="{DynamicResource StarColor}"
-                            VerticalOptions="Center" />
-                        <Label
-                            x:Name="StarLabel"
-                            Padding="14,0"
-                            FontSize="14"
-                            HorizontalOptions="Start"
-                            TextColor="#11a0dc"
-                            VerticalOptions="Center" />
-                    </Grid>
+                    <rating:SfRating
+                        x:Name="HomeStars"
+                        Grid.Row="5"
+                        Grid.Column="0"
+                        Margin="14,0"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Center"
+                        ItemCount="5"
+                        ItemSize="15"
+                        ItemSpacing="2"
+                        Precision="Exact"
+                        ReadOnly="True">
+                        <rating:SfRating.RatingSettings>
+                            <rating:SfRatingSettings
+                                RatedFill="#11a0dc"
+                                UnRatedFill="{DynamicResource StarColor}"
+                                RatedStrokeWidth="0"
+                                UnRatedStrokeWidth="0" />
+                        </rating:SfRating.RatingSettings>
+                    </rating:SfRating>
 
                     <ImageButton
                         Grid.Row="5"
@@ -445,23 +451,21 @@
                     TextColor="#11a0dc" />
             </StackLayout>
 
-            <ListView
+            <listview:SfListView
                 x:Name="AvailabilityView"
                 Grid.Row="1"
                 Margin="0,10,0,0"
-                HasUnevenRows="True"
+                AutoFitMode="Height"
                 HorizontalOptions="Fill"
+                VerticalOptions="Fill"
                 ItemTapped="AvailabilityView_ItemTapped"
                 ItemsSource="{Binding Availability}"
-                SelectionMode="None"
-                SeparatorColor="{DynamicResource HorizontalSpacerColor}"
-                SeparatorVisibility="Default"
-                VerticalOptions="Fill">
+                SelectionMode="None">
 
-                <ListView.ItemTemplate>
+                <listview:SfListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout Padding="15">
+                            <StackLayout Padding="15,15,15,0">
                                 <Label
                                     Margin="0,0,10,0"
                                     FontSize="17"
@@ -518,11 +522,18 @@
                                             WidthRequest="20" />
                                     </StackLayout>
                                 </StackLayout>
+
+                                <BoxView
+                                    BackgroundColor="{DynamicResource HorizontalSpacerColor}"
+                                    HeightRequest="1"
+                                    HorizontalOptions="Fill"
+                                    VerticalOptions="Center"
+                                    WidthRequest="1" />
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                 </listview:SfListView.ItemTemplate>
+            </listview:SfListView>
 
             <Picker
                 x:Name="SlotPicker"
@@ -704,44 +715,51 @@
                     TextColor="{DynamicResource TitleColor}"
                     VerticalOptions="Center" />
 
-                <ListView
-                    x:Name="ReviewsView"
+                <listview:SfListView
+                    x:Name="ReviewsView" 
                     Grid.Row="0"
-                    HasUnevenRows="True"
                     HorizontalOptions="Fill"
+                    VerticalOptions="Fill"
                     ItemTapped="ReviewsView_ItemTapped"
                     ItemsSource="{Binding Reviews}"
                     SelectionMode="None"
-                    SeparatorColor="{DynamicResource HorizontalSpacerColor}"
-                    SeparatorVisibility="Default"
-                    VerticalOptions="Fill">
+                    AutoFitMode="Height">
 
-                    <ListView.ItemTemplate>
+                    <listview:SfListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <StackLayout Padding="15">
+                                <StackLayout Padding="15,15,15,0">
                                     <Label
                                         Font="Bold, 16"
                                         Text="{Binding Name}"
                                         TextColor="{DynamicResource TitleColor}" />
 
-                                    <Grid>
-                                        <Label
-                                            FontSize="Medium"
-                                            Text="★★★★★"
-                                            TextColor="{DynamicResource StarColor}" />
-                                        <Label
-                                            FontSize="Medium"
-                                            Text="{Binding Score}"
-                                            TextColor="#11a0dc" />
-                                    </Grid>
+                                    <rating:SfRating
+                                        HorizontalOptions="Start"
+                                        VerticalOptions="Center"
+                                        ItemCount="5"
+                                        ItemSize="15"
+                                        ItemSpacing="2"
+                                        Precision="Exact"
+                                        ReadOnly="True"
+                                        Value="{Binding Score}">
+                                        <rating:SfRating.RatingSettings>
+                                            <rating:SfRatingSettings
+                                                RatedFill="#11a0dc"
+                                                UnRatedFill="{DynamicResource StarColor}"
+                                                RatedStrokeWidth="0"
+                                                UnRatedStrokeWidth="0" />
+                                        </rating:SfRating.RatingSettings>
+                                    </rating:SfRating>
 
                                     <Label
                                         Font="Italic, 12"
                                         Text="{Binding ReviewDate, StringFormat='Reviewed: {0}'}"
                                         TextColor="{DynamicResource TextColor}" />
 
-                                    <Label Text="{Binding Content}" TextColor="{DynamicResource TitleColor}" />
+                                    <Label
+                                        Text="{Binding Content}"
+                                        TextColor="{DynamicResource TitleColor}" />
 
                                     <Label
                                         Font="Italic, 12"
@@ -754,11 +772,19 @@
                                         Text="View Ratings"
                                         TextColor="#11a0dc"
                                         TextDecorations="Underline" />
+
+                                    <BoxView
+                                        Margin="0,15,0,0"
+                                        BackgroundColor="{DynamicResource HorizontalSpacerColor}"
+                                        HeightRequest="1"
+                                        HorizontalOptions="Fill"
+                                        VerticalOptions="Center"
+                                        WidthRequest="1" />
                                 </StackLayout>
                             </ViewCell>
                         </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                     </listview:SfListView.ItemTemplate>
+                </listview:SfListView>
 
                 <floating:FloatingActionButton
                     x:Name="FloatingButton4"

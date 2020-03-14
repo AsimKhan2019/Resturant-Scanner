@@ -155,9 +155,7 @@ namespace LogoScanner
             if (result["PricePoint"].Type != JTokenType.Null) price = Int32.Parse(result["PricePoint"].ToString(), CultureInfo.CurrentCulture);
             PriceLabel.Text = Utils.GetRestaurantField(result, "PricePoint", "£", price);
 
-            int stars = (int)Math.Round(Double.Parse(result["AverageReviewScore"].ToString(), CultureInfo.CurrentCulture), 0, MidpointRounding.AwayFromZero);
-            StarLabel.Text = Utils.GetRestaurantField(result, "AverageReviewScore", "★", stars);
-
+            HomeStars.Value = Convert.ToDouble(Utils.GetRestaurantField(result, "AverageReviewScore"));
             DescriptionLabel.Text = Utils.GetRestaurantField(consumer, "ShortDescription");
 
             var viewMoreTap = new TapGestureRecognizer();
@@ -288,25 +286,29 @@ namespace LogoScanner
         }
 
         // populates the reviews tab
-        private void PopulateReviewsTab(JObject result)
+        private async void PopulateReviewsTab()
         {
-            overallReviews = "Reviews (" + Utils.GetRestaurantField(result, "NumberOfReviews") + ")";
+            var reviewsUrl = "https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename + "/Reviews?sortBy=Newest&page=1&pageSize=100";
+            JArray reviewsCall = await Requests.APICallGet(reviewsUrl, token);
+            JObject reviewsResponse = (JObject)reviewsCall.First;
+
+            overallReviews = "Reviews (" + Utils.GetRestaurantField(reviewsResponse, "TotalRows") + ")";
             reviews.Clear();
 
-            if (int.Parse(Utils.GetRestaurantField(result, "NumberOfReviews")) == 0)
+            if (int.Parse(Utils.GetRestaurantField(reviewsResponse, "TotalRows")) == 0)
             {
                 ReviewsView.IsVisible = false;
                 ReviewsLabel.Text = "No Reviews Currently Available.";
             }
             else
             {
-                foreach (JToken review in result["Reviews"].ToArray())
+                foreach (JToken review in reviewsResponse["Data"].ToArray())
                 {
                     reviews.Add(new Review
                     {
                         Name = review["ReviewedBy"].ToString(),
                         Content = review["Review"].ToString(),
-                        Score = Utils.GetRestaurantField((JObject)review, "AverageScore", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
+                        Score = Convert.ToDouble(Utils.GetRestaurantField((JObject)review, "AverageScore")),
                         ReviewDate = review["ReviewDateTime"].ToString(),
                         VisitDate = review["VisitDateTime"].ToString(),
                         LikelyToRecommend = Utils.GetRestaurantField((JObject)review, "Answer1", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
@@ -314,8 +316,8 @@ namespace LogoScanner
                         Service = Utils.GetRestaurantField((JObject)review, "Answer3", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
                         Atmosphere = Utils.GetRestaurantField((JObject)review, "Answer4", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
                         Value = Utils.GetRestaurantField((JObject)review, "Answer5", "★", (int)Math.Round(Double.Parse(review["AverageScore"].ToString()), 0, MidpointRounding.AwayFromZero)),
-                        ScoreNumber = review["AverageScore"].ToString()
-                    });
+                        ScoreNumber = review["AverageScore"].ToString(),
+                    }); ;
                 }
                 ReviewsView.ItemsSource = reviews;
             }
@@ -335,7 +337,7 @@ namespace LogoScanner
             PopulateHomeTab(result);
             PopulateBookingTab(result);
             PopulateMenuTab(consumer);
-            PopulateReviewsTab(result);
+            PopulateReviewsTab();
 
             SlotPicker.ItemsSource = Enumerable.Range(1, 10).ToList();
             SlotPicker.IsVisible = false;
@@ -448,16 +450,16 @@ namespace LogoScanner
         }
 
         // event triggered when a review is tapped
-        private async void ReviewsView_ItemTapped(object sender, ItemTappedEventArgs e)
+        private async void ReviewsView_ItemTapped(object sender, Syncfusion.ListView.XForms.ItemTappedEventArgs e)
         {
-            var review = e.Item as Review;
+            var review = e.ItemData as Review;
             await Navigation.PushPopupAsync(new ReviewsPopup(review));
         }
 
         // event triggered when a timeslot is tapped
-        private void AvailabilityView_ItemTapped(object sender, ItemTappedEventArgs e)
+        private void AvailabilityView_ItemTapped(object sender, Syncfusion.ListView.XForms.ItemTappedEventArgs e)
         {
-            var slot = e.Item as AvailableTime;
+            var slot = e.ItemData as AvailableTime;
             string dateTime = slot.DateTime as string;
             Booking.Makebooking(micrositename, dateTime.Split(',')[0], dateTime.Split(',')[1], partySize);
         }

@@ -11,9 +11,7 @@
     xmlns:syncfusion="clr-namespace:Syncfusion.SfPdfViewer.XForms;assembly=Syncfusion.SfPdfViewer.XForms"
     xmlns:xfProxy="clr-namespace:Xamarin.Forms.Proxy;assembly=Xamarin.Forms.Core.UnitTests"
     xmlns:rating="clr-namespace:Syncfusion.SfRating.XForms;assembly=Syncfusion.SfRating.XForms"
-
     xmlns:listview="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
-
 
     Title="Logo Scanner"
     android:TabbedPage.IsSwipePagingEnabled="True"
@@ -37,11 +35,10 @@
             <StackLayout>
                 <Grid x:Name="HomeGrid" VerticalOptions="FillAndExpand">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="16*" />
                         <!--  map  -->
-                        <RowDefinition Height="14*" />
+                        <RowDefinition Height="16*" />
                         <!--  logo  -->
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="14*" />
                         <!--  name / ResDiary  -->
                         <RowDefinition Height="Auto" />
                         <!--  cuisines  -->
@@ -67,8 +64,9 @@
                         <!--  divider  -->
                         <RowDefinition Height="Auto" />
                         <!--  social media label  -->
-                        <RowDefinition Height="20*" />
+                        <RowDefinition Height="Auto" />
                         <!--  social media section  -->
+                        <RowDefinition Height="20*" />
                     </Grid.RowDefinitions>
 
                     <Grid.ColumnDefinitions>

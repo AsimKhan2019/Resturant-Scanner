@@ -1,6 +1,8 @@
 ﻿using Foundation;
 using ImageCircle.Forms.Plugin.iOS;
 using SuaveControls.FloatingActionButton.iOS.Renderers;
+using Syncfusion.ListView.XForms.iOS;
+using Syncfusion.SfRating.XForms.iOS;
 using UIKit;
 
 namespace LogoScanner.iOS
@@ -26,9 +28,10 @@ namespace LogoScanner.iOS
             global::Xamarin.Forms.FormsMaterial.Init();
             global::Xamarin.FormsMaps.Init();
             Syncfusion.SfPdfViewer.XForms.iOS.SfPdfDocumentViewRenderer.Init();
-            Syncfusion.SfRangeSlider.XForms.iOS.SfRangeSliderRenderer.Init();
             ImageCircleRenderer.Init();
             FloatingActionButtonRenderer.InitRenderer();
+            new SfRatingRenderer();
+            SfListViewRenderer.Init();
 
             LoadApplication(new App());
 

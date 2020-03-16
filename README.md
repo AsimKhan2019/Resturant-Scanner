@@ -71,14 +71,22 @@ The application was developed with:
 
 ### Screenshots
 #### Android
-| ![Screenshot]() | ![Screenshot]() | ![Screenshot]() | ![Screenshot]() | ![Screenshot]() | ![Screenshot]()
-|:---:|:---:|:---:|:---:|:---:|:---:|
-| Screenshot 1 | Screenshot 2 | Screenshot3 | Screenshot 4 | Screenshot 5 | Screenshot 6|
+| ![Camera Page]() | ![Restaurant Page]() | ![Booking Page]() | ![Menu Page]() |
+|:---:|:---:|:---:|:---:|
+| Camera Page | Restaurant Page | Booking Page | Menu Page |
+
+| ![Reviews Page]() | ![Reviews Popup]() | ![Dark Mode Restaurant]() | ![Dark Mode Reviews]() |
+|:---:|:---:|:---:|:---:|
+| Reviews Page | Reviews Popup | Dark Mode Restaurant | Dark Mode Reviews|
 
 #### iOS
-| ![Screenshot]() | ![Screenshot]() | ![Screenshot]() | ![Screenshot]() | ![Screenshot]() | ![Screenshot]()
-|:---:|:---:|:---:|:---:|:---:|:---:|
-| Screenshot 1 | Screenshot 2 | Screenshot3 | Screenshot 4 | Screenshot 5 | Screenshot 6|
+| ![Camera Page](https://i.imgur.com/E6TpEQv.png) | ![Restaurant Page](https://i.imgur.com/xQEaTEs.png) | ![Booking Page](https://i.imgur.com/QmfcBbQ.png) | ![Menu Page](https://i.imgur.com/DZClzwz.png) |
+|:---:|:---:|:---:|:---:|
+| Camera Page | Restaurant Page | Booking Page | Menu Page |
+
+| ![Reviews Page](https://i.imgur.com/xV9tqT9.png) | ![Reviews Popup](https://i.imgur.com/RJufHGm.png) | ![Dark Mode Restaurant](https://i.imgur.com/SLPy8Tj.png) | ![Dark Mode Reviews](https://i.imgur.com/8x1onE2.png) |
+|:---:|:---:|:---:|:---:|
+| Reviews Page | Reviews Popup | Dark Mode Restaurant | Dark Mode Reviews|
 
 ## User Guide
 The user guide has been written with the goal of informing our customer, ResDiary, on how to take over the project if they wish to continue development. See [USERGUIDE.md](USERGUIDE.md) file for details.

@@ -1,10 +1,10 @@
-# User Guide
+# Logo Scanner User Guide
 The purpose of this guide is to inform ResDiary on how to take the project forward if they wish to. It serves as handover documentation which explains how to install, run and test the app. On top of this, it includes a detailed description of the code base if the custom if unfamiliar with the Xamarin environment.
 
 ## 1. Installation
 The project requires some prerequisites which will need to be downloaded/setup before the project can be utilised from your machine. These are outlined below.
 
-### 1.1 Visual Studio/Xamarin
+### 1.1 Visual Studio & Xamarin
 The project uses Xamarin as its core technology. Xamarin is an open-source platform for building modern and performant applications for iOS, Android, and Windows with .NET. Xamarin is an abstraction layer that manages communication of shared code with underlying platform code. Xamarin runs in a managed environment that provides conveniences such as memory allocation and garbage collection.
 
 Xamarin applications can be written on PC or Mac and compile into native application packages, such as an .apk file on Android, or an .ipa file on iOS. Xamarin applications are writing using the Visual Studio software suite.
@@ -20,14 +20,29 @@ git clone https://stgit.dcs.gla.ac.uk/tp3-2019-se06/se06-main.git
 ```
 
 ### 1.3 Git-Secret
-The project has a `credentials.json.secret` file within the project which stores all the sensitive information required by the application. On top of this, the AndroidManifest file has been encrypt as it contains the Google Maps API Key - ` AndroidManifest.xml.secret`. We have used Git-Secret (https://git-secret.io/) in order to encrypt this data and keep it secure. Before you can run the app fromVisual Studio, you will need to decrypt these files:   
+#### 1.3.1 Tutorial
+The project has a `credentials.json.secret` file within the project which stores all the sensitive information required by the application. On top of this, the AndroidManifest file has been encrypt as it contains the Google Maps API Key - ` AndroidManifest.xml.secret`. We have used Git-Secret (https://git-secret.io/) in order to encrypt this data and keep it secure. Before you can run the app from Visual Studio, you will need to decrypt these files:   
 1. Install Git-Secret by following the installation tutorial (https://git-secret.io/installation)
-2. In order to decrypt the files, you must ensure that your public key has been added to the project - please ask one of the contributors to do this for you
+2. In order to decrypt the files, you must ensure that your public key has been added to the project - please ask one of the contributors to do this for you. To generate a key then follow the tutorial in 1.3.2
 3. Run the command ```git secret reveal``` from your terminal which will decrypt the files for you
 4. You will now be presented with the `credentials.json` and `AndroidManifest.xml` files in the directories `LogoScanner/LogoScanner` and `LogoScanner/LogoScanner.Android/Properties` respectively
 5. In Visual Studio, right-click the `credentials.json` file and make sure the `Build Action` is set to `EmbeddedResource`
 
 The `crendentials.json` file contains sensitive API keys will be can be changed at your leisure. They are documented below.
+
+#### 1.3.2 Generating a Key
+Private and public keys are generated using GPG (https://gnupg.org/). GPG is free encryption software that's compliant with the OpenPGP standard. To generate a RSA key-pair, run:
+```
+gpg --gen-key
+```
+To export your public key, run:
+```
+gpg --export your.email@address.com --armor > public-key.gpg
+```
+To import the public key of someone else (to share the secret with them for instance), run:
+```
+gpg --import public-key.gpg
+```
 
 ### 1.4 ResDiary API
 The ResDiary consumer API began as an internal API supporting the resdiary.com portal. Everything (and more) that you see on resdiary.com can be replicated via this API. The primary purpose of the consumer API is to supply everything required for a ‘consumer facing’ restaurant discovery search and book user experience. The core features provided are:
@@ -71,14 +86,14 @@ trainer = CustomVisionTrainingClient(training_key, endpoint=ENDPOINT)
 print ("Creating project...")
 project = trainer.create_project("My New Project")
 ```
-​
+
 #### 1.5.3 Create tags in the project
 ```
 # Make two tags in the new project
 hemlock_tag = trainer.create_tag(project.id, "Hemlock")
 cherry_tag = trainer.create_tag(project.id, "Japanese Cherry")
 ```
-​
+
 #### 1.5.4 Upload and tag images
 To add the sample images to the project, insert the following code after the tag creation. This code uploads each image with its corresponding tag. You can upload up to 64 images in a single batch.
 Note: You'll need to change the path to the images based on where you downloaded the Cognitive Services Python SDK Samples repo earlier.
@@ -107,7 +122,7 @@ if not upload_result.is_batch_successful:
         print("Image status: ", image.status)
     exit(-1)
 ```
-​
+
 #### 1.5.5 Train the classifier and publish
 This code creates the first iteration of the prediction model and then publishes that iteration to the prediction endpoint. The name given to the published iteration can be used to send prediction requests. An iteration is not available in the prediction endpoint until it is published.
 ```
@@ -124,7 +139,7 @@ while (iteration.status != "Completed"):
 trainer.publish_iteration(project.id, iteration.id, publish_iteration_name, prediction_resource_id)
 print ("Done!")
 ```
-​
+
 #### 1.5.6 Get and use the published iteration on the prediction endpoint
 Note: already in our code
 ​
@@ -143,7 +158,7 @@ with open(base_image_url + "images/Test/test_image.jpg", "rb") as image_contents
         print("\t" + prediction.tag_name +
               ": {0:.2f}%".format(prediction.probability * 100))
 ```
-​
+
 #### 1.5.7 Link to the API documentation
 https://southcentralus.dev.cognitive.microsoft.com/docs/services/Custom_Vision_Training_3.0/operations/5c771cdcbf6a2b18a0c3b803
 
@@ -188,20 +203,30 @@ The entry point for the application is the `Main.cs` class that instantiates the
 
 ![iOS Structure](https://capgemini.github.io/images/2018-08-03-designing-mobile-cross-platform-applications-with-xamarin/NativeIOSArchitecture.png)
 
-## 3. Running the App
+## 3. Running/Building the App
 ### 3.1 Visual Studio
+To run the app from Visual Studio, make sure that you first have developer settings enabled on your phone. Connect your phone to your computer. If your phone is connected then it will show up in the run menu within Visual Studio. Click on the connected phone that displays and the app will start running on your device.
 
-### 3.2 Android
+### 3.2 Android (APK)
+On top of running the app straight from Visual Studio, it can also be compiled and distributed as an Android Application Package (APK). We will send this file over to you via Slack before the project deadline date (20/3/20). This file can then be downloaded from Slack and installed directly on to your Android device.  
 
-### 3.3 iOS
-from apk, test flight, within VS
+If you have made changes to the project or would simply like to compile the app yourself then please follow this guide - https://docs.microsoft.com/en-us/xamarin/android/deploy-test/release-prep/?tabs=windows.
+
+### 3.3 iOS (TestFlight)
+The iOS version of the application can be installed using TestFlight. TestFlight is an online service for over-the-air installation and testing of mobile applications. LogoScanner has been uploaded to TestFlight using ResDiary's Apple Developer Account. If you wish for your Apple ID to be added to the TestFlight project so that you can download the app then please ask a contributor to do this for you. To upload a new version of the app to TestFlight, follow this tutorial - https://docs.microsoft.com/en-us/xamarin/ios/deploy-test/testflight?tabs=macos.
 
 ## 4. Testing
-### 4.1 Unit Testing
+### 4.1 Unit Tests
+The project makes use of the NUnit (https://github.com/nunit/nunit.xamarin) framework for our unit testing. The test cases can be found in the file `Tests.cs` inside the `CrossPlatformTest` directory. Our unit tests have been designed so that they test various aspects of the application. There are tests which range from testing that the app connects to Custom Vision successfully to checking whether the booking slots are displaying the correct number to the user. This tutorial - https://www.c-sharpcorner.com/article/unit-test-in-c-sharp-with-xamarin-forms/ - can be followed if you wish to add more unit tests to the project. The tutorial also explains how to run the test cases.
 
 ### 4.2 CI Pipeline
+We made use of GitLab's Continuous Integration (CI) so that we could run our unit tests each time we committed and pushed to the repository. Within the [gitlab-ci.yml](gitlab-ci.yml) we were able to add stages to the CI pipeline and execute commands. Within our pipeline, we had 3 stages - prepare, build and test. The prepare stage makes sure that the runner has the neccessary packages installed. The build stage will build the project and the test cases so that they can be executed. The test stage will run the unit tests automatically - the pipeline will only pass if all 3 of these stages are successful.
 
 ### 4.3 Logo Folder
-/logos
+Within the respository there is a folder called [logos](logos). Within this folder contains of the restaurant logo's that we had access to throughout the project. You can use this folder to easily access the logos without any hassle.
 
-logo folder, CI pipeline, NUnit
+### 4.4 Postman
+We made use of Postman (https://www.postman.com/) when we were testing and adding new API calls to the project. Postman is a powerful tool for performing integration testing with your API. It allows for repeatable, reliable tests that can be automated and used in a variety of environments and includes useful tools for persisting data and simulating how a user might actually be interacting with the system. We would highly reccommend that you make use of Postman if you would like to add a new API call to the project. A handy Postman tutorial can be found here - https://www.guru99.com/postman-tutorial.html.
+
+----------------
+SE06

@@ -363,7 +363,9 @@ MigrationBackup/
 .DS_Store
 
 LogoScanner/LogoScanner/credentials.txt
+LogoScanner/LogoScanner/credentials.json
 
 .gitsecret/keys/random_seed
 !*.secret
 LogoScanner/LogoScanner.Android/Properties/AndroidManifest.xml
+/LogoScanner/LogoScanner/credentials.txt

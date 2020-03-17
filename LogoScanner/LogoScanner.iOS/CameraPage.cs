@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Drawing;
-using System.Threading;
 using AVFoundation;
 using CoreGraphics;
 using Foundation;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
-using Rectangle = System.Drawing.Rectangle;
-
+using Plugin.Connectivity;
 
 /*
  * AVFoundation Reference: http://red-glasses.com/index.php/tutorials/ios4-take-photos-with-live-video-preview-using-avfoundation/
@@ -17,17 +15,18 @@ using Rectangle = System.Drawing.Rectangle;
  */
 
 [assembly: ExportRenderer(typeof(LogoScanner.MainPage), typeof(LogoScanner.iOS.CameraPage))]
+
 namespace LogoScanner.iOS
 {
     public class CameraPage : PageRenderer
     {
-        AVCaptureSession captureSession;
-        AVCaptureDeviceInput captureDeviceInput;
-        UIButton cameraRectangle;
-        UIButton toggleFlashButton;
-        UIView liveCameraStream;
-        AVCaptureStillImageOutput stillImageOutput;
-        UIButton takePhotoButton;
+        private AVCaptureSession captureSession;
+        private AVCaptureDeviceInput captureDeviceInput;
+        private UIButton cameraRectangle;
+        private UIButton toggleFlashButton;
+        private UIView liveCameraStream;
+        private AVCaptureStillImageOutput stillImageOutput;
+        private UIButton takePhotoButton;
 
         public override void ViewDidLoad()
         {
@@ -85,25 +84,39 @@ namespace LogoScanner.iOS
 
         public async void CapturePhoto()
         {
-            DialogService.ShowLoading("Capturing Every Pixel");
+            var current = CrossConnectivity.Current.IsConnected;
 
-            var videoConnection = stillImageOutput.ConnectionFromMediaType(AVMediaType.Video);
-            var sampleBuffer = await stillImageOutput.CaptureStillImageTaskAsync(videoConnection);
-            var jpegImageAsNsData = AVCaptureStillImageOutput.JpegStillToNSData(sampleBuffer);
-
-            // crop photo, first change it to UIImage, then crop it
-            UIImage img = new UIImage(jpegImageAsNsData);
-            img = CropImage(img, (int)View.Bounds.GetMidX() + 40, (int)View.Bounds.GetMidY() + 225, 600, 600); // values in rectange are the starting point and then width and height
-            byte[] CroppedImage;
-
-            // change UIImage to byte array
-            using (NSData imageData = img.AsPNG())
+            if (!current)
             {
-                CroppedImage = new Byte[imageData.Length];
-                System.Runtime.InteropServices.Marshal.Copy(imageData.Bytes, CroppedImage, 0, Convert.ToInt32(imageData.Length));
-            }
+                var okAlertController = UIAlertController.Create("Connection Error", "Please connect to the internet", UIAlertControllerStyle.Alert);
 
-            SendPhoto(CroppedImage);
+                okAlertController.AddAction(UIAlertAction.Create("OK", UIAlertActionStyle.Default, null));
+
+                PresentViewController(okAlertController, true, null);
+            }
+            else
+            {
+                DialogService.ShowLoading("Scanning Logo");
+
+                var videoConnection = stillImageOutput.ConnectionFromMediaType(AVMediaType.Video);
+                var sampleBuffer = await stillImageOutput.CaptureStillImageTaskAsync(videoConnection);
+                var jpegImageAsNsData = AVCaptureStillImageOutput.JpegStillToNSData(sampleBuffer);
+
+                // crop photo, first change it to UIImage, then crop it
+                UIImage img = new UIImage(jpegImageAsNsData);
+                img = CropImage(img, (int)View.Bounds.GetMidX() + 40, (int)View.Bounds.GetMidY() + 225, 600, 600); // values in rectangle are the starting point and then width and height
+
+                byte[] CroppedImage;
+
+                // change UIImage to byte array
+                using (NSData imageData = img.AsPNG())
+                {
+                    CroppedImage = new Byte[imageData.Length];
+                    System.Runtime.InteropServices.Marshal.Copy(imageData.Bytes, CroppedImage, 0, Convert.ToInt32(imageData.Length));
+                }
+
+                SendPhoto(CroppedImage);
+            }
         }
 
         // crop the image, without resizing
@@ -116,7 +129,7 @@ namespace LogoScanner.iOS
             var clippedRect = new RectangleF(0, 0, width, height);
             context.ClipToRect(clippedRect);
 
-            var drawRect = new RectangleF(-x, -y, (float) imgSize.Width, (float) imgSize.Height);
+            var drawRect = new RectangleF(-x, -y, (float)imgSize.Width, (float)imgSize.Height);
             srcImage.Draw(drawRect);
             var modifiedImage = UIGraphics.GetImageFromCurrentImageContext();
             UIGraphics.EndImageContext();
@@ -227,7 +240,8 @@ namespace LogoScanner.iOS
 
         private void SetupEventHandlers()
         {
-            takePhotoButton.TouchUpInside += (object sender, EventArgs e) => {
+            takePhotoButton.TouchUpInside += (object sender, EventArgs e) =>
+            {
                 CapturePhoto();
             };
 
@@ -235,27 +249,52 @@ namespace LogoScanner.iOS
             {
                 UpdateFocusIfNeeded();
             };
-            
-            toggleFlashButton.TouchUpInside += (object sender, EventArgs e) => {
+
+            toggleFlashButton.TouchUpInside += (object sender, EventArgs e) =>
+            {
                 ToggleFlash();
             };
         }
 
         public async void SendPhoto(byte[] image)
         {
-            var results = await CustomVisionService.PredictImageContentsAsync(image, (new CancellationTokenSource()).Token);
-            var navigationPage = new NavigationPage(new RestaurantPage(results.ToString()));
+            var current = CrossConnectivity.Current.IsConnected;
 
-            await App.Current.MainPage.Navigation.PushModalAsync(navigationPage, false);
+            if (!current)
+            {
+                await App.Current.MainPage.DisplayAlert("Connection Error", "Please connect to the internet", "OK");
+            }
+            else
+            {
+                var results = await CustomVisionService.PredictImageContentsAsync(image);
+                String resultInString = results.ToString();
 
-            DialogService.HideLoading();
+                if (resultInString.Length > 0)
+                {
+                    if (Geolocation.HasMoreOptions(resultInString))
+                    {
+                        DialogService.ShowLoading("More Restaurants Available");
+                        resultInString = await Geolocation.GetCloserOptionAsync(resultInString);
+                    }
+                    var navigationPage = new NavigationPage(new RestaurantPage(resultInString));
 
-            var error = new NSError();
-            var device = captureDeviceInput.Device;
-            device.LockForConfiguration(out error);
-            device.FlashMode = AVCaptureFlashMode.Off;
-            device.UnlockForConfiguration();
+                    DialogService.HideLoading();
+
+                    await App.Current.MainPage.Navigation.PushModalAsync(navigationPage, true);
+
+                    var error = new NSError();
+                    var device = captureDeviceInput.Device;
+                    device.LockForConfiguration(out error);
+                    device.FlashMode = AVCaptureFlashMode.Off;
+                    device.UnlockForConfiguration();
+                }
+                else
+                {
+                    DialogService.HideLoading();
+                    await App.Current.MainPage.DisplayAlert("Restaurant Not Found", "Please rescan the Logo", "OK");
+                }
+            }
         }
-
     }
 }
+ 

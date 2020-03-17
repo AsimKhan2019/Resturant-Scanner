@@ -1,0 +1,23 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogoScanner.iOS", "LogoScanner.iOS.csproj", "{92809A16-03BA-49E0-A7BE-A05F0CDBD200}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|iPhoneSimulator = Debug|iPhoneSimulator
+		Release|iPhoneSimulator = Release|iPhoneSimulator
+		Debug|iPhone = Debug|iPhone
+		Release|iPhone = Release|iPhone
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{92809A16-03BA-49E0-A7BE-A05F0CDBD200}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
+		{92809A16-03BA-49E0-A7BE-A05F0CDBD200}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
+		{92809A16-03BA-49E0-A7BE-A05F0CDBD200}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
+		{92809A16-03BA-49E0-A7BE-A05F0CDBD200}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
+		{92809A16-03BA-49E0-A7BE-A05F0CDBD200}.Debug|iPhone.ActiveCfg = Debug|iPhone
+		{92809A16-03BA-49E0-A7BE-A05F0CDBD200}.Debug|iPhone.Build.0 = Debug|iPhone
+		{92809A16-03BA-49E0-A7BE-A05F0CDBD200}.Release|iPhone.ActiveCfg = Release|iPhone
+		{92809A16-03BA-49E0-A7BE-A05F0CDBD200}.Release|iPhone.Build.0 = Release|iPhone
+	EndGlobalSection
+EndGlobal

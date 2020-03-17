@@ -11,7 +11,7 @@ using Xamarin.Forms;
 
 namespace LogoScanner
 {
-    public class Requests
+    public static class Requests
     {
         // structure to store request status and corresponding message
         public struct Request
@@ -41,7 +41,7 @@ namespace LogoScanner
                     token = Application.Current.Properties["Token"].ToString(); // get token which was save locally
                     tokenExpiracy = Application.Current.Properties["TokenExpiryUtc"].ToString(); //get time of token saved locally
 
-                    if (DateTimeOffset.Parse(tokenExpiracy).UtcDateTime > DateTime.UtcNow)
+                    if (DateTimeOffset.Parse(tokenExpiracy, CultureInfo.CurrentCulture).UtcDateTime > DateTime.UtcNow)
                     {
                         return new Request("Success", token); // return a successful request with api token
                     }
@@ -49,16 +49,16 @@ namespace LogoScanner
                 // else get a new token
 
                 var assembly = Assembly.GetExecutingAssembly();
-                var credentialsFile = "LogoScanner.credentials.txt";
-                string[] line;
+                var credentialsFile = "LogoScanner.credentials.json";
+                JObject line;
 
                 using (Stream stream = assembly.GetManifestResourceStream(credentialsFile))
                 using (StreamReader reader = new StreamReader(stream))
                 {
-                    line = reader.ReadLine().Split('\t'); // opens credentials file, reads it and splits it via a tab
+                    line = JObject.Parse(reader.ReadToEnd()); // opens credentials file, reads it and parse JSON
                 }
 
-                string credentials = @"{""Username"" : """ + line[0] + @""", ""Password"" : """ + line[1] + @"""}"; // parse in username/password to json
+                string credentials = @"{""Username"" : """ + line["ResDiaryAPI"]["username"].ToString() + @""", ""Password"" : """ + line["ResDiaryAPI"]["password"].ToString() + @"""}"; // parse in username/password to json
 
                 try
                 {
@@ -74,20 +74,25 @@ namespace LogoScanner
                         string status = JObject.Parse(result)["Status"].ToString(); // parse the json to string format
                         token = JObject.Parse(result)["Token"].ToString();
 
-                        if (status.Equals("Fail") || token == null)
+                        if (status.Equals("Fail", StringComparison.InvariantCulture) || token == null)
                         {
-                            return new Request(status, "Invalid credentials");
+                            content.Dispose();
+                            client.Dispose();
+                            return new Request(status, "Invalid credentials");                            
                         }
                         else
                         {
                             Application.Current.Properties["Token"] = token; // save the token locally
                             Application.Current.Properties["TokenExpiryUtc"] = JObject.Parse(result)["TokenExpiryUtc"].ToString(); // save the time
-
+                            content.Dispose();
+                            client.Dispose();
                             return new Request(status, token); // return a successful request with api token
                         }
                     }
                     else
                     {
+                        content.Dispose();
+                        client.Dispose();
                         return new Request("Fail", "Unable to connect to ReSDiary API");
                     }
                 }
@@ -123,8 +128,13 @@ namespace LogoScanner
 
                 result = JArray.Parse(contents);
 
+                client.Dispose();
+                requestMessage.Dispose();
+
                 return result;
             }
+            client.Dispose();
+            requestMessage.Dispose();
 
             return null;
         }
@@ -132,8 +142,6 @@ namespace LogoScanner
         public static async Task<JObject> APICallPost(string url, string token, string datestart, string dateend, int partysize)
         {
             HttpClient client = new HttpClient();
-            //HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Post, url);
-            //requestMessage.Headers.Add("Authorization", "Bearer " + token);
 
             client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
@@ -148,10 +156,14 @@ namespace LogoScanner
                 var retstring = await response.Content.ReadAsStringAsync();
 
                 result = JObject.Parse(retstring);
-
+                content.Dispose();
+                client.Dispose();
+                
                 return result;
             }
 
+            content.Dispose();
+            client.Dispose();
             return null;
         }
     }

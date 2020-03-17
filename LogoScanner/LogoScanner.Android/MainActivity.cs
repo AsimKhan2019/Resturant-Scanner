@@ -1,6 +1,4 @@
-﻿using System;
-
-using Android.App;
+﻿using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
@@ -8,11 +6,13 @@ using Plugin.CurrentActivity;
 using Acr.UserDialogs;
 using ImageCircle.Forms.Plugin.Droid;
 using Plugin.Permissions;
-using PanCardView.Droid;
+using SuaveControls.FloatingActionButton.Droid.Renderers;
+using Android.Content.Res;
+using LogoScanner.Themes;
 
 namespace LogoScanner.Droid
 {
-    [Activity(Label = "LogoScanner", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Label = "LogoScanner", Icon = "@mipmap/icon", Theme = "@style/MainTheme", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
@@ -22,6 +22,8 @@ namespace LogoScanner.Droid
 
             base.OnCreate(savedInstanceState);
 
+            Rg.Plugins.Popup.Popup.Init(this, savedInstanceState);
+
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             global::Xamarin.Forms.FormsMaterial.Init(this, savedInstanceState);
@@ -29,18 +31,44 @@ namespace LogoScanner.Droid
 
             ImageCircleRenderer.Init();
             UserDialogs.Init(this);
-            CardsViewRenderer.Preserve();
+            FloatingActionButtonRenderer.Initialize();
 
             CrossCurrentActivity.Current.Init(this, savedInstanceState);
             Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, savedInstanceState);
 
             LoadApplication(new App());
+
+            SetAppTheme();
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
             PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+        private void SetAppTheme()
+        {
+            // Ensure the device is running Android Froyo or higher because UIMode was added in Android Froyo, API 8.0
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.Froyo)
+            {
+                var uiModeFlags = CrossCurrentActivity.Current.AppContext.Resources.Configuration.UiMode & UiMode.NightMask;
+
+                switch (uiModeFlags)
+                {
+                    case UiMode.NightYes:
+                        App.Current.Resources = new DarkTheme();
+                        break;
+
+                    case UiMode.NightNo:
+                        App.Current.Resources = new LightTheme();
+                        break;
+                }
+            }
+            else
+            {
+                App.Current.Resources = new LightTheme();
+            }
         }
     }
 }

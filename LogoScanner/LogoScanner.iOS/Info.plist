@@ -7,22 +7,23 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 	<key>MinimumOSVersion</key>
 	<string>11.0</string>
 	<key>CFBundleDisplayName</key>
 	<string>LogoScanner</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.se06.LogoScanner</string>
+	<string>com.LogoScanner</string>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>2.0</string>
 	<key>CFBundleName</key>
 	<string>LogoScanner</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Needs camera permission</string>
+	<string>Requires camera permission</string>
 	<key>NSCalendarsUsageDescription</key>
-	<string>Needs calendar Permission</string>
+	<string>Requires calendar Permission</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Requires access to location.</string>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/AppIcon.appiconset</string>
 	<key>UILaunchStoryboardName</key>
@@ -31,5 +32,15 @@
 	<true/>
 	<key>UIRequiresFullScreen</key>
 	<true/>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Requires contacts permission</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Requires microphone permission</string>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Requires apple music permission</string>
+	<key>NSSiriUsageDescription</key>
+	<string>Requires siri permission</string>
 </dict>
 </plist>

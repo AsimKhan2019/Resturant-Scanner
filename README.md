@@ -65,9 +65,9 @@ The application was developed with:
 ## App Demo
 ### Video
 #### Android
-![Android App Demo Video](https://www.youtube.com/?gl=GB&hl=en-GB)
+[Android App Demo Video](https://www.youtube.com/?gl=GB&hl=en-GB)
 #### iOS
-![iOS App Demo Video](https://www.youtube.com/?gl=GB&hl=en-GB)
+[iOS App Demo Video](https://youtu.be/tQFslWv17Mc)
 
 ### Screenshots
 #### Android

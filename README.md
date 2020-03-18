@@ -65,17 +65,17 @@ The application was developed with:
 ## App Demo
 ### Video
 #### Android
-![Android App Demo Video](https://www.youtube.com/?gl=GB&hl=en-GB)
+[Android App Demo Video](https://www.youtube.com/?gl=GB&hl=en-GB)
 #### iOS
-![iOS App Demo Video](https://www.youtube.com/?gl=GB&hl=en-GB)
+[iOS App Demo Video](https://youtu.be/tQFslWv17Mc)
 
 ### Screenshots
 #### Android
-| ![Camera Page]() | ![Restaurant Page]() | ![Booking Page]() | ![Menu Page]() |
-|:---:|:---:|:---:|:---:|
-| Camera Page | Restaurant Page | Booking Page | Menu Page |
+| ![Camera Page](https://i.imgur.com/WHkab6p.jpg) | ![Restaurant Page](https://i.imgur.com/57xhmAb.jpg) | ![Booking Page](https://i.imgur.com/zcYk8SS.jpg) | ![Menu Page - 1](https://i.imgur.com/VODsdpr.jpg) | ![Menu Page - 2](https://i.imgur.com/ltZyFsn.jpg) |
+|:---:|:---:|:---:|:---:| :---: |
+| Camera Page | Restaurant Page | Booking Page | Menu Page - 1 | Menu Page - 2 |
 
-| ![Reviews Page]() | ![Reviews Popup]() | ![Dark Mode Restaurant]() | ![Dark Mode Reviews]() |
+| ![Reviews Page](https://i.imgur.com/LxMDJ8V.jpg) | ![Reviews Popup](https://i.imgur.com/FU6Gioy.jpg) | ![Dark Mode Restaurant](https://i.imgur.com/9EhPqla.jpg) | ![Dark Mode Reviews](https://i.imgur.com/vWd1ti0.jpg) |
 |:---:|:---:|:---:|:---:|
 | Reviews Page | Reviews Popup | Dark Mode Restaurant | Dark Mode Reviews|
 

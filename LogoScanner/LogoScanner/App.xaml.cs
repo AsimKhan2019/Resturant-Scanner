@@ -1,9 +1,12 @@
-﻿using Xamarin.Forms;
+﻿using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace LogoScanner
 {
     public partial class App : Application
     {
+        public static Location location = null;
+
         public App()
         {
             InitializeComponent();
@@ -11,9 +14,10 @@ namespace LogoScanner
             MainPage = new MainPage();
         }
 
-        protected override void OnStart()
+        protected override async void OnStart()
         {
             // Handle when your app starts
+            location = await Geolocation.GetMyLocation();
         }
 
         protected override void OnSleep()

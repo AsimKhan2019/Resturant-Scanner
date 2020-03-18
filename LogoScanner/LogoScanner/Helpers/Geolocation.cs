@@ -84,7 +84,10 @@ namespace LogoScanner
         {
             //get my location
             var ListofOptions = SplitMoreOptions(TagName);
-            Location myLocation = await GetMyLocation();
+            Location myLocation = App.location;
+
+            if (App.location == null) myLocation = await GetMyLocation();
+
             //set highest distance
             double min = Double.MaxValue;
             String results = "";

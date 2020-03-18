@@ -151,7 +151,9 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\launch_logo_120.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\launch_logo_1024.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\launch_logo_1024.png">
+      <Visible>false</Visible>
+    </ImageAsset>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -218,8 +220,10 @@
     <BundleResource Include="Resources\RightArrow.png" />
     <BundleResource Include="Resources\RightArrowDark.png" />
     <BundleResource Include="Resources\ReviewIcon.png">
-      <SubType></SubType>
-      <Generator></Generator>
+      <SubType>
+      </SubType>
+      <Generator>
+      </Generator>
     </BundleResource>
   </ItemGroup>
   <ItemGroup>

@@ -532,7 +532,7 @@
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>
-                 </listview:SfListView.ItemTemplate>
+                </listview:SfListView.ItemTemplate>
             </listview:SfListView>
 
             <Picker
@@ -716,7 +716,7 @@
                     VerticalOptions="Center" />
 
                 <listview:SfListView
-                    x:Name="ReviewsView" 
+                    x:Name="ReviewsView"
                     Grid.Row="0"
                     HorizontalOptions="Fill"
                     VerticalOptions="Fill"
@@ -783,7 +783,7 @@
                                 </StackLayout>
                             </ViewCell>
                         </DataTemplate>
-                     </listview:SfListView.ItemTemplate>
+                    </listview:SfListView.ItemTemplate>
                 </listview:SfListView>
 
                 <floating:FloatingActionButton

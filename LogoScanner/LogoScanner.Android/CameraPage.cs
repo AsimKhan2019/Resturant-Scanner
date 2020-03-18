@@ -219,41 +219,53 @@ namespace LogoScanner.Droid
             }
             else
             {
-                var parameters = camera.GetParameters();
-                parameters.FlashMode = global::Android.Hardware.Camera.Parameters.FlashModeOff;
-                camera.SetParameters(parameters);
-                camera.StopPreview();
-                DialogService.ShowLoading("Scanning Logo");
-
-                var image = CropImage(textureView.Bitmap);
-                using (var imageStream = new MemoryStream())
+                try
                 {
-                    await image.CompressAsync(Bitmap.CompressFormat.Jpeg, 50, imageStream);
-                    image.Recycle();
-                    imageBytes = imageStream.ToArray();
-                }
-                var results = await CustomVisionService.PredictImageContentsAsync(imageBytes);
-                String resultInString = results.ToString();
+                    var parameters = camera.GetParameters();
+                    parameters.FlashMode = global::Android.Hardware.Camera.Parameters.FlashModeOff;
+                    camera.SetParameters(parameters);
+                    camera.StopPreview();
+                    DialogService.ShowLoading("Scanning Logo");
 
-                if (resultInString.Length > 0)
-                {
-                    if (Geolocation.HasMoreOptions(resultInString))
+                    var image = CropImage(textureView.Bitmap);
+                    using (var imageStream = new MemoryStream())
                     {
-                        DialogService.ShowLoading("More Restaurants Available");
-                        resultInString = await Geolocation.GetCloserOptionAsync(resultInString);
+                        await image.CompressAsync(Bitmap.CompressFormat.Jpeg, 50, imageStream);
+                        image.Recycle();
+                        imageBytes = imageStream.ToArray();
                     }
-                    var navigationPage = new NavigationPage(new RestaurantPage(resultInString));
+                    var results = await CustomVisionService.PredictImageContentsAsync(imageBytes);
+                    String resultInString = results.ToString();
 
-                    DialogService.HideLoading();
-                    camera.StartPreview();
-                    await App.Current.MainPage.Navigation.PushModalAsync(navigationPage, true);
+                    if (resultInString.Length > 0)
+                    {
+                        if (Geolocation.HasMoreOptions(resultInString))
+                        {
+                            DialogService.ShowLoading("More Restaurants Available");
+                            resultInString = await Geolocation.GetCloserOptionAsync(resultInString);
+                        }
+                        var navigationPage = new NavigationPage(new RestaurantPage(resultInString));
+
+                        DialogService.HideLoading();
+                        camera.StartPreview();
+                        await App.Current.MainPage.Navigation.PushModalAsync(navigationPage, true);
+                    }
+                    else
+                    {
+                        DialogService.HideLoading();
+                        camera.StartPreview();
+
+                        await App.Current.MainPage.DisplayAlert("Restaurant Not Found", "Please re-scan the Logo", "OK");
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    DialogService.HideLoading();
-                    camera.StartPreview();
+                    camera.StopPreview();
+                    camera.Release();
+                    camera = global::Android.Hardware.Camera.Open((int)cameraType);
+                    camera.SetPreviewTexture(surfaceTexture);
 
-                    await App.Current.MainPage.DisplayAlert("Restaurant Not Found", "Please re-scan the Logo", "OK");
+                    PrepareAndStartCamera();
                 }
             }
         }

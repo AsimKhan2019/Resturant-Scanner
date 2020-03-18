@@ -1,21 +1,21 @@
-﻿using Logoscanner;
+﻿using LogoScanner;
 using LogoScanner.Helpers;
 using Newtonsoft.Json.Linq;
 using Rg.Plugins.Popup.Extensions;
+using Syncfusion.Pdf;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Reflection;
 using System.Text;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Xamarin.Forms.Xaml;
-using System.Net;
-using System.Reflection;
-using Syncfusion.Pdf;
-using System.Globalization;
 
 namespace LogoScanner
 {
@@ -420,9 +420,10 @@ namespace LogoScanner
         }
 
         // event triggered when the floating action button is clicked
-        private void FloatingButton_Clicked(object sender, EventArgs e)
+        private async void FloatingButton_Clicked(object sender, EventArgs e)
         {
-            Navigation.PushModalAsync(new MainPage());
+            await Navigation.PopModalAsync();
+            await Navigation.PushModalAsync(new MainPage());
         }
 
         // event triggered when the phone button is clicked

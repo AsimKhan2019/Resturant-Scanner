@@ -2,7 +2,7 @@
 using System.Globalization;
 using Xamarin.Essentials;
 
-namespace Logoscanner
+namespace LogoScanner
 {
     public class Booking
     {

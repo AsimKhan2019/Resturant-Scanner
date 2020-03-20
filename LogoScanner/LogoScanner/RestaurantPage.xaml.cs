@@ -1,4 +1,5 @@
-﻿using LogoScanner;
+﻿//All needed Packages and Assembilies
+using LogoScanner;
 using LogoScanner.Helpers;
 using Newtonsoft.Json.Linq;
 using Rg.Plugins.Popup.Extensions;
@@ -22,20 +23,31 @@ namespace LogoScanner
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RestaurantPage : TabbedPage
     {
+        //Public ObservableCollections to keep track of the promotions and availableTimes for the restaurant
+        //a Public List to store the Review objects.
         public static ObservableCollection<Promotion> promotions = new ObservableCollection<Promotion>();
+
         public static List<Review> reviews = new List<Review>();
         public static ObservableCollection<AvailableTime> availableTimes = new ObservableCollection<AvailableTime>();
 
-        private readonly string micrositename;
+        //Store the micrositename of each the restaurant. The total number of reviews. and the API token created.
+        private string micrositename;
+
         private string overallReviews;
         private string token;
 
+        //JObject consumer stores the RestaurantData
+        //result stores if a restuarant has a MicrositeSummary
         private JObject consumer;
+
         private JObject result;
 
+        //inital partySize and number of slots to show.
         private static int partySize = 3;
+
         private static int slotNumber = 3;
 
+        //initialize the initial restaurant page within the application
         public RestaurantPage(string micrositename)
         {
             //register syncfusion api
@@ -64,6 +76,8 @@ namespace LogoScanner
                 MenuTab.IconImageSource = "MenuIcon.png";
                 ReviewsTab.IconImageSource = "ReviewIcon.png";
 
+                //when a selected tab is chosen the logo changes. And sets whether that page has a NavigationBar
+                //also changes the title of that page
                 switch (tab)
                 {
                     case 0:
@@ -97,7 +111,7 @@ namespace LogoScanner
             base.OnAppearing();
 
             var request = await Requests.ConnectToResDiary(); // connect to resdiary api
-            token = request.message;
+            token = request.message;    ///set the api token
 
             while (request.message.Equals("Unable to Connect to Internet", StringComparison.InvariantCulture))
             {
@@ -111,20 +125,24 @@ namespace LogoScanner
 
             if (request.status.Equals("Success", StringComparison.InvariantCulture)) // if connection to api is successful
             {
+                //check if the restaurant has a microsite summary
                 JArray hasSummary = await Requests.APICallGet("https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename + "/HasMicrositeSummary", request.message);
                 JObject result = (JObject)hasSummary.First;
 
                 if (result["Result"] != null)
                 {
-                    var datestart = DateTime.Now;
-                    var datestartstr = datestart.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.CurrentCulture);
+                    //set the start and enddate of getting the data
+                    var dateStart = DateTime.Now;
+                    var dateStartStr = dateStart.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.CurrentCulture);
 
-                    var dateend = DateTime.Now.AddDays(7.00);
-                    var dateendstr = dateend.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.CurrentCulture);
+                    var dateEnd = DateTime.Now.AddDays(7.00); //add more days if a longer period is required
+                    var dateEndStr = dateEnd.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.CurrentCulture);
 
-                    JArray setupData = await Requests.APICallGet("https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename + "/Setup?date=" + datestartstr + "&channelCode=ONLINE", token);
+                    //recieve the setup data of the restuarant - to get the min/max/default number of covers
+                    JArray setupData = await Requests.APICallGet("https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename + "/Setup?date=" + dateStartStr + "&channelCode=ONLINE", token);
                     var data = (JObject)setupData.First;
 
+                    //changes the initial partysize
                     if (data["OnlinePartySizeDefault"] != null)
                         partySize = (int)data["OnlinePartySizeDefault"];
 
@@ -132,7 +150,9 @@ namespace LogoScanner
                     SlotButton.Text = slotNumber + " SLOTS";
 
                     SetUpPartyPicker(data);
-                    GetRestaurantData("https://api.rdbranch.com/api/ConsumerApi/v1/MicrositeSummaryDetails?micrositeNames=" + this.micrositename + "&startDate=" + datestartstr + "&endDate=" + dateendstr + "&channelCodes=ONLINE&numberOfReviews=5", request.message);
+
+                    //get the restaurant data via the MicrositeSummary call
+                    GetRestaurantData("https://api.rdbranch.com/api/ConsumerApi/v1/MicrositeSummaryDetails?micrositeNames=" + this.micrositename + "&startDate=" + dateStartStr + "&endDate=" + dateEndStr + "&channelCodes=ONLINE&numberOfReviews=5", request.message);
                 }
             }
             else
@@ -144,6 +164,7 @@ namespace LogoScanner
         // populates the home tab
         private void PopulateHomeTab(JObject result)
         {
+            //set the logo
             Logo.Source = Utils.GetRestaurantField(result, "LogoUrl");
             Logo.WidthRequest = Application.Current.MainPage.Height / 8;
             Logo.HeightRequest = Application.Current.MainPage.Height / 8;
@@ -151,6 +172,7 @@ namespace LogoScanner
             NameLabel.Text = Utils.GetRestaurantField(result, "Name");
             CuisinesLabel.Text = Utils.GetRestaurantField(result, "CuisineTypes");
 
+            //set the price range of that restuarant
             int price = 0;
             if (result["PricePoint"].Type != JTokenType.Null) price = Int32.Parse(result["PricePoint"].ToString(), CultureInfo.CurrentCulture);
             PriceLabel.Text = Utils.GetRestaurantField(result, "PricePoint", "£", price);
@@ -158,6 +180,7 @@ namespace LogoScanner
             HomeStars.Value = Convert.ToDouble(Utils.GetRestaurantField(result, "AverageReviewScore"));
             DescriptionLabel.Text = Utils.GetRestaurantField(consumer, "ShortDescription");
 
+            //set functionality of clicking the ViewMore button on the HomePage
             var viewMoreTap = new TapGestureRecognizer();
             viewMoreTap.Tapped += async (s, e) =>
             {
@@ -168,6 +191,7 @@ namespace LogoScanner
 
             OpeningInformationLabel.Text = Utils.GetRestaurantField(consumer, "OpeningInformation").Replace("<br/>", Environment.NewLine);
 
+            //Set the Social Media of each restaurant
             if (consumer["SocialNetworks"].Type == JTokenType.Null || string.IsNullOrEmpty(consumer["SocialNetworks"].ToString()))
             {
                 SocialMediaLabel.IsVisible = true;
@@ -180,6 +204,7 @@ namespace LogoScanner
 
                 foreach (var a in arr)
                 {
+                    //create a button for each social media platform - to link to it
                     Button button = new Button
                     {
                         Text = a["Type"].ToString(),
@@ -200,10 +225,12 @@ namespace LogoScanner
                 }
             }
 
+            //set up the maps for the application
             double latitude = Convert.ToDouble(result["Latitude"].ToString(), CultureInfo.CurrentCulture);
             double longitude = Convert.ToDouble(result["Longitude"].ToString(), CultureInfo.CurrentCulture);
             string name = result["Name"].ToString();
 
+            //add a pin for the current restaurant
             var pin = new Pin()
             {
                 Position = new Position(latitude, longitude),
@@ -226,6 +253,7 @@ namespace LogoScanner
         // populates the booking tab
         private async void PopulateBookingTab(JObject result)
         {
+            //get the ids of promotions available for that restaurant
             string[] promotionIds = Promotions.GetPromotionIDs(result);
 
             var dateStart = DateTime.Now;
@@ -236,15 +264,18 @@ namespace LogoScanner
 
             string url = "https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename + "/AvailabilityForDateRangeV2?";
 
+            //get the available slots for that restaurant - with the provided partySize
             JObject r = await Requests.APICallPost(url, token, dateStartStr, dateEndStr, partySize);
 
             var checkAvail = r["AvailableDates"].ToString();
 
+            //if timeSlots available
             if (r != null && checkAvail.Length > 2)
             {
                 AvailabilityView.IsVisible = true;
                 NoAvailabilityLabel.IsVisible = false;
 
+                //add promotions for that timeSlot
                 if (promotionIds.Length > 0)
                 {
                     string promotions_url = "https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename + "/Promotion?";
@@ -288,10 +319,12 @@ namespace LogoScanner
         // populates the reviews tab
         private async void PopulateReviewsTab()
         {
+            //get the reviews
             var reviewsUrl = "https://api.rdbranch.com/api/ConsumerApi/v1/Restaurant/" + this.micrositename + "/Reviews?sortBy=Newest&page=1&pageSize=100";
             JArray reviewsCall = await Requests.APICallGet(reviewsUrl, token);
             JObject reviewsResponse = (JObject)reviewsCall.First;
 
+            //set the title of the page
             overallReviews = "Reviews (" + Utils.GetRestaurantField(reviewsResponse, "TotalRows") + ")";
             reviews.Clear();
 
@@ -302,6 +335,7 @@ namespace LogoScanner
             }
             else
             {
+                //add the reviews object
                 foreach (JToken review in reviewsResponse["Data"].ToArray())
                 {
                     reviews.Add(new Review
@@ -334,6 +368,7 @@ namespace LogoScanner
             JArray restaurant = await Requests.APICallGet(consumerUrl, token);
             consumer = (JObject)restaurant.First;
 
+            //populate every page
             PopulateHomeTab(result);
             PopulateBookingTab(result);
             PopulateMenuTab(consumer);
@@ -342,6 +377,7 @@ namespace LogoScanner
             SlotPicker.ItemsSource = Enumerable.Range(1, 10).ToList();
             SlotPicker.IsVisible = false;
 
+            //make/run loading icon
             Indicator1.IsVisible = false;
             Indicator2.IsVisible = false;
             Indicator3.IsVisible = false;
@@ -352,6 +388,7 @@ namespace LogoScanner
             Indicator3.IsRunning = false;
             Indicator4.IsRunning = false;
 
+            //put white frame over information so not viewable whilst page is loading
             Frame1.IsVisible = false;
             Frame2.IsVisible = false;
             Frame3.IsVisible = false;
@@ -397,7 +434,7 @@ namespace LogoScanner
                     catch (WebException wex)
                     {
                         if (wex.Source != null)
-                            Console.WriteLine("IOException source: {0}", wex.Source);
+                            Console.WriteLine("WebException source: {0}", wex.Source);
                         throw;
                     }
                 }
@@ -426,6 +463,7 @@ namespace LogoScanner
         // event triggered when the floating action button is clicked
         private async void FloatingButton_Clicked(object sender, EventArgs e)
         {
+            //go to the camera page, pop restaurant page from back stack
             await Navigation.PopModalAsync();
             await Navigation.PushModalAsync(new MainPage());
         }
@@ -469,14 +507,17 @@ namespace LogoScanner
             Booking.Makebooking(micrositename, dateTime.Split(',')[0], dateTime.Split(',')[1], partySize);
         }
 
+        //event triggered when the slot button is tapped
         private void Slot_Clicked(object sender, EventArgs e)
         {
+            //open picker
             SlotPicker.IsVisible = true;
             SlotPicker.Focus();
             SlotPicker.SelectedIndex = slotNumber - 1;
             SlotPicker.IsVisible = false;
         }
 
+        //event triggered when number of slots is changed
         private void SlotPicker_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (SlotPicker.SelectedItem != null) slotNumber = (int)SlotPicker.SelectedItem;
@@ -491,6 +532,7 @@ namespace LogoScanner
             PopulateBookingTab(result);
         }
 
+        //event triggered when the party size button is tapped
         private void Party_Clicked(object sender, EventArgs e)
         {
             PartySizePicker.IsVisible = true;
@@ -499,6 +541,7 @@ namespace LogoScanner
             PartySizePicker.IsVisible = false;
         }
 
+        //event triggered when the partySize is changed
         private void PartySizePicker_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (PartySizePicker.SelectedItem != null) partySize = (int)PartySizePicker.SelectedItem;
@@ -513,6 +556,7 @@ namespace LogoScanner
             PopulateBookingTab(result);
         }
 
+        //set up the partySize picker with the correct values
         private void SetUpPartyPicker(JObject data)
         {
             List<int> acceptableCoversList;

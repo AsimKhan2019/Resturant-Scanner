@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 
+//Object to store the Promotions
 public class Promotion
 {
     public string Name { get; set; }

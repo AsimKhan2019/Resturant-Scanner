@@ -33,15 +33,16 @@ namespace LogoScanner.Droid
             UserDialogs.Init(this);
             FloatingActionButtonRenderer.Initialize();
 
+            // plugin for access to an Android Application’s current Activity that is being displayed
             CrossCurrentActivity.Current.Init(this, savedInstanceState);
-            Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, savedInstanceState);
 
             LoadApplication(new App());
 
             SetAppTheme();
         }
 
-        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
+        // for checking the user permission
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
         {
             PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);

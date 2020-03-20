@@ -37,7 +37,7 @@ namespace CrossPlatformTest
         //get credentials file
         private JObject GetCredentials()
         {
-            var assembly = typeof(LogoScanner.App).GetTypeInfo().Assembly;
+            var assembly = typeof(App).GetTypeInfo().Assembly;
             var credentialsFile = "LogoScanner.credentials.json";
             JObject line = new JObject();
 
@@ -53,16 +53,16 @@ namespace CrossPlatformTest
         // helper method to access Custom Vision, which returns HttpClient response
         private async Task<HttpResponseMessage> ConnectToCustomVisionForTesting(byte[] InputImage)
         {
-            //new http client with key
+            // new http client with key
             var client = new HttpClient();
             var credentials = GetCredentials();
 
             client.DefaultRequestHeaders.Add("Prediction-key", credentials["CustomVisionAPI"]["key"].ToString());
 
-            //post image to url and check if received successfully
+            // post image to url and check if received successfully
             HttpResponseMessage response;
 
-            //get image
+            // get image
             byte[] image = InputImage;
 
             using (var content = new ByteArrayContent(image))
@@ -80,27 +80,30 @@ namespace CrossPlatformTest
             var client = new HttpClient();
             var line = GetCredentials();
 
-            string credentials = @"{""Username"" : """ + line["ResDiaryAPI"]["username"].ToString() + @""", ""Password"" : """ + line["ResDiaryAPI"]["password"].ToString() + @"""}"; // parse in username/password to json
+            // parse in username/password to json
+            string credentials = @"{""Username"" : """ + line["ResDiaryAPI"]["username"].ToString() + @""", ""Password"" : """ + line["ResDiaryAPI"]["password"].ToString() + @"""}"; 
             var content = new StringContent(credentials, Encoding.UTF8, "application/json");
 
-            var response = await client.PostAsync("https://api.rdbranch.com/api/Jwt/v2/Authenticate", content); // get response from the api
+            // get response from the api
+            var response = await client.PostAsync("https://api.rdbranch.com/api/Jwt/v2/Authenticate", content); 
 
             return response;
         }
 
-        //test that app was successfully connected to custom vision api with post method
+        // test that app was successfully connected to custom vision api with post method
         [Test]
         public async Task IsAppConnectedToCustomVision()
         {
             // get image
             byte [] image = File.ReadAllBytes("../../logo-test.png");
+
             // call helper method to access API, which returns response from HttpClient
             HttpResponseMessage response = await ConnectToCustomVisionForTesting(image);
 
             Assert.AreEqual("OK", response.StatusCode.ToString(), "The response status code is " + response.StatusCode.ToString() + ", while expected OK.");
         }
 
-        //test that app was not connected to custom vision api with post method
+        // test that app was not connected to custom vision api with post method
         [Test]
         public async Task IsAppNotConnectedToCustomVision()
         {
@@ -116,23 +119,23 @@ namespace CrossPlatformTest
         [Test]
         public async Task IsCustomVisionReturningRightPrediction()
         {
-            //get image
+            // get image
             byte[] image = File.ReadAllBytes("../../logo-test.png");
             // call helper method to access API, which returns response from HttpClient
             HttpResponseMessage response = await ConnectToCustomVisionForTesting(image);
 
-            //get the name of the restaurant
+            // get the name of the restaurant
             var resultJson = await response.Content.ReadAsStringAsync();
             var restaurantName = JsonConvert.DeserializeObject<PredictionResult>(resultJson);
 
             Assert.AreEqual("Union", restaurantName.ToString(), "The response status code is " + restaurantName.ToString() + ", while expected Union.");
         }
 
-        //prediciton results to string return only one parameter with probability higher as 0.3
+        // prediciton results to string return only one parameter with probability higher as 0.3
         [Test]
         public void ArePredicitionResultToStringReturningGoodElement()
         {
-            var data1 = new PredictionResult
+            var result = new PredictionResult
             {
                 Predictions = new List<Prediction>{new Prediction{Probability=0.5, TagName="Restaurant1"},
                                            new Prediction{Probability=8.5, TagName="Restaurant2"},
@@ -140,22 +143,22 @@ namespace CrossPlatformTest
                                            new Prediction{Probability=65.5, TagName="Restaurant4"}}
             };
 
-            Assert.AreEqual("Restaurant3", data1.ToString(), "The Prediction Result is " + data1.ToString() + ", while expected Restaurant3.");
+            Assert.AreEqual("Restaurant3", result.ToString(), "The Prediction Result is " + result.ToString() + ", while expected Restaurant3.");
         }
 
-        //prediciton results to string return only one parameter with probability higher as 0.3
+        // prediciton results to string return only one parameter with probability higher as 0.3
         [Test]
         public void ArePredicitionResultToStringReturningEmptyString()
         {
 
-            var data2 = new PredictionResult
+            var result = new PredictionResult
             {
                 Predictions = new List<Prediction>{new Prediction{Probability=0.2, TagName="Restaurant1"},
                                            new Prediction{Probability=0.01, TagName="Restaurant2"},
                                            new Prediction{Probability=0.1, TagName="Restaurant3"}}
             };
 
-            Assert.AreEqual("", data2.ToString(), "The Prediction Result is " + data2.ToString() + ", while expected \"\".");
+            Assert.AreEqual("", result.ToString(), "The Prediction Result is " + result.ToString() + ", while expected \"\".");
         }
 
         [Test]
@@ -170,6 +173,7 @@ namespace CrossPlatformTest
             // go to the book page
             app.Tap(c => c.Property("text").Contains("Book"));
 
+            // scroll through the list and check the amount of slots
             for (int i = 0; i < 2; i++)
             {
                 app.WaitForElement(x => x.Class("ConditionalFocusLayout"), timeout: TimeSpan.FromSeconds(120));
@@ -184,12 +188,11 @@ namespace CrossPlatformTest
                 app.ScrollDown();
             }
 
-            // check if the default booking slot are 3
             Assert.AreEqual(3, dateList.Count);
         }
 
         [Test]
-        // test that select the size of the booking slot is working
+        // test that select the size of the booking slot is working and display correctly
         public void AreSelectSlotForBookingWorking()
         {
             var dateList = new List<string>();
@@ -208,6 +211,7 @@ namespace CrossPlatformTest
             // random the amount of booking slot
             app.Tap(c => c.Property("text").Contains(randomSlot.ToString()));
 
+            // scroll through the list and check the amount of slots
             for (int i = 0; i < randomSlot; i++)
             {
                 app.WaitForElement(x => x.Class("ConditionalFocusLayout"), timeout: TimeSpan.FromSeconds(120));
@@ -222,7 +226,6 @@ namespace CrossPlatformTest
                 app.ScrollDown();
             }
 
-            // check if the booking slot display true
             Assert.AreEqual(randomSlot, dateList.Count);
         }
 

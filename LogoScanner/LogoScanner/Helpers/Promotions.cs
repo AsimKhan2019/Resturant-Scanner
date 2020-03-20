@@ -9,11 +9,13 @@ namespace LogoScanner.Helpers
 {
     public class Promotions
     {
+        //get the available areas of that restuarant and the timeslots
         public static void GetAvailablePromotions(JObject r, int slotNumber)
         {
             RestaurantPage.availableTimes.Clear();
             int capacity = 0;
 
+            //go through each availabe timeSlot
             foreach (var day in r["AvailableDates"])
             {
                 if (capacity <= slotNumber)
@@ -65,6 +67,7 @@ namespace LogoScanner.Helpers
             }
         }
 
+        //for the current restaurant get the promotionIDs
         public static string[] GetPromotionIDs(JObject json)
         {
             string[] value;
@@ -90,6 +93,8 @@ namespace LogoScanner.Helpers
             }
         }
 
+        //Return the promotions for that restuarant
+        //Return the promotions for that restuarant
         public static AvailableTime GetValidPromotions(AvailableTime current)
         {
             StringBuilder currentTime = new StringBuilder();

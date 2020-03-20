@@ -2,6 +2,7 @@
 
 namespace LogoScanner
 {
+    //Object to store information regarding the Reviews
     public class Review
     {
         public string Name { get; set; }

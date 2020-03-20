@@ -9,7 +9,6 @@ using Plugin.Connectivity;
 using Plugin.Permissions.Abstractions;
 using System;
 using System.IO;
-using System.Threading;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
@@ -19,7 +18,7 @@ namespace LogoScanner.Droid
 {
     public class CameraPage : PageRenderer, TextureView.ISurfaceTextureListener
     {
-        //constructor
+        // constructor
         public CameraPage(Context context) : base(context)
         {
         }
@@ -49,6 +48,7 @@ namespace LogoScanner.Droid
             if (e.OldElement != null || Element == null)
                 return;
 
+            // exception handling for the camera permission
             try
             {
                 activity = this.Context as Activity;
@@ -70,12 +70,13 @@ namespace LogoScanner.Droid
 
                 AddView(view);
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 await App.Current.MainPage.DisplayAlert("Error", "Camera Permission Not Granted", "OK");
             }
         }
 
+        // method to set the size of the camera to equal to the whole viewport
         protected override void OnLayout(bool changed, int l, int t, int r, int b)
         {
             base.OnLayout(changed, l, t, r, b);
@@ -90,6 +91,7 @@ namespace LogoScanner.Droid
         [Obsolete]
         public async void OnSurfaceTextureAvailable(SurfaceTexture surface, int width, int height)
         {
+            // exception handling for the camera permission and won't pass until granted
             try
             {
                 var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Camera);
@@ -120,7 +122,7 @@ namespace LogoScanner.Droid
                     PrepareAndStartCamera();
                 }
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 await App.Current.MainPage.DisplayAlert("Error", "Please Restart App", "OK");
                 var activity = (Activity)Forms.Context;
@@ -133,7 +135,6 @@ namespace LogoScanner.Droid
         {
             camera.StopPreview();
             camera.Release();
-
             return true;
         }
 
@@ -143,10 +144,12 @@ namespace LogoScanner.Droid
             PrepareAndStartCamera();
         }
 
+        [Obsolete]
         public void OnSurfaceTextureUpdated(SurfaceTexture surface)
         {
         }
 
+        // method to check to rotation of the screen and use to overcome a bug with the certain hardware 
         [Obsolete]
         private void PrepareAndStartCamera()
         {
@@ -166,6 +169,7 @@ namespace LogoScanner.Droid
             camera.StartPreview();
         }
 
+        // method for flash button and make sure it off after the taking a photo
         [Obsolete]
         private void ToggleFlashButtonTapped(object sender, EventArgs e)
         {
@@ -202,17 +206,20 @@ namespace LogoScanner.Droid
             }
         }
 
+        // method for manual focus when touch the screen
         [Obsolete]
         private void FocusOnTouch(object sender, EventArgs e)
         {
             camera.AutoFocus(null);
         }
 
+        // method to capture the photo
         [Obsolete]
         private async void TakePhotoButtonTapped(object sender, EventArgs e)
         {
             var current = CrossConnectivity.Current.IsConnected;
 
+            // check the internet connection to use the ResDiary API
             if (!current)
             {
                 await App.Current.MainPage.DisplayAlert("Connection Error", "Please connect to the internet", "OK");
@@ -227,6 +234,7 @@ namespace LogoScanner.Droid
                     camera.StopPreview();
                     DialogService.ShowLoading("Scanning Logo");
 
+                    // crop the image into the sqaure in order to make the prediction more accuracy
                     var image = CropImage(textureView.Bitmap);
                     using (var imageStream = new MemoryStream())
                     {
@@ -234,11 +242,14 @@ namespace LogoScanner.Droid
                         image.Recycle();
                         imageBytes = imageStream.ToArray();
                     }
+
+                    // send the image to CustomVision in form of bytes
                     var results = await CustomVisionService.PredictImageContentsAsync(imageBytes);
                     String resultInString = results.ToString();
 
                     if (resultInString.Length > 0)
                     {
+                        // if the logo appeared more than 1 result than use the Geolocation
                         if (Geolocation.HasMoreOptions(resultInString))
                         {
                             DialogService.ShowLoading("More Restaurants Available");
@@ -258,7 +269,7 @@ namespace LogoScanner.Droid
                         await App.Current.MainPage.DisplayAlert("Restaurant Not Found", "Please re-scan the Logo", "OK");
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     camera.StopPreview();
                     camera.Release();
@@ -270,10 +281,12 @@ namespace LogoScanner.Droid
             }
         }
 
+        // method to crop the image
         private static Bitmap CropImage(Bitmap image)
         {
-            var resizedbitmap1 = Bitmap.CreateBitmap(image, image.Width / 4 - image.Width / 8, image.Height / 4 + image.Height / 20, image.Height / 3, image.Height / 3);
-            return resizedbitmap1;
-        }
+            var resizedBitmap = Bitmap.CreateBitmap(image, image.Width / 4 - image.Width / 8,
+                image.Height / 4 + image.Height / 20, image.Height / 3, image.Height / 3);
+            return resizedBitmap;
+        } 
     }
 }

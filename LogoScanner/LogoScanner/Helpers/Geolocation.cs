@@ -20,11 +20,13 @@ namespace LogoScanner
             return TagName.ToLower().Contains('_');
         }
 
+        //split the microsite name
         public static List<String> SplitMoreOptions(String TagName)
         {
             return new List<String>(TagName.Split('_'));
         }
 
+        //get the location of the user
         public static async Task<Location> GetMyLocation()
         {
             try
@@ -33,7 +35,6 @@ namespace LogoScanner
                 var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
                 if (status != Plugin.Permissions.Abstractions.PermissionStatus.Granted)
                 {
-
                     var results = await CrossPermissions.Current.RequestPermissionsAsync(new[] { Permission.Location });
                     status = results[Permission.Location];
                 }
@@ -46,14 +47,11 @@ namespace LogoScanner
                         return new Location(location.Latitude, location.Longitude);
                     }
                 }
-
                 else if (status != Plugin.Permissions.Abstractions.PermissionStatus.Unknown)
                 {
                     await App.Current.MainPage.DisplayAlert("Error", "Location denied. Cannot continue, try again.", "OK");
                     return await GetMyLocation();
                 }
-
-                
             }
             catch (FeatureNotSupportedException)
             {
@@ -80,6 +78,7 @@ namespace LogoScanner
             return null;
         }
 
+        //return the restaurant closer to the user
         public static async Task<string> GetCloserOptionAsync(String TagName)
         {
             //get my location
@@ -93,7 +92,7 @@ namespace LogoScanner
             String results = "";
 
             //search the closest to me
-            foreach(String Name in ListofOptions)
+            foreach (String Name in ListofOptions)
             {
                 Location NameLocation = await GetCoordinates(Name);
                 var miles = Location.CalculateDistance(myLocation, NameLocation, DistanceUnits.Miles);
@@ -106,9 +105,9 @@ namespace LogoScanner
             return results;
         }
 
+        //get the coordinates of the restaurants with the tag name
         public static async Task<Location> GetCoordinates(String micrositeName)
         {
-
             var request = await Requests.ConnectToResDiary(); // connect to resdiary api
 
             while (request.message.Equals("Unable to Connect to Internet"))

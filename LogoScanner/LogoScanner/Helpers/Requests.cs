@@ -26,6 +26,7 @@ namespace LogoScanner
             }
         }
 
+        //initial connection to the resDiary API
         public static async Task<Request> ConnectToResDiary()
         {
             var connectivity = Connectivity.NetworkAccess;
@@ -78,7 +79,7 @@ namespace LogoScanner
                         {
                             content.Dispose();
                             client.Dispose();
-                            return new Request(status, "Invalid credentials");                            
+                            return new Request(status, "Invalid credentials");
                         }
                         else
                         {
@@ -107,6 +108,7 @@ namespace LogoScanner
             }
         }
 
+        //A method to perform an API GET request
         public static async Task<JArray> APICallGet(string url, string token)
         {
             HttpClient client = new HttpClient();
@@ -139,6 +141,7 @@ namespace LogoScanner
             return null;
         }
 
+        //A Method to perform the API POST request for the restaurant.
         public static async Task<JObject> APICallPost(string url, string token, string datestart, string dateend, int partysize)
         {
             HttpClient client = new HttpClient();
@@ -158,7 +161,7 @@ namespace LogoScanner
                 result = JObject.Parse(retstring);
                 content.Dispose();
                 client.Dispose();
-                
+
                 return result;
             }
 

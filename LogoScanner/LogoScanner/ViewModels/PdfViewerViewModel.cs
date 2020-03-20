@@ -3,21 +3,21 @@ using System.IO;
 
 namespace LogoScanner
 {
-    class PdfViewerViewModel : INotifyPropertyChanged
+    internal class PdfViewerViewModel : INotifyPropertyChanged
     {
         private Stream m_pdfDocumentStream;
 
         /// An event to detect the change in the value of a property.
         public event PropertyChangedEventHandler PropertyChanged;
 
-        /// The PDF document stream that is loaded into the instance of the PDF Viewer. 
+        /// The PDF document stream that is loaded into the instance of the PDF Viewer.
         public Stream PdfDocumentStream
         {
             get => m_pdfDocumentStream;
             set
             {
                 m_pdfDocumentStream = value;
-                NotifyPropertyChanged("PdfDocumentStream");
+                NotifyPropertyChanged(nameof(PdfDocumentStream));
             }
         }
 
@@ -29,10 +29,7 @@ namespace LogoScanner
 
         private void NotifyPropertyChanged(string propertyName)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

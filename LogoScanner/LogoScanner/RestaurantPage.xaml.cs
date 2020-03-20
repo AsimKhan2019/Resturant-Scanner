@@ -396,7 +396,7 @@ namespace LogoScanner
         }
 
         //method do download pdf from url
-        public byte[] DownloadPdfStream(string URL)
+        public static byte[] DownloadPdfStream(string URL)
         {
             var uri = new System.Uri(URL);
             var client = new WebClient();
@@ -439,10 +439,11 @@ namespace LogoScanner
                     }
                 }
 
-                PdfMergeOptions mergeOptions = new PdfMergeOptions();
-
-                //Enable Optimize Resources
-                mergeOptions.OptimizeResources = true;
+                PdfMergeOptions mergeOptions = new PdfMergeOptions
+                {
+                    //Enable Optimize Resources
+                    OptimizeResources = true
+                };
 
                 //Merge the documents
                 PdfDocumentBase.Merge(document, mergeOptions, listMenu.ToArray());
@@ -558,7 +559,7 @@ namespace LogoScanner
         //set up the partySize picker with the correct values
         private void SetUpPartyPicker(JObject data)
         {
-            var acceptableCoversList = new List<int>();
+            List<int> acceptableCoversList;
 
             if (data["MaxOnlinePartySize"] != null && data["MinOnlinePartySize"] != null)
                 acceptableCoversList = Enumerable.Range((int)data["MinOnlinePartySize"], (int)data["MaxOnlinePartySize"] - (int)data["MinOnlinePartySize"] + 1).ToList();

@@ -433,6 +433,9 @@ namespace LogoScanner
                     }
                     catch (WebException wex)
                     {
+                        if (wex.Source != null)
+                            Console.WriteLine("WebException source: {0}", wex.Source);
+                        throw;
                     }
                 }
 

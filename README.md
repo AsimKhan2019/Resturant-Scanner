@@ -1,6 +1,5 @@
 # Restaurant Logo Scanner 
 [![build status](https://stgit.dcs.gla.ac.uk/tp3-2019-se06/se06-main/badges/master/pipeline.svg)](https://stgit.dcs.gla.ac.uk/tp3-2019-se06/se06-main/commits/master)
-[![coverage](https://stgit.dcs.gla.ac.uk/tp3-2019-se06/se06-main/badges/master/coverage.svg)](https://stgit.dcs.gla.ac.uk/tp3-2019-se06/se06-main/commits/master)
 [![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://stgit.dcs.gla.ac.uk/tp3-2019-se06/se06-main/-/blob/master/LICENSE)
 
 Restaurant Logo Scanner is a 3rd year Software Engineering project conducted at the University of Glasgow under the Team Project 3 (TP3) course.

@@ -121,9 +121,6 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\launch_logo_120.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\launch_logo_1024.png">
-      <Visible>false</Visible>
-    </ImageAsset>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\40.png">
       <Visible>false</Visible>
     </ImageAsset>
@@ -166,6 +163,7 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\167.png">
       <Visible>false</Visible>
     </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\logo-1024.png" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

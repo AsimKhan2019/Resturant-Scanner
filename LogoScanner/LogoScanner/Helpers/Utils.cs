@@ -8,7 +8,7 @@ namespace LogoScanner.Helpers
 {
     public class Utils
     {
-        // method to get field from json object
+        // method to get field from json object.
         public static string GetRestaurantField(JObject json, string field)
         {
             if (json[field].Type == JTokenType.Null || string.IsNullOrEmpty(json[field].ToString()))

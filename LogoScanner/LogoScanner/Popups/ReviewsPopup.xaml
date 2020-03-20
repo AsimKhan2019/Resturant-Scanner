@@ -1,25 +1,26 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <pages:PopupPage
-    x:Class="LogoScanner.ReviewsPopup"  
-    xmlns="http://xamarin.com/schemas/2014/forms"  
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"  
+    x:Class="LogoScanner.ReviewsPopup"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
     xmlns:rating="clr-namespace:Syncfusion.SfRating.XForms;assembly=Syncfusion.SfRating.XForms"
     BackgroundColor="Transparent">
 
-    <pages:PopupPage.Animation>  
-        <animations:ScaleAnimation   
-            PositionIn="Center"  
-            PositionOut="Center"  
-            ScaleIn="1.2"  
-            ScaleOut="0.8"  
-            DurationIn="300"  
-            DurationOut="200"  
-            EasingIn="CubicIn"  
-            EasingOut="CubicInOut"  
-            HasBackgroundAnimation="True" />  
-    </pages:PopupPage.Animation>  
+    <!-- XAML FILE OF HOW THE REVIEWS POPUP IS DISPLAYED -->
+    <pages:PopupPage.Animation>
+        <animations:ScaleAnimation
+            PositionIn="Center"
+            PositionOut="Center"
+            ScaleIn="1.2"
+            ScaleOut="0.8"
+            DurationIn="300"
+            DurationOut="200"
+            EasingIn="CubicIn"
+            EasingOut="CubicInOut"
+            HasBackgroundAnimation="True" />
+    </pages:PopupPage.Animation>
 
     <StackLayout
         VerticalOptions="Center"
@@ -31,7 +32,7 @@
             HasShadow="True"
             BackgroundColor="{DynamicResource BarBackgroundColor}">
 
-            <StackLayout Padding="20">  
+            <StackLayout Padding="20">
                 <Label
                     x:Name="RatingsNameLabel"
                     Text="{Binding Name}"
@@ -212,10 +213,10 @@
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
                             HorizontalOptions="Start"
-                            VerticalOptions="Center" />  
+                            VerticalOptions="Center" />
                     </Grid>
                 </StackLayout>
-            </StackLayout>  
-        </Frame>  
-    </StackLayout>  
+            </StackLayout>
+        </Frame>
+    </StackLayout>
 </pages:PopupPage>

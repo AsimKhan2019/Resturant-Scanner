@@ -230,7 +230,7 @@ Within the respository there is a folder called [logos](logos). Within this fold
 ### 4.4 Postman
 We made use of Postman (https://www.postman.com/) when we were testing and adding new API calls to the project. Postman is a powerful tool for performing integration testing with your API. It allows for repeatable, reliable tests that can be automated and used in a variety of environments and includes useful tools for persisting data and simulating how a user might actually be interacting with the system. We would highly reccommend that you make use of Postman if you would like to add a new API call to the project. A handy Postman tutorial can be found here - https://www.guru99.com/postman-tutorial.html.
 
-##5 App Walkthrough
+## 5. App Walkthrough
 Every file within the source code provided does provide adequate commentary about how the code operates. However, the section below is also provided as a reference point as how a user is able to navigate through the application.
 
 Upon first entering the app, the user is greeted with a Camera Page. If permissions haven't already been granted to the application then the user will be asked to allow the application access to the systems Camera and also Location - if needed -. From this page the user is able to click the camera button in order to take a photo. This photo, will then be sent to the Custom Vision API and a micrositename, corresponding with that logo, will be returned. In cases where more than one restaurant share the same logo then the API will return both microsite names split by a "\_". In this case the mobile application will show the details for the restaurant closest to the users current posisition.

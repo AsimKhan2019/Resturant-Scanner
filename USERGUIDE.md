@@ -233,7 +233,7 @@ We made use of Postman (https://www.postman.com/) when we were testing and addin
 ##5 App Walkthrough
 Every file within the source code provided does provide adequate commentary about how the code operates. However, the section below is also provided as a reference point as how a user is able to navigate through the application.
 
-Upon first entering the app, the user is greeted with a Camera Page. From this page the user is able to click the camera button in order to take a photo. This photo, will then be sent to the Custom Vision API and a micrositename, corresponding with that logo, will be returned. In cases where more than one restaurant share the same logo then the API will return both microsite names split by a "\_". In this case the mobile application will show the details for the restaurant closest to the users current posisition.
+Upon first entering the app, the user is greeted with a Camera Page. If permissions haven't already been granted to the application then the user will be asked to allow the application access to the systems Camera and also Location - if needed -. From this page the user is able to click the camera button in order to take a photo. This photo, will then be sent to the Custom Vision API and a micrositename, corresponding with that logo, will be returned. In cases where more than one restaurant share the same logo then the API will return both microsite names split by a "\_". In this case the mobile application will show the details for the restaurant closest to the users current posisition.
 
 Following the application returning the correct restaurant to the user. They are then navigated to another page, the Restaurant Page. Which will show all the relevant information to them. 
 

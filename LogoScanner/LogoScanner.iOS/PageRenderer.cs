@@ -5,6 +5,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
 [assembly: ExportRenderer(typeof(ContentPage), typeof(LogoScanner.iOS.PageRenderer))]
+
 namespace LogoScanner.iOS
 {
     public class PageRenderer : Xamarin.Forms.Platform.iOS.PageRenderer
@@ -21,7 +22,9 @@ namespace LogoScanner.iOS
             }
             catch (Exception ex)
             {
-                
+                if (ex.Source != null)
+                    Console.WriteLine("Exception source: {0}", ex.Source);
+                throw;
             }
         }
 

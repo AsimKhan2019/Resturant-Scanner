@@ -36,6 +36,7 @@ Our project management processes such as issue tracking and milestones were cond
 ### Features
 * Functional on both Android and iOS
 * Ability to scan a restaurant logo and for this to be recognised by the app
+* Geolocation if multiple restaurants have the same logo
 * Maps integration
 * Call, email, view website from within the app
 * View information about the restaurant

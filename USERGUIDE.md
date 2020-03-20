@@ -7,14 +7,14 @@ The project requires some prerequisites which will need to be downloaded/setup b
 ### 1.1 Visual Studio & Xamarin
 The project uses Xamarin as its core technology. Xamarin is an open-source platform for building modern and performant applications for iOS, Android, and Windows with .NET. Xamarin is an abstraction layer that manages communication of shared code with underlying platform code. Xamarin runs in a managed environment that provides conveniences such as memory allocation and garbage collection.
 
-Xamarin applications can be written on PC or Mac and compile into native application packages, such as an .apk file on Android, or an .ipa file on iOS. Xamarin applications are writing using the Visual Studio software suite.
+Xamarin applications can be written on PC or Mac and compile into native application packages, such as an .apk file on Android, or an .ipa file on iOS. Xamarin applications are written using the Visual Studio software suite.
 
 Visual Studio and Xamarin can be installed by following this guide - https://docs.microsoft.com/en-us/xamarin/get-started/installation/?pivots=windows.
 
 ### 1.2 Git
 Git has been used for version control and the repository is stored on the University of Glasgow's private GitLab server. You will need to install Git in order to retrieve the project files. Git can be installed using this tutorial - https://git-scm.com/book/en/v2/Getting-Started-Installing-Git.
 
-Once Git has installed, you will be able to clone the repository using the command below:
+Once Git has been installed, you will be able to clone the repository using the command below:
 ```
 git clone https://stgit.dcs.gla.ac.uk/tp3-2019-se06/se06-main.git
 ```
@@ -28,7 +28,7 @@ The project has a `credentials.json.secret` file within the project which stores
 4. You will now be presented with the `credentials.json` and `AndroidManifest.xml` files in the directories `LogoScanner/LogoScanner` and `LogoScanner/LogoScanner.Android/Properties` respectively
 5. In Visual Studio, right-click the `credentials.json` file and make sure the `Build Action` is set to `EmbeddedResource`
 
-The `crendentials.json` file contains sensitive API keys will be can be changed at your leisure. They are documented below.
+The `crendentials.json` file containing sensitive API keys can be changed at your leisure. They are documented below.
 
 #### 1.3.2 Generating a Key
 Private and public keys are generated using GPG (https://gnupg.org/). GPG is free encryption software that's compliant with the OpenPGP standard. To generate a RSA key-pair, run:
@@ -171,7 +171,7 @@ Remember to place the API key inside the `AndroidManifest.xml` file. Specificall
 `<meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="YOUR_API_KEY" />`
 
 ### Syncfusion API
-Syncfusion is suite of Xamarin UI controls (https://www.syncfusion.com/xamarin-ui-controls). In this project, we have used the SfPdfViewer, SfRating and SfListView plugins to make our UI look beautiful. The SfPdfViewer plugin requires an API key and handles the display of the restaurant's menu(s). The API key that we have included is free for you to use but if you would like to generate a new one this can be done here - https://help.syncfusion.com/common/essential-studio/licensing/licensing-faq/where-can-i-get-a-license-key. If you decide to generate a new one, then remember to change this within the `credentials.json` file.
+Syncfusion is a suite of Xamarin UI controls (https://www.syncfusion.com/xamarin-ui-controls). In this project, we have used the SfPdfViewer, SfRating and SfListView plugins to make our UI look beautiful. The SfPdfViewer plugin requires an API key and handles the display of the restaurant's menu(s). The API key that we have included is free for you to use but if you would like to generate a new one this can be done here - https://help.syncfusion.com/common/essential-studio/licensing/licensing-faq/where-can-i-get-a-license-key. If you decide to generate a new one, then remember to change this within the `credentials.json` file.
 
 ## 2. Code Base
 Xamarin facilitates the development of Android and iOS applications by providing the Xamarin.iOS and Mono.Android libraries. These libraries are built on top of the Mono .NET framework and bridge the gap between the application and the platform specific APIs.
@@ -207,6 +207,8 @@ The entry point for the application is the `Main.cs` class that instantiates the
 ### 3.1 Visual Studio
 To run the app from Visual Studio, make sure that you first have developer settings enabled on your phone. Connect your phone to your computer. If your phone is connected then it will show up in the run menu within Visual Studio. Click on the connected phone that displays and the app will start running on your device.
 
+The build can have 2 modes - the release or debug mode. When we run the app on the phone in debug mode, Visual Studio will track the app when running on the phone and it will print out all of the user's actions in the output shell. When the app runs in release mode, it will be deployed on the phone without Visual Studio tracking the user's actions.
+
 ### 3.2 Android (APK)
 On top of running the app straight from Visual Studio, it can also be compiled and distributed as an Android Application Package (APK). We will send this file over to you via Slack before the project deadline date (20/3/20). This file can then be downloaded from Slack and installed directly on to your Android device.  
 
@@ -223,7 +225,7 @@ The project makes use of the NUnit (https://github.com/nunit/nunit.xamarin) fram
 We made use of GitLab's Continuous Integration (CI) so that we could run our unit tests each time we committed and pushed to the repository. Within the [gitlab-ci.yml](.gitlab-ci.yml) we were able to add stages to the CI pipeline and execute commands. Within our pipeline, we had 3 stages - prepare, build and test. The prepare stage makes sure that the runner has the necessary packages installed. The build stage will build the project and the test cases so that they can be executed. The test stage will run the unit tests automatically - the pipeline will only pass if all 3 of these stages are successful.
 
 ### 4.3 Logo Folder
-Within the repository there is a folder called [logos](logos). Within this folder contains of the restaurant logo's that we had access to throughout the project. You can use this folder to easily access the logos without any hassle.
+Within the repository there is a folder called [logos](logos). This folder contains the restaurant logos that we had access to throughout the project. You can use this folder to easily access the logos without any hassle.
 
 ### 4.4 Postman
 We made use of Postman (https://www.postman.com/) when we were testing and adding new API calls to the project. Postman is a powerful tool for performing integration testing with your API. It allows for repeatable, reliable tests that can be automated and used in a variety of environments and includes useful tools for persisting data and simulating how a user might actually be interacting with the system. We would highly recommend that you make use of Postman if you would like to add a new API call to the project. A handy Postman tutorial can be found here - https://www.guru99.com/postman-tutorial.html.

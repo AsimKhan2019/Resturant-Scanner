@@ -59,6 +59,8 @@ In the `credentials.json` file, you will be able to change the username and pass
 ### 1.5 Custom Vision
 Custom vision is an image recognition and training model platform which we are using to store the restaurant logos on. We are unable to give you access to the account which we have been using as it is linked to a contributor's university account. This account contains all of the restaurants that we had access to during the project. Each logo has a 'tag' which is linked to the microsite name of the restaurant. If you would like to set up your own, create an account on https://www.customvision.ai/. Remember to change the API key and iteration URL within the `credentials.json` file after each training interation.
 
+The tag provided to each logo on the Custom Vision API is the micrositename of that restaurant. For cases in which several restaurants share the same logo. The tag of those restaurants would be the restaurants micrositename's separated by a special underscore character, for example "restaurant1_restaurant2".
+
 #### 1.5.1 Creating a Script
 Custom Vision also allows you to write your own Python script which will allow you to automatically upload images to Custom Vision if you desire. For instance, this could be used for automatically uploading an image whenever a new restaurant is added the ResDiary API. We have not implemented this feature within the project purely due to the customer stating that it wasn't neccessary at this time.
 

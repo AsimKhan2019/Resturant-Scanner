@@ -25,6 +25,7 @@
     NavigationPage.HasNavigationBar="False"
     Visual="Material">
 
+    <!-- HomeTab of the application -->
     <ContentPage
         x:Name="HomeTab"
         Title="Home"
@@ -396,6 +397,7 @@
         </ContentView>
     </ContentPage>
 
+    <!-- BookingTab of the application -->
     <ContentPage
         x:Name="BookingTab"
         Title="Book"
@@ -532,7 +534,7 @@
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>
-                 </listview:SfListView.ItemTemplate>
+                </listview:SfListView.ItemTemplate>
             </listview:SfListView>
 
             <Picker
@@ -600,6 +602,7 @@
         </Grid>
     </ContentPage>
 
+    <!-- MenuTab of the application -->
     <ContentPage
         x:Name="MenuTab"
         Title="Menu"
@@ -692,6 +695,7 @@
         </Grid>
     </ContentPage>
 
+    <!-- ReviewsTab of the application -->
     <ContentPage
         x:Name="ReviewsTab"
         Title="Reviews"
@@ -716,7 +720,7 @@
                     VerticalOptions="Center" />
 
                 <listview:SfListView
-                    x:Name="ReviewsView" 
+                    x:Name="ReviewsView"
                     Grid.Row="0"
                     HorizontalOptions="Fill"
                     VerticalOptions="Fill"
@@ -783,7 +787,7 @@
                                 </StackLayout>
                             </ViewCell>
                         </DataTemplate>
-                     </listview:SfListView.ItemTemplate>
+                    </listview:SfListView.ItemTemplate>
                 </listview:SfListView>
 
                 <floating:FloatingActionButton

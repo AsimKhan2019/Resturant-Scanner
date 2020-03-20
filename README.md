@@ -1,6 +1,7 @@
 # Restaurant Logo Scanner 
+
+[![Azure Status](https://dev.azure.com/2310049G/SE06%20Main/_apis/build/status/SE06%20Main-Xamarin.Android-CI?branchName=master)](https://dev.azure.com/2310049G/SE06%20Main/_build/latest?definitionId=1&branchName=master)
 [![build status](https://stgit.dcs.gla.ac.uk/tp3-2019-se06/se06-main/badges/master/pipeline.svg)](https://stgit.dcs.gla.ac.uk/tp3-2019-se06/se06-main/commits/master)
-[![coverage](https://stgit.dcs.gla.ac.uk/tp3-2019-se06/se06-main/badges/master/coverage.svg)](https://stgit.dcs.gla.ac.uk/tp3-2019-se06/se06-main/commits/master)
 [![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://stgit.dcs.gla.ac.uk/tp3-2019-se06/se06-main/-/blob/master/LICENSE)
 
 Restaurant Logo Scanner is a 3rd year Software Engineering project conducted at the University of Glasgow under the Team Project 3 (TP3) course.
@@ -35,6 +36,7 @@ Our project management processes such as issue tracking and milestones were cond
 ### Features
 * Functional on both Android and iOS
 * Ability to scan a restaurant logo and for this to be recognised by the app
+* Geolocation if multiple restaurants have the same logo
 * Maps integration
 * Call, email, view website from within the app
 * View information about the restaurant
@@ -65,31 +67,31 @@ The application was developed with:
 ## App Demo
 ### Video
 #### Android
-![Android App Demo Video](https://www.youtube.com/?gl=GB&hl=en-GB)
+[Android App Demo Video](https://www.youtube.com/watch?v=D1DyB23oGFE)
 #### iOS
-![iOS App Demo Video](https://www.youtube.com/?gl=GB&hl=en-GB)
+[iOS App Demo Video](https://youtu.be/vcCeijph3zI)
 
 ### Screenshots
 #### Android
-| ![Camera Page]() | ![Restaurant Page]() | ![Booking Page]() | ![Menu Page]() |
-|:---:|:---:|:---:|:---:|
-| Camera Page | Restaurant Page | Booking Page | Menu Page |
+| ![Camera Page](https://i.imgur.com/WHkab6p.jpg) | ![Restaurant Page](https://i.imgur.com/W1VHBdz.jpg) | ![Booking Page](https://i.imgur.com/TGytM9q.jpg) | ![Menu Page - 1](https://i.imgur.com/d9M88vW.jpg) | ![Menu Page - 2](https://i.imgur.com/cb5RZXd.jpg) |
+|:---:|:---:|:---:|:---:| :---: |
+| Camera Page | Restaurant Page | Booking Page | Menu Page - 1 | Menu Page - 2 |
 
-| ![Reviews Page]() | ![Reviews Popup]() | ![Dark Mode Restaurant]() | ![Dark Mode Reviews]() |
+| ![Reviews Page](https://i.imgur.com/uTmSRkB.jpg) | ![Reviews Popup](https://i.imgur.com/ZwHuj0Y.jpg) | ![Dark Mode Restaurant](https://i.imgur.com/bx9qwcx.jpg) | ![Dark Mode Reviews](https://i.imgur.com/rDSGeTe.jpg) |
 |:---:|:---:|:---:|:---:|
 | Reviews Page | Reviews Popup | Dark Mode Restaurant | Dark Mode Reviews|
 
 #### iOS
-| ![Camera Page](https://i.imgur.com/E6TpEQv.png) | ![Restaurant Page](https://i.imgur.com/xQEaTEs.png) | ![Booking Page](https://i.imgur.com/QmfcBbQ.png) | ![Menu Page](https://i.imgur.com/DZClzwz.png) |
+| ![Camera Page](https://i.imgur.com/E6TpEQv.png) | ![Restaurant Page](https://i.imgur.com/G5HwV2i.png) | ![Booking Page](https://i.imgur.com/jkuYg9Z.png) | ![Menu Page](https://i.imgur.com/AMTjQCx.png) |
 |:---:|:---:|:---:|:---:|
 | Camera Page | Restaurant Page | Booking Page | Menu Page |
 
-| ![Reviews Page](https://i.imgur.com/xV9tqT9.png) | ![Reviews Popup](https://i.imgur.com/RJufHGm.png) | ![Dark Mode Restaurant](https://i.imgur.com/SLPy8Tj.png) | ![Dark Mode Reviews](https://i.imgur.com/8x1onE2.png) |
+| ![Reviews Page](https://i.imgur.com/Zt9mkel.png) | ![Reviews Popup](https://i.imgur.com/xDZiBUk.png) | ![Dark Mode Restaurant](https://i.imgur.com/xeLRDJi.png) | ![Dark Mode Reviews](https://i.imgur.com/li6V4O2.png) |
 |:---:|:---:|:---:|:---:|
 | Reviews Page | Reviews Popup | Dark Mode Restaurant | Dark Mode Reviews|
 
 ## User Guide
-The user guide has been written with the goal of informing our customer, ResDiary, on how to take over the project if they wish to continue development. See [USERGUIDE.md](USERGUIDE.md) file for details.
+The user guide has been written with the goal of informing our customer, ResDiary, on how to take over the project if they wish to continue development. See [USERGUIDE](USERGUIDE.md) file for details.
 
 ## License
 This project is licensed under the MIT License - see [LICENSE](LICENSE) file for details.

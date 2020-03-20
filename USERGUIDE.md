@@ -57,7 +57,9 @@ The API docs can be found here - https://login.rdbranch.com/Admin/ApiAccount/Doc
 In the `credentials.json` file, you will be able to change the username and password for the API. These details were handed to us by the customer.
 
 ### 1.5 Custom Vision
-Custom vision is an image recognition and training model platform which we are using to store the restaurant logos on. We are unable to give you access to the account which we have been using as it is linked to a contributor's university account. This account contains all of the restaurants that we had access to during the project. Each logo has a 'tag' which is linked to the microsite name of the restaurant. If you would like to set up your own, create an account on https://www.customvision.ai/. Remember to change the API key and iteration URL within the `credentials.json` file.
+Custom vision is an image recognition and training model platform which we are using to store the restaurant logos on. We are unable to give you access to the account which we have been using as it is linked to a contributor's university account. This account contains all of the restaurants that we had access to during the project. Each logo has a 'tag' which is linked to the microsite name of the restaurant. If you would like to set up your own, create an account on https://www.customvision.ai/. Remember to change the API key and iteration URL within the `credentials.json` file after each training interation.
+
+The tag provided to each logo on the Custom Vision API is the micrositename of that restaurant. For cases in which several restaurants share the same logo. The tag of those restaurants would be the restaurants micrositename's separated by an underscore character "\_", for example the tag "restaurant1_restaurant2", would be for two restaurants "restaurant1" and "restaurant2" - when passed into the application, the closer restaurant will be returned.
 
 #### 1.5.1 Creating a Script
 Custom Vision also allows you to write your own Python script which will allow you to automatically upload images to Custom Vision if you desire. For instance, this could be used for automatically uploading an image whenever a new restaurant is added the ResDiary API. We have not implemented this feature within the project purely due to the customer stating that it wasn't necessary at this time.
@@ -171,7 +173,7 @@ Remember to place the API key inside the `AndroidManifest.xml` file. Specificall
 `<meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="YOUR_API_KEY" />`
 
 ### Syncfusion API
-Syncfusion is a suite of Xamarin UI controls (https://www.syncfusion.com/xamarin-ui-controls). In this project, we have used the SfPdfViewer, SfRating and SfListView plugins to make our UI look beautiful. The SfPdfViewer plugin requires an API key and handles the display of the restaurant's menu(s). The API key that we have included is free for you to use but if you would like to generate a new one this can be done here - https://help.syncfusion.com/common/essential-studio/licensing/licensing-faq/where-can-i-get-a-license-key. If you decide to generate a new one, then remember to change this within the `credentials.json` file.
+Syncfusion is suite of Xamarin UI controls (https://www.syncfusion.com/xamarin-ui-controls). In this project, we have used the SfPdfViewer, SfRating and SfListView plugins in order to improve the overall UI design of our application. The SfPdfViewer plugin requires an API key and handles the display of the restaurant's menu(s). The API key that we have included is free for you to use but if you would like to generate a new one this can be done here - https://help.syncfusion.com/common/essential-studio/licensing/licensing-faq/where-can-i-get-a-license-key. If you decide to generate a new one, then remember to change this within the `credentials.json` file.
 
 ## 2. Code Base
 Xamarin facilitates the development of Android and iOS applications by providing the Xamarin.iOS and Mono.Android libraries. These libraries are built on top of the Mono .NET framework and bridge the gap between the application and the platform specific APIs.
@@ -221,14 +223,25 @@ The iOS version of the application can be installed using TestFlight. TestFlight
 ### 4.1 Unit Tests
 The project makes use of the NUnit (https://github.com/nunit/nunit.xamarin) framework for our unit testing. The test cases can be found in the file `Tests.cs` inside the `CrossPlatformTest` directory. Our unit tests have been designed so that they test various aspects of the application. There are tests which range from testing that the app connects to Custom Vision successfully to checking whether the booking slots are displaying the correct number to the user. This tutorial - https://www.c-sharpcorner.com/article/unit-test-in-c-sharp-with-xamarin-forms/ - can be followed if you wish to add more unit tests to the project. The tutorial also explains how to run the test cases.
 
-### 4.2 CI Pipeline
-We made use of GitLab's Continuous Integration (CI) so that we could run our unit tests each time we committed and pushed to the repository. Within the [gitlab-ci.yml](.gitlab-ci.yml) we were able to add stages to the CI pipeline and execute commands. Within our pipeline, we had 3 stages - prepare, build and test. The prepare stage makes sure that the runner has the necessary packages installed. The build stage will build the project and the test cases so that they can be executed. The test stage will run the unit tests automatically - the pipeline will only pass if all 3 of these stages are successful.
+### 4.2 Azure Pipeline
+Unfortunately, Xamarin was not compatible with GitLab's Continuous Integration (CI) environment as it reqruies a Windows runner. Instead, we used Azure DevOps to create our pipeline which stored on a contributor's account. Please ask for the login details if you wish to continue using this test suite. Azure pipelines does not support UI testing so we were unable to test any of the clickable features like you can see in the `Tests.cs` file. There is a badge in the README which tell you whether the latest commit on the master branch has passed the tests or not. These tests will run automatically.
 
 ### 4.3 Logo Folder
 Within the repository there is a folder called [logos](logos). This folder contains the restaurant logos that we had access to throughout the project. You can use this folder to easily access the logos without any hassle.
 
 ### 4.4 Postman
 We made use of Postman (https://www.postman.com/) when we were testing and adding new API calls to the project. Postman is a powerful tool for performing integration testing with your API. It allows for repeatable, reliable tests that can be automated and used in a variety of environments and includes useful tools for persisting data and simulating how a user might actually be interacting with the system. We would highly recommend that you make use of Postman if you would like to add a new API call to the project. A handy Postman tutorial can be found here - https://www.guru99.com/postman-tutorial.html.
+
+## 5. App Walkthrough
+Every file within the source code provided does provide adequate commentary about how the code operates. However, the section below is also provided as a reference point as how a user is able to navigate through the application.
+
+Upon first entering the app, the user is greeted with a Camera Page. If permissions haven't already been granted to the application then the user will be asked to allow the application access to the systems Camera and also Location - if needed -. From this page the user is able to click the camera button in order to take a photo. This photo, will then be sent to the Custom Vision API and a micrositename, corresponding with that logo, will be returned. In cases where more than one restaurant share the same logo then the API will return both microsite names split by a "\_". In this case the mobile application will show the details for the restaurant closest to the users current posisition.
+
+Following the application returning the correct restaurant to the user. They are then navigated to another page, the Restaurant Page. Which will show all the relevant information to them. 
+
+The user will first be greeted by the Home Tab. Within this tab lies the main information regarding the restaurant, including the name, cuisine types and price point. It also includes links to Social Media pages, Website, Email and the Phone Number. This page also includes a map at the top of the screen centered around the restaurants location. The user is able to click on this and recieve directions, provided to them by their phones native map application. The next tab along, is the Booking tab. Within this tab, the next 3 available time slots are initially shown to the user for group sizes of the specified restuarant default. The user is able to change party size and the number of slots shown to them via buttons at the top of the page. Next along is the Menu Tab. this tab shows the user all the availble menus for the restaurant, these are displayed using the SyncFusion plugin. Finally, the reviews tab. Within this tab, all the relevant reviews are shown to the user, whereby the user is able to interact with each review and find out more information. 
+
+Finally, the floating action camera button, at the bottom right of each tabbed page. Will navigate the user back to the camera page where they can continue to scan other logos.
 
 ----------------
 SE06

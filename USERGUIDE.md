@@ -59,7 +59,7 @@ In the `credentials.json` file, you will be able to change the username and pass
 ### 1.5 Custom Vision
 Custom vision is an image recognition and training model platform which we are using to store the restaurant logos on. We are unable to give you access to the account which we have been using as it is linked to a contributor's university account. This account contains all of the restaurants that we had access to during the project. Each logo has a 'tag' which is linked to the microsite name of the restaurant. If you would like to set up your own, create an account on https://www.customvision.ai/. Remember to change the API key and iteration URL within the `credentials.json` file after each training interation.
 
-The tag provided to each logo on the Custom Vision API is the micrositename of that restaurant. For cases in which several restaurants share the same logo. The tag of those restaurants would be the restaurants micrositename's separated by a special underscore character, for example "restaurant1_restaurant2".
+The tag provided to each logo on the Custom Vision API is the micrositename of that restaurant. For cases in which several restaurants share the same logo. The tag of those restaurants would be the restaurants micrositename's separated by an underscore character "\_", for example the tag "restaurant1_restaurant2", would be for two restaurants "restaurant1" and "restaurant2" - when passed into the application, the closer restaurant will be returned.
 
 #### 1.5.1 Creating a Script
 Custom Vision also allows you to write your own Python script which will allow you to automatically upload images to Custom Vision if you desire. For instance, this could be used for automatically uploading an image whenever a new restaurant is added the ResDiary API. We have not implemented this feature within the project purely due to the customer stating that it wasn't neccessary at this time.
@@ -229,6 +229,18 @@ Within the respository there is a folder called [logos](logos). Within this fold
 
 ### 4.4 Postman
 We made use of Postman (https://www.postman.com/) when we were testing and adding new API calls to the project. Postman is a powerful tool for performing integration testing with your API. It allows for repeatable, reliable tests that can be automated and used in a variety of environments and includes useful tools for persisting data and simulating how a user might actually be interacting with the system. We would highly reccommend that you make use of Postman if you would like to add a new API call to the project. A handy Postman tutorial can be found here - https://www.guru99.com/postman-tutorial.html.
+
+##5 App Walkthrough
+Every file within the source code provided does provide adequate commentary about how the code operates. However, the section below is also provided as a reference point.
+
+Firstly, when the app loads -> Camera PAge -> Custom Vision -> Population -> Booking Page -> Reviews -> Menu
+
+###5.1 Camera Page
+###Custom Vision
+###Population of Tabs
+###Booking Page
+###Reviews Tab
+##Menu Tab
 
 ----------------
 SE06

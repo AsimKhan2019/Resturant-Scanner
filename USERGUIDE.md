@@ -7,7 +7,7 @@ The project requires some prerequisites which will need to be downloaded/setup b
 ### 1.1 Visual Studio & Xamarin
 The project uses Xamarin as its core technology. Xamarin is an open-source platform for building modern and performant applications for iOS, Android, and Windows with .NET. Xamarin is an abstraction layer that manages communication of shared code with underlying platform code. Xamarin runs in a managed environment that provides conveniences such as memory allocation and garbage collection.
 
-Xamarin applications can be written on PC or Mac and compile into native application packages, such as an .apk file on Android, or an .ipa file on iOS. Xamarin applications are writing using the Visual Studio software suite.
+Xamarin applications can be written on PC or Mac and compile into native application packages, such as an .apk file on Android, or an .ipa file on iOS. Xamarin applications are written using the Visual Studio software suite.
 
 Visual Studio and Xamarin can be installed by following this guide - https://docs.microsoft.com/en-us/xamarin/get-started/installation/?pivots=windows.
 
@@ -57,7 +57,7 @@ The API docs can be found here - https://login.rdbranch.com/Admin/ApiAccount/Doc
 In the `credentials.json` file, you will be able to change the username and password for the API. These details were handed to us by the customer.
 
 ### 1.5 Custom Vision
-Custom vision is an image recognition and training model platform which we are using to store the restaurant logos on. We are unable to give you access to the account which we have been using as it is linked to a contributor's university account. This account contains all of the restaurants that we had access to during the project. Each logo has a 'tag' which is linked to the microsite name of the restaurant. If you would like to set up your own, create an account on https://www.customvision.ai/. Remember to change the API key and iteration URL within the `credentials.json` file.
+Custom vision is an image recognition and training model platform which we are using to store the restaurant logos on. We are unable to give you access to the account which we have been using as it is linked to a contributor's university account. This account contains all of the restaurants that we had access to during the project. Each logo has a 'tag' which is linked to the microsite name of the restaurant. If you would like to set up your own, create an account on https://www.customvision.ai/. Remember to change the API key and iteration URL within the `credentials.json` file after each training interation.
 
 #### 1.5.1 Creating a Script
 Custom Vision also allows you to write your own Python script which will allow you to automatically upload images to Custom Vision if you desire. For instance, this could be used for automatically uploading an image whenever a new restaurant is added the ResDiary API. We have not implemented this feature within the project purely due to the customer stating that it wasn't neccessary at this time.
@@ -171,7 +171,7 @@ Remeber to place the API key inside the `AndroidManifest.xml` file. Specifically
 `<meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="YOUR_API_KEY" />`
 
 ### Syncfusion API
-Syncfusion is suite of Xamarin UI controls (https://www.syncfusion.com/xamarin-ui-controls). In this project, we have used the SfPdfViewer, SfRating and SfListView plugins to make our UI look beautiful. The SfPdfViewer plugin requires an API key and handles the display of the restaurant's menu(s). The API key that we have included is free for you to use but if you would like to generate a new one this can be done here - https://help.syncfusion.com/common/essential-studio/licensing/licensing-faq/where-can-i-get-a-license-key. If you decide to generate a new one, then remember to change this within the `credentials.json` file.
+Syncfusion is suite of Xamarin UI controls (https://www.syncfusion.com/xamarin-ui-controls). In this project, we have used the SfPdfViewer, SfRating and SfListView plugins in order to improve the overall UI design of out application. The SfPdfViewer plugin requires an API key and handles the display of the restaurant's menu(s). The API key that we have included is free for you to use but if you would like to generate a new one this can be done here - https://help.syncfusion.com/common/essential-studio/licensing/licensing-faq/where-can-i-get-a-license-key. If you decide to generate a new one, then remember to change this within the `credentials.json` file.
 
 ## 2. Code Base
 Xamarin facilitates the development of Android and iOS applications by providing the Xamarin.iOS and Mono.Android libraries. These libraries are built on top of the Mono .NET framework and bridge the gap between the application and the platform specific APIs.

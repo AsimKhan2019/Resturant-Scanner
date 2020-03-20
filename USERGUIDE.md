@@ -1,5 +1,5 @@
 # Logo Scanner User Guide
-The purpose of this guide is to inform ResDiary on how to take the project forward if they wish to. It serves as handover documentation which explains how to install, run and test the app. On top of this, it includes a detailed description of the code base if the custom if unfamiliar with the Xamarin environment.
+The purpose of this guide is to inform ResDiary on how to take the project forward if they wish to. It serves as handover documentation which explains how to install, run and test the app. On top of this, it includes a detailed description of the code base if the customer is unfamiliar with the Xamarin environment.
 
 ## 1. Installation
 The project requires some prerequisites which will need to be downloaded/setup before the project can be utilised from your machine. These are outlined below.
@@ -60,7 +60,7 @@ In the `credentials.json` file, you will be able to change the username and pass
 Custom vision is an image recognition and training model platform which we are using to store the restaurant logos on. We are unable to give you access to the account which we have been using as it is linked to a contributor's university account. This account contains all of the restaurants that we had access to during the project. Each logo has a 'tag' which is linked to the microsite name of the restaurant. If you would like to set up your own, create an account on https://www.customvision.ai/. Remember to change the API key and iteration URL within the `credentials.json` file.
 
 #### 1.5.1 Creating a Script
-Custom Vision also allows you to write your own Python script which will allow you to automatically upload images to Custom Vision if you desire. For instance, this could be used for automatically uploading an image whenever a new restaurant is added the ResDiary API. We have not implemented this feature within the project purely due to the customer stating that it wasn't neccessary at this time.
+Custom Vision also allows you to write your own Python script which will allow you to automatically upload images to Custom Vision if you desire. For instance, this could be used for automatically uploading an image whenever a new restaurant is added the ResDiary API. We have not implemented this feature within the project purely due to the customer stating that it wasn't necessary at this time.
 
 This example uses the images from the Cognitive Services Python SDK Samples repository on GitHub.
 https://github.com/Azure-Samples/cognitive-services-python-sdk-samples/tree/master/samples/vision/images
@@ -167,7 +167,7 @@ As part of the NuGet plugin Xamarin.Forms.Maps, a Google Maps API key must be in
 
 However, if you would like to use your own account then follow this tutorial in order to generate a new API key - https://docs.microsoft.com/en-us/xamarin/android/platform/maps-and-location/maps/obtaining-a-google-maps-api-key?tabs=windows.
 
-Remeber to place the API key inside the `AndroidManifest.xml` file. Specifically, within this meta-data tag:  
+Remember to place the API key inside the `AndroidManifest.xml` file. Specifically, within this meta-data tag:  
 `<meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="YOUR_API_KEY" />`
 
 ### Syncfusion API
@@ -220,13 +220,13 @@ The iOS version of the application can be installed using TestFlight. TestFlight
 The project makes use of the NUnit (https://github.com/nunit/nunit.xamarin) framework for our unit testing. The test cases can be found in the file `Tests.cs` inside the `CrossPlatformTest` directory. Our unit tests have been designed so that they test various aspects of the application. There are tests which range from testing that the app connects to Custom Vision successfully to checking whether the booking slots are displaying the correct number to the user. This tutorial - https://www.c-sharpcorner.com/article/unit-test-in-c-sharp-with-xamarin-forms/ - can be followed if you wish to add more unit tests to the project. The tutorial also explains how to run the test cases.
 
 ### 4.2 CI Pipeline
-We made use of GitLab's Continuous Integration (CI) so that we could run our unit tests each time we committed and pushed to the repository. Within the [gitlab-ci.yml](.gitlab-ci.yml) we were able to add stages to the CI pipeline and execute commands. Within our pipeline, we had 3 stages - prepare, build and test. The prepare stage makes sure that the runner has the neccessary packages installed. The build stage will build the project and the test cases so that they can be executed. The test stage will run the unit tests automatically - the pipeline will only pass if all 3 of these stages are successful.
+We made use of GitLab's Continuous Integration (CI) so that we could run our unit tests each time we committed and pushed to the repository. Within the [gitlab-ci.yml](.gitlab-ci.yml) we were able to add stages to the CI pipeline and execute commands. Within our pipeline, we had 3 stages - prepare, build and test. The prepare stage makes sure that the runner has the necessary packages installed. The build stage will build the project and the test cases so that they can be executed. The test stage will run the unit tests automatically - the pipeline will only pass if all 3 of these stages are successful.
 
 ### 4.3 Logo Folder
-Within the respository there is a folder called [logos](logos). Within this folder contains of the restaurant logo's that we had access to throughout the project. You can use this folder to easily access the logos without any hassle.
+Within the repository there is a folder called [logos](logos). Within this folder contains of the restaurant logo's that we had access to throughout the project. You can use this folder to easily access the logos without any hassle.
 
 ### 4.4 Postman
-We made use of Postman (https://www.postman.com/) when we were testing and adding new API calls to the project. Postman is a powerful tool for performing integration testing with your API. It allows for repeatable, reliable tests that can be automated and used in a variety of environments and includes useful tools for persisting data and simulating how a user might actually be interacting with the system. We would highly reccommend that you make use of Postman if you would like to add a new API call to the project. A handy Postman tutorial can be found here - https://www.guru99.com/postman-tutorial.html.
+We made use of Postman (https://www.postman.com/) when we were testing and adding new API calls to the project. Postman is a powerful tool for performing integration testing with your API. It allows for repeatable, reliable tests that can be automated and used in a variety of environments and includes useful tools for persisting data and simulating how a user might actually be interacting with the system. We would highly recommend that you make use of Postman if you would like to add a new API call to the project. A handy Postman tutorial can be found here - https://www.guru99.com/postman-tutorial.html.
 
 ----------------
 SE06

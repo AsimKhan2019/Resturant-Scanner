@@ -231,10 +231,15 @@ Within the respository there is a folder called [logos](logos). Within this fold
 We made use of Postman (https://www.postman.com/) when we were testing and adding new API calls to the project. Postman is a powerful tool for performing integration testing with your API. It allows for repeatable, reliable tests that can be automated and used in a variety of environments and includes useful tools for persisting data and simulating how a user might actually be interacting with the system. We would highly reccommend that you make use of Postman if you would like to add a new API call to the project. A handy Postman tutorial can be found here - https://www.guru99.com/postman-tutorial.html.
 
 ##5 App Walkthrough
-Every file within the source code provided does provide adequate commentary about how the code operates. However, the section below is also provided as a reference point as how a user should navigate through the application.
+Every file within the source code provided does provide adequate commentary about how the code operates. However, the section below is also provided as a reference point as how a user is able to navigate through the application.
 
-Initally, the user is greeted with a Camera Page. From this page the user is able to click the camera button in order to take a photo. Which will be sent to the Custom Vision API and a microsite name, corresponding with that logo will be returned. In cases where more than one restaurant share the same logo then the API will return both microsite names split by a "\_". In this case the mobile application will show the details for the restaurant closer to the users current posisition.
+Upon first entering the app, the user is greeted with a Camera Page. From this page the user is able to click the camera button in order to take a photo. This photo, will then be sent to the Custom Vision API and a micrositename, corresponding with that logo, will be returned. In cases where more than one restaurant share the same logo then the API will return both microsite names split by a "\_". In this case the mobile application will show the details for the restaurant closest to the users current posisition.
 
-Following the application returning the logo the user is then navigated to another page. - Talk about Restaurant Page, Each tab individually -
+Following the application returning the correct restaurant to the user. They are then navigated to another page, the Restaurant Page. Which will show all the relevant information to them. 
+
+The user will first be greeted by the Home Tab. Within this tab lies the main information regarding the restaurant, including the name, cuisine types and price point. It also includes links to Social Media pages, Website, Email and the Phone Number. The next tab along, is the Booking tab. Within this tab, the next 3 available time slots are initially shown to the user for group sizes of the specified restuarant default. The user is able to change party size and the number of slots shown to them via buttons at the top of the page. Next along is the Menu Tab. this tab shows the user all the availble menus for the restaurant, these are displayed using the SyncFusion plugin. Finally, the reviews tab. Within this tab, all the relevant reviews are shown to the user, whereby the user is able to interact with each review and find out more information. 
+
+Finally, the floating action camera button, at the bottom right of each tabbed page. Will navigate the user back to the camera page where they can continue to scan other logos.
+
 ----------------
 SE06

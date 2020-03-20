@@ -65,31 +65,31 @@ The application was developed with:
 ## App Demo
 ### Video
 #### Android
-[Android App Demo Video](https://www.youtube.com/?gl=GB&hl=en-GB)
+[Android App Demo Video]()
 #### iOS
-[iOS App Demo Video](https://youtu.be/tQFslWv17Mc)
+[iOS App Demo Video](https://youtu.be/vcCeijph3zI)
 
 ### Screenshots
 #### Android
-| ![Camera Page](https://i.imgur.com/WHkab6p.jpg) | ![Restaurant Page](https://i.imgur.com/57xhmAb.jpg) | ![Booking Page](https://i.imgur.com/zcYk8SS.jpg) | ![Menu Page - 1](https://i.imgur.com/VODsdpr.jpg) | ![Menu Page - 2](https://i.imgur.com/ltZyFsn.jpg) |
+| ![Camera Page](https://i.imgur.com/WHkab6p.jpg) | ![Restaurant Page]() | ![Booking Page]() | ![Menu Page - 1]() | ![Menu Page - 2]() |
 |:---:|:---:|:---:|:---:| :---: |
 | Camera Page | Restaurant Page | Booking Page | Menu Page - 1 | Menu Page - 2 |
 
-| ![Reviews Page](https://i.imgur.com/LxMDJ8V.jpg) | ![Reviews Popup](https://i.imgur.com/FU6Gioy.jpg) | ![Dark Mode Restaurant](https://i.imgur.com/9EhPqla.jpg) | ![Dark Mode Reviews](https://i.imgur.com/vWd1ti0.jpg) |
+| ![Reviews Page]() | ![Reviews Popup]() | ![Dark Mode Restaurant]() | ![Dark Mode Reviews]() |
 |:---:|:---:|:---:|:---:|
 | Reviews Page | Reviews Popup | Dark Mode Restaurant | Dark Mode Reviews|
 
 #### iOS
-| ![Camera Page](https://i.imgur.com/E6TpEQv.png) | ![Restaurant Page](https://i.imgur.com/xQEaTEs.png) | ![Booking Page](https://i.imgur.com/QmfcBbQ.png) | ![Menu Page](https://i.imgur.com/DZClzwz.png) |
+| ![Camera Page](https://i.imgur.com/E6TpEQv.png) | ![Restaurant Page](https://i.imgur.com/G5HwV2i.png) | ![Booking Page](https://i.imgur.com/jkuYg9Z.png) | ![Menu Page](https://i.imgur.com/AMTjQCx.png) |
 |:---:|:---:|:---:|:---:|
 | Camera Page | Restaurant Page | Booking Page | Menu Page |
 
-| ![Reviews Page](https://i.imgur.com/xV9tqT9.png) | ![Reviews Popup](https://i.imgur.com/RJufHGm.png) | ![Dark Mode Restaurant](https://i.imgur.com/SLPy8Tj.png) | ![Dark Mode Reviews](https://i.imgur.com/8x1onE2.png) |
+| ![Reviews Page](https://i.imgur.com/Zt9mkel.png) | ![Reviews Popup](https://i.imgur.com/xDZiBUk.png) | ![Dark Mode Restaurant](https://i.imgur.com/xeLRDJi.png) | ![Dark Mode Reviews](https://i.imgur.com/li6V4O2.png) |
 |:---:|:---:|:---:|:---:|
 | Reviews Page | Reviews Popup | Dark Mode Restaurant | Dark Mode Reviews|
 
 ## User Guide
-The user guide has been written with the goal of informing our customer, ResDiary, on how to take over the project if they wish to continue development. See [USERGUIDE.md](USERGUIDE.md) file for details.
+The user guide has been written with the goal of informing our customer, ResDiary, on how to take over the project if they wish to continue development. See [USERGUIDE](USERGUIDE.md) file for details.
 
 ## License
 This project is licensed under the MIT License - see [LICENSE](LICENSE) file for details.

@@ -71,11 +71,11 @@ The application was developed with:
 
 ### Screenshots
 #### Android
-| ![Camera Page](https://i.imgur.com/WHkab6p.jpg) | ![Restaurant Page]() | ![Booking Page]() | ![Menu Page - 1]() | ![Menu Page - 2]() |
+| ![Camera Page](https://i.imgur.com/WHkab6p.jpg) | ![Restaurant Page](https://i.imgur.com/W1VHBdz.jpg) | ![Booking Page](https://i.imgur.com/TGytM9q.jpg) | ![Menu Page - 1](https://i.imgur.com/d9M88vW.jpg) | ![Menu Page - 2](https://i.imgur.com/cb5RZXd.jpg) |
 |:---:|:---:|:---:|:---:| :---: |
 | Camera Page | Restaurant Page | Booking Page | Menu Page - 1 | Menu Page - 2 |
 
-| ![Reviews Page]() | ![Reviews Popup]() | ![Dark Mode Restaurant]() | ![Dark Mode Reviews]() |
+| ![Reviews Page](https://i.imgur.com/uTmSRkB.jpg) | ![Reviews Popup](https://i.imgur.com/ZwHuj0Y.jpg) | ![Dark Mode Restaurant](https://i.imgur.com/bx9qwcx.jpg) | ![Dark Mode Reviews](https://i.imgur.com/rDSGeTe.jpg) |
 |:---:|:---:|:---:|:---:|
 | Reviews Page | Reviews Popup | Dark Mode Restaurant | Dark Mode Reviews|
 

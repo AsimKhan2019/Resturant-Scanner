@@ -1,8 +1,9 @@
 # Restaurant Logo Scanner 
 
 [![Azure Status](https://dev.azure.com/2310049G/SE06%20Main/_apis/build/status/SE06%20Main-Xamarin.Android-CI?branchName=master)](https://dev.azure.com/2310049G/SE06%20Main/_build/latest?definitionId=1&branchName=master)
-[![build status](https://stgit.dcs.gla.ac.uk/tp3-2019-se06/se06-main/badges/master/pipeline.svg)](https://stgit.dcs.gla.ac.uk/tp3-2019-se06/se06-main/commits/master)
 [![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://stgit.dcs.gla.ac.uk/tp3-2019-se06/se06-main/-/blob/master/LICENSE)
+
+***NB: this repository has been pulled from GitLab, some sections and features might not be compatible with GitHub***
 
 Restaurant Logo Scanner is a 3rd year Software Engineering project conducted at the University of Glasgow under the Team Project 3 (TP3) course.
 
